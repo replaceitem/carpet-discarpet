@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "package": "scarpet.discord.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MinecraftServer_noopMixin",
+    "DiscordMethods_Mixin",
+    "PublicFunctionAdding_Mixin",
+    "MinecraftChat_Mixin",
+    "PlayerList_Mixin",
+    "PlayerManager_Mixin",
+    "PlayerListMixin"
+  ],
+  "client": [
+    "MinecraftClient_noopMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
