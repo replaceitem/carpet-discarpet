@@ -31,13 +31,11 @@ public class Discarpet implements CarpetExtension {
 
 	@Override
 	public void onGameStarted() {
-		//System.out.println("Game started! (Test log) -----------------------------------------------------------------------");
 		mySettingManager.parseSettingsClass(Settings.class);
 
 		Settings.inviteLink = false;
 		Settings.clearBuffer = false;
 
-		// set-up a snooper to observe how rules are changing in carpet
 		CarpetServer.settingsManager.addRuleObserver((serverCommandSource, currentRuleState, originalUserTest) ->
 		{
 			switch (currentRuleState.name) {
@@ -45,7 +43,7 @@ public class Discarpet implements CarpetExtension {
 					Messenger.m(serverCommandSource, "l Bot token changed, make sure to restart the game to apply changes");
 				case "inviteLink":
 					if (currentRuleState.getBoolValue()) {
-						String invite = this.discordBot.getInvite();
+						String invite = discordBot.getInvite();
 						if (invite != null) {
 							Text clickText = Texts.bracketed(new LiteralText("Click here to get invite link for the bot")).styled((style -> {
 								style.withColor(Formatting.BLUE).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, invite));
