@@ -1,4 +1,4 @@
-package scarpet.discord;
+package discarpet;
 
 import carpet.settings.Rule;
 

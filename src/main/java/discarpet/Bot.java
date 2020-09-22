@@ -1,6 +1,8 @@
-package scarpet.discord;
+package discarpet;
 
 import com.vdurmont.emoji.EmojiParser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
@@ -9,9 +11,8 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.entity.user.UserStatus;
-import scarpet.discord.classes.embedField;
+import discarpet.classes.embedField;
 
-import javax.jws.soap.SOAPBinding;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.concurrent.CompletionException;
 
 public class Bot {
 	private DiscordApi api = null;
-
+	private static final Logger LOGGER = LogManager.getLogger();
 	public List<message> messageBuffer = new ArrayList<>();
 
 	public Bot(String token) {
@@ -56,11 +57,11 @@ public class Bot {
 					messageBuffer.add(new message(content,channel,author));
 				});
 			} catch (CompletionException ce) {
-				System.err.println("[ScarpetDiscord] Invalid bot token! Discord functionality disabled");
+				LOGGER.error("[Discarpet] Invalid bot token! Discord functionality disabled");
 				api = null;
 			}
 		} else {
-			System.err.println("[ScarpetDiscord] No bot token specified, use /scarpetdiscord setDefault botToken [token]");
+			LOGGER.warn("[Discarpet] No bot token specified, use /scarpetdiscord setDefault botToken [token]");
 			api = null;
 		}
 	}
@@ -150,7 +151,6 @@ public class Bot {
 		}
 			//fields
 		for(int i = 0; i < fields.size(); i++) {
-			System.out.println("FIELD");
 			embedField field = fields.get(i);
 			if(field.inline) {
 				embed.addInlineField(field.name,field.value);

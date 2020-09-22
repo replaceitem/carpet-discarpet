@@ -1,4 +1,4 @@
-package scarpet.discord;
+package discarpet;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

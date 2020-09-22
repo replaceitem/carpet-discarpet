@@ -10,7 +10,7 @@
   ],
   "contact": {
     "homepage": "https://github.com/replaceitem",
-    "sources": "https://github.com/gnembon/fabric-carpet-extension-example-mod"
+    "sources": "https://github.com/replaceitem/carpet-discarpet"
   },
 
   "license": "CC0-1.0",
@@ -22,11 +22,11 @@
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "mixins.json"
   ],
 
   "depends": {
-    "minecraft": "1.16.x",
+    "minecraft": "1.16.3",
     "fabricloader": ">=0.4.0",
     "carpet": "*"
   },

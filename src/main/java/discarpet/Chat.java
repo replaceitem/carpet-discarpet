@@ -1,4 +1,4 @@
-package scarpet.discord;
+package discarpet;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
