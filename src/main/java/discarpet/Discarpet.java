@@ -1,7 +1,9 @@
-package scarpet.discord;
+package discarpet;
 
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
+import carpet.script.CarpetEventServer;
+import carpet.script.CarpetExpression;
 import carpet.settings.SettingsManager;
 import carpet.utils.Messenger;
 import com.mojang.brigadier.CommandDispatcher;
@@ -10,11 +12,15 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class Discarpet implements CarpetExtension {
 	public static void noop() {
 	}
+
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	public static boolean discordEnabled = false;
 	public static Bot discordBot;
@@ -31,6 +37,7 @@ public class Discarpet implements CarpetExtension {
 
 	@Override
 	public void onGameStarted() {
+
 		mySettingManager.parseSettingsClass(Settings.class);
 
 		Settings.inviteLink = false;
@@ -100,5 +107,11 @@ public class Discarpet implements CarpetExtension {
 	@Override
 	public void onPlayerLoggedOut(ServerPlayerEntity player) {
 		//
+	}
+
+	@Override
+	public void scarpetApi(CarpetExpression expression) {
+		DiscordFunctions.apply(expression.getExpr());
+		//Make buffers to events
 	}
 }

@@ -1,7 +1,7 @@
-package scarpet.discord.mixins;
+package discarpet.mixins;
 
+import discarpet.Discarpet;
 import net.minecraft.server.Main;
-import scarpet.discord.Discarpet;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

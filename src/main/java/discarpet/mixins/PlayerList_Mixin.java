@@ -1,4 +1,4 @@
-package scarpet.discord.mixins;
+package discarpet.mixins;
 
 import net.minecraft.network.packet.s2c.play.PlayerListHeaderS2CPacket;
 import net.minecraft.text.Text;
@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import scarpet.discord.Discarpet;
+import discarpet.Discarpet;
 
 @Mixin(PlayerListHeaderS2CPacket.class)
 public class PlayerList_Mixin {

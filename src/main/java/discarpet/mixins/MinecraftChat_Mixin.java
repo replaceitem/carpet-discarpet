@@ -1,12 +1,12 @@
-package scarpet.discord.mixins;
+package discarpet.mixins;
 
+import discarpet.Discarpet;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import scarpet.discord.Discarpet;
 
 import java.util.UUID;
 
