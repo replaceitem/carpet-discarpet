@@ -1,16 +1,9 @@
-# Fabric Example Mod
+# Discarpet
+## A Carpet extension for scarpet discord functionality
 
-## Setup
+This mod is still under development.
+Message me on discord maybe: replaceitem#9118
 
-1. Edit build.gradle and mod.json to suit your needs.
-    * The "mixins" object can be removed from mod.json if you do not need to use mixins.
-    * Please replace all occurences of "modid" with your own mod ID - sometimes, a different string may also suffice.
-2. Run the following command:
 
-```
-./gradlew idea
-```
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+Note: I am not planning to actively maintain this, but i'll release some versions sometimes...
+Main reason is i just made this mod for myself and just thought i'd release it if someone needs it.
