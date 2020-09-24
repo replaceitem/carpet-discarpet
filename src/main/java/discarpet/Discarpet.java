@@ -31,6 +31,17 @@ public class Discarpet implements CarpetExtension {
 		CarpetServer.manageExtension(new Discarpet());
 	}
 
+	public static void log(String text) {
+		LOGGER.info(text);
+	}
+	public static void warn(String text) {
+		LOGGER.warn(text);
+	}
+	public static void error(String text) {
+		LOGGER.error(text);
+	}
+
+
 	@Override
 	public void onGameStarted() {
 
@@ -97,8 +108,7 @@ public class Discarpet implements CarpetExtension {
 
 	@Override
 	public void onPlayerLoggedIn(ServerPlayerEntity player) {
-		//
-		((EventInteface)ScarpetEvents.TEST).onTest(10);
+
 	}
 
 	@Override

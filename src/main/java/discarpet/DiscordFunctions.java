@@ -30,66 +30,6 @@ public class DiscordFunctions {
         });
 
 
-        expr.addLazyFunction("sd_message_buffer_size", 0, (c, t, lv) -> {
-            Value ret;
-            if(Discarpet.discordEnabled) {
-                ret = new NumericValue(Discarpet.discordBot.messageBuffer.size());
-            } else {
-                ret = new NumericValue(-1);
-            }
-            return (cc, tt) -> {
-                return ret;
-            };
-        });
-
-
-        expr.addLazyFunction("sd_read_message_buffer", 0, (c, t, lv) -> {
-            Value ret;
-            if(Discarpet.discordEnabled && Discarpet.discordBot.messageBuffer.size() > 0) {
-                Bot.message msg = Discarpet.discordBot.readMessageBuffer();
-                Map<Value, Value> retMap = new HashMap<Value,Value>();
-                retMap.put(new StringValue("content"),new StringValue(msg.content));
-                retMap.put(new StringValue("author"),new StringValue(msg.author));
-                retMap.put(new StringValue("channel"),new StringValue(msg.channel));
-                ret = MapValue.wrap(retMap);
-            } else {
-                ret = Value.NULL;
-            }
-            return (cc, tt) -> {
-                return ret;
-            };
-        });
-
-
-
-        expr.addLazyFunction("sd_chat_buffer_size", 0, (c, t, lv) -> {
-            Value ret;
-            if(Discarpet.discordEnabled) {
-                ret = new NumericValue(Discarpet.minecraftChat.chatBuffer.size());
-            } else {
-                ret = new NumericValue(-1);
-            }
-            return (cc, tt) -> {
-                return ret;
-            };
-        });
-
-
-        expr.addLazyFunction("sd_read_chat_buffer", 0, (c, t, lv) -> {
-            Value ret;
-            if(Discarpet.discordEnabled && Discarpet.minecraftChat.chatBuffer.size() > 0) {
-                Chat.chat cht = Discarpet.minecraftChat.readChatBuffer();
-                Map<Value, Value> retMap = new HashMap<Value,Value>();
-                retMap.put(new StringValue("text"),new StringValue(cht.text));
-                retMap.put(new StringValue("key"),new StringValue(cht.key));
-                ret = MapValue.wrap(retMap);
-            } else {
-                ret = Value.NULL;
-            }
-            return (cc, tt) -> {
-                return ret;
-            };
-        });
         expr.addLazyFunction("sd_set_channel_topic", 2, (c, t, lv) -> {
             if(Discarpet.discordEnabled) {
                 String channel = ((LazyValue)lv.get(0)).evalValue(c).getString();

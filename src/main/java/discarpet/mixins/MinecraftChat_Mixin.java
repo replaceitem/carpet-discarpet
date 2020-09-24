@@ -1,6 +1,8 @@
 package discarpet.mixins;
 
 import discarpet.Discarpet;
+import discarpet.EventInteface;
+import discarpet.ScarpetEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,6 +18,6 @@ public class MinecraftChat_Mixin {
 	//Lnet/minecraft/server/MinecraftServer;sendSystemMessage(Lnet/minecraft/text/Text;Ljava/util/UUID;)V
 	@Inject(at = @At("RETURN"),method = "sendSystemMessage(Lnet/minecraft/text/Text;Ljava/util/UUID;)V")
 	public void redirectChatToScarpet(Text message, UUID senderUuid ,CallbackInfo ci) {
-		Discarpet.minecraftChat.onMinecraftChat(message);
+		((EventInteface)ScarpetEvents.CHAT_MESSAGE).onChatMessage(message);
 	}
 }

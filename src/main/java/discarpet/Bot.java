@@ -1,8 +1,6 @@
 package discarpet;
 
 import com.vdurmont.emoji.EmojiParser;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
@@ -21,8 +19,6 @@ import java.util.concurrent.CompletionException;
 
 public class Bot {
 	private DiscordApi api = null;
-	private static final Logger LOGGER = LogManager.getLogger();
-	public List<message> messageBuffer = new ArrayList<>();
 
 	public Bot(String token) {
 		if(token != "empty") {
@@ -52,16 +48,15 @@ public class Bot {
 					if (event.getMessageAttachments().isEmpty()) {
 						content = content + " (Click to open attachment URL)";
 						style.setColor(Formatting.BLUE).setUnderline(true).setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, this.messageCreateEvent.getMessageAttachments().get(0).getUrl().toString()));
-					}
-					*/    //possibly add a rule to toggle, and add identifier for scarpet to process links
-					messageBuffer.add(new message(content,channel,author));
+					}*/
+					((EventInteface)ScarpetEvents.DISCORD_MESSAGE).onDiscordMessage(content, author, channel);
 				});
 			} catch (CompletionException ce) {
-				LOGGER.error("[Discarpet] Invalid bot token! Discord functionality disabled");
+				Discarpet.error("[Discarpet] Invalid bot token! Discord functionality disabled");
 				api = null;
 			}
 		} else {
-			LOGGER.warn("[Discarpet] No bot token specified, use /scarpetdiscord setDefault botToken [token]");
+			Discarpet.warn("[Discarpet] No bot token specified, use /scarpetdiscord setDefault botToken [token]");
 			api = null;
 		}
 	}
@@ -89,16 +84,6 @@ public class Bot {
 		this.api.getTextChannelById(channel).get().sendMessage(converted);
 	}
 
-	public message readMessageBuffer() {
-		message msg;
-		if(messageBuffer.size() > 0) {
-			msg = messageBuffer.get(0);
-			messageBuffer.remove(0);
-			return msg;
-		} else {
-			return null;
-		}
-	}
 
 
 	public void setChannelTopic(String channelId, String description) {
@@ -188,19 +173,5 @@ public class Bot {
 		}
 
 		this.api.getTextChannelById(channel).get().sendMessage(embed);
-	}
-
-
-
-
-	public class message {
-		public String content;
-		public String channel;
-		public String author;
-		message(String content, String channel, String author) {
-			this.content = content;
-			this.channel = channel;
-			this.author = author;
-		}
 	}
 }

@@ -1,5 +1,9 @@
 package discarpet;
 
+import net.minecraft.text.Text;
+
 public interface EventInteface {
-    public void onTest(float num);
+    public void onChatMessage(Text text);
+    public void onDiscordMessage(String content, String author, String channel);
+    //public void onDiscordMessage()
 }
