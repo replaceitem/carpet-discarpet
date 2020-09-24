@@ -2,7 +2,6 @@ package discarpet;
 
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
-import carpet.script.CarpetEventServer;
 import carpet.script.CarpetExpression;
 import carpet.settings.SettingsManager;
 import carpet.utils.Messenger;
@@ -26,9 +25,6 @@ public class Discarpet implements CarpetExtension {
 	public static Bot discordBot;
 	public static Chat minecraftChat;
 	private static SettingsManager mySettingManager;
-	public static LiteralText customHeader = new LiteralText("");
-	public static LiteralText customFooter = new LiteralText("");
-	public static boolean updateTabHeader = false;
 
 	static {
 		mySettingManager = new SettingsManager("1.0", "discarpet", "Discarpet");
@@ -102,6 +98,7 @@ public class Discarpet implements CarpetExtension {
 	@Override
 	public void onPlayerLoggedIn(ServerPlayerEntity player) {
 		//
+		((EventInteface)ScarpetEvents.TEST).onTest(10);
 	}
 
 	@Override
@@ -112,6 +109,6 @@ public class Discarpet implements CarpetExtension {
 	@Override
 	public void scarpetApi(CarpetExpression expression) {
 		DiscordFunctions.apply(expression.getExpr());
-		//Make buffers to events
 	}
+
 }
