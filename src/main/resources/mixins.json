@@ -5,8 +5,7 @@
   "mixins": [
     "MinecraftServer_noopMixin",
     "MinecraftChat_Mixin",
-    "PlayerList_Mixin",
-    "PlayerManager_Mixin"
+    "CarpetEvent_Mixin"
   ],
   "client": [
 
