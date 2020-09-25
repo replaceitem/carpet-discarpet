@@ -57,11 +57,25 @@ public class Discarpet implements CarpetExtension {
 					if (currentRuleState.getBoolValue()) {
 						String invite = discordBot.getInvite();
 						if (invite != null) {
-							Text clickText = Texts.bracketed(new LiteralText("Click here to get invite link for the bot")).styled((style -> {
+							/*
+							Text clickText = Texts.bracketed((new LiteralText("Click here to get invite link for the bot")).styled((style -> {
+
 								style.withColor(Formatting.BLUE).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, invite));
+								//return style.withColor(Formatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, String.valueOf(l))).withHoverEvent(new HoverEvent(net.minecraft.text.HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.copy.click"))).withInsertion(String.valueOf(l));
 								return style;
+							})));
+							*/
+
+
+							Text text = ((new LiteralText("Click here to get the invite link for the bot")).styled((style) -> {
+								return style.withColor(Formatting.BLUE).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, invite)).withHoverEvent(new HoverEvent(net.minecraft.text.HoverEvent.Action.SHOW_TEXT, new LiteralText("Click to open the invite link"))).withInsertion(invite);
 							}));
-							serverCommandSource.sendFeedback(clickText, true);
+							//serverCommandSource.sendFeedback(new TranslatableText("commands.seed.success", new Object[]{text}), false);
+
+
+
+
+							serverCommandSource.sendFeedback(text, true);
 							Settings.inviteLink = false;
 						}
 					}
