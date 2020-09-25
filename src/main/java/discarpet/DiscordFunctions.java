@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class DiscordFunctions {
     public static void apply(Expression expr) {
-        expr.addLazyFunction("sd_send_message", 2, (c, t, lv) -> {
+        expr.addLazyFunction("dc_send_message", 2, (c, t, lv) -> {
             Value ret;
             if(Discarpet.discordEnabled) {
                 String channel = ((LazyValue)lv.get(0)).evalValue(c).getString();
@@ -30,7 +30,7 @@ public class DiscordFunctions {
         });
 
 
-        expr.addLazyFunction("sd_set_channel_topic", 2, (c, t, lv) -> {
+        expr.addLazyFunction("dc_set_channel_topic", 2, (c, t, lv) -> {
             if(Discarpet.discordEnabled) {
                 String channel = ((LazyValue)lv.get(0)).evalValue(c).getString();
                 String description = ((LazyValue)lv.get(1)).evalValue(c).getString();
@@ -41,7 +41,7 @@ public class DiscordFunctions {
             };
         });
 
-        expr.addLazyFunction("sd_set_activity", 2, (c, t, lv) -> {
+        expr.addLazyFunction("dc_set_activity", 2, (c, t, lv) -> {
             if(Discarpet.discordEnabled) {
                 int type = (NumericValue.asNumber(((LazyValue)lv.get(0)).evalValue(c)).getInt());
                 String text = (lv.get(1)).evalValue(c).getString();
@@ -52,7 +52,7 @@ public class DiscordFunctions {
             };
         });
 
-        expr.addLazyFunction("sd_set_status", 1, (c, t, lv) -> {
+        expr.addLazyFunction("dc_set_status", 1, (c, t, lv) -> {
             if(Discarpet.discordEnabled) {
                 int status = (NumericValue.asNumber(((LazyValue)lv.get(0)).evalValue(c)).getInt());
                 Discarpet.discordBot.setStatus(status);
@@ -63,7 +63,7 @@ public class DiscordFunctions {
         });
 
 
-        expr.addLazyFunction("sd_send_embed", 12, (c, t, lv) -> {
+        expr.addLazyFunction("dc_send_embed", 12, (c, t, lv) -> {
             if(Discarpet.discordEnabled) {
 				/*List<Value> l = new ArrayList<>();
 				Value v = ListValue.wrap(l);
