@@ -162,7 +162,7 @@ will send this embed:
 ### `on_chat_message(text,type)`
 
 Event that execute on chat messages, for example to be used to redirect chat messages to a discord chat.
-WARNING: DO NOT print out ANYTHING inside this event that would execute this event AGAIN! THE SERVER WILL CRASH because of never ending RECURSION!
+WARNING: DO NOT print out ANYTHING inside this event that would execute this event AGAIN! THE SERVER WILL CRASH because of never ending recursion!
 
 `text` -> String: Text of the chat message
 
