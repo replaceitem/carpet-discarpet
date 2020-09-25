@@ -30,17 +30,4 @@ public class Settings
             strict = false
     )
     public static boolean inviteLink = false;
-
-    @Rule(
-            desc = "Clear chat and bot buffer",
-            options = {},
-            extra = {
-                    "If your chat or bot buffer",
-                    "got too full, set this to",
-                    "true to clear it"
-            },
-            category = "misc",
-            strict = false
-    )
-    public static boolean clearBuffer = false;
 }
