@@ -10,12 +10,28 @@ Main reason is i just made this mod for myself and just thought i'd release it i
 
 
 
+Message me on discord if you need help or anything else: `replaceitem#9118`
 
 
-Message me on discord: `replaceitem#9118`
+## Setting up
 
+First you need a Discord bot account, just look up how to make one.
 
+Then use the `botToken` rule to save the bot token like this:
 
+`/discarpet setDefault botToken YourTokenGoesHere123456789`
+
+But, since everyone with op permission or access to console can read the bot token, which means they have control over your bot, so make sure nobody you don't trust gets their hands on the token. The best option is to lock the `discarpet.conf` file like [this](https://github.com/gnembon/fabric-carpet/wiki/Carpet-Configuration#limiting-access-to-carpet-by-locking-the-configuration-file).
+
+Now you will have to restart the server to apply the token.
+
+Then you can invite the bot to discord servers you own, by using this command:
+
+`/discarpet inviteLink true`
+
+You will get a clickable link in chat, which links to discord's site for adding bots.
+
+Now youre set up!
 
 
 ## Discord functions
@@ -162,7 +178,7 @@ will send this embed:
 ### `on_chat_message(text,type)`
 
 Event that execute on chat messages, for example to be used to redirect chat messages to a discord chat.
-WARNING: DO NOT print out ANYTHING inside this event that would execute this event AGAIN! THE SERVER WILL CRASH because of never ending RECURSION!
+WARNING: DO NOT print out ANYTHING inside this event that would execute this event AGAIN! THE SERVER WILL CRASH because of never ending recursion!
 
 `text` -> String: Text of the chat message
 
