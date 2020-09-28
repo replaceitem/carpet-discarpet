@@ -19,7 +19,7 @@ public class Discarpet implements CarpetExtension {
 	public static void noop() {
 	}
 
-	private static final Logger LOGGER = LogManager.getLogger();
+	public static final Logger LOGGER = LogManager.getLogger();
 
 	public static boolean discordEnabled = false;
 	public static Bot discordBot;
