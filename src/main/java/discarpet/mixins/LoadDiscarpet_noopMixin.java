@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(CrashReport.class)
-public class MinecraftServer_noopMixin
-{
+public class LoadDiscarpet_noopMixin {
     @Inject(method = "initCrashReport", at = @At("HEAD"))
-    private static void onServerStarted(CallbackInfo ci) {
+    private static void loadDiscarpet(CallbackInfo ci) {
+        Discarpet.LOGGER.info("Discarpet loaded!");
         Discarpet.noop();
     }
 }

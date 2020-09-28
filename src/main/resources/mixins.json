@@ -3,7 +3,7 @@
   "package": "discarpet.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MinecraftServer_noopMixin",
+    "LoadDiscarpet_noopMixin",
     "MinecraftChat_Mixin",
     "CarpetEvent_Mixin"
   ],
