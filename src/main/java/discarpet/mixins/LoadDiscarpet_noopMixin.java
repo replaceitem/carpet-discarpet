@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(CrashReport.class)
 public class LoadDiscarpet_noopMixin {
-    @Inject(method = "initCrashReport", at = @At("HEAD"))
-    private static void loadDiscarpet(CallbackInfo ci) {
+    @Inject(method = "fillSystemDetails", at = @At("HEAD"))
+    private void loadDiscarpet(CallbackInfo ci) {
         Discarpet.LOGGER.info("Discarpet loaded!");
         Discarpet.noop();
     }
