@@ -1,7 +1,7 @@
-package discarpet.mixins;
+package Discarpet.mixins;
 
 import carpet.script.CarpetEventServer;
-import discarpet.EventInteface;
+import Discarpet.EventInteface;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 

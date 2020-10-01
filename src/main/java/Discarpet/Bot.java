@@ -1,4 +1,4 @@
-package discarpet;
+package Discarpet;
 
 import com.vdurmont.emoji.EmojiParser;
 import org.javacord.api.DiscordApi;
@@ -9,11 +9,10 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.entity.user.UserStatus;
-import discarpet.classes.embedField;
+import Discarpet.classes.embedField;
 
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletionException;
 
