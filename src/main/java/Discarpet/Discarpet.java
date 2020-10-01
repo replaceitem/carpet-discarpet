@@ -123,6 +123,7 @@ public class Discarpet implements CarpetExtension {
 	@Override
 	public void scarpetApi(CarpetExpression expression) {
 		DiscordFunctions.apply(expression.getExpr());
+		Discarpet.LOGGER.info("Discarpet loaded");
 	}
 
 }
