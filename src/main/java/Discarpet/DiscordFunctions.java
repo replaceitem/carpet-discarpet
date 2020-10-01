@@ -1,15 +1,13 @@
-package discarpet;
+package Discarpet;
 
 import carpet.script.Expression;
 import carpet.script.LazyValue;
 import carpet.script.value.*;
-import discarpet.classes.embedField;
+import Discarpet.classes.embedField;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class DiscordFunctions {

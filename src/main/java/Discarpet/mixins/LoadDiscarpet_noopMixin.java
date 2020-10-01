@@ -1,7 +1,6 @@
-package discarpet.mixins;
+package Discarpet.mixins;
 
-import discarpet.Discarpet;
-import net.minecraft.server.Main;
+import Discarpet.Discarpet;
 import net.minecraft.util.crash.CrashReport;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class LoadDiscarpet_noopMixin {
     @Inject(method = "fillSystemDetails", at = @At("HEAD"))
     private void loadDiscarpet(CallbackInfo ci) {
+        System.out.println("DISCARPET LOADED");
         Discarpet.LOGGER.info("Discarpet loaded!");
         Discarpet.noop();
     }

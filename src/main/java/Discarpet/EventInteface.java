@@ -1,4 +1,4 @@
-package discarpet;
+package Discarpet;
 
 import net.minecraft.text.Text;
 

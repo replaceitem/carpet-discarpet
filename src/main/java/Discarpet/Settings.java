@@ -1,4 +1,4 @@
-package discarpet;
+package Discarpet;
 
 import carpet.settings.Rule;
 

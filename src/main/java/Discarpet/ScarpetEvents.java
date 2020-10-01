@@ -1,21 +1,14 @@
-package discarpet;
+package Discarpet;
 
 import carpet.CarpetServer;
 import carpet.script.CarpetEventServer;
-import carpet.script.value.BlockValue;
-import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
-import carpet.script.value.Value;
-import net.minecraft.block.BlockState;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 public class ScarpetEvents {
     public static final CarpetEventServer.Event CHAT_MESSAGE = new CarpetEventServer.Event("chat_message", 2, false) {
