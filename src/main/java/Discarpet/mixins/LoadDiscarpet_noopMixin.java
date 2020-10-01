@@ -11,8 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class LoadDiscarpet_noopMixin {
     @Inject(method = "fillSystemDetails", at = @At("HEAD"))
     private void loadDiscarpet(CallbackInfo ci) {
-        System.out.println("DISCARPET LOADED");
-        Discarpet.LOGGER.info("Discarpet loaded!");
         Discarpet.noop();
     }
 }
