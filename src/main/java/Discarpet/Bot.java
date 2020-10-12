@@ -9,7 +9,6 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.entity.user.UserStatus;
-import Discarpet.classes.embedField;
 
 import java.awt.*;
 import java.io.File;
@@ -114,7 +113,7 @@ public class Bot {
 
 
 
-	public void sendEmbed(String channel, String title, String description, String authorName, String authorLink, String authorAvatar, List<embedField> fields, Color color, String footerName, String footerAvatar, String image, String thumbnail) {
+	public void sendEmbed(String channel, String title, String description, String authorName, String authorLink, String authorAvatar, List<EmbedField> fields, Color color, String footerName, String footerAvatar, String image, String thumbnail) {
 		EmbedBuilder embed = new EmbedBuilder();
 		if(!title.equals("null")) {
 			embed.setTitle(title);
@@ -135,7 +134,7 @@ public class Bot {
 		}
 			//fields
 		for(int i = 0; i < fields.size(); i++) {
-			embedField field = fields.get(i);
+			EmbedField field = fields.get(i);
 			if(field.inline) {
 				embed.addInlineField(field.name,field.value);
 			} else {

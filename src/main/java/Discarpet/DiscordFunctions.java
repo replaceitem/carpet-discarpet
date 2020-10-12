@@ -3,7 +3,6 @@ package Discarpet;
 import carpet.script.Expression;
 import carpet.script.LazyValue;
 import carpet.script.value.*;
-import Discarpet.classes.embedField;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -78,13 +77,13 @@ public class DiscordFunctions {
                 String authorAvatar = (lv.get(5)).evalValue(c).getString();
 
                 Value fieldValueList = ((lv.get(6)).evalValue(c));
-                List<embedField> fieldEmbedList = new ArrayList<>();
+                List<EmbedField> fieldEmbedList = new ArrayList<>();
                 if(fieldValueList.getTypeString() == "list") {
                     List<Value> fieldListValue = ((ListValue)fieldValueList).getItems();
                     for(int i = 0; i < fieldListValue.size();i++) {
                         List<Value> im = ((ListValue)(fieldListValue.get(i))).getItems();
                         if(im.size() == 3) {
-                            fieldEmbedList.add(new embedField((NumericValue.asNumber(im.get(0))).getBoolean(),im.get(1).getString(),im.get(2).getString()));
+                            fieldEmbedList.add(new EmbedField((NumericValue.asNumber(im.get(0))).getBoolean(),im.get(1).getString(),im.get(2).getString()));
                         }
                     }
                 }
