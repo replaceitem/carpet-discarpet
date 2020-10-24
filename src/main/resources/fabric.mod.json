@@ -14,7 +14,7 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/icons/icon.png",
+  "icon": "assets/discarpet/icon.png",
 
   "environment": "*",
   "entrypoints": {
