@@ -1,4 +1,7 @@
 # Discarpet
+
+![Discarpet](src/main/resources/assets/discarpet/icon.png)
+
 ## A Carpet extension for scarpet discord functionality
 
 This mod is still under development.
