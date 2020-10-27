@@ -64,6 +64,7 @@ public class Bot {
 
 	//discord
 	public void sendMessage(String channel,String message) {
+		/*
 		String converted = "";
 		for (User user : this.api.getCachedUsers()) {
 			if(this.api.getServerChannels().toArray().length == 0) return;
@@ -79,8 +80,8 @@ public class Bot {
 						.replace("@" + user.getNickname(server).get(), user.getMentionTag())
 						.replace("@" + user.getNickname(server).get().toLowerCase(), user.getMentionTag());
 			}
-		}
-		this.api.getTextChannelById(channel).get().sendMessage(converted);
+		}*/
+		this.api.getTextChannelById(channel).get().sendMessage(message);
 	}
 
 
