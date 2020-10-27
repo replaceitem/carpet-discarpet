@@ -66,6 +66,7 @@ public class Bot {
 	public void sendMessage(String channel,String message) {
 		String converted = "";
 		for (User user : this.api.getCachedUsers()) {
+			if(this.api.getServerChannels().toArray().length == 0) return;
 			ServerChannel serverChannel = (ServerChannel) this.api.getServerChannels().toArray()[0];
 			Server server = serverChannel.getServer();
 			converted = message
