@@ -1,10 +1,13 @@
 package Discarpet;
 
+import carpet.script.exception.InternalExpressionException;
 import com.vdurmont.emoji.EmojiParser;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.entity.channel.ServerChannel;
+import org.javacord.api.entity.channel.ServerTextChannel;
+import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
@@ -13,6 +16,7 @@ import org.javacord.api.entity.user.UserStatus;
 import java.awt.*;
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletionException;
 
 public class Bot {
@@ -81,15 +85,23 @@ public class Bot {
 						.replace("@" + user.getNickname(server).get().toLowerCase(), user.getMentionTag());
 			}
 		}*/
-		this.api.getTextChannelById(channel).get().sendMessage(message);
+		Optional<TextChannel> textChannel = this.api.getTextChannelById(channel);
+		if(textChannel.isPresent()) {
+			textChannel.get().sendMessage(message);
+		} else {
+			throw new InternalExpressionException("Could not find Discord channel with id " + channel);
+		}
 	}
 
 
 
-	public void setChannelTopic(String channelId, String description) {
-		this.api.getServerTextChannelById(channelId).ifPresent(channel -> {
-			channel.updateTopic(description);
-		});
+	public void setChannelTopic(String channel, String description) {
+		Optional<ServerTextChannel> textChannel = this.api.getServerTextChannelById(channel);
+		if(textChannel.isPresent()) {
+			textChannel.get().updateTopic(description);
+		} else {
+			throw new InternalExpressionException("Could not find Discord channel with id " + channel);
+		}
 	}
 	public void setActivity(int id, String text) {
 		this.api.updateActivity(ActivityType.getActivityTypeById(id),text);
@@ -172,6 +184,11 @@ public class Bot {
 			}
 		}
 
-		this.api.getTextChannelById(channel).get().sendMessage(embed);
+		Optional<TextChannel> textChannel = this.api.getTextChannelById(channel);
+		if(textChannel.isPresent()) {
+			textChannel.get().sendMessage(embed);
+		} else {
+			throw new InternalExpressionException("Could not find Discord channel with id " + channel);
+		}
 	}
 }
