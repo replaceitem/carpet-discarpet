@@ -51,7 +51,7 @@ public class Bot {
 						content = content + " (Click to open attachment URL)";
 						style.setColor(Formatting.BLUE).setUnderline(true).setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, this.messageCreateEvent.getMessageAttachments().get(0).getUrl().toString()));
 					}*/
-					((EventInteface)ScarpetEvents.DISCORD_MESSAGE).onDiscordMessage(content, author, channel);
+					ScarpetDiscordEvents.DISCORD_MESSAGE.onDiscordMessage(content, author, channel);
 				});
 			} catch (CompletionException ce) {
 				Discarpet.error("[Discarpet] Invalid bot token! Discord functionality disabled");
