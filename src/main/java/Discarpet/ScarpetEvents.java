@@ -28,11 +28,8 @@ public class ScarpetEvents {
                     Discarpet.warn("Unknown chat event type: " + type);
                 }
 
-                return Arrays.asList((c, t) -> {
-                    return new StringValue(message);
-                } , (c, t) -> {
-                    return new StringValue(type);
-                });
+                return Arrays.asList(new StringValue(message), new StringValue(type));
+
             }, () -> {
                 return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
             });
@@ -44,13 +41,7 @@ public class ScarpetEvents {
     public static final CarpetEventServer.Event DISCORD_MESSAGE = new CarpetEventServer.Event("discord_message", 3, false) {
         public void onDiscordMessage(String content, String author, String channel) {
             this.handler.call(() -> {
-                return Arrays.asList((c, t) -> {
-                    return new StringValue(content);
-                } , (c, t) -> {
-                    return new StringValue(author);
-                } , (c, t) -> {
-                    return new StringValue(channel);
-                });
+                return Arrays.asList(new StringValue(content),new StringValue(author),new StringValue(channel));
             }, () -> {
                 return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
             });
