@@ -181,7 +181,6 @@ will send this embed:
 ### `on_chat_message(text,type)`
 
 Event that execute on chat messages, for example to be used to redirect chat messages to a discord chat.
-WARNING: DO NOT print out ANYTHING inside this event that would execute this event AGAIN! THE SERVER WILL CRASH because of never ending recursion!
 
 `text` -> String: Text of the chat message
 
@@ -192,7 +191,32 @@ WARNING: DO NOT print out ANYTHING inside this event that would execute this eve
   multiplayer.player.left -> Someone left the game
   
   chat.type.admin -> Admin command executed
-  
+
+WARNING: DO NOT print out ANYTHING inside this event that would execute this event AGAIN! THE SERVER WILL CRASH because of never ending recursion!
+
+The same thing applies for errors, since those are printed in chat as well, any error inside this event will also result in recursion!
+
+Here is an example how you could prevent server crashes:
+
+```python
+__config() -> {'scope' -> 'global'};
+
+global_executions = 0;
+
+__on_chat_message(text,type) -> (
+    global_executions += 1;
+    if(global_executions < 10,
+        //put all the code you want to execute here
+        scoreboard('blah'); //this would cause an error if the objective doesnt exist, which would instantly call the event again
+    );
+);
+
+__on_tick() -> (
+    global_executions = 0;
+);
+```
+
+If you have any idea on how i could prevent the event triggering from anything inside itself within java code, please open an issue or pull request
 
 &nbsp;&nbsp;
 
@@ -201,7 +225,6 @@ WARNING: DO NOT print out ANYTHING inside this event that would execute this eve
 ### `on_discord_message(text,author,channel)`
 
 Event that execute when a message gets sent in a channel the bot has access to, for example to be used to redirect discord messages to the minecraft chat.
-
 
 `text` -> String: Text of the message
 
