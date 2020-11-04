@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Discarpet implements CarpetExtension {
 	public static void noop() {
+		Discarpet.LOGGER.info("Discarpet loaded");
 	}
 
 	public static final Logger LOGGER = LogManager.getLogger();
@@ -123,7 +124,6 @@ public class Discarpet implements CarpetExtension {
 	@Override
 	public void scarpetApi(CarpetExpression expression) {
 		DiscordFunctions.apply(expression.getExpr());
-		Discarpet.LOGGER.info("Discarpet loaded");
 	}
 
 }
