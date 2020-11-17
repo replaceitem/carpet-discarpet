@@ -4,17 +4,7 @@
 
 ## A Carpet extension for scarpet discord functionality
 
-This mod is still under development.
-
-
-
-Note: I am not planning to actively maintain this, but i'll release some versions sometimes...
-Main reason is i just made this mod for myself and just thought i'd release it if someone needs it.
-
-
-
 Message me on discord if you need help or anything else: `replaceitem#9118`
-
 
 ## Setting up
 
@@ -22,7 +12,7 @@ First you need a Discord bot account, just look up how to make one.
 
 Then use the `botToken` rule to save the bot token like this:
 
-`/Discarpet setDefault botToken YourTokenGoesHere123456789`
+`/discarpet setDefault botToken YourTokenGoesHere123456789`
 
 But, since everyone with op permission or access to console can read the bot token, which means they have control over your bot, so make sure nobody you don't trust gets their hands on the token. The best option is to lock the `Discarpet.conf` file like [this](https://github.com/gnembon/fabric-carpet/wiki/Carpet-Configuration#limiting-access-to-carpet-by-locking-the-configuration-file).
 
@@ -30,7 +20,7 @@ Now you will have to restart the server to apply the token.
 
 Then you can invite the bot to discord servers you own, by using this command:
 
-`/Discarpet inviteLink true`
+`/discarpet inviteLink true`
 
 You will get a clickable link in chat, which links to discord's site for adding bots.
 
@@ -178,11 +168,11 @@ will send this embed:
 
 ## Discord and Chat event
 
-### `on_chat_message(text,type)`
+### `on_system_message(text,type,entity)`
 
-Event that execute on chat messages, for example to be used to redirect chat messages to a discord chat.
+Event that execute on system messages, for example to be used to redirect system messages to a discord chat.
 
-`text` -> String: Text of the chat message
+`text` -> String: Text of the system message
 
 `type` -> String: Type of the message, could be for example:
    
@@ -191,6 +181,8 @@ Event that execute on chat messages, for example to be used to redirect chat mes
   multiplayer.player.left -> Someone left the game
   
   chat.type.admin -> Admin command executed
+
+`entity` -> Entity: Entity that message came from, or null if not sent from an entity
 
 WARNING: DO NOT print out ANYTHING inside this event that would execute this event AGAIN! THE SERVER WILL CRASH because of never ending recursion!
 
@@ -203,7 +195,7 @@ __config() -> {'scope' -> 'global'};
 
 global_executions = 0;
 
-__on_chat_message(text,type) -> (
+__on_system_message(text,type,entity) -> (
     global_executions += 1;
     if(global_executions < 10,
         //put all the code you want to execute here
@@ -220,7 +212,17 @@ If you have any idea on how i could prevent the event triggering from anything i
 
 &nbsp;&nbsp;
 
+### `on_chat_message(message,player,command)`
 
+Event that execute on chat messages, for example to be used to redirect chat messages to a discord chat.
+
+`message` -> String: Text of the chat message
+
+`player` -> Entity: Player that sent the message
+
+`command` -> Boolean: Message is a command
+
+&nbsp;&nbsp;
 
 ### `on_discord_message(text,author,channel)`
 
