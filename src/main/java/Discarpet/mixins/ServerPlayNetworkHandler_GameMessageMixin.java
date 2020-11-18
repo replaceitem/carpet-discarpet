@@ -17,7 +17,7 @@ public class ServerPlayNetworkHandler_GameMessageMixin {
 
     @Shadow public ServerPlayerEntity player;
 
-    @Inject( at = @At("RETURN"), method = "onGameMessage")
+    @Inject( at = @At("HEAD"), method = "onGameMessage")
     public void onGameMessage(ChatMessageC2SPacket packet, CallbackInfo ci) {
         String normalized = StringUtils.normalizeSpace(packet.getChatMessage());
         ScarpetDiscordEvents.CHAT_MESSAGE.onChatMessage(packet.getChatMessage(),this.player,normalized.startsWith("/"));

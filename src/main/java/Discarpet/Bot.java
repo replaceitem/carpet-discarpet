@@ -26,6 +26,7 @@ public class Bot {
 		if(token != "empty") {
 			try {
 				api = new DiscordApiBuilder().setToken(token).login().join();
+				Discarpet.log("[Discarpet] Bot sucessfully logged in");
 				api.addMessageCreateListener(event -> {
 					String content = event.getMessage().getContent();
 					String author = event.getMessageAuthor().getDisplayName();
@@ -37,9 +38,7 @@ public class Bot {
 						ServerChannel serverChannel = (ServerChannel) this.api.getServerChannels().toArray()[0];
 						Server discordServer = serverChannel.getServer();
 						String string_discriminator = "";
-						if(true){
-							string_discriminator = "#" + user.getDiscriminator();
-						}
+						string_discriminator = "#" + user.getDiscriminator();
 						content = content.replace("<@!" + user.getIdAsString() + ">", "@" + user.getDisplayName(discordServer) + string_discriminator);
 						//if (user.getNickname(discordServer).isPresent()) {
 							//string_message = string_message.replace("@" + user.getName(), "@" + user.getDisplayName(discordServer) + "(" + user.getName() + string_discriminator + ")");

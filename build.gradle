@@ -7,6 +7,7 @@ repositories {
 	maven {
 		url 'https://masa.dy.fi/maven'
 	}
+	mavenCentral()
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -29,13 +30,28 @@ dependencies {
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 	//discord
+
 	modCompile "org.javacord:javacord-api:${project.javacord_version}"
 	modCompile "org.javacord:javacord-core:${project.javacord_version}"
-	modCompile "com.vdurmont:emoji-java:5.1.1"
-	//modCompile "org.apache.logging.log4j:log4j-core:2.11.1"
 
 	include "org.javacord:javacord-api:${project.javacord_version}"
 	include "org.javacord:javacord-core:${project.javacord_version}"
+
+	//implementation "org.javacord:javacord:${project.javacord_version}"
+	//modCompile "org.javacord:javacord:${project.javacord_version}"
+	//modImplementation "org.javacord:javacord:${project.javacord_version}"
+	//include "org.javacord:javacord:${project.javacord_version}"
+
+
+	//modCompile "io.vavr:vavr:0.10.1"
+	include "io.vavr:vavr:0.10.1"
+
+	modCompile "com.vdurmont:emoji-java:5.1.1"
+	include "com.vdurmont:emoji-java:5.1.1"
+
+
+
+
 	include "com.squareup.okhttp3:okhttp:3.9.1"
 	include "com.squareup.okhttp3:logging-interceptor:3.9.1"
 	include "com.fasterxml.jackson.core:jackson-databind:2.9.3"
@@ -44,12 +60,40 @@ dependencies {
 	include "com.neovisionaries:nv-websocket-client:2.6"
 	include "com.squareup.okio:okio:1.13.0"
 	include "org.json:json:20170516"
+	/*
+	modCompile "org.javacord:javacord-api:${project.javacord_version}"
+	modCompile "org.javacord:javacord-core:${project.javacord_version}"
+	include "org.javacord:javacord-api:${project.javacord_version}"
+	include "org.javacord:javacord-api:${project.javacord_version}"
+	include "org.javacord:javacord-core:${project.javacord_version}"
+*/
+
+	/*
+	//modCompile "com.fasterxml.jackson.core:jackson-databind:2.12.0-rc2"
+	//modCompile "com.fasterxml.jackson.core:jackson-annotations:2.12.0-rc2"
+	//modCompile "com.fasterxml.jackson.core:jackson-core:2.12.0-rc2"
+	include "com.fasterxml.jackson.core:jackson-databind:2.12.0-rc2"
+	include "com.fasterxml.jackson.core:jackson-annotations:2.12.0-rc2"
+	include "com.fasterxml.jackson.core:jackson-core:2.12.0-rc2"
+
+
+
+	include "com.squareup.okhttp3:okhttp:3.9.1"
+	include "com.squareup.okhttp3:logging-interceptor:3.9.1"
+
+	include "com.neovisionaries:nv-websocket-client:2.6"
+	include "com.squareup.okio:okio:1.13.0"
+	include "org.json:json:20170516"
+
+
+
+	 */
+	compile 'org.apache.logging.log4j:log4j-core:2.13.3'
 	include "org.apache.logging.log4j:log4j-api:2.11.0"
 	//include "'org.apache.logging.log4j:log4j-core:jar:2.13.3'"
 
-	compile 'org.apache.logging.log4j:log4j-core:2.13.3'
 
-	include "com.vdurmont:emoji-java:5.1.1"
+
 }
 
 processResources {
