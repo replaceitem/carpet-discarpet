@@ -3,9 +3,9 @@
   "package": "Discarpet.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "LoadDiscarpet_noopMixin",
     "MinecraftChat_Mixin",
-    "ServerPlayNetworkHandler_GameMessageMixin"
+    "ServerPlayNetworkHandler_GameMessageMixin",
+    "SettingsManager_carpetPrivacyMixin"
   ],
   "client": [
 
