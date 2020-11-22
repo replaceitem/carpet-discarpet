@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletionException;
+import static Discarpet.Discarpet.LOGGER;
 
 public class Bot {
 	private DiscordApi api = null;
@@ -26,7 +27,7 @@ public class Bot {
 		if(token != "empty") {
 			try {
 				api = new DiscordApiBuilder().setToken(token).login().join();
-				Discarpet.log("[Discarpet] Bot sucessfully logged in");
+				LOGGER.info("[Discarpet] Bot sucessfully logged in");
 				api.addMessageCreateListener(event -> {
 					String content = event.getMessage().getContent();
 					String author = event.getMessageAuthor().getDisplayName();
@@ -53,11 +54,11 @@ public class Bot {
 					ScarpetDiscordEvents.DISCORD_MESSAGE.onDiscordMessage(content, author, channel);
 				});
 			} catch (CompletionException ce) {
-				Discarpet.error("[Discarpet] Invalid bot token! Discord functionality disabled");
+				LOGGER.error("[Discarpet] Invalid bot token! Discord functionality disabled");
 				api = null;
 			}
 		} else {
-			Discarpet.warn("[Discarpet] No bot token specified, use /scarpetdiscord setDefault botToken [token]");
+			LOGGER.warn("[Discarpet] No bot token specified, use /scarpetdiscord setDefault botToken [token]");
 			api = null;
 		}
 	}
