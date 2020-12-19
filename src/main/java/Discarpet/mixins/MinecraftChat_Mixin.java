@@ -1,6 +1,7 @@
 package Discarpet.mixins;
 
-import Discarpet.ScarpetDiscordEvents;
+import Discarpet.script.events.ChatEvents;
+import Discarpet.script.events.DiscordEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
@@ -26,6 +27,6 @@ public abstract class MinecraftChat_Mixin {
 		while(worlds.hasNext() && entity == null) {
 			entity = ((ServerWorld)worlds.next()).getEntity(senderUuid);
 		}
-		ScarpetDiscordEvents.SYSTEM_MESSAGE.onSystemMessage(message,entity);
+		ChatEvents.SYSTEM_MESSAGE.onSystemMessage(message,entity);
 	}
 }

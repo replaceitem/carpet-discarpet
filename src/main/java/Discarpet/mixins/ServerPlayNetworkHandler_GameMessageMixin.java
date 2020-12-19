@@ -1,6 +1,7 @@
 package Discarpet.mixins;
 
-import Discarpet.ScarpetDiscordEvents;
+import Discarpet.script.events.ChatEvents;
+import Discarpet.script.events.DiscordEvents;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -20,6 +21,6 @@ public class ServerPlayNetworkHandler_GameMessageMixin {
     @Inject( at = @At("HEAD"), method = "onGameMessage")
     public void onGameMessage(ChatMessageC2SPacket packet, CallbackInfo ci) {
         String normalized = StringUtils.normalizeSpace(packet.getChatMessage());
-        ScarpetDiscordEvents.CHAT_MESSAGE.onChatMessage(packet.getChatMessage(),this.player,normalized.startsWith("/"));
+        ChatEvents.CHAT_MESSAGE.onChatMessage(packet.getChatMessage(),this.player,normalized.startsWith("/"));
     }
 }

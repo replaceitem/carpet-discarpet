@@ -1,6 +1,10 @@
-package Discarpet;
+package Discarpet.script.events;
 
+import Discarpet.script.values.MessageValue;
+import Discarpet.script.values.ReactionValue;
+import Discarpet.script.values.UserValue;
 import carpet.CarpetServer;
+import carpet.script.CarpetEventServer.Event;
 import carpet.script.value.EntityValue;
 import carpet.script.value.NullValue;
 import carpet.script.value.NumericValue;
@@ -11,18 +15,21 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
-import carpet.script.CarpetEventServer.Event;
+import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.message.Reaction;
+import org.javacord.api.entity.user.User;
+
 import java.util.Arrays;
 
 
-public class ScarpetDiscordEvents extends Event {
-    public ScarpetDiscordEvents(String name, int reqArgs, boolean isGlobalOnly) {
+public class ChatEvents extends Event {
+    public ChatEvents(String name, int reqArgs, boolean isGlobalOnly) {
         super(name, reqArgs, isGlobalOnly);
     }
 
     public void onSystemMessage(Text text, Entity entity) {}
 
-    public static ScarpetDiscordEvents SYSTEM_MESSAGE = new ScarpetDiscordEvents("system_message", 3, false) {
+    public static ChatEvents SYSTEM_MESSAGE = new ChatEvents("system_message", 3, false) {
         public void onSystemMessage(Text text,Entity entity) {
             this.handler.call(() -> {
                 String message;
@@ -53,26 +60,12 @@ public class ScarpetDiscordEvents extends Event {
 
     public void onChatMessage(String message, ServerPlayerEntity player, boolean isCommand) {}
 
-    public static ScarpetDiscordEvents CHAT_MESSAGE = new ScarpetDiscordEvents("chat_message", 3, false) {
+    public static ChatEvents CHAT_MESSAGE = new ChatEvents("chat_message", 3, false) {
         public void onChatMessage(String message, ServerPlayerEntity player,boolean isCommand) {
             this.handler.call(() -> {
                 return Arrays.asList(new StringValue(message), new EntityValue(player), new NumericValue(isCommand));
             }, () -> {
                 return player.getCommandSource();
-            });
-        }
-    };
-
-
-
-    public void onDiscordMessage(String content, String author, String channel) {}
-
-    public static ScarpetDiscordEvents DISCORD_MESSAGE = new ScarpetDiscordEvents("discord_message", 3, false) {
-        public void onDiscordMessage(String content, String author, String channel) {
-            this.handler.call(() -> {
-                return Arrays.asList(new StringValue(content),new StringValue(author),new StringValue(channel));
-            }, () -> {
-                return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
             });
         }
     };

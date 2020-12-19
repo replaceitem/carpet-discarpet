@@ -4,8 +4,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MinecraftChat_Mixin",
-    "ServerPlayNetworkHandler_GameMessageMixin",
-    "SettingsManager_carpetPrivacyMixin"
+    "ServerPlayNetworkHandler_GameMessageMixin"
   ],
   "client": [
 
