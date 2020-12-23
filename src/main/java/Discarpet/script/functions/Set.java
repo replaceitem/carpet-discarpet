@@ -44,7 +44,17 @@ public class Set {
             if(b==null) scarpetNoBotException("dc_set_status");
 
             String status = lv.get(0).evalValue(c).getString();
-            b.api.updateStatus(UserStatus.fromString(status));
+
+            UserStatus userStatus = null;
+
+            for (UserStatus s : UserStatus.values()) {
+                if (s.getStatusString().equalsIgnoreCase(status)) {
+                    userStatus = s;
+                    break;
+                }
+            }
+            if(userStatus == null) return FALSE;
+            b.api.updateStatus(userStatus);
             return TRUE;
         });
     }
