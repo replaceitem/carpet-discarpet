@@ -16,11 +16,14 @@ import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,7 +53,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void onServerLoaded(MinecraftServer server) {
-		loadBots();
+		loadBots(null);
 	}
 
 	@Override
@@ -68,7 +71,12 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	}
 
 
-	public static void loadBots() {
+	public static void loadBots(ServerCommandSource source) {
+		try {
+			source.getPlayer();
+		} catch(CommandSyntaxException e) {
+			source = null;
+		}
 		discordBots.clear();
 		try {
 			Path configDir = FabricLoader.getInstance().getConfigDir().normalize();
@@ -81,7 +89,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 			Config.getInstance().toFile(configFile.toFile());
 			if(created) return;
 			for (BotConfig s : Config.getInstance().BOTS) {
-				Bot bot = new Bot(s.BOT_ID,s.BOT_TOKEN);
+				Bot bot = new Bot(s.BOT_ID,s.BOT_TOKEN,source);
 				if(bot.getApi() == null) continue;
 				discordBots.put(s.BOT_ID, bot);
 			}
