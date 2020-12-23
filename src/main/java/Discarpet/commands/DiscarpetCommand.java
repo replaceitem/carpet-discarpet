@@ -23,7 +23,7 @@ public class DiscarpetCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher)
     {
-        dispatcher.register(literal("discarpet").
+        dispatcher.register(literal("discarpet").requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2)).
                 then(literal("list").
                         executes(commandContext->{
                             Set<String> botIDs = Discarpet.discordBots.keySet();
@@ -48,7 +48,7 @@ public class DiscarpetCommand {
                     return 1;
                 })))
                 .then(literal("reload").executes(commandContext->{
-                    Discarpet.loadBots();
+                    Discarpet.loadBots(commandContext.getSource());
                     return 1;
                 }))
 

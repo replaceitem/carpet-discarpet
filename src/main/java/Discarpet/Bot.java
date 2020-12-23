@@ -2,6 +2,9 @@ package Discarpet;
 
 import Discarpet.script.events.DiscordEvents;
 import carpet.script.exception.InternalExpressionException;
+import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.LiteralText;
+import net.minecraft.util.Formatting;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
@@ -26,11 +29,12 @@ public class Bot {
 		return api;
 	}
 
-	public Bot(String id, String token) {
+	public Bot(String id, String token, ServerCommandSource source) {
 		this.id = id;
 		try {
 			api = new DiscordApiBuilder().setToken(token).login().join();
 			LOGGER.info("[Discarpet] Bot " + id + " sucessfully logged in");
+			if(source != null) source.sendFeedback(new LiteralText("[Discarpet] Bot " + id + " sucessfully logged in").formatted(Formatting.DARK_GREEN),false);
 			api.addMessageCreateListener(event -> {
 				DiscordEvents.DISCORD_MESSAGE.onDiscordMessage(this,event.getMessage());
 			});
@@ -47,6 +51,7 @@ public class Bot {
 			});
 		} catch (CompletionException ce) {
 			LOGGER.warn("[Discarpet] Invalid bot token for bot " + id + "!");
+			if(source != null) source.sendFeedback(new LiteralText("[Discarpet] Invalid bot token for bot " + id + "!").formatted(Formatting.RED),false);
 			api = null;
 		}
 	}
