@@ -20,7 +20,7 @@ Event that execute on system messages, for example to be used to redirect system
 
 `entity` -> Entity: Entity that message came from, or null if not sent from an entity
 
-WARNING: DO NOT print out ANYTHING inside this event that would execute this event AGAIN! THE SERVER WILL CRASH because of never ending recursion!
+WARNING: DO NOT print out ANYTHING inside this event that would execute this event again! The server would crash because of never ending recursion!
 
 The same thing applies for errors, since those are printed in chat as well, any error inside this event will also result in recursion!
 
