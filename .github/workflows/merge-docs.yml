@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Permission
+        run: git update-index --chmod=+x ./.github/scripts/mergedoc.sh
       - name: Merge docs
         run: ./.github/scripts/mergedoc.sh
       - name: Commit merged docs
