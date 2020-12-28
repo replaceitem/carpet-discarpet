@@ -6,12 +6,12 @@ on:
     paths:
       - "docs/**"
 jobs:
-  Scarpet:
+  Merge-Docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Merge docs
-        run: ./mergedoc.sh
+        run: ./.github/scripts/mergedoc.sh
       - name: Commit merged docs
         continue-on-error: true
         run: |
