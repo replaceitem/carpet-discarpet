@@ -325,7 +325,8 @@ dc_send_message(dc_channel_from_id('CHANNEL ID HERE'),e);
 
 Which gives this result:
 
-![Example embed](/docs/embed.png)# Discarpet Events
+![Example embed](/docs/embed.png)
+# Discarpet Events
 
 Discarpet's scarpet events are used to detect events that happen in discord servers the bot is in. Additionally, there are also events for when a chat message gets sent in minecraft or a general system message happens.
 
