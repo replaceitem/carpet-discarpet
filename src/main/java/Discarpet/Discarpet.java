@@ -72,10 +72,12 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 
 	public static void loadBots(ServerCommandSource source) {
-		try {
-			source.getPlayer();
-		} catch(CommandSyntaxException e) {
-			source = null;
+		if(source != null) {
+			try {
+				source.getPlayer();
+			} catch (CommandSyntaxException e) {
+				source = null;
+			}
 		}
 		discordBots.clear();
 		try {
