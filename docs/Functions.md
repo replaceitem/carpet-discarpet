@@ -42,7 +42,7 @@ specified server id, or `null` if the server was not found.
 ### `dc_emoji_from_id(id)`
 
 Returns a [`emoji`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#emoji) value from the
-specified emoji id, or `null` if the emoji was not found.
+specified emoji id. If there is no emoji with that id, it will instead search for custom emojis which have the name `id`. If there are none, returns an empty list.
 This is only for custom emojis, since standard emojis are specified from the unicode emoji.
 
 ## Set
