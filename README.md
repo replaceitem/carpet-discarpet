@@ -10,6 +10,8 @@ Message me on discord if you need help or anything else: `replaceitem#9118`
 
 ## Documentation
 
+## [Full](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Full.md)
+
 ### [Setup](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Setup.md)
 ### [Values](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md)
 ### [Functions](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md)
