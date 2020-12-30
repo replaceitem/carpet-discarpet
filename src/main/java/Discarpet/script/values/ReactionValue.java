@@ -1,12 +1,9 @@
 package Discarpet.script.values;
 
 import carpet.script.value.NumericValue;
-import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.Tag;
 import org.javacord.api.entity.message.Reaction;
-
-import java.util.Optional;
 
 public class ReactionValue extends Value {
 

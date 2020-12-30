@@ -62,10 +62,12 @@ Executes when a message is sent in a channel the bot has acess to.
 
 `message` -> [Message](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#message): The message that was sent
 
-## `__on_discord_reaction(reaction,user)`
+## `__on_discord_reaction(reaction,user,added)`
 
 Executes when a user reacts to a message with some emoji
 
 `reaction` -> [Reaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#reaction): The reaction that was made containing the emoji
 
 `user` -> [User](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#user): The user who reacted
+
+`added` -> boolean, `true` if the reaction was added, `false` if the reaction was removed

@@ -106,11 +106,14 @@ dc_send_message(channel,'React with 🟩 to accept of 🟥 to deny',_(message)->
     dc_react(message,'🟩');
 ));
 
-__on_discord_reaction(reaction,user) -> (
+__on_discord_reaction(reaction,user,added) -> (
     if(user~'is_self',return());
-    logger(reaction~'message'~'id' + ' compared ' + global_msgid);
     if(reaction~'message'~'id' == global_msgid,
-        dc_send_message(reaction~'message'~'channel',user~'name' + ' voted with ' + reaction~'emoji'~'unicode');
+        if(added,
+            dc_send_message(reaction~'message'~'channel',user~'name' + ' voted with ' + reaction~'emoji'~'unicode');
+        ,
+            dc_send_message(reaction~'message'~'channel',user~'name' + ' removed the vote for ' + reaction~'emoji'~'unicode');
+        );
     );
 );
 
