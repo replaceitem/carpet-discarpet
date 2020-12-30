@@ -250,10 +250,10 @@ specified channel id, or `null` if the channel was not found.
 Returns a [`server`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#server) value from the
 specified server id, or `null` if the server was not found.
 
-### `dc_emoji_from_id(id)`
+### `dc_emoji_from_id(server,id)`
 
 Returns a [`emoji`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#emoji) value from the
-specified emoji id, or `null` if the emoji was not found.
+specified emoji id in a `server`. If there is no emoji with that id, it will instead search for custom emojis which have the name `id`. If there are none, returns an empty list.
 This is only for custom emojis, since standard emojis are specified from the unicode emoji.
 
 ## Set
@@ -327,6 +327,7 @@ Which gives this result:
 
 ![Example embed](/docs/embed.png)
 # Discarpet Events
+
 
 Discarpet's scarpet events are used to detect events that happen in discord servers the bot is in. Additionally, there are also events for when a chat message gets sent in minecraft or a general system message happens.
 
