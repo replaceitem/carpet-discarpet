@@ -53,7 +53,7 @@ public class DiscordEvents extends Event {
 
     public void onDiscordReaction(Bot bot, Reaction reaction, User user, boolean added) {}
 
-    public static DiscordEvents DISCORD_REACTION = new DiscordEvents("discord_reaction", 2, false) {
+    public static DiscordEvents DISCORD_REACTION = new DiscordEvents("discord_reaction", 3, false) {
         public void onDiscordReaction(Bot bot, Reaction reaction, User user, boolean added) {
             if(!CarpetServer.minecraft_server.isRunning()) return; //prevent errors when message comes while stopping
             callHandlerInBotApps(bot,handler,() -> {
