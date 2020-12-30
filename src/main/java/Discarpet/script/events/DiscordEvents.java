@@ -51,13 +51,13 @@ public class DiscordEvents extends Event {
         }
     };
 
-    public void onDiscordReaction(Bot bot, Reaction reaction, User user) {}
+    public void onDiscordReaction(Bot bot, Reaction reaction, User user, boolean added) {}
 
     public static DiscordEvents DISCORD_REACTION = new DiscordEvents("discord_reaction", 2, false) {
-        public void onDiscordReaction(Bot bot, Reaction reaction, User user) {
+        public void onDiscordReaction(Bot bot, Reaction reaction, User user, boolean added) {
             if(!CarpetServer.minecraft_server.isRunning()) return; //prevent errors when message comes while stopping
             callHandlerInBotApps(bot,handler,() -> {
-                return Arrays.asList(new ReactionValue(reaction),new UserValue(user));
+                return Arrays.asList(new ReactionValue(reaction),new UserValue(user), new NumericValue(added));
             }, () -> {
                 return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
             });
