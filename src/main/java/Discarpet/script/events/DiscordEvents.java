@@ -34,6 +34,8 @@ import java.util.function.Supplier;
 
 
 public class DiscordEvents extends Event {
+    public static void noop() {} //to load events before scripts do
+
     public DiscordEvents(String name, int reqArgs, boolean isGlobalOnly) {
         super(name, reqArgs, isGlobalOnly);
     }
@@ -42,8 +44,8 @@ public class DiscordEvents extends Event {
 
     public static DiscordEvents DISCORD_MESSAGE = new DiscordEvents("discord_message", 1, false) {
         public void onDiscordMessage(Bot bot, Message message) {
-            if(!CarpetServer.minecraft_server.isRunning()) return; //prevent errors when message comes while stopping
-            callHandlerInBotApps(bot,handler,() -> {
+            if(CarpetServer.minecraft_server != null && !CarpetServer.minecraft_server.isRunning()) return; //prevent errors when message comes while stopping
+            callHandlerInBotApps(bot,() -> {
                 return Arrays.asList(new MessageValue(message));
             }, () -> {
                 return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
@@ -55,8 +57,8 @@ public class DiscordEvents extends Event {
 
     public static DiscordEvents DISCORD_REACTION = new DiscordEvents("discord_reaction", 3, false) {
         public void onDiscordReaction(Bot bot, Reaction reaction, User user, boolean added) {
-            if(!CarpetServer.minecraft_server.isRunning()) return; //prevent errors when message comes while stopping
-            callHandlerInBotApps(bot,handler,() -> {
+            if(CarpetServer.minecraft_server != null && !CarpetServer.minecraft_server.isRunning()) return; //prevent errors when message comes while stopping
+            callHandlerInBotApps(bot,() -> {
                 return Arrays.asList(new ReactionValue(reaction),new UserValue(user), new NumericValue(added));
             }, () -> {
                 return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
@@ -64,7 +66,7 @@ public class DiscordEvents extends Event {
         }
     };
 
-    public void callHandlerInBotApps(Bot triggerBot, CarpetEventServer.CallbackList handler, Supplier<List<Value>> argumentSupplier, Supplier<ServerCommandSource> cmdSourceSupplier) {
+    public void callHandlerInBotApps(Bot triggerBot, Supplier<List<Value>> argumentSupplier, Supplier<ServerCommandSource> cmdSourceSupplier) {
         if (handler.callList.size() > 0) {
             List<Value> argv = (List)argumentSupplier.get();
             ServerCommandSource source = (ServerCommandSource)cmdSourceSupplier.get();
@@ -78,10 +80,13 @@ public class DiscordEvents extends Event {
             while(var6.hasNext()) {
                 call = (CarpetEventServer.Callback)var6.next();
                 Bot scriptBot = Discarpet.getBotInHost(CarpetServer.scriptServer.getHostByName(call.host));
-                if(scriptBot == null) continue;
+                if(scriptBot == null) {
+                    fails.add(call);
+                    continue;
+                }
                 if(scriptBot.id.equals(triggerBot.id)) {
                     if (!call.execute(source, argv)) {
-                        fails.add(call);
+                        //fails.add(call);
                     }
                 }
             }
@@ -93,7 +98,5 @@ public class DiscordEvents extends Event {
                 handler.callList.remove(call);
             }
         }
-
     }
-
 }
