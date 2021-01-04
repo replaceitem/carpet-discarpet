@@ -1,6 +1,8 @@
 package Discarpet;
 
 import Discarpet.commands.DiscarpetCommand;
+import Discarpet.script.events.ChatEvents;
+import Discarpet.script.events.DiscordEvents;
 import Discarpet.script.functions.Get;
 import Discarpet.script.functions.Embeds;
 import Discarpet.script.functions.Sending;
@@ -63,6 +65,9 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void scarpetApi(CarpetExpression expression) {
+		DiscordEvents.noop();
+		ChatEvents.noop();
+
 		Set.apply(expression.getExpr());
 		Get.apply(expression.getExpr());
 		Sending.apply(expression.getExpr());
@@ -106,10 +111,12 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	}
 
 	public static Bot getBotInHost(ScriptHost h) {
+		if(h == null) return null;
+		if(((CarpetScriptHost) h).appConfig == null) return null;
 		Value botKeyValue = ((CarpetScriptHost) h).appConfig.get(StringValue.of("bot"));
-		if(botKeyValue == null) return null;
+		if (botKeyValue == null) return null;
 		String key = botKeyValue.getString();
-		if(key == null) return null;
+		if (key == null) return null;
 		return discordBots.get(key);
 	}
 

@@ -23,6 +23,8 @@ import java.util.Arrays;
 
 
 public class ChatEvents extends Event {
+    public static void noop() {} //to load events before scripts do
+
     public ChatEvents(String name, int reqArgs, boolean isGlobalOnly) {
         super(name, reqArgs, isGlobalOnly);
     }
@@ -41,7 +43,7 @@ public class ChatEvents extends Event {
                     type = text.getClass().getName();
                     message = (text).getString();
                 } else {
-                    message = "unknown text type";
+                    message = text.getString();
                     type = text.getClass().getName();
                 }
                 if(entity == null) return Arrays.asList(new StringValue(message), new StringValue(type),new NullValue());
