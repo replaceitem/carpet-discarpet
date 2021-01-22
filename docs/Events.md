@@ -45,7 +45,7 @@ __on_tick() -> (
 );
 ```
 
-## `on_chat_message(message,player,command)`
+## `__on_chat_message(message,player,command)`
 
 Event that execute on chat messages, can be used to redirect chat messages to a discord chat.
 
