@@ -4,12 +4,15 @@ import Discarpet.Discarpet;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.HoverEvent;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -23,35 +26,38 @@ public class DiscarpetCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher)
     {
-        dispatcher.register(literal("discarpet").requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2)).
-                then(literal("list").
-                        executes(commandContext->{
-                            Set<String> botIDs = Discarpet.discordBots.keySet();
-                            final LiteralText t;
-                            if(botIDs.size()==0) {
-                                t = (LiteralText) new LiteralText("There are no bots active:\n").formatted(Formatting.RED);
-                            } else {
-                                t = (LiteralText) new LiteralText("There are " + botIDs.size() + " bots active\n").formatted(Formatting.GREEN);
-                            }
-                            botIDs.forEach(id-> t.append(new LiteralText(id + "\n").formatted(Formatting.BLUE)));
-                            commandContext.getSource().sendFeedback(t,true);
-                            return botIDs.size();
-                        })
-                )
-                .then(literal("getInvite").then(CommandManager.argument("id", StringArgumentType.string()).suggests(BOTS).executes(commandContext->{
-                    String id = StringArgumentType.getString(commandContext,"id");
-                    String invite = Discarpet.discordBots.get(id).getInvite();
-                    Text text = ((new LiteralText("Click here to get the invite link for the bot")).styled((style) -> {
-                        return style.withColor(Formatting.BLUE).withFormatting(Formatting.UNDERLINE).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, invite)).withHoverEvent(new HoverEvent(net.minecraft.text.HoverEvent.Action.SHOW_TEXT, new LiteralText("Click to open the invite link"))).withInsertion(invite);
-                    }));
-                    commandContext.getSource().sendFeedback(text,false);
-                    return 1;
-                })))
-                .then(literal("reload").executes(commandContext->{
-                    Discarpet.loadBots(commandContext.getSource());
-                    return 1;
-                }))
-
+        dispatcher.register(literal("discarpet").requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2)).executes(commandContext->{
+            String version = FabricLoader.getInstance().getModContainer("discarpet").get().getMetadata().getVersion().getFriendlyString();
+            MutableText text = new LiteralText("Discarpet version " + version).formatted(Formatting.BLUE);
+            text.append("\nFor help, see the ");
+            text.append(new LiteralText("documentation").setStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,"https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Full.md")).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,new LiteralText("Click to get to the Discarpet documentation"))).withFormatting(Formatting.UNDERLINE).withColor(Formatting.DARK_BLUE)));
+            commandContext.getSource().sendFeedback(text,true);
+            return 1;
+        }).then(literal("list").
+            executes(commandContext->{
+                Set<String> botIDs = Discarpet.discordBots.keySet();
+                final LiteralText t;
+                if(botIDs.size()==0) {
+                    t = (LiteralText) new LiteralText("There are no bots active:\n").formatted(Formatting.RED);
+                } else {
+                    t = (LiteralText) new LiteralText("There are " + botIDs.size() + " bots active\n").formatted(Formatting.GREEN);
+                }
+                botIDs.forEach(id-> t.append(new LiteralText(id + "\n").formatted(Formatting.BLUE)));
+                commandContext.getSource().sendFeedback(t,true);
+                return botIDs.size();
+            })
+        ).then(literal("getInvite").then(CommandManager.argument("id", StringArgumentType.string()).suggests(BOTS).executes(commandContext->{
+            String id = StringArgumentType.getString(commandContext,"id");
+            String invite = Discarpet.discordBots.get(id).getInvite();
+            Text text = ((new LiteralText("Click here to get the invite link for the bot")).styled((style) -> {
+                return style.withColor(Formatting.BLUE).withFormatting(Formatting.UNDERLINE).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, invite)).withHoverEvent(new HoverEvent(net.minecraft.text.HoverEvent.Action.SHOW_TEXT, new LiteralText("Click to open the invite link"))).withInsertion(invite);
+            }));
+            commandContext.getSource().sendFeedback(text,false);
+            return 1;
+        }))).then(literal("reload").executes(commandContext->{
+                Discarpet.loadBots(commandContext.getSource());
+                return 1;
+            }))
         );
     }
 }
