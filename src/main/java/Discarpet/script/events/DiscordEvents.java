@@ -86,7 +86,7 @@ public class DiscordEvents extends Event {
                 }
                 if(scriptBot.id.equals(triggerBot.id)) {
                     if (!call.execute(source, argv)) {
-                        //fails.add(call);
+                        fails.add(call);
                     }
                 }
             }

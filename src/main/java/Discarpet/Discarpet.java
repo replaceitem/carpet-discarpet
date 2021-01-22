@@ -43,14 +43,15 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		Discarpet.LOGGER.info("Discarpet loaded");
+		DiscordEvents.noop();
+		ChatEvents.noop();
 		CarpetServer.manageExtension(this);
+		Discarpet.LOGGER.info("Discarpet loaded");
 	}
 
 
 	@Override
 	public void onGameStarted() {
-
 	}
 
 	@Override
@@ -65,9 +66,6 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void scarpetApi(CarpetExpression expression) {
-		DiscordEvents.noop();
-		ChatEvents.noop();
-
 		Set.apply(expression.getExpr());
 		Get.apply(expression.getExpr());
 		Sending.apply(expression.getExpr());
