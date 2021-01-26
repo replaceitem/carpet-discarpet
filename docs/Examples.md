@@ -40,6 +40,10 @@ __config() -> {'scope'->'global','bot'->'YOUR BOT'};
 global_executions = 0;
 global_log = dc_channel_from_id('CHANNEL ID');
 
+__on_tick() -> (
+    global_executions = 0;
+);
+
 __on_system_message(text,type,entity) -> (
     global_executions += 1; //prevent recursion
     if(global_executions < 10,
