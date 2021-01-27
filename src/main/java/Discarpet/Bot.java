@@ -12,6 +12,8 @@ import org.javacord.api.entity.message.Reaction;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.concurrent.CompletionException;
+import java.util.stream.Collectors;
+
 import static Discarpet.Discarpet.LOGGER;
 
 public class Bot {
@@ -27,7 +29,11 @@ public class Bot {
 			api = new DiscordApiBuilder().setToken(token).setAllIntentsWhere(intent -> {
 				return !intent.isPrivileged() || intents.contains(intent);
 			}).login().join();
-			LOGGER.info("[Discarpet] Bot " + id + " sucessfully logged in");
+			if(intents.size() == 0) {
+				LOGGER.info("[Discarpet] Bot " + id + " sucessfully logged in");
+			} else {
+				LOGGER.info("[Discarpet] Bot " + id + " sucessfully logged in with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(",")));
+			}
 			if(source != null) source.sendFeedback(new LiteralText("[Discarpet] Bot " + id + " sucessfully logged in").formatted(Formatting.DARK_GREEN),false);
 			api.addMessageCreateListener(event -> {
 				DiscordEvents.DISCORD_MESSAGE.onDiscordMessage(this,event.getMessage());
