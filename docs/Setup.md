@@ -17,7 +17,9 @@ The file should look like this by default:
   "bots": [
     {
       "bot_id": "Your Bot ID",
-      "bot_token": "Your Bot Token"
+      "bot_token": "Your Bot Token",
+      "member_intent": false,
+      "presence_intent": false
     }
   ]
 }
@@ -25,7 +27,10 @@ The file should look like this by default:
 
 To add your bot to the game, copy and paste your Bot token from the Developer portal into the `"Your Bot Token"` field.
 The `"bot_id"` is used to identify your bot in scarpet later. You should just give the bot a name so you can identify it.
-This doesnt need to be what you called it in the developer portal, it's just an arbitrary name.
+This doesnt need to be what you called it in the developer portal,
+it's just an arbitrary name.
+The `member_intent` and `presence_intent` can be set to `true` if these intents are needed by your bots.
+For more info, see the section about [indents](#Indents).
 
 Now your config should look something like this:
 
@@ -34,7 +39,9 @@ Now your config should look something like this:
   "bots": [
     {
       "bot_id": "coolbot",
-      "bot_token": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
+      "bot_token": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",
+      "member_intent": false,
+      "presence_intent": false
     }
   ]
 }
@@ -88,3 +95,10 @@ the value will have the context of the bot of the script. That would mean that i
 and add a reaction there, ther user of the reaction will still be from the script where the event happened.
 Only if you query [values from ids](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#Values-from-ids),
 the bot from the config will be applied.
+
+# Intents
+
+In the config file, you can enable two kinds of intents for your bot.
+You should leave them as `false`, unless you use functions that require your bot to have this permission.
+In that case, you also need to enable the permissions in the Discord developer portal (Bot/Privileged Gateway Intents).
+There is a hint at all functions that need an additional Intent so you know when you need them.
