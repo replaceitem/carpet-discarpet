@@ -6,8 +6,10 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
+import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.entity.message.Reaction;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.concurrent.CompletionException;
 import static Discarpet.Discarpet.LOGGER;
@@ -19,10 +21,12 @@ public class Bot {
 		return api;
 	}
 
-	public Bot(String id, String token, ServerCommandSource source) {
+	public Bot(String id, String token, HashSet<Intent> intents, ServerCommandSource source) {
 		this.id = id;
 		try {
-			api = new DiscordApiBuilder().setToken(token).login().join();
+			api = new DiscordApiBuilder().setToken(token).setAllIntentsWhere(intent -> {
+				return !intent.isPrivileged() || intents.contains(intent);
+			}).login().join();
 			LOGGER.info("[Discarpet] Bot " + id + " sucessfully logged in");
 			if(source != null) source.sendFeedback(new LiteralText("[Discarpet] Bot " + id + " sucessfully logged in").formatted(Formatting.DARK_GREEN),false);
 			api.addMessageCreateListener(event -> {

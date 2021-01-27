@@ -97,7 +97,9 @@ Queryable:
 
 `name` (String) The name of the server
 
-` id` (String) The ID of the server
+`id` (String) The ID of the server
+
+`users` (List of Users) All users in this server (this requires the member [intent](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Setup.md#Intents))
 
 ## User
 

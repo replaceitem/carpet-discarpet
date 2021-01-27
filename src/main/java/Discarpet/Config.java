@@ -20,21 +20,16 @@ import java.util.ArrayList;
  */
 
 public class Config {
-
-    // Hier schreibst du deine Attribute hin
     @SerializedName("bots")
     public ArrayList<BotConfig> BOTS;
 
     public Config() {
-        // Hier die Standardwerte falls das jeweiligen Attribut nicht in der
-        // config.json enthalten ist.
         this.BOTS = new ArrayList<>();
         this.BOTS.add(
-                new BotConfig("Your Bot ID", "Your Bot Token")
+                new BotConfig("Your Bot ID", "Your Bot Token",false,false)
         );
     }
 
-    // DON'T TOUCH THE FOLLOWING CODE
     private static Config instance;
 
     public static Config getInstance() {
