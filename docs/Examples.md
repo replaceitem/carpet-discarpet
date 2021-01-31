@@ -143,3 +143,49 @@ dc_build_embed(e,'thumbnail','https://avatars3.githubusercontent.com/u/40722305?
 dc_send_message(dc_channel_from_id('YOUR CHANNEL'),e);
 ```
 See [`dc_build_embed()`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#dc_build_embed-dc_build_embedpropertyvalue)
+
+## Chat between Minecraft and Discord
+
+```py
+__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+
+global_executions = 0;
+global_chat = dc_channel_from_id('CHANNEL ID');
+global_colors = {
+'DISCORD USER ID 1'->'COLOR AND FORMATTING',
+'DISCORD USER ID 2'->'COLOR AND FORMATTING'
+//for formating and colors see https://github.com/gnembon/fabric-carpet/blob/master/docs/scarpet/Full.md#formatcomponents--formatlcomponents-
+};
+
+__on_tick() -> (
+    global_executions = 0;
+);
+
+__parse_mentions(msg,server) -> (
+    for(server~'users',
+        msg = replace(msg,'@' + dc_get_display_name(_,server),_~'mention_tag');
+    );
+    msg;
+);
+
+__on_discord_message(message) -> (
+    if(message~'channel'~'id'!=global_chat~'id',return()); //limit to chat channel only
+    if(message~'user'~'is_self',return()); //ignore messages by the bot itself
+    for(player('all'),
+        col = global_colors:(message~'user'~'id');
+        if(col == null,col = 'w');
+        print(_,format(str('%s [%s]',col,dc_get_display_name(message~'user',message~'server')))+format(str('w  %s',message~'readable_content')))
+    );
+);
+
+__on_system_message(text,type,entity) -> (
+    global_executions += 1; //prevent recursion
+    if(global_executions < 10,
+        if(!(type~'admin'),
+            if((type~'commands.save.') == null, //dont send 'saving world' messages
+                dc_send_message(global_chat,__parse_mentions(text,global_chat~'server')); //send to discord
+            );
+        );
+    );
+);
+```
