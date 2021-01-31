@@ -151,11 +151,6 @@ __config() -> {'scope'->'global','bot'->'YOUR BOT'};
 
 global_executions = 0;
 global_chat = dc_channel_from_id('CHANNEL ID');
-global_colors = {
-'DISCORD USER ID 1'->'COLOR AND FORMATTING',
-'DISCORD USER ID 2'->'COLOR AND FORMATTING'
-//for formating and colors see https://github.com/gnembon/fabric-carpet/blob/master/docs/scarpet/Full.md#formatcomponents--formatlcomponents-
-};
 
 __on_tick() -> (
     global_executions = 0;
@@ -171,20 +166,16 @@ __parse_mentions(msg,server) -> (
 __on_discord_message(message) -> (
     if(message~'channel'~'id'!=global_chat~'id',return()); //limit to chat channel only
     if(message~'user'~'is_self',return()); //ignore messages by the bot itself
-    for(player('all'),
-        col = global_colors:(message~'user'~'id');
-        if(col == null,col = 'w');
-        print(_,format(str('%s [%s]',col,dc_get_display_name(message~'user',message~'server')))+format(str('w  %s',message~'readable_content')))
+    for(player('all'), //note that printing to individual players doesn't trigger __on_system_message(), which is what we want
+        print(_,format(str('%s [%s]',col,dc_get_display_name(message~'user',message~'server')))+format(str('#7289DA  %s',message~'readable_content')))
     );
 );
 
 __on_system_message(text,type,entity) -> (
     global_executions += 1; //prevent recursion
     if(global_executions < 10,
-        if(!(type~'admin'),
-            if((type~'commands.save.') == null, //dont send 'saving world' messages
-                dc_send_message(global_chat,__parse_mentions(text,global_chat~'server')); //send to discord
-            );
+        if(!(type~'admin') && !(type~'commands.save.'), //dont send 'saving world' messages and admin messages
+            dc_send_message(global_chat,__parse_mentions(text,global_chat~'server')); //send to discord
         );
     );
 );
