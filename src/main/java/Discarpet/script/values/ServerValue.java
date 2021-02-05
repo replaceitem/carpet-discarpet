@@ -26,8 +26,6 @@ public class ServerValue extends Value {
             case "users":
                 return ListValue.wrap(server.getMembers().stream().map(UserValue::new).collect(Collectors.toList()));
             case "channels":
-                System.out.printf("Intent?");
-                System.out.println(server.getApi().getIntents().contains(Intent.GUILD_MEMBERS));
                 return ListValue.wrap(server.getMembers().stream().map(UserValue::new).collect(Collectors.toList()));
             default:
                 return Value.NULL;
