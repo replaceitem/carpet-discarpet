@@ -101,6 +101,8 @@ Queryable:
 
 `users` (List of Users) All users in this server (this requires the member [intent](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Setup.md#Intents))
 
+`channels` (List of Channels) All channels in this server
+
 ## User
 
 `dc_user`
