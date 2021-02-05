@@ -1,8 +1,5 @@
 package Discarpet.script.events;
 
-import Discarpet.script.values.MessageValue;
-import Discarpet.script.values.ReactionValue;
-import Discarpet.script.values.UserValue;
 import carpet.CarpetServer;
 import carpet.script.CarpetEventServer.Event;
 import carpet.script.value.EntityValue;
@@ -15,9 +12,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
-import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.message.Reaction;
-import org.javacord.api.entity.user.User;
 
 import java.util.Arrays;
 

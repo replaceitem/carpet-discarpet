@@ -22,10 +22,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javacord.api.entity.intent.Intent;
@@ -84,6 +82,10 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 				source = null;
 			}
 		}
+		discordBots.forEach((s, bot) -> {
+			bot.api.disconnect();
+			bot.api = null;
+		});
 		discordBots.clear();
 		try {
 			Path configDir = FabricLoader.getInstance().getConfigDir().normalize();
@@ -91,7 +93,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 			Path configFile = configDir.resolve("discarpet.json").normalize();
 			boolean created = Config.load(configFile.toFile());
 			if(created) {
-				Discarpet.LOGGER.warn("[Discarpet] No config file present, generating empty file. To specify your bots, edit config/discarpet.json");
+				Discarpet.LOGGER.warn("No config file present, generating empty file. To specify your bots, edit config/discarpet.json");
 			}
 			Config.getInstance().toFile(configFile.toFile());
 			if(created) return;
