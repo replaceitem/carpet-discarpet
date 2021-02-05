@@ -17,7 +17,9 @@ The file should look like this by default:
   "bots": [
     {
       "bot_id": "Your Bot ID",
-      "bot_token": "Your Bot Token"
+      "bot_token": "Your Bot Token",
+      "member_intent": false,
+      "presence_intent": false
     }
   ]
 }
@@ -25,7 +27,10 @@ The file should look like this by default:
 
 To add your bot to the game, copy and paste your Bot token from the Developer portal into the `"Your Bot Token"` field.
 The `"bot_id"` is used to identify your bot in scarpet later. You should just give the bot a name so you can identify it.
-This doesnt need to be what you called it in the developer portal, it's just an arbitrary name.
+This doesnt need to be what you called it in the developer portal,
+it's just an arbitrary name.
+The `member_intent` and `presence_intent` can be set to `true` if these intents are needed by your bots.
+For more info, see the section about [indents](#Indents).
 
 Now your config should look something like this:
 
@@ -34,7 +39,9 @@ Now your config should look something like this:
   "bots": [
     {
       "bot_id": "coolbot",
-      "bot_token": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
+      "bot_token": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",
+      "member_intent": false,
+      "presence_intent": false
     }
   ]
 }
@@ -88,7 +95,13 @@ the value will have the context of the bot of the script. That would mean that i
 and add a reaction there, ther user of the reaction will still be from the script where the event happened.
 Only if you query [values from ids](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#Values-from-ids),
 the bot from the config will be applied.
-# Discarpet Values
+
+# Intents
+
+In the config file, you can enable two kinds of intents for your bot.
+You should leave them as `false`, unless you use functions that require your bot to have this permission.
+In that case, you also need to enable the permissions in the Discord developer portal (Bot/Privileged Gateway Intents).
+There is a hint at all functions that need an additional Intent so you know when you need them.# Discarpet Values
 
 Discarpet adds various new value types to scarpet, that wrap a Discord value.
 This page lists all of them and which values can be queried from it.
@@ -187,7 +200,9 @@ Queryable:
 
 `name` (String) The name of the server
 
-` id` (String) The ID of the server
+`id` (String) The ID of the server
+
+`users` (List of Users) All users in this server (this requires the member [intent](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Setup.md#Intents))
 
 ## User
 
@@ -545,3 +560,40 @@ dc_build_embed(e,'thumbnail','https://avatars3.githubusercontent.com/u/40722305?
 dc_send_message(dc_channel_from_id('YOUR CHANNEL'),e);
 ```
 See [`dc_build_embed()`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#dc_build_embed-dc_build_embedpropertyvalue)
+
+## Chat between Minecraft and Discord
+
+```py
+__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+
+global_executions = 0;
+global_chat = dc_channel_from_id('CHANNEL ID');
+
+__on_tick() -> (
+    global_executions = 0;
+);
+
+__parse_mentions(msg,server) -> (
+    for(server~'users',
+        msg = replace(msg,'@' + dc_get_display_name(_,server),_~'mention_tag');
+    );
+    msg;
+);
+
+__on_discord_message(message) -> (
+    if(message~'channel'~'id'!=global_chat~'id',return()); //limit to chat channel only
+    if(message~'user'~'is_self',return()); //ignore messages by the bot itself
+    for(player('all'), //note that printing to individual players doesn't trigger __on_system_message(), which is what we want
+        print(_,format(str('%s [%s]',col,dc_get_display_name(message~'user',message~'server')))+format(str('#7289DA  %s',message~'readable_content')))
+    );
+);
+
+__on_system_message(text,type,entity) -> (
+    global_executions += 1; //prevent recursion
+    if(global_executions < 10,
+        if(!(type~'admin') && !(type~'commands.save.'), //dont send 'saving world' messages and admin messages
+            dc_send_message(global_chat,__parse_mentions(text,global_chat~'server')); //send to discord
+        );
+    );
+);
+```
