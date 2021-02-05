@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import static Discarpet.Discarpet.LOGGER;
 
 public class Bot {
-	public DiscordApi api = null;
+	public DiscordApi api;
 	public String id;
 	public DiscordApi getApi() {
 		return api;
@@ -29,12 +29,16 @@ public class Bot {
 			api = new DiscordApiBuilder().setToken(token).setAllIntentsWhere(intent -> {
 				return !intent.isPrivileged() || intents.contains(intent);
 			}).login().join();
+
+			String msg;
 			if(intents.size() == 0) {
-				LOGGER.info("[Discarpet] Bot " + id + " sucessfully logged in");
+				msg = "Bot " + id + " sucessfully logged in";
 			} else {
-				LOGGER.info("[Discarpet] Bot " + id + " sucessfully logged in with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(",")));
+				msg = "Bot " + id + " sucessfully logged in with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(","));
 			}
-			if(source != null) source.sendFeedback(new LiteralText("[Discarpet] Bot " + id + " sucessfully logged in").formatted(Formatting.DARK_GREEN),false);
+			if(source != null) source.sendFeedback(new LiteralText(msg),false);
+			LOGGER.info(msg);
+			api.getListeners().keySet().forEach(globallyAttachableListener -> api.removeListener(globallyAttachableListener));
 			api.addMessageCreateListener(event -> {
 				DiscordEvents.DISCORD_MESSAGE.onDiscordMessage(this,event.getMessage());
 			});
@@ -60,8 +64,9 @@ public class Bot {
 			});
 
 		} catch (CompletionException ce) {
-			LOGGER.warn("[Discarpet] Invalid bot token for bot " + id + "!");
-			if(source != null) source.sendFeedback(new LiteralText("[Discarpet] Invalid bot token for bot " + id + "!").formatted(Formatting.RED),false);
+			String error = "Invalid bot token for bot " + id + "!";
+			LOGGER.warn(error);
+			if(source != null) source.sendFeedback(new LiteralText(error).formatted(Formatting.RED),false);
 			api = null;
 		}
 	}
