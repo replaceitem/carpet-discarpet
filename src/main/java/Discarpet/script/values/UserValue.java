@@ -1,10 +1,13 @@
 package Discarpet.script.values;
 
+import carpet.script.value.ListValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.Tag;
 import org.javacord.api.entity.user.User;
+
+import java.util.List;
 
 public class UserValue extends Value {
 
@@ -35,8 +38,32 @@ public class UserValue extends Value {
         }
     }
 
+    public Value setProperty(String property, List<Value> values) {
+        switch (property) {
+            case "nickname":
+                if(values.size() < 2) return Value.NULL;
+                if(!(values.get(0) instanceof ServerValue)) return Value.NULL;
+                user.updateNickname(((ServerValue) values.get(0)).server, values.get(1).getString());
+                return Value.TRUE;
+            default:
+                return Value.NULL;
+        }
+    }
+
     @Override
     public Value in(Value value1) {
+        if(value1 instanceof ListValue) {
+            if(value1.length() < 2) {
+                return Value.NULL;
+            } else {
+                List<Value> args = ((ListValue) value1).getItems();
+                System.out.println("args = " + args);
+                String property = args.get(0).getString();
+                args = args.subList(1,args.size());
+                System.out.println("args = " + args);
+                return setProperty(property,args);
+            }
+        }
         return getProperty(value1.getString());
     }
 
