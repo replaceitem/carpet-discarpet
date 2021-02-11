@@ -83,8 +83,10 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 			}
 		}
 		discordBots.forEach((s, bot) -> {
-			bot.api.disconnect();
-			bot.api = null;
+			if(bot != null) {
+				if(bot.api != null) bot.api.disconnect();
+				bot.api = null;
+			}
 		});
 		discordBots.clear();
 		try {
@@ -98,12 +100,12 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 			Config.getInstance().toFile(configFile.toFile());
 			if(created) return;
 			for (BotConfig s : Config.getInstance().BOTS) {
+				if(s == null) continue;
 				HashSet<Intent> intents = new HashSet<>();
 				if(s.PRESENCE_INTENT) intents.add(Intent.GUILD_PRESENCES);
 				if(s.MEMBER_INTENT) intents.add(Intent.GUILD_MEMBERS);
 				Bot bot = new Bot(s.BOT_ID,s.BOT_TOKEN,intents,source);
-				if(bot.getApi() == null) continue;
-				discordBots.put(s.BOT_ID, bot);
+				discordBots.put(bot.id, bot);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
