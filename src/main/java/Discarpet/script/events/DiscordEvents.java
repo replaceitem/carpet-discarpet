@@ -9,7 +9,6 @@ import carpet.CarpetServer;
 import carpet.script.CarpetEventServer;
 import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
-import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.World;
 import carpet.script.CarpetEventServer.Event;
@@ -35,6 +34,7 @@ public class DiscordEvents extends Event {
 
     public static DiscordEvents DISCORD_MESSAGE = new DiscordEvents("discord_message", 1, false) {
         public void onDiscordMessage(Bot bot, Message message) {
+            if(bot == null) return;
             if(CarpetServer.minecraft_server != null && !CarpetServer.minecraft_server.isRunning()) return; //prevent errors when message comes while stopping
             callHandlerInBotApps(bot,() -> {
                 return Arrays.asList(new MessageValue(message));
@@ -52,6 +52,7 @@ public class DiscordEvents extends Event {
 
     public static DiscordEvents DISCORD_REACTION = new DiscordEvents("discord_reaction", 3, false) {
         public void onDiscordReaction(Bot bot, Reaction reaction, User user, boolean added) {
+            if(bot == null) return;
             if(CarpetServer.minecraft_server != null && !CarpetServer.minecraft_server.isRunning()) return; //prevent errors when message comes while stopping
             callHandlerInBotApps(bot,() -> {
                 return Arrays.asList(new ReactionValue(reaction),new UserValue(user), new NumericValue(added));
