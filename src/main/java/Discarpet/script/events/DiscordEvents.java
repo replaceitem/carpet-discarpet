@@ -9,6 +9,7 @@ import carpet.CarpetServer;
 import carpet.script.CarpetEventServer;
 import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
+import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.World;
 import carpet.script.CarpetEventServer.Event;
@@ -38,7 +39,11 @@ public class DiscordEvents extends Event {
             callHandlerInBotApps(bot,() -> {
                 return Arrays.asList(new MessageValue(message));
             }, () -> {
-                return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
+                try {
+                    return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
+                } catch (NullPointerException npe) {
+                    return null;
+                }
             });
         }
     };
@@ -51,7 +56,11 @@ public class DiscordEvents extends Event {
             callHandlerInBotApps(bot,() -> {
                 return Arrays.asList(new ReactionValue(reaction),new UserValue(user), new NumericValue(added));
             }, () -> {
-                return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
+                try {
+                    return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
+                } catch (NullPointerException npe) {
+                    return null;
+                }
             });
         }
     };
@@ -59,11 +68,12 @@ public class DiscordEvents extends Event {
     public void callHandlerInBotApps(Bot triggerBot, Supplier<List<Value>> argumentSupplier, Supplier<ServerCommandSource> cmdSourceSupplier) {
         if (handler.callList.size() > 0) {
             List<Value> argv = (List)argumentSupplier.get();
-            ServerCommandSource source = (ServerCommandSource)cmdSourceSupplier.get();
+            ServerCommandSource source = cmdSourceSupplier.get();
+            if(source == null) return;
 
             assert argv.size() == handler.reqArgs;
 
-            List<CarpetEventServer.Callback> fails = new ArrayList();
+            List<CarpetEventServer.Callback> fails = new ArrayList<>();
             Iterator var6 = handler.callList.iterator();
 
             CarpetEventServer.Callback call;
