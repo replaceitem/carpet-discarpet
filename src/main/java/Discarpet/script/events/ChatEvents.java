@@ -3,9 +3,9 @@ package Discarpet.script.events;
 import carpet.CarpetServer;
 import carpet.script.CarpetEventServer.Event;
 import carpet.script.value.EntityValue;
-import carpet.script.value.NullValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
+import carpet.script.value.Value;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
@@ -40,7 +40,7 @@ public class ChatEvents extends Event {
                     message = text.getString();
                     type = text.getClass().getName();
                 }
-                if(entity == null) return Arrays.asList(new StringValue(message), new StringValue(type),new NullValue());
+                if(entity == null) return Arrays.asList(new StringValue(message), new StringValue(type), Value.NULL);
                 return Arrays.asList(new StringValue(message), new StringValue(type),new EntityValue(entity));
 
             }, () -> {
