@@ -30,7 +30,7 @@ The `"bot_id"` is used to identify your bot in scarpet later. You should just gi
 This doesnt need to be what you called it in the developer portal,
 it's just an arbitrary name.
 The `member_intent` and `presence_intent` can be set to `true` if these intents are needed by your bots.
-For more info, see the section about [indents](#Indents).
+For more info, see the section about [intents](#Intents).
 
 Now your config should look something like this:
 
@@ -101,7 +101,9 @@ the bot from the config will be applied.
 In the config file, you can enable two kinds of intents for your bot.
 You should leave them as `false`, unless you use functions that require your bot to have this permission.
 In that case, you also need to enable the permissions in the Discord developer portal (Bot/Privileged Gateway Intents).
-There is a hint at all functions that need an additional Intent so you know when you need them.# Discarpet Values
+There is a hint at all functions that need an additional Intent so you know when you need them.
+
+# Discarpet Values
 
 Discarpet adds various new value types to scarpet, that wrap a Discord value.
 This page lists all of them and which values can be queried from it.
