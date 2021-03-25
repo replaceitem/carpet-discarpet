@@ -96,7 +96,7 @@ and add a reaction there, ther user of the reaction will still be from the scrip
 Only if you query [values from ids](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#Values-from-ids),
 the bot from the config will be applied.
 
-# Intents
+## Intents
 
 In the config file, you can enable two kinds of intents for your bot.
 You should leave them as `false`, unless you use functions that require your bot to have this permission.
