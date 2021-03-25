@@ -30,7 +30,7 @@ The `"bot_id"` is used to identify your bot in scarpet later. You should just gi
 This doesnt need to be what you called it in the developer portal,
 it's just an arbitrary name.
 The `member_intent` and `presence_intent` can be set to `true` if these intents are needed by your bots.
-For more info, see the section about [intents](#Intents).
+For more info, see the section about [indtnts](#Intents).
 
 Now your config should look something like this:
 
