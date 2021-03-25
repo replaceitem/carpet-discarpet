@@ -102,3 +102,4 @@ In the config file, you can enable two kinds of intents for your bot.
 You should leave them as `false`, unless you use functions that require your bot to have this permission.
 In that case, you also need to enable the permissions in the Discord developer portal (Bot/Privileged Gateway Intents).
 There is a hint at all functions that need an additional Intent so you know when you need them.
+
