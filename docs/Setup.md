@@ -30,7 +30,7 @@ The `"bot_id"` is used to identify your bot in scarpet later. You should just gi
 This doesnt need to be what you called it in the developer portal,
 it's just an arbitrary name.
 The `member_intent` and `presence_intent` can be set to `true` if these intents are needed by your bots.
-For more info, see the section about [indents](#Indents).
+For more info, see the section about [intents](#Intents).
 
 Now your config should look something like this:
 
@@ -96,9 +96,10 @@ and add a reaction there, ther user of the reaction will still be from the scrip
 Only if you query [values from ids](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#Values-from-ids),
 the bot from the config will be applied.
 
-# Intents
+## Intents
 
 In the config file, you can enable two kinds of intents for your bot.
 You should leave them as `false`, unless you use functions that require your bot to have this permission.
 In that case, you also need to enable the permissions in the Discord developer portal (Bot/Privileged Gateway Intents).
 There is a hint at all functions that need an additional Intent so you know when you need them.
+
