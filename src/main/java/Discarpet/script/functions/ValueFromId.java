@@ -16,51 +16,49 @@ import java.util.Collection;
 import java.util.Optional;
 
 import static Discarpet.Discarpet.*;
-import static carpet.script.LazyValue.FALSE;
-import static carpet.script.LazyValue.NULL;
 
 public class ValueFromId {
     public static void apply(Expression expr) {
 
-        expr.addLazyFunction("dc_channel_from_id", 1, (c, t, lv) -> {
+        expr.addContextFunction("dc_channel_from_id", 1, (c, t, lv) -> {
             Bot b = getBotInContext(c);
             if(b==null) scarpetNoBotException("dc_channel_from_id");
 
-            Optional<Channel> optionalChannel = b.api.getChannelById(lv.get(0).evalValue(c).getString());
+            Optional<Channel> optionalChannel = b.api.getChannelById(lv.get(0).getString());
             if(optionalChannel.isPresent() && optionalChannel.get() instanceof TextChannel) {
-                return (cc, tt) -> new ChannelValue((TextChannel) optionalChannel.get());
+                return new ChannelValue((TextChannel) optionalChannel.get());
             } else {
-                return FALSE;
+                return Value.FALSE;
             }
         });
 
-        expr.addLazyFunction("dc_server_from_id", 1, (c, t, lv) -> {
+        expr.addContextFunction("dc_server_from_id", 1, (c, t, lv) -> {
             Bot b = getBotInContext(c);
             if(b==null) scarpetNoBotException("dc_server_from_id");
 
-            Optional<Server> optionalServer = b.api.getServerById(lv.get(0).evalValue(c).getString());
+            Optional<Server> optionalServer = b.api.getServerById(lv.get(0).getString());
             if(optionalServer.isPresent() && optionalServer.get() instanceof Server) {
-                return (cc, tt) -> new ServerValue(optionalServer.get());
+                return new ServerValue(optionalServer.get());
             } else {
-                return FALSE;
+                return Value.FALSE;
             }
         });
 
-        expr.addLazyFunction("dc_emoji_from_id", 2, (c, t, lv) -> {
+        expr.addContextFunction("dc_emoji_from_id", 2, (c, t, lv) -> {
             Bot b = getBotInContext(c);
             if(b==null) scarpetNoBotException("dc_emoji_from_id");
 
-            Value serverValue = lv.get(0).evalValue(c);
-            Value emojiValue = lv.get(1).evalValue(c);
+            Value serverValue = lv.get(0);
+            Value emojiValue = lv.get(1);
             if(!(serverValue instanceof ServerValue)) scarpetException("dc_get_display_name","server",0);
 
             Optional<KnownCustomEmoji> optionalEmoji = (((ServerValue) serverValue).server.getCustomEmojiById(emojiValue.getString()));
 
-            if(optionalEmoji.isPresent()) return (cc, tt) -> new EmojiValue(optionalEmoji.get());
+            if(optionalEmoji.isPresent()) return new EmojiValue(optionalEmoji.get());
 
             Collection<KnownCustomEmoji> emojis = (((ServerValue) serverValue).server.getCustomEmojisByName(emojiValue.getString()));
 
-            return (cc,tt) -> ListValue.wrap(emojis.stream().map(EmojiValue::new));
+            return ListValue.wrap(emojis.stream().map(EmojiValue::new));
         });
     }
 }

@@ -8,23 +8,22 @@ import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.entity.user.UserStatus;
 
 import static Discarpet.Discarpet.*;
-import static carpet.script.LazyValue.*;
 
 public class Set {
     public static void apply(Expression expr) {
 
-        expr.addLazyFunction("dc_set_channel_topic", 2, (c, t, lv) -> {
-            Value channelValue = lv.get(0).evalValue(c);
+        expr.addContextFunction("dc_set_channel_topic", 2, (c, t, lv) -> {
+            Value channelValue = lv.get(0);
             if(!(channelValue instanceof ChannelValue)) scarpetException("dc_set_channel_topic","channel",0);
-            ((ChannelValue) channelValue).channel.updateTopic(lv.get(1).evalValue(c).getString());
-            return TRUE;
+            ((ChannelValue) channelValue).channel.updateTopic(lv.get(1).getString());
+            return Value.TRUE;
         });
 
-        expr.addLazyFunction("dc_set_activity", 2, (c, t, lv) -> {
+        expr.addContextFunction("dc_set_activity", 2, (c, t, lv) -> {
             Bot b = getBotInContext(c);
             if(b==null) scarpetNoBotException("dc_set_activity");
 
-            String actitvity = lv.get(0).evalValue(c).getString();
+            String actitvity = lv.get(0).getString();
             ActivityType activityType = null;
             for(ActivityType type : ActivityType.values()) {
                 if(type.toString().equalsIgnoreCase(actitvity)) {
@@ -33,17 +32,17 @@ public class Set {
                 }
             }
 
-            if(activityType == null) return FALSE;
-            String text = lv.get(1).evalValue(c).getString();
+            if(activityType == null) return Value.FALSE;
+            String text = lv.get(1).getString();
             b.api.updateActivity(activityType,text);
-            return TRUE;
+            return Value.TRUE;
         });
 
-        expr.addLazyFunction("dc_set_status", 1, (c, t, lv) -> {
+        expr.addContextFunction("dc_set_status", 1, (c, t, lv) -> {
             Bot b = getBotInContext(c);
             if(b==null) scarpetNoBotException("dc_set_status");
 
-            String status = lv.get(0).evalValue(c).getString();
+            String status = lv.get(0).getString();
 
             UserStatus userStatus = null;
 
@@ -53,9 +52,9 @@ public class Set {
                     break;
                 }
             }
-            if(userStatus == null) return FALSE;
+            if(userStatus == null) return Value.FALSE;
             b.api.updateStatus(userStatus);
-            return TRUE;
+            return Value.TRUE;
         });
     }
 }
