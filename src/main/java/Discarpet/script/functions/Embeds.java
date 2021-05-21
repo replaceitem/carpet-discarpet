@@ -3,7 +3,6 @@ package Discarpet.script.functions;
 import Discarpet.script.values.EmbedBuilderValue;
 import Discarpet.script.values.UserValue;
 import carpet.script.Expression;
-import carpet.script.LazyValue;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.ListValue;
 import carpet.script.value.Value;
@@ -26,7 +25,7 @@ public class Embeds {
             String property = lv.get(1).getString();
             EmbedBuilder builder = ((EmbedBuilderValue) builderValue).embedBuilder;
 
-            if(lv.size()==2) throw new InternalExpressionException("'dc_build_embed' at least one argument for modifying " + property);
+            if (lv.size()==2) throw new InternalExpressionException("'dc_build_embed' at least one argument for modifying " + property);
 
             List<Value> v = new ArrayList<>(lv.subList(2, lv.size()));
 
@@ -39,7 +38,7 @@ public class Embeds {
                     return Value.TRUE;
                 case "author":
                     if(v.get(0) instanceof UserValue) {
-                        builder.setAuthor(((UserValue) v.get(0)).user);
+                        builder.setAuthor(((UserValue) v.get(0)).getUser());
                         return Value.TRUE;
                     }
                     if(v.size()==1) {
