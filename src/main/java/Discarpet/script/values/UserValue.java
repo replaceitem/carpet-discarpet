@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserValue extends Value {
 
-    public User user;
+    private final User user;
 
     public UserValue(User user) {
         this.user = user;
@@ -43,7 +43,7 @@ public class UserValue extends Value {
             case "nickname":
                 if(values.size() < 2) return Value.NULL;
                 if(!(values.get(0) instanceof ServerValue)) return Value.NULL;
-                user.updateNickname(((ServerValue) values.get(0)).server, values.get(1).getString());
+                user.updateNickname(((ServerValue) values.get(0)).getServer(), values.get(1).getString());
                 return Value.TRUE;
             default:
                 return Value.NULL;
@@ -86,4 +86,8 @@ public class UserValue extends Value {
     public Tag toTag(boolean b) {
         return null;
     }
+
+	public User getUser() {
+		return user;
+	}
 }

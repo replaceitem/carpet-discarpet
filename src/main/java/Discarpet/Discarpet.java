@@ -8,12 +8,19 @@ import Discarpet.script.functions.Embeds;
 import Discarpet.script.functions.Sending;
 import Discarpet.script.functions.Set;
 import Discarpet.script.functions.ValueFromId;
+import Discarpet.script.values.ChannelValue;
+import Discarpet.script.values.MessageValue;
+import Discarpet.script.values.ServerValue;
+import Discarpet.script.values.UserValue;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
 import carpet.script.CarpetExpression;
 import carpet.script.CarpetScriptHost;
 import carpet.script.Context;
 import carpet.script.ScriptHost;
+import carpet.script.annotation.AnnotationParser;
+import carpet.script.annotation.OutputConverter;
+import carpet.script.annotation.SimpleTypeConverter;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
@@ -26,7 +33,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.intent.Intent;
+import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.server.Server;
+import org.javacord.api.entity.user.User;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -52,6 +63,15 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void onGameStarted() {
+		SimpleTypeConverter.registerType(UserValue.class, User.class, UserValue::getUser, "user");
+		SimpleTypeConverter.registerType(ServerValue.class, Server.class, ServerValue::getServer, "server");
+		SimpleTypeConverter.registerType(MessageValue.class, Message.class, MessageValue::getMessage, "message");
+		SimpleTypeConverter.registerType(ChannelValue.class, ServerTextChannel.class, ChannelValue::getChannel, "channel");
+		OutputConverter.registerToValue(User.class, UserValue::new);
+		AnnotationParser.parseFunctionClass(Get.class);
+		AnnotationParser.parseFunctionClass(Sending.class);
+		AnnotationParser.parseFunctionClass(Set.class);
+		AnnotationParser.parseFunctionClass(ValueFromId.class);
 	}
 
 	@Override
@@ -66,10 +86,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void scarpetApi(CarpetExpression expression) {
-		Set.apply(expression.getExpr());
-		Get.apply(expression.getExpr());
 		Sending.apply(expression.getExpr());
-		ValueFromId.apply(expression.getExpr());
 		Embeds.apply(expression.getExpr());
 	}
 

@@ -1,13 +1,10 @@
 package Discarpet.script.values;
 
-import Discarpet.Discarpet;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.Tag;
-import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.emoji.Emoji;
-import org.javacord.api.entity.message.Reaction;
 
 import java.util.Optional;
 
