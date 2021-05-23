@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.4-SNAPSHOT'
+	id 'fabric-loom' version '0.7-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -24,15 +24,15 @@ dependencies {
 	//to change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
-	modCompile "carpet:fabric-carpet:${project.carpet_minecraft_version}-${project.carpet_core_version}"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "carpet:fabric-carpet:${project.carpet_minecraft_version}-${project.carpet_core_version}"
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 	//discord
 
-	modCompile "org.javacord:javacord-api:${project.javacord_version}"
-	modCompile "org.javacord:javacord-core:${project.javacord_version}"
+	modImplementation "org.javacord:javacord-api:${project.javacord_version}"
+	modImplementation "org.javacord:javacord-core:${project.javacord_version}"
 
 	include "org.javacord:javacord-api:${project.javacord_version}"
 	include "org.javacord:javacord-core:${project.javacord_version}"
@@ -46,10 +46,8 @@ dependencies {
 	//modCompile "io.vavr:vavr:0.10.1"
 	include "io.vavr:vavr:0.10.1"
 
-	modCompile "com.vdurmont:emoji-java:5.1.1"
+	modImplementation "com.vdurmont:emoji-java:5.1.1"
 	include "com.vdurmont:emoji-java:5.1.1"
-
-
 
 
 	include "com.squareup.okhttp3:okhttp:3.9.1"
@@ -60,53 +58,19 @@ dependencies {
 	include "com.neovisionaries:nv-websocket-client:2.6"
 	include "com.squareup.okio:okio:1.13.0"
 	include "org.json:json:20170516"
-	/*
-	modCompile "org.javacord:javacord-api:${project.javacord_version}"
-	modCompile "org.javacord:javacord-core:${project.javacord_version}"
-	include "org.javacord:javacord-api:${project.javacord_version}"
-	include "org.javacord:javacord-api:${project.javacord_version}"
-	include "org.javacord:javacord-core:${project.javacord_version}"
-*/
-
-	/*
-	//modCompile "com.fasterxml.jackson.core:jackson-databind:2.12.0-rc2"
-	//modCompile "com.fasterxml.jackson.core:jackson-annotations:2.12.0-rc2"
-	//modCompile "com.fasterxml.jackson.core:jackson-core:2.12.0-rc2"
-	include "com.fasterxml.jackson.core:jackson-databind:2.12.0-rc2"
-	include "com.fasterxml.jackson.core:jackson-annotations:2.12.0-rc2"
-	include "com.fasterxml.jackson.core:jackson-core:2.12.0-rc2"
-
-
-
-	include "com.squareup.okhttp3:okhttp:3.9.1"
-	include "com.squareup.okhttp3:logging-interceptor:3.9.1"
-
-	include "com.neovisionaries:nv-websocket-client:2.6"
-	include "com.squareup.okio:okio:1.13.0"
-	include "org.json:json:20170516"
-
-
-
-	 */
-	compile 'org.apache.logging.log4j:log4j-core:2.14.1'
+	
+	implementation 'org.apache.logging.log4j:log4j-core:2.14.1'
 	include "org.apache.logging.log4j:log4j-core:2.14.1"
 	include "org.apache.logging.log4j:log4j-api:2.14.1"
 	//include "'org.apache.logging.log4j:log4j-core:jar:2.13.3'"
-
-
 
 }
 
 processResources {
 	inputs.property "version", project.version
 
-	from(sourceSets.main.resources.srcDirs) {
-		include "fabric.mod.json"
-		expand "version": project.version
-	}
-
-	from(sourceSets.main.resources.srcDirs) {
-		exclude "fabric.mod.json"
+	filesMatching("fabric.mod.json") {
+		expand "version": project.mod_version
 	}
 }
 
