@@ -50,8 +50,6 @@ dependencies {
 	include "com.vdurmont:emoji-java:5.1.1"
 
 
-
-
 	include "com.squareup.okhttp3:okhttp:3.9.1"
 	include "com.squareup.okhttp3:logging-interceptor:3.9.1"
 	include "com.fasterxml.jackson.core:jackson-databind:2.9.3"
@@ -60,53 +58,19 @@ dependencies {
 	include "com.neovisionaries:nv-websocket-client:2.6"
 	include "com.squareup.okio:okio:1.13.0"
 	include "org.json:json:20170516"
-	/*
-	modCompile "org.javacord:javacord-api:${project.javacord_version}"
-	modCompile "org.javacord:javacord-core:${project.javacord_version}"
-	include "org.javacord:javacord-api:${project.javacord_version}"
-	include "org.javacord:javacord-api:${project.javacord_version}"
-	include "org.javacord:javacord-core:${project.javacord_version}"
-*/
-
-	/*
-	//modCompile "com.fasterxml.jackson.core:jackson-databind:2.12.0-rc2"
-	//modCompile "com.fasterxml.jackson.core:jackson-annotations:2.12.0-rc2"
-	//modCompile "com.fasterxml.jackson.core:jackson-core:2.12.0-rc2"
-	include "com.fasterxml.jackson.core:jackson-databind:2.12.0-rc2"
-	include "com.fasterxml.jackson.core:jackson-annotations:2.12.0-rc2"
-	include "com.fasterxml.jackson.core:jackson-core:2.12.0-rc2"
-
-
-
-	include "com.squareup.okhttp3:okhttp:3.9.1"
-	include "com.squareup.okhttp3:logging-interceptor:3.9.1"
-
-	include "com.neovisionaries:nv-websocket-client:2.6"
-	include "com.squareup.okio:okio:1.13.0"
-	include "org.json:json:20170516"
-
-
-
-	 */
+	
 	implementation 'org.apache.logging.log4j:log4j-core:2.14.1'
 	include "org.apache.logging.log4j:log4j-core:2.14.1"
 	include "org.apache.logging.log4j:log4j-api:2.14.1"
 	//include "'org.apache.logging.log4j:log4j-core:jar:2.13.3'"
-
-
 
 }
 
 processResources {
 	inputs.property "version", project.version
 
-	from(sourceSets.main.resources.srcDirs) {
-		include "fabric.mod.json"
-		expand "version": project.version
-	}
-
-	from(sourceSets.main.resources.srcDirs) {
-		exclude "fabric.mod.json"
+	filesMatching("fabric.mod.json") {
+		expand "version": project.mod_version
 	}
 }
 
