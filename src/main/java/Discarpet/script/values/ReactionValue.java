@@ -2,7 +2,7 @@ package Discarpet.script.values;
 
 import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtElement;
 import org.javacord.api.entity.message.Reaction;
 
 public class ReactionValue extends Value {
@@ -47,7 +47,7 @@ public class ReactionValue extends Value {
     }
 
     @Override
-    public Tag toTag(boolean b) {
+    public NbtElement toTag(boolean b) {
         return null;
     }
 }
