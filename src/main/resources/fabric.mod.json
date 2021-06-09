@@ -29,7 +29,7 @@
   "depends": {
     "minecraft": "1.16.x",
     "fabricloader": ">=0.4.0",
-    "carpet": "*"
+    "carpet": ">=1.4.38"
   },
   "suggests": {
     "flamingo": "*"

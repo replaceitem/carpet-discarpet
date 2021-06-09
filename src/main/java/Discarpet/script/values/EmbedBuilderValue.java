@@ -1,10 +1,7 @@
 package Discarpet.script.values;
 
-import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.Tag;
-import org.javacord.api.entity.channel.ServerTextChannel;
-import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 public class EmbedBuilderValue extends Value {
