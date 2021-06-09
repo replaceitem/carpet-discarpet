@@ -1,6 +1,5 @@
 package Discarpet.script.values;
 
-import Discarpet.Discarpet;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import com.vdurmont.emoji.EmojiParser;
@@ -9,12 +8,11 @@ import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 
-import java.util.List;
 import java.util.Optional;
 
 public class MessageValue extends Value {
 
-    public Message message;
+    private final Message message;
 
     public MessageValue(Message message) {
         this.message = message;
@@ -82,4 +80,8 @@ public class MessageValue extends Value {
     public Tag toTag(boolean b) {
         return null;
     }
+
+	public Message getMessage() {
+		return message;
+	}
 }

@@ -4,14 +4,13 @@ import carpet.script.value.ListValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.Tag;
-import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.entity.server.Server;
 
 import java.util.stream.Collectors;
 
 public class ServerValue extends Value {
 
-    public Server server;
+    private final Server server;
 
     public ServerValue(Server server) {
         this.server = server;
@@ -57,4 +56,8 @@ public class ServerValue extends Value {
     public Tag toTag(boolean b) {
         return null;
     }
+
+	public Server getServer() {
+		return server;
+	}
 }

@@ -8,7 +8,7 @@ import org.javacord.api.entity.channel.TextChannel;
 
 public class ChannelValue extends Value {
 
-    public ServerTextChannel channel;
+    private final ServerTextChannel channel;
 
     public ChannelValue(TextChannel channel) {
         this.channel = (ServerTextChannel) channel;
@@ -55,5 +55,9 @@ public class ChannelValue extends Value {
     @Override
     public Tag toTag(boolean b) {
         return null;
+    }
+
+    public ServerTextChannel getChannel() {
+        return channel;
     }
 }

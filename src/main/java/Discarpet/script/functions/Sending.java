@@ -6,6 +6,7 @@ import Discarpet.script.values.EmbedBuilderValue;
 import Discarpet.script.values.EmojiValue;
 import Discarpet.script.values.MessageValue;
 import carpet.script.Expression;
+import carpet.script.annotation.ScarpetFunction;
 import carpet.script.argument.FunctionArgument;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.StringValue;
@@ -17,26 +18,21 @@ import java.util.concurrent.CompletableFuture;
 import static Discarpet.Discarpet.scarpetException;
 
 public class Sending {
+	@ScarpetFunction
+	public boolean dc_react(Message message, Value emojiValue) {
+		if (!(emojiValue instanceof EmojiValue || emojiValue instanceof StringValue)) scarpetException("dc_react","emoji",1);
+		if (!message.canYouAddNewReactions()) return false;
+		
+		if(emojiValue instanceof EmojiValue) {
+            message.addReaction(((EmojiValue) emojiValue).emoji);
+        } else {
+            message.addReaction(emojiValue.getString());
+        }
+		
+		return true;
+	}
+	
     public static void apply(Expression expr) {
-        expr.addContextFunction("dc_react", 2, (c, t, lv) -> {
-            Value messageValue = lv.get(0);
-            Value emojiValue = lv.get(1);
-
-            if(!(messageValue instanceof MessageValue)) scarpetException("dc_react","message",0);
-            if(!(emojiValue instanceof EmojiValue || emojiValue instanceof StringValue)) scarpetException("dc_react","emoji",1);
-
-            if(!((MessageValue)messageValue).message.canYouAddNewReactions()) return Value.FALSE;
-
-            if(emojiValue instanceof EmojiValue) {
-                ((MessageValue)messageValue).message.addReaction(((EmojiValue) emojiValue).emoji);
-            } else {
-                ((MessageValue)messageValue).message.addReaction(emojiValue.getString());
-            }
-
-            return Value.TRUE;
-        });
-
-
         expr.addContextFunction("dc_send_message", -1, (c, t, lv) -> {
             if(!(lv.size()==2 || lv.size()==3)) throw new InternalExpressionException("'dc_send_message' requires two or tree arguments");
 
@@ -47,9 +43,9 @@ public class Sending {
 
             CompletableFuture<Message> cf;
             if(messageValue instanceof EmbedBuilderValue) {
-                cf = ((ChannelValue) channelValue).channel.sendMessage(((EmbedBuilderValue) messageValue).embedBuilder);
+                cf = ((ChannelValue) channelValue).getChannel().sendMessage(((EmbedBuilderValue) messageValue).embedBuilder);
             } else {
-                cf = ((ChannelValue) channelValue).channel.sendMessage(messageValue.getString());
+                cf = ((ChannelValue) channelValue).getChannel().sendMessage(messageValue.getString());
             }
 
             if(lv.size()==3) {
