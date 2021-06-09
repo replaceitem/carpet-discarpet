@@ -1,7 +1,7 @@
 package Discarpet.script.values;
 
 import carpet.script.value.Value;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtElement;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 public class EmbedBuilderValue extends Value {
@@ -42,7 +42,7 @@ public class EmbedBuilderValue extends Value {
     }
 
     @Override
-    public Tag toTag(boolean b) {
+    public NbtElement toTag(boolean b) {
         return null;
     }
 }

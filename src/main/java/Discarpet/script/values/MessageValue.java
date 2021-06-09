@@ -3,7 +3,7 @@ package Discarpet.script.values;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import com.vdurmont.emoji.EmojiParser;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtElement;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
@@ -77,7 +77,7 @@ public class MessageValue extends Value {
     }
 
     @Override
-    public Tag toTag(boolean b) {
+    public NbtElement toTag(boolean b) {
         return null;
     }
 
