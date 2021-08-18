@@ -1,6 +1,8 @@
 package Discarpet.script.events;
 
 import Discarpet.Discarpet;
+import Discarpet.script.values.ChannelValue;
+import Discarpet.script.values.SlashCommandInteractionValue;
 import Discarpet.script.values.UserValue;
 import Discarpet.script.values.MessageValue;
 import Discarpet.script.values.ReactionValue;
@@ -12,9 +14,11 @@ import carpet.script.value.Value;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.World;
 import carpet.script.CarpetEventServer.Event;
+import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.Reaction;
 import org.javacord.api.entity.user.User;
+import org.javacord.api.interaction.SlashCommandInteraction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +60,25 @@ public class DiscordEvents extends Event {
             if(CarpetServer.minecraft_server != null && !CarpetServer.minecraft_server.isRunning()) return; //prevent errors when message comes while stopping
             callHandlerInBotApps(bot,() -> {
                 return Arrays.asList(new ReactionValue(reaction),new UserValue(user), new NumericValue(added));
+            }, () -> {
+                try {
+                    return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
+                } catch (NullPointerException npe) {
+                    return null;
+                }
+            });
+        }
+    };
+
+
+    public void onDiscordSlashCommand(Bot bot, SlashCommandInteraction slashCommandInteraction) {}
+
+    public static DiscordEvents DISCORD_SLASH_COMMAND = new DiscordEvents("discord_slash_command", 1, false) {
+        public void onDiscordSlashCommand(Bot bot, SlashCommandInteraction slashCommandInteraction) {
+            if(bot == null) return;
+            if(CarpetServer.minecraft_server != null && !CarpetServer.minecraft_server.isRunning()) return; //prevent errors when message comes while stopping
+            callHandlerInBotApps(bot,() -> {
+                return Arrays.asList(new SlashCommandInteractionValue(slashCommandInteraction));
             }, () -> {
                 try {
                     return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));

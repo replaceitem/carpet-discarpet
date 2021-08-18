@@ -2,9 +2,7 @@ package Discarpet.script.functions;
 
 import Discarpet.Bot;
 import carpet.script.Context;
-import carpet.script.Expression;
 import carpet.script.annotation.ScarpetFunction;
-import carpet.script.value.Value;
 import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.user.UserStatus;

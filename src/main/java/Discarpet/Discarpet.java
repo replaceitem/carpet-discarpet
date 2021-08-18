@@ -5,12 +5,14 @@ import Discarpet.script.events.ChatEvents;
 import Discarpet.script.events.DiscordEvents;
 import Discarpet.script.functions.Get;
 import Discarpet.script.functions.Embeds;
+import Discarpet.script.functions.Interactions;
 import Discarpet.script.functions.Sending;
 import Discarpet.script.functions.Set;
 import Discarpet.script.functions.ValueFromId;
 import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.MessageValue;
 import Discarpet.script.values.ServerValue;
+import Discarpet.script.values.SlashCommandInteractionValue;
 import Discarpet.script.values.UserValue;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
@@ -38,6 +40,7 @@ import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
+import org.javacord.api.interaction.SlashCommandInteraction;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -67,6 +70,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		SimpleTypeConverter.registerType(ServerValue.class, Server.class, ServerValue::getServer, "server");
 		SimpleTypeConverter.registerType(MessageValue.class, Message.class, MessageValue::getMessage, "message");
 		SimpleTypeConverter.registerType(ChannelValue.class, ServerTextChannel.class, ChannelValue::getChannel, "channel");
+		SimpleTypeConverter.registerType(SlashCommandInteractionValue.class, SlashCommandInteraction.class, SlashCommandInteractionValue::getSlashCommandInteraction, "slash_command_interaction");
 		OutputConverter.registerToValue(User.class, UserValue::new);
 		AnnotationParser.parseFunctionClass(Get.class);
 		AnnotationParser.parseFunctionClass(Sending.class);
@@ -88,6 +92,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	public void scarpetApi(CarpetExpression expression) {
 		Sending.apply(expression.getExpr());
 		Embeds.apply(expression.getExpr());
+		Interactions.apply(expression.getExpr());
 	}
 
 
@@ -122,7 +127,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 				if(s.PRESENCE_INTENT) intents.add(Intent.GUILD_PRESENCES);
 				if(s.MEMBER_INTENT) intents.add(Intent.GUILD_MEMBERS);
 				Bot bot = new Bot(s.BOT_ID,s.BOT_TOKEN,intents,source);
-				discordBots.put(bot.id, bot);
+				if(bot.api != null) discordBots.put(bot.id, bot);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
