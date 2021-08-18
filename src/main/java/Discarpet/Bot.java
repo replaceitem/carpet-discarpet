@@ -62,11 +62,16 @@ public class Bot {
 					});
 				}
 			});
+			api.addSlashCommandCreateListener(event -> {
+				DiscordEvents.DISCORD_SLASH_COMMAND.onDiscordSlashCommand(this,event.getSlashCommandInteraction());
+			});
 
 		} catch (CompletionException ce) {
-			String error = "Invalid bot token for bot " + id + "!";
+			String error = "Could not login bot " + id;
 			LOGGER.warn(error);
+			ce.getCause().printStackTrace();
 			if(source != null) source.sendFeedback(new LiteralText(error).formatted(Formatting.RED),false);
+			ce.printStackTrace();
 			api = null;
 		}
 	}

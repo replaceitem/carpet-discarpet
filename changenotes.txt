@@ -1,0 +1,3 @@
+slash commands
+
+better error handling for logging in bots
