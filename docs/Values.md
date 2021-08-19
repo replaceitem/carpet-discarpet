@@ -140,3 +140,21 @@ Queryable:
 `user` ([User](#User)) The user that executed the command.
 
 `channel` ([Channel](#Channel)) The channel this command was executed in.
+
+## Button and Select menu interaction
+
+`dc_button_interaction`, `dc_select_menu_interaction`
+
+Value from `__on_discord_button(interaction)` and `__on_discord_select_menu(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_slash_command()`
+
+These values have mostly the same things to query.
+
+Queryable:
+
+`id` (String) Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter
+
+`channel` ([Channel](#Channel)) The channel this interaction was made in.
+
+`user` ([User](#User)) The user that used the interaction.
+
+`message` ([Message](#Message)) The message this interaction is attached to.
