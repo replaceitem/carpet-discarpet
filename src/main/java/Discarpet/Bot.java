@@ -8,6 +8,9 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.entity.message.Reaction;
+import org.javacord.api.interaction.ButtonInteraction;
+import org.javacord.api.interaction.MessageComponentInteraction;
+import org.javacord.api.interaction.SelectMenuInteraction;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -64,6 +67,15 @@ public class Bot {
 			});
 			api.addSlashCommandCreateListener(event -> {
 				DiscordEvents.DISCORD_SLASH_COMMAND.onDiscordSlashCommand(this,event.getSlashCommandInteraction());
+			});
+			api.addMessageComponentCreateListener(event -> {
+				MessageComponentInteraction messageComponentInteraction = event.getMessageComponentInteraction();
+
+				Optional<ButtonInteraction> buttonInteraction = messageComponentInteraction.asButtonInteraction();
+				buttonInteraction.ifPresent(interaction -> DiscordEvents.DISCORD_BUTTON.onDiscordButton(this, interaction));
+
+				Optional<SelectMenuInteraction> selectMenuInteraction = messageComponentInteraction.asSelectMenuInteraction();
+				selectMenuInteraction.ifPresent(interaction -> DiscordEvents.DISCORD_BUTTON.onDiscordSelectMenu(this, interaction));
 			});
 
 		} catch (CompletionException ce) {

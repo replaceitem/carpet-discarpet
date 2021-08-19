@@ -20,9 +20,14 @@ import org.javacord.api.interaction.SlashCommandOption;
 import org.javacord.api.interaction.SlashCommandOptionBuilder;
 import org.javacord.api.interaction.SlashCommandOptionChoice;
 import org.javacord.api.interaction.SlashCommandOptionType;
+import org.javacord.api.interaction.callback.ExtendedInteractionMessageBuilderBase;
 import org.javacord.api.interaction.callback.InteractionFollowupMessageBuilder;
 import org.javacord.api.interaction.callback.InteractionImmediateResponseBuilder;
+import org.javacord.api.interaction.callback.InteractionMessageBuilderBase;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -107,17 +112,17 @@ public class Interactions {
         });
 
 
-        expr.addContextFunction("dc_respond_slash_command",-1, (c, t, lv) -> {
-            if(lv.size() < 2 || lv.size() > 3) throw new InternalExpressionException("'dc_respond_slash_command' expected 2 or 3 parameters");
+        expr.addContextFunction("dc_respond_interaction",-1, (c, t, lv) -> {
+            if(lv.size() < 2 || lv.size() > 3) throw new InternalExpressionException("'dc_respond_interaction' expected 2 or 3 parameters");
             Value slashCommandInteractionValue = lv.get(0);
-            if(!(slashCommandInteractionValue instanceof SlashCommandInteractionValue)) throw new InternalExpressionException("'dc_respond_slash_command' expected a dc_slash_command_interaction value as the first argument");
+            if(!(slashCommandInteractionValue instanceof SlashCommandInteractionValue)) throw new InternalExpressionException("'dc_respond_interaction' expected a message interaction or slash command value as the first argument");
             SlashCommandInteraction slashCommandInteraction = ((SlashCommandInteractionValue) slashCommandInteractionValue).slashCommandInteraction;
             String type = lv.get(1).getString();
 
             if(type.equalsIgnoreCase("RESPOND_LATER")) {
                 slashCommandInteraction.respondLater();
             } else if (type.equalsIgnoreCase("RESPOND_IMMEDIATELY") || type.equalsIgnoreCase("RESPOND_FOLLOWUP")) {
-                if(lv.size() != 3) throw new InternalExpressionException("'dc_respond_slash_command' expected a third argument for " + type);
+                if(lv.size() != 3) throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + type);
                 Value content = lv.get(2);
                 if(type.equalsIgnoreCase("RESPOND_IMMEDIATELY")) {
                     InteractionImmediateResponseBuilder immediateResponder = slashCommandInteraction.createImmediateResponder();
@@ -130,7 +135,7 @@ public class Interactions {
                     else followupMessageBuilder.setContent(content.getString());
                     followupMessageBuilder.send();
                 }
-            } else throw new InternalExpressionException("invalid response type for 'dc_respond_slash_command', expected RESPOND_LATER, RESPOND_IMMEDIATELY or RESPOND_FOLLOWUP");
+            } else throw new InternalExpressionException("invalid response type for 'dc_respond_interaction', expected RESPOND_LATER, RESPOND_IMMEDIATELY or RESPOND_FOLLOWUP");
             return Value.TRUE;
         });
     }
@@ -209,6 +214,101 @@ public class Interactions {
             return SlashCommandOptionChoice.create(name, ((NumericValue)valueValue).getInt());
         } else {
             return SlashCommandOptionChoice.create(name, valueValue.getString());
+        }
+    }
+
+//SAME AS Sending.messageBuilderFromValue but for some reason they dont share a common interface, even though same methods -_-
+
+    public static InteractionMessageBuilderBase<?> interactionMessageFromValue(Value value, InteractionMessageBuilderBase<?> interactionMessageBuilderBase) {
+        if(value instanceof StringValue) {
+            interactionMessageBuilderBase.setContent(value.getString());
+            return interactionMessageBuilderBase;
+        }
+
+        if(value instanceof EmbedBuilderValue) {
+            interactionMessageBuilderBase.addEmbed(((EmbedBuilderValue) value).embedBuilder);
+            return interactionMessageBuilderBase;
+        }
+
+        if(value instanceof MapValue) {
+            Map<Value, Value> map = ((MapValue) value).getMap();
+
+            Value contentValue = map.get(new StringValue("content"));
+            interactionMessageBuilderBase.setContent(contentValue.getString());
+
+
+            Value attachmentsValue = map.get(new StringValue("attachments"));
+            if(attachmentsValue != null) {
+                if (attachmentsValue instanceof ListValue) {
+                    if(!(interactionMessageBuilderBase instanceof ExtendedInteractionMessageBuilderBase)) throw new InternalExpressionException("Cannot add attachments for RESPOND_IMMEDIATELY");
+                    for (Value v : ((ListValue) attachmentsValue).getItems()) {
+                        addAttachmentFromValue((ExtendedInteractionMessageBuilderBase<?>) interactionMessageBuilderBase, v);
+                    }
+                } else throw new InternalExpressionException("Expected a list as 'attachments' value");
+            }
+
+            Value embedsValue = map.get(new StringValue("embeds"));
+            if(embedsValue != null) {
+                if (embedsValue instanceof ListValue) {
+                    for (Value v : ((ListValue) embedsValue).getItems()) {
+                        if(v instanceof EmbedBuilderValue) {
+                            interactionMessageBuilderBase.addEmbed(((EmbedBuilderValue) v).embedBuilder);
+                        } else throw new InternalExpressionException("'embeds' list expected only embed builder values");
+                    }
+                } else throw new InternalExpressionException("Expected a list as 'embeds' value");
+            }
+
+
+            Value componentsValue = map.get(new StringValue("components"));
+            if(componentsValue != null) {
+                if (componentsValue instanceof ListValue) {
+                    for (Value v : ((ListValue) componentsValue).getItems()) {
+                        interactionMessageBuilderBase.addComponents(Sending.getActionRowFromValue(v));
+                    }
+                } else throw new InternalExpressionException("Expected a list as 'components' value");
+            }
+        }
+
+        return interactionMessageBuilderBase;
+    }
+
+    public static void addAttachmentFromValue(ExtendedInteractionMessageBuilderBase<?> interactionMessageBuilderBase, Value value) {
+        if(!(value instanceof MapValue)) throw new InternalExpressionException("Expected a map as entry in 'attachments'");
+        Map<Value, Value> map = ((MapValue) value).getMap();
+
+        boolean spoiler = map.getOrDefault(new StringValue("spoiler"),Value.FALSE).getBoolean();
+
+        Value fileValue = map.get(new StringValue("file"));
+        if(fileValue != null) {
+            File file = new File(fileValue.getString());
+            if(!file.exists()) throw new InternalExpressionException("Invalid path for attachment file '" + fileValue.getString() + "'");
+            if(spoiler) interactionMessageBuilderBase.addAttachmentAsSpoiler(file);
+            else interactionMessageBuilderBase.addAttachment(file);
+            return;
+        }
+
+        Value urlValue = map.get(new StringValue("url"));
+        if(urlValue != null) {
+            URL url;
+            try {
+                url = new URL(urlValue.getString());
+            } catch (MalformedURLException e) {
+                throw new InternalExpressionException("Invalid URL for attachment file '" + urlValue.getString() + "': " + e.toString());
+            }
+            if(spoiler) interactionMessageBuilderBase.addAttachmentAsSpoiler(url);
+            else interactionMessageBuilderBase.addAttachment(url);
+            return;
+        }
+
+
+        Value bytesValue = map.get(new StringValue("bytes"));
+        if(bytesValue != null) {
+            Value nameValue = map.get(new StringValue("name"));
+            if(nameValue == null) throw new InternalExpressionException("Missing 'name' for 'bytes' attachment type");
+            String name = nameValue.getString();
+            byte[] data = bytesValue.getString().getBytes();
+            if(spoiler) interactionMessageBuilderBase.addAttachmentAsSpoiler(data,name);
+            else interactionMessageBuilderBase.addAttachment(data,name);
         }
     }
 }
