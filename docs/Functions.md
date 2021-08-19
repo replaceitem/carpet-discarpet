@@ -115,3 +115,116 @@ dc_send_message(dc_channel_from_id('CHANNEL ID HERE'),e);
 Which gives this result:
 
 ![Example embed](/docs/embed.png)
+
+## Interactions
+
+### `dc_create_slash_command(name, description, server)` `dc_create_slash_command(name, description, server, options)`
+
+Function for creating slash commands for the bot. When called with 3 parameters,
+only a simple command with no additional options or subcommands is created (e.g. `/ping`).
+`name` and `description` are shown by discord inside the slash command menu.
+When specifying a `server`, the slash command will only be for that particular server.
+If `server` is `null`, the slash command will be global, meaning they work in all servers the bot is in.
+*NOTE:* GLOBAL slash commands can take up to 1 hour to update, so for testing,
+you should only use server slash commands, which are created immediately.
+
+Additionally, you can specify additional options to your command.
+Options are supplied in a list, with each option being a map that specifies some parameters.
+
+e.g.:
+
+```py
+dc_create_slash_command(name, description, server, [
+    {
+        option 1
+    },
+    {
+        option 2
+    }
+])
+```
+
+Each option has multiple things you can specify:
+
+* `'type'` (String): the type of option. There are two things this can do, either:
+    * Add a subcommand group or subcommand using `'SUB_COMMAND_GROUP'` and `'SUB_COMMAND'`.
+    Sub command groups are always on the first "layer",
+    while subcommands are always one layer deeper than sub command groups. 
+    Note that this is quite limited in comparison to minecraft commands.
+    All paths of the command tree have to have either just a sub command, or a sub command group with sub commands each.
+    This means that the length of the commands (without the other options that aren't subcommands) has to be equal. 
+    See: https://canary.discord.com/developers/docs/interactions/slash-commands#nested-subcommands-and-groups
+    
+    * Add options to the back of the command, with the types:
+        * `'STRING'`
+        * `'INTEGER'`
+        * `'BOOLEAN'`
+        * `'USER'`
+        * `'CHANNEL'`
+        * `'ROLE'`
+        * `'MENTIONABLE'`
+
+* `'name'` (String): For subcommands, this is the name of the subcommands, and for other options,
+this is the name displayed by discord
+
+* `'description'` (String): A description which will be shown in discord about the command option
+
+* `'required'` (boolean, optional): If this option is required or not. If left out, defaults to false.
+
+* `'options'` (list, optional): Sub-options to this sub command/group. This is only for subcommands or subcommand groups.
+
+* `'choices'` (list, optional): Specify value that can be autocompleted in in the slash command.
+Entries in this list are maps containing a name, and a value.
+The name is whats actually shown, and the value what will be received when executing the command.
+The value can be a string or a number.
+
+e.g.:
+
+```py
+'choices'->[
+    {
+        'name'->'Red',
+        'value'->'red'
+    },
+    {
+        'name'->'Green',
+        'value'->'green'
+    },
+    {
+        'name'->'Blue',
+        'value'->'blue'
+    }
+]
+```
+
+For full examples of commands, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md#Slash-commands)
+
+### `dc_delete_slash_command()` `dc_delete_slash_command(server)` `dc_delete_slash_command(server,name)`
+
+Used for deleting slash commands.
+Without any arguments, deletes all global and server commands of the bot.
+When a server is specified, deletes all slash commands in that server, or if the server is `null`,
+deletes all global slash commands. When a name is specified, deletes only the slash commands with that name.
+
+### `dc_respond_slash_command(interaction,type)` `dc_respond_slash_command(interaction,type,message)`
+
+This function is used for responding to slash commands.
+The first parameter is the [Slash command interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Slash-command-interaction)
+which is from the `__on_discord_slash_command(interaction)` event.
+Discord slash commands expect a response within 3 seconds after executing it.
+Either, that response is directly sending an answer,
+or telling discord that the answer will come, which gives a 15 minute time to send a followup response.
+The `type` can be one of three things:
+
+* `'RESPOND_LATER'` This does not require the third `message` parameter,
+and just tells discord that the slash command was received and an answer will come.
+This leaves the slash command message saying '>bot name< is thinking...'
+You will then need to send a RESPOND_FOLLOWUP response within 15 minutes.
+
+* `'RESPOND_IMMEDIATELY'` This sends an immediate response which has to come within 3 seconds.
+The `message` needs to be specified for this.
+
+* `'RESPOND_FOLLOWUP'` This is used for sending a followup response within 15 minutes after the `RESPOND_LATER` response has been sent.
+The `message` needs to be specified for this.
+
+The `message` parameter is either a string, or an [embed](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#embedbuilder) as the message.

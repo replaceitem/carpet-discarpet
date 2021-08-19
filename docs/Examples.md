@@ -180,3 +180,8 @@ __on_system_message(text,type,entity) -> (
     );
 );
 ```
+
+## Slash commands
+
+
+//MISSING!!

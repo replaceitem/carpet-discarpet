@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class Interactions {
     public static void apply(Expression expr) {
         expr.addContextFunction("dc_create_slash_command",-1, (c, t, lv) -> {
-            if(lv.size() < 3) throw new InternalExpressionException("'dc_create_slash_command' requires at least a name, description and callback");
+            if(lv.size() < 3) throw new InternalExpressionException("'dc_create_slash_command' requires at least a name, description and server/null");
             if(lv.size() > 4) throw new InternalExpressionException("'dc_create_slash_command' requires 3 or 4 parameters");
             String name = lv.get(0).getString();
             String description = lv.get(1).getString();
