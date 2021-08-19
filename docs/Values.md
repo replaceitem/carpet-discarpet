@@ -124,3 +124,19 @@ Queryable:
 `is_bot` (boolean) True if the user is a bot, false if it is a regular user
 
 `is_self` (boolean) True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself
+
+## Slash command interaction
+
+`dc_slash_command_interaction`
+
+Value from `__on_discord_slash_command(interaction)` event, used for getting the command that was executed, and then replying to it with `dc_respond_slash_command()`
+
+Queryable:
+
+`command` (List) List of command option that were executed. If a user executed the slash command `/channel remove #bot-spam`, this would return `['channel', 'remove']`.
+
+`options` (Map) A map containing all options that were specified in the command, with the key being the name of the option, with a corresponding value that has been chosen for this option.
+
+`user` ([User](#User)) The user that executed the command.
+
+`channel` ([Channel](#Channel)) The channel this command was executed in.

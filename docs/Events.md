@@ -72,3 +72,9 @@ Executes when a user reacts to a message with some emoji
 `user` -> [User](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#user): The user who reacted
 
 `added` -> boolean, `true` if the reaction was added, `false` if the reaction was removed
+
+## `__on_discord_slash_command(interaction)`
+
+Executes when a user runs a slash command
+
+`interaction` -> [Slash command interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Slash-command-interaction): The slash command interaction containing everything about the command that was executed
