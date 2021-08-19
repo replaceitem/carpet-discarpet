@@ -78,3 +78,15 @@ Executes when a user reacts to a message with some emoji
 Executes when a user runs a slash command
 
 `interaction` -> [Slash command interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Slash-command-interaction): The slash command interaction containing everything about the command that was executed
+
+## `__on_discord_button(interaction)`
+
+Executes when a user presses a button component on a message
+
+`interaction` -> [Button interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Button-and-Select-menu-interaction): The button interaction containing everything about the button that was pressed
+
+## `__on_discord_select_menu(interaction)`
+
+Executes when a user uses a select menu component on a message
+
+`interaction` -> [Select menu interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Button-and-Select-menu-interaction): The select menu interaction containing everything about the select menu that was used
