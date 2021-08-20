@@ -158,3 +158,15 @@ Queryable:
 `user` ([User](#User)) The user that used the interaction.
 
 `message` ([Message](#Message)) The message this interaction is attached to.
+
+Queryable things exclusive to select menus:
+
+`chosen` (List) List the values of the chosen options
+
+`options` (List) All values of options in the select menu
+
+`min` (number) Minimum amount of selected entries for this select menu
+
+`max` (number) Maximum amount of selected entries for this select menu
+
+`placeholder` (String) Placeholder text of this select menu
