@@ -83,6 +83,33 @@ Buttons can have the following values:
 
 * `'disabled'` (boolean) If the button is disabled or not
 
+**Select menus:**
+
+Buttons can have the following values:
+
+* `'id'` (String) the id of this button, which is used to recognize the select menu in the `__on_discord_select_menu` event.
+
+* `'options'` (List) All options in the selection menu.
+Each entry is a map with the following keys:
+
+    * `'value'` (String) The value behind this option that will be received in the `__on_discord_select_menu` event
+    
+    * `'label'` (String) The text shown in the menu
+    
+    * `'description'` (String) The description shown in the menu
+    
+    * `'emoji'` (Emoji or String) An emoji shown next to the entry in the select menu
+    
+    * `'default'` (boolean) If this entry is selected by default
+
+* `'min'` (number) The minimum amount of entries that have so be selected
+
+* `'max'` (number) The maximum amount of entries that can be selected
+
+* `'placeholder'` (String) The text displayed if nothing is selected
+
+* `'disabled'` (boolean) If the select menu is disabled or not
+
 
 ### `dc_react(message,emoji)`
 
@@ -268,6 +295,9 @@ Used for deleting slash commands.
 Without any arguments, deletes all global and server commands of the bot.
 When a server is specified, deletes all slash commands in that server, or if the server is `null`,
 deletes all global slash commands. When a name is specified, deletes only the slash commands with that name.
+
+Note that this function halts the current thread in order to ensure that the slash commands got removed,
+so creating a slash command immediately after wouldnt conflict with this.
 
 ### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)`
 
