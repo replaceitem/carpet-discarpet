@@ -96,39 +96,33 @@ public class Sending {
         } else if(value instanceof MapValue) {
             Map<Value, Value> map = ((MapValue) value).getMap();
 
-            Value contentValue = map.get(new StringValue("content"));
-            messageBuilder.setContent(contentValue.getString());
-
-
-            Value attachmentsValue = map.get(new StringValue("attachments"));
-            if(attachmentsValue != null) {
-                if (attachmentsValue instanceof ListValue) {
-                    for (Value v : ((ListValue) attachmentsValue).getItems()) {
-                        addAttachmentFromValue(messageBuilder, v);
-                    }
-                } else throw new InternalExpressionException("Expected a list as 'attachments' value");
+            if(mapHasKey(map,"content")) {
+                messageBuilder.setContent(getStringInMap(map,"content"));
             }
 
-            Value embedsValue = map.get(new StringValue("embeds"));
-            if(embedsValue != null) {
-                if (embedsValue instanceof ListValue) {
-                    for (Value v : ((ListValue) embedsValue).getItems()) {
-                        if(v instanceof EmbedBuilderValue) {
-                            messageBuilder.addEmbed(((EmbedBuilderValue) v).embedBuilder);
-                        } else throw new InternalExpressionException("'embeds' list expected only embed builder values");
-                    }
-                } else throw new InternalExpressionException("Expected a list as 'embeds' value");
+            if(mapHasKey(map,"attachments")) {
+                List<Value> attachments = getListInMap(map,"attachments");
+                for (Value v : attachments) {
+                    addAttachmentFromValue(messageBuilder, v);
+                }
             }
 
-
-            Value componentsValue = map.get(new StringValue("components"));
-            if(componentsValue != null) {
-                if (componentsValue instanceof ListValue) {
-                    for (Value v : ((ListValue) componentsValue).getItems()) {
-                        messageBuilder.addComponents(getActionRowFromValue(v));
-                    }
-                } else throw new InternalExpressionException("Expected a list as 'components' value");
+            if(mapHasKey(map,"embeds")) {
+                List<Value> embeds = getListInMap(map,"embeds");
+                for (Value v : embeds) {
+                    if(v instanceof EmbedBuilderValue) {
+                        messageBuilder.addEmbed(((EmbedBuilderValue) v).embedBuilder);
+                    } else throw new InternalExpressionException("'embeds' list expected only embed builder values");
+                }
             }
+
+            if(mapHasKey(map,"components")) {
+                List<Value> components = getListInMap(map,"components");
+                for (Value v : components) {
+                    messageBuilder.addComponents(getActionRowFromValue(v));
+                }
+            }
+
             return messageBuilder;
         }
 	    return messageBuilder.setContent(value.getString());
@@ -139,37 +133,35 @@ public class Sending {
         if(!(value instanceof MapValue)) throw new InternalExpressionException("Expected a map as entry in 'attachments'");
         Map<Value, Value> map = ((MapValue) value).getMap();
 
-        boolean spoiler = map.getOrDefault(new StringValue("spoiler"),Value.FALSE).getBoolean();
+        boolean spoiler = mapHasKey(map, "spoiler") && getBooleanInMap(map, "spoiler");
 
-        Value fileValue = map.get(new StringValue("file"));
-        if(fileValue != null) {
-            File file = new File(fileValue.getString());
-            if(!file.exists()) throw new InternalExpressionException("Invalid path for attachment file '" + fileValue.getString() + "'");
+        if(mapHasKey(map,"file")) {
+            String path = getStringInMap(map,"file");
+            File file = new File(path);
+            if(!file.exists()) throw new InternalExpressionException("Invalid path for attachment file '" + path + "'");
             if(spoiler) builder.addAttachmentAsSpoiler(file);
             else builder.addAttachment(file);
             return;
         }
 
-        Value urlValue = map.get(new StringValue("url"));
-        if(urlValue != null) {
+
+        if(mapHasKey(map,"url")) {
+            String path = getStringInMap(map,"url");
             URL url;
             try {
-                url = new URL(urlValue.getString());
+                url = new URL(path);
             } catch (MalformedURLException e) {
-                throw new InternalExpressionException("Invalid URL for attachment file '" + urlValue.getString() + "': " + e.toString());
+                throw new InternalExpressionException("Invalid URL for attachment file '" + path + "': " + e.toString());
             }
             if(spoiler) builder.addAttachmentAsSpoiler(url);
             else builder.addAttachment(url);
             return;
         }
 
-
-        Value bytesValue = map.get(new StringValue("bytes"));
-        if(bytesValue != null) {
-            Value nameValue = map.get(new StringValue("name"));
-            if(nameValue == null) throw new InternalExpressionException("Missing 'name' for 'bytes' attachment type");
-            String name = nameValue.getString();
-            byte[] data = bytesValue.getString().getBytes();
+        if(mapHasKey(map,"bytes")) {
+            String name = getStringInMap(map,"name");
+            if(name == null) throw new InternalExpressionException("Missing 'name' for 'bytes' attachment type");
+            byte[] data = getStringInMap(map,"bytes").getBytes();
             if(spoiler) builder.addAttachmentAsSpoiler(data,name);
             else builder.addAttachment(data,name);
         }
@@ -192,9 +184,8 @@ public class Sending {
         if(!(value instanceof MapValue)) throw new InternalExpressionException("Expected a map as entry in 'components' list");
         Map<Value, Value> map = ((MapValue) value).getMap();
 
-        Value componentValue = map.get(new StringValue("component"));
-        if(componentValue == null) throw new InternalExpressionException("Missing 'component' value for message component");
-        String componentType = componentValue.getString();
+
+        String componentType = getStringInMap(map,"component");
 
         if(componentType.equalsIgnoreCase("BUTTON")) {
             return getButton(map);
@@ -207,22 +198,23 @@ public class Sending {
 
         ButtonBuilder buttonBuilder = new ButtonBuilder();
 
-        Value idValue = map.get(new StringValue("id"));
-        if(idValue != null) buttonBuilder.setCustomId(idValue.getString());
+        if(mapHasKey(map,"id")) {
+            buttonBuilder.setCustomId(getStringInMap(map,"id"));
+        }
 
-        Value styleValue = map.get(new StringValue("style"));
-        if(styleValue != null) {
-            ButtonStyle style = ButtonStyle.fromName(styleValue.getString().toLowerCase());
-            if (style.equals(ButtonStyle.UNKNOWN)) throw new InternalExpressionException("Unknown button style: " + styleValue.getString());
+        if(mapHasKey(map,"style")) {
+            String styleName = getStringInMap(map,"style");
+            ButtonStyle style = ButtonStyle.fromName(styleName.toLowerCase());
+            if (style.equals(ButtonStyle.UNKNOWN)) throw new InternalExpressionException("Unknown button style: " + styleName);
             buttonBuilder.setStyle(style);
         }
 
-        Value labelValue = map.get(new StringValue("label"));
-        if(labelValue != null) buttonBuilder.setLabel(labelValue.getString());
+        if(mapHasKey(map,"label")) {
+            buttonBuilder.setLabel(getStringInMap(map,"label"));
+        }
 
-
-        Value emojiValue = map.get(new StringValue("emoji"));
-        if(emojiValue != null) {
+        if(mapHasKey(map,"emoji")) {
+            Value emojiValue = getValueInMap(map,"emoji");
             if(emojiValue instanceof EmojiValue) {
                 buttonBuilder.setEmoji(((EmojiValue) emojiValue).emoji);
             } else {
@@ -230,14 +222,12 @@ public class Sending {
             }
         }
 
-        Value urlValue = map.get(new StringValue("url"));
-        if(urlValue != null) {
-            buttonBuilder.setUrl(urlValue.getString());
+        if(mapHasKey(map,"url")) {
+            buttonBuilder.setUrl(getStringInMap(map,"url"));
         }
 
-        Value disabledValue = map.get(new StringValue("disabled"));
-        if(disabledValue != null) {
-            buttonBuilder.setDisabled(disabledValue.getBoolean());
+        if(mapHasKey(map,"disabled")) {
+            buttonBuilder.setDisabled(getBooleanInMap(map,"disabled"));
         }
 
         return buttonBuilder.build();

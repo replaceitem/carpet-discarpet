@@ -12,6 +12,7 @@ import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import org.javacord.api.DiscordApi;
+import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.interaction.InteractionBase;
 import org.javacord.api.interaction.SlashCommand;
@@ -33,6 +34,8 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
+
+import static Discarpet.ScarpetMapValueUtil.*;
 
 public class Interactions {
     public static void apply(Expression expr) {
@@ -218,50 +221,41 @@ public class Interactions {
 //SAME AS Sending.messageBuilderFromValue but for some reason they dont share a common interface, even though same methods -_-
 
     public static void applyValueToInteractionMessage(Value value, InteractionMessageBuilderBase<?> interactionMessageBuilderBase) {
+        MessageBuilder messageBuilder = new MessageBuilder();
 
         if(value instanceof EmbedBuilderValue) {
             interactionMessageBuilderBase.addEmbed(((EmbedBuilderValue) value).embedBuilder);
-            return;
         } else if(value instanceof MapValue) {
             Map<Value, Value> map = ((MapValue) value).getMap();
 
-            Value contentValue = map.get(new StringValue("content"));
-            interactionMessageBuilderBase.setContent(contentValue.getString());
-
-
-            Value attachmentsValue = map.get(new StringValue("attachments"));
-            if(attachmentsValue != null) {
-                if (attachmentsValue instanceof ListValue) {
-                    if(!(interactionMessageBuilderBase instanceof ExtendedInteractionMessageBuilderBase)) throw new InternalExpressionException("Cannot add attachments for RESPOND_IMMEDIATELY");
-                    for (Value v : ((ListValue) attachmentsValue).getItems()) {
-                        addAttachmentFromValue((ExtendedInteractionMessageBuilderBase<?>) interactionMessageBuilderBase, v);
-                    }
-                } else throw new InternalExpressionException("Expected a list as 'attachments' value");
+            if(mapHasKey(map,"content")) {
+                messageBuilder.setContent(getStringInMap(map,"content"));
             }
 
-            Value embedsValue = map.get(new StringValue("embeds"));
-            if(embedsValue != null) {
-                if (embedsValue instanceof ListValue) {
-                    for (Value v : ((ListValue) embedsValue).getItems()) {
-                        if(v instanceof EmbedBuilderValue) {
-                            interactionMessageBuilderBase.addEmbed(((EmbedBuilderValue) v).embedBuilder);
-                        } else throw new InternalExpressionException("'embeds' list expected only embed builder values");
-                    }
-                } else throw new InternalExpressionException("Expected a list as 'embeds' value");
+            if(mapHasKey(map,"attachments")) {
+                List<Value> attachments = getListInMap(map,"attachments");
+                for (Value v : attachments) {
+                    if(!(interactionMessageBuilderBase instanceof ExtendedInteractionMessageBuilderBase)) throw new InternalExpressionException("Attachments can only be added to RESPOND_FOLLOWUP");
+                    addAttachmentFromValue(((ExtendedInteractionMessageBuilderBase<?>) interactionMessageBuilderBase), v);
+                }
             }
 
-
-            Value componentsValue = map.get(new StringValue("components"));
-            if(componentsValue != null) {
-                if (componentsValue instanceof ListValue) {
-                    for (Value v : ((ListValue) componentsValue).getItems()) {
-                        interactionMessageBuilderBase.addComponents(Sending.getActionRowFromValue(v));
-                    }
-                } else throw new InternalExpressionException("Expected a list as 'components' value");
+            if(mapHasKey(map,"embeds")) {
+                List<Value> embeds = getListInMap(map,"embeds");
+                for (Value v : embeds) {
+                    if(v instanceof EmbedBuilderValue) {
+                        messageBuilder.addEmbed(((EmbedBuilderValue) v).embedBuilder);
+                    } else throw new InternalExpressionException("'embeds' list expected only embed builder values");
+                }
             }
-            return;
+
+            if(mapHasKey(map,"components")) {
+                List<Value> components = getListInMap(map,"components");
+                for (Value v : components) {
+                    messageBuilder.addComponents(Sending.getActionRowFromValue(v));
+                }
+            }
         }
-        interactionMessageBuilderBase.setContent(value.getString());
     }
 
     public static void addAttachmentFromValue(ExtendedInteractionMessageBuilderBase<?> interactionMessageBuilderBase, Value value) {
