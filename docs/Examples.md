@@ -183,5 +183,112 @@ __on_system_message(text,type,entity) -> (
 
 ## Slash commands
 
+```py
+__config() -> {'scope'->'global','bot'->'YOUR BOT'};
 
-//MISSING!!
+//remove all commands first
+dc_delete_slash_command();
+
+server = dc_server_from_id('YOUR SERVER');
+
+//simple ping command
+dc_create_slash_command('ping','Ping -> Pong!',server);
+
+//more complex command with subcommand groups and subcommands, as well as options
+dc_create_slash_command('example','Test command',server,[
+    {
+        'type'->'SUB_COMMAND_GROUP',
+        'name'->'delete',
+        'description'->'Delete something',
+        'options'->[
+            {
+                'type'->'SUB_COMMAND',
+                'name'->'channel',
+                'description'->'Remove something',
+                'options'->[
+                    {
+                        'type'->'CHANNEL',
+                        'name'->'channel',
+                        'description'->'What channel to delete',
+                        'required'->true
+                    },
+                    {
+                        'type'->'BOOLEAN',
+                        'name'->'force',
+                        'description'->'Force delete channel?',
+                        'required'->false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+            'type'->'SUB_COMMAND_GROUP',
+            'name'->'create',
+            'description'->'Create something',
+            'options'->[
+                {
+                    'type'->'SUB_COMMAND',
+                    'name'->'channel',
+                    'description'->'Create a channel',
+                    'options'->[
+                        {
+                            'type'->'STRING',
+                            'name'->'name',
+                            'description'->'Name of the channel',
+                            'required'->true
+                        },
+                        {
+                            'type'->'BOOLEAN',
+                            'name'->'private',
+                            'description'->'Is this channel private?',
+                            'required'->true
+                        },
+                        {
+                            'type'->'STRING',
+                            'name'->'type',
+                            'description'->'Channel type',
+                            'required'->true,
+                            'choices'->[
+                                {
+                                    'name'->'Text',
+                                    'value'->'text'
+                                },
+                                {
+                                    'name'->'Voice',
+                                    'value'->'voice'
+                                },
+                                {
+                                    'name'->'Announcement',
+                                    'value'->'announcement'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+]);
+
+
+__on_discord_slash_command(cmd) -> (
+    //check which command was executed
+    if(cmd~'command':0 == 'ping',
+        //respond immediately
+        dc_respond_interaction(cmd,'RESPOND_IMMEDIATELY','Pong!');
+        return();
+    , //else
+        //tell discord that its gonna take a bit for the response
+        dc_respond_interaction(cmd,'RESPOND_LATER');
+        //respond after 10 seconds
+        schedule(200,_(cmd)->dc_respond_interaction(cmd,'RESPOND_FOLLOWUP','Executed ' + cmd~'command' + ' with options ' + cmd~'options'),cmd);
+    );
+);
+```
+
+## Buttons and select menus
+
+```py
+
+
+```

@@ -110,6 +110,8 @@ Each entry is a map with the following keys:
 
 * `'disabled'` (boolean) If the select menu is disabled or not
 
+For examples, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md)
+
 
 ### `dc_react(message,emoji)`
 
