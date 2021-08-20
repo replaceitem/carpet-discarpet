@@ -1,10 +1,14 @@
 package Discarpet.script.values;
 
+import carpet.script.value.ListValue;
+import carpet.script.value.NumericValue;
+import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
+import org.javacord.api.interaction.InteractionBase;
 import org.javacord.api.interaction.SelectMenuInteraction;
 
-public class SelectMenuInteractionValue extends Value {
+public class SelectMenuInteractionValue extends Value implements InteractionValue {
 
     public SelectMenuInteraction selectMenuInteraction;
 
@@ -15,7 +19,19 @@ public class SelectMenuInteractionValue extends Value {
     public Value getProperty(String property) {
 
         switch (property) {
-            //TODO - OTHER CASES SPECIFIC TO select menu
+            case "id":
+                return StringValue.of(selectMenuInteraction.getCustomId());
+            case "chosen":
+                return new ListValue(selectMenuInteraction.getChosenOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())).toList());
+            case "options":
+                return new ListValue(selectMenuInteraction.getPossibleOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())).toList());
+            case "min":
+                return NumericValue.of(selectMenuInteraction.getMinimumValues());
+            case "max":
+                return NumericValue.of(selectMenuInteraction.getMaximumValues());
+            case "placeholder":
+                if(selectMenuInteraction.getPlaceholder().isEmpty()) return Value.NULL;
+                return StringValue.of(selectMenuInteraction.getPlaceholder().get());
             case "channel":
                 if(selectMenuInteraction.getChannel().isEmpty()) return Value.NULL;
                 return new ChannelValue(selectMenuInteraction.getChannel().get());
@@ -56,6 +72,11 @@ public class SelectMenuInteractionValue extends Value {
     }
 
     public SelectMenuInteraction getSelectMenuInteraction() {
+        return selectMenuInteraction;
+    }
+
+    @Override
+    public InteractionBase getInteractionBase() {
         return selectMenuInteraction;
     }
 }
