@@ -228,7 +228,53 @@ Queryable:
 
 `is_bot` (boolean) True if the user is a bot, false if it is a regular user
 
-`is_self` (boolean) True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself# Discarpet functions
+`is_self` (boolean) True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself
+
+## Slash command interaction
+
+`dc_slash_command_interaction`
+
+Value from `__on_discord_slash_command(interaction)` event, used for getting the command that was executed, and then replying to it with `dc_respond_slash_command()`
+
+Queryable:
+
+`command` (List) List of command option that were executed. If a user executed the slash command `/channel remove #bot-spam`, this would return `['channel', 'remove']`.
+
+`options` (Map) A map containing all options that were specified in the command, with the key being the name of the option, with a corresponding value that has been chosen for this option.
+
+`user` ([User](#User)) The user that executed the command.
+
+`channel` ([Channel](#Channel)) The channel this command was executed in.
+
+## Button and Select menu interaction
+
+`dc_button_interaction`, `dc_select_menu_interaction`
+
+Value from `__on_discord_button(interaction)` and `__on_discord_select_menu(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_slash_command()`
+
+These values have mostly the same things to query.
+
+Queryable:
+
+`id` (String) Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter
+
+`channel` ([Channel](#Channel)) The channel this interaction was made in.
+
+`user` ([User](#User)) The user that used the interaction.
+
+`message` ([Message](#Message)) The message this interaction is attached to.
+
+Queryable things exclusive to select menus:
+
+`chosen` (List) List the values of the chosen options
+
+`options` (List) All values of options in the select menu
+
+`min` (number) Minimum amount of selected entries for this select menu
+
+`max` (number) Maximum amount of selected entries for this select menu
+
+`placeholder` (String) Placeholder text of this select menu# Discarpet functions
 
 Discarpet adds a lot of functions to scarpet to control your bot.
 Below is a list of all functions and how they work.
@@ -238,8 +284,9 @@ Below is a list of all functions and how they work.
 ### `dc_send_message(channel,content,function?)`
 
 This functions sends a message in a specific Discord `channel`. 
-The `content` can be a String, or a [`EmbedBuilder`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#embedbuilder)
-to send an Embed. Optionally, you can specify a function (or lambda expression, see example below)
+The `content` can be a String, an [`EmbedBuilder`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#embedbuilder)
+or a more complex message consisting of multiple embeds, attachments or interactions (see below).
+Optionally, you can specify a function (or lambda expression, see example below)
 that will be executed when the message was send to modify it, add reactions etc.
 
 This example shows how you can send a message and add reactions to it as soon as it was sent
@@ -250,6 +297,97 @@ dc_send_message(dc_channel_from_id('YOUR CHANNEL ID'),'Test message',_(message)-
     dc_react(message,'🟩');
 ));
 ```
+
+To construct more complex messages you can use a map as the `content`.
+
+This map can contain various things you can include in your message.
+
+* `'content'` (String) This is just the regular text of the message
+
+* `'attachments'` (List) A list of attachments that will be sent along the message.
+Each attachment is represented by a map containing one of these map keys:
+    * `'file'` (String) A path to a file that will be attached to the message
+    
+    * `'url'` (String) A url to a file that will be attached to the message
+    
+    * `'bytes'` (String) A string, which will be converted to bytes and directly saved to a file.
+    This can be used to save to txt files, or even non text file formats,
+    in which case the string's characters will be saved as the file's bytes.
+    In this case, the map must additionally contain a `'name'` value containing the filename for the file.
+    
+    Additionally, a `'spoiler'` value can be set to true, to mark the file as a spoiler.
+
+    Example:
+    
+    ```py
+    dc_send_message(channel,{
+        'content'->'I am sending you a secret file:',
+        'attachments'->[
+            {
+                'bytes'->'Text in the file',
+                'name'->'secret_message.txt',
+                'spoiler'->true
+            }
+        ],
+    });
+    ```
+  
+* `'embeds'` (List) A list of EmbedBuilder value to attach to the message
+
+* `'components'` (List) A list of lists with message components like buttons or select menus in them.
+
+Each sub list represents one row of message components.
+Each message component is represented by a map.
+
+The type of component is set by a `'component'` value in that map.
+
+This can be `'button'` or `'select_menu'`.
+
+**Button:**
+
+Buttons can have the following values:
+
+* `'id'` (String) the id of this button, which is used to recognize the button in the `__on_discord_button` event. Note that this is only for non `url` type buttons
+
+* `'style'` (String) The type of button, can be either `blurple`, `grey`, `green`, `red` or `url`.
+
+* `'label'` (String) The text shown on the button.
+
+* `'emoji'` (String or Emoji) The emoji shown next to the text on the button.
+
+* `'url'` (String) The url for `url` style buttons only
+
+* `'disabled'` (boolean) If the button is disabled or not
+
+**Select menus:**
+
+Buttons can have the following values:
+
+* `'id'` (String) the id of this button, which is used to recognize the select menu in the `__on_discord_select_menu` event.
+
+* `'options'` (List) All options in the selection menu.
+Each entry is a map with the following keys:
+
+    * `'value'` (String) The value behind this option that will be received in the `__on_discord_select_menu` event
+    
+    * `'label'` (String) The text shown in the menu
+    
+    * `'description'` (String) The description shown in the menu
+    
+    * `'emoji'` (Emoji or String) An emoji shown next to the entry in the select menu
+    
+    * `'default'` (boolean) If this entry is selected by default
+
+* `'min'` (number) The minimum amount of entries that have so be selected
+
+* `'max'` (number) The maximum amount of entries that can be selected
+
+* `'placeholder'` (String) The text displayed if nothing is selected
+
+* `'disabled'` (boolean) If the select menu is disabled or not
+
+For examples, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md)
+
 
 ### `dc_react(message,emoji)`
 
@@ -345,7 +483,120 @@ dc_send_message(dc_channel_from_id('CHANNEL ID HERE'),e);
 Which gives this result:
 
 ![Example embed](/docs/embed.png)
-# Discarpet Events
+
+## Interactions
+
+### `dc_create_slash_command(name, description, server)` `dc_create_slash_command(name, description, server, options)`
+
+Function for creating slash commands for the bot. When called with 3 parameters,
+only a simple command with no additional options or subcommands is created (e.g. `/ping`).
+`name` and `description` are shown by discord inside the slash command menu.
+When specifying a `server`, the slash command will only be for that particular server.
+If `server` is `null`, the slash command will be global, meaning they work in all servers the bot is in.
+*NOTE:* GLOBAL slash commands can take up to 1 hour to update, so for testing,
+you should only use server slash commands, which are created immediately.
+
+Additionally, you can specify additional options to your command.
+Options are supplied in a list, with each option being a map that specifies some parameters.
+
+e.g.:
+
+```py
+dc_create_slash_command(name, description, server, [
+    {
+        option 1
+    },
+    {
+        option 2
+    }
+])
+```
+
+Each option has multiple things you can specify:
+
+* `'type'` (String): the type of option. There are two things this can do, either:
+    * Add a subcommand group or subcommand using `'SUB_COMMAND_GROUP'` and `'SUB_COMMAND'`.
+    Sub command groups are always on the first "layer",
+    while subcommands are always one layer deeper than sub command groups. 
+    Note that this is quite limited in comparison to minecraft commands.
+    All paths of the command tree have to have either just a sub command, or a sub command group with sub commands each.
+    This means that the length of the commands (without the other options that aren't subcommands) has to be equal. 
+    See: https://canary.discord.com/developers/docs/interactions/slash-commands#nested-subcommands-and-groups
+    
+    * Add options to the back of the command, with the types:
+        * `'STRING'`
+        * `'INTEGER'`
+        * `'BOOLEAN'`
+        * `'USER'`
+        * `'CHANNEL'`
+        * `'ROLE'`
+        * `'MENTIONABLE'`
+
+* `'name'` (String): For subcommands, this is the name of the subcommands, and for other options,
+this is the name displayed by discord
+
+* `'description'` (String): A description which will be shown in discord about the command option
+
+* `'required'` (boolean, optional): If this option is required or not. If left out, defaults to false.
+
+* `'options'` (list, optional): Sub-options to this sub command/group. This is only for subcommands or subcommand groups.
+
+* `'choices'` (list, optional): Specify value that can be autocompleted in in the slash command.
+Entries in this list are maps containing a name, and a value.
+The name is whats actually shown, and the value what will be received when executing the command.
+The value can be a string or a number.
+
+e.g.:
+
+```py
+'choices'->[
+    {
+        'name'->'Red',
+        'value'->'red'
+    },
+    {
+        'name'->'Green',
+        'value'->'green'
+    },
+    {
+        'name'->'Blue',
+        'value'->'blue'
+    }
+]
+```
+
+For full examples of commands, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md#Slash-commands)
+
+### `dc_delete_slash_command()` `dc_delete_slash_command(server)` `dc_delete_slash_command(server,name)`
+
+Used for deleting slash commands.
+Without any arguments, deletes all global and server commands of the bot.
+When a server is specified, deletes all slash commands in that server, or if the server is `null`,
+deletes all global slash commands. When a name is specified, deletes only the slash commands with that name.
+
+Note that this function halts the current thread in order to ensure that the slash commands got removed,
+so creating a slash command immediately after wouldnt conflict with this.
+
+### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)`
+
+This function is used for responding to interactions.
+The first parameter is any interaction (slash command, button, select menu) from its corresponding event.
+Discord interactions expect a response within 3 seconds after executing it.
+Either, that response is directly sending an answer,
+or telling discord that the answer will come, which gives a 15 minute time to send a followup response.
+The `type` can be one of three things:
+
+* `'RESPOND_LATER'` This does not require the third `message` parameter,
+and just tells discord that the interaction was received and an answer will come.
+You will then need to send a RESPOND_FOLLOWUP response within 15 minutes.
+
+* `'RESPOND_IMMEDIATELY'` This sends an immediate response which has to come within 3 seconds.
+The `message` needs to be specified for this.
+
+* `'RESPOND_FOLLOWUP'` This is used for sending a followup response within 15 minutes after the `RESPOND_LATER` response has been sent.
+The `message` needs to be specified for this.
+
+The `message` parameter the same as the message parameter in `dc_send_message`# Discarpet Events
 
 
 Discarpet's scarpet events are used to detect events that happen in discord servers the bot is in. Additionally, there are also events for when a chat message gets sent in minecraft or a general system message happens.
@@ -419,7 +670,24 @@ Executes when a user reacts to a message with some emoji
 `user` -> [User](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#user): The user who reacted
 
 `added` -> boolean, `true` if the reaction was added, `false` if the reaction was removed
-# Example scripts
+
+## `__on_discord_slash_command(interaction)`
+
+Executes when a user runs a slash command
+
+`interaction` -> [Slash command interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Slash-command-interaction): The slash command interaction containing everything about the command that was executed
+
+## `__on_discord_button(interaction)`
+
+Executes when a user presses a button component on a message
+
+`interaction` -> [Button interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Button-and-Select-menu-interaction): The button interaction containing everything about the button that was pressed
+
+## `__on_discord_select_menu(interaction)`
+
+Executes when a user uses a select menu component on a message
+
+`interaction` -> [Select menu interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Button-and-Select-menu-interaction): The select menu interaction containing everything about the select menu that was used# Example scripts
 
 ## Replying to messages
 
@@ -600,4 +868,116 @@ __on_system_message(text,type,entity) -> (
         );
     );
 );
+```
+
+## Slash commands
+
+```py
+__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+
+//remove all commands first
+dc_delete_slash_command();
+
+server = dc_server_from_id('YOUR SERVER');
+
+//simple ping command
+dc_create_slash_command('ping','Ping -> Pong!',server);
+
+//more complex command with subcommand groups and subcommands, as well as options
+dc_create_slash_command('example','Test command',server,[
+    {
+        'type'->'SUB_COMMAND_GROUP',
+        'name'->'delete',
+        'description'->'Delete something',
+        'options'->[
+            {
+                'type'->'SUB_COMMAND',
+                'name'->'channel',
+                'description'->'Remove something',
+                'options'->[
+                    {
+                        'type'->'CHANNEL',
+                        'name'->'channel',
+                        'description'->'What channel to delete',
+                        'required'->true
+                    },
+                    {
+                        'type'->'BOOLEAN',
+                        'name'->'force',
+                        'description'->'Force delete channel?',
+                        'required'->false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+            'type'->'SUB_COMMAND_GROUP',
+            'name'->'create',
+            'description'->'Create something',
+            'options'->[
+                {
+                    'type'->'SUB_COMMAND',
+                    'name'->'channel',
+                    'description'->'Create a channel',
+                    'options'->[
+                        {
+                            'type'->'STRING',
+                            'name'->'name',
+                            'description'->'Name of the channel',
+                            'required'->true
+                        },
+                        {
+                            'type'->'BOOLEAN',
+                            'name'->'private',
+                            'description'->'Is this channel private?',
+                            'required'->true
+                        },
+                        {
+                            'type'->'STRING',
+                            'name'->'type',
+                            'description'->'Channel type',
+                            'required'->true,
+                            'choices'->[
+                                {
+                                    'name'->'Text',
+                                    'value'->'text'
+                                },
+                                {
+                                    'name'->'Voice',
+                                    'value'->'voice'
+                                },
+                                {
+                                    'name'->'Announcement',
+                                    'value'->'announcement'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+]);
+
+
+__on_discord_slash_command(cmd) -> (
+    //check which command was executed
+    if(cmd~'command':0 == 'ping',
+        //respond immediately
+        dc_respond_interaction(cmd,'RESPOND_IMMEDIATELY','Pong!');
+        return();
+    , //else
+        //tell discord that its gonna take a bit for the response
+        dc_respond_interaction(cmd,'RESPOND_LATER');
+        //respond after 10 seconds
+        schedule(200,_(cmd)->dc_respond_interaction(cmd,'RESPOND_FOLLOWUP','Executed ' + cmd~'command' + ' with options ' + cmd~'options'),cmd);
+    );
+);
+```
+
+## Buttons and select menus
+
+```py
+
+
 ```
