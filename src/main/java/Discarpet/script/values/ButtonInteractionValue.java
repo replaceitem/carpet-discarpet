@@ -4,8 +4,9 @@ import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
 import org.javacord.api.interaction.ButtonInteraction;
+import org.javacord.api.interaction.InteractionBase;
 
-public class ButtonInteractionValue extends Value {
+public class ButtonInteractionValue extends Value implements InteractionValue {
 
     public ButtonInteraction buttonInteraction;
 
@@ -58,6 +59,11 @@ public class ButtonInteractionValue extends Value {
     }
 
     public ButtonInteraction getButtonInteraction() {
+        return buttonInteraction;
+    }
+
+    @Override
+    public InteractionBase getInteractionBase() {
         return buttonInteraction;
     }
 }

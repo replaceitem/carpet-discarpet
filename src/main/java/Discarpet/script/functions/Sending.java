@@ -1,5 +1,6 @@
 package Discarpet.script.functions;
 
+import Discarpet.ScarpetMapValueUtil;
 import Discarpet.script.ScriptFuture;
 import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.EmbedBuilderValue;
@@ -15,6 +16,7 @@ import carpet.script.value.MapValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import com.vdurmont.emoji.EmojiParser;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageBuilder;
@@ -25,6 +27,10 @@ import org.javacord.api.entity.message.component.ButtonStyle;
 import org.javacord.api.entity.message.component.HighLevelComponent;
 import org.javacord.api.entity.message.component.LowLevelComponent;
 import org.javacord.api.entity.message.component.SelectMenu;
+import org.javacord.api.entity.message.component.SelectMenuBuilder;
+import org.javacord.api.entity.message.component.SelectMenuOption;
+import org.javacord.api.entity.message.component.SelectMenuOptionBuilder;
+import org.javacord.core.entity.emoji.UnicodeEmojiImpl;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -35,6 +41,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import static Discarpet.Discarpet.scarpetException;
+import static Discarpet.ScarpetMapValueUtil.*;
 
 public class Sending {
 	@ScarpetFunction
@@ -84,15 +91,9 @@ public class Sending {
     public static MessageBuilder messageBuilderFromValue(Value value) {
 	    MessageBuilder messageBuilder = new MessageBuilder();
 
-	    if(value instanceof StringValue) {
-	        return messageBuilder.setContent(value.getString());
-        }
-
 	    if(value instanceof EmbedBuilderValue) {
 	        return messageBuilder.setEmbed(((EmbedBuilderValue) value).embedBuilder);
-        }
-
-	    if(value instanceof MapValue) {
+        } else if(value instanceof MapValue) {
             Map<Value, Value> map = ((MapValue) value).getMap();
 
             Value contentValue = map.get(new StringValue("content"));
@@ -128,9 +129,10 @@ public class Sending {
                     }
                 } else throw new InternalExpressionException("Expected a list as 'components' value");
             }
+            return messageBuilder;
         }
+	    return messageBuilder.setContent(value.getString());
 
-	    return messageBuilder;
     }
 
     public static void addAttachmentFromValue(MessageBuilder builder, Value value) {
@@ -197,7 +199,7 @@ public class Sending {
         if(componentType.equalsIgnoreCase("BUTTON")) {
             return getButton(map);
         } else if(componentType.equalsIgnoreCase("SELECT_MENU")) {
-            return null; //TODO
+            return getSelectMenu(map);
         } else throw new InternalExpressionException("Invalid message component type " + componentType);
     }
 
@@ -239,5 +241,66 @@ public class Sending {
         }
 
         return buttonBuilder.build();
+    }
+
+    public static SelectMenu getSelectMenu(Map<Value, Value> map) {
+
+        SelectMenuBuilder selectMenuBuilder = new SelectMenuBuilder();
+
+
+        selectMenuBuilder.setCustomId(getStringInMap(map,"id"));
+
+        for(Value v : getListInMap(map,"options")) {
+            selectMenuBuilder.addOption(getSelectMenuOptionFromValue(v));
+        }
+
+        if(mapHasKey(map,"min")) {
+            selectMenuBuilder.setMinimumValues(getIntInMap(map,"min"));
+        }
+        if(mapHasKey(map,"max")) {
+            selectMenuBuilder.setMaximumValues(getIntInMap(map,"max"));
+        }
+
+        if(mapHasKey(map,"placeholder")) {
+            selectMenuBuilder.setPlaceholder(getStringInMap(map,"placeholder"));
+        }
+
+        if(mapHasKey(map,"disabled")) {
+            selectMenuBuilder.setDisabled(getBooleanInMap(map,"disabled"));
+        }
+
+        return selectMenuBuilder.build();
+    }
+
+    public static SelectMenuOption getSelectMenuOptionFromValue(Value value) {
+	    if(!(value instanceof MapValue)) throw new InternalExpressionException("Options in select menu need to be a map");
+	    Map<Value,Value> map = ((MapValue) value).getMap();
+
+        SelectMenuOptionBuilder selectMenuOptionBuilder = new SelectMenuOptionBuilder();
+
+        selectMenuOptionBuilder.setValue(getStringInMap(map,"value"));
+
+        selectMenuOptionBuilder.setLabel(getStringInMap(map,"label"));
+
+        if(mapHasKey(map,"description")) {
+            selectMenuOptionBuilder.setDescription(getStringInMap(map,"description"));
+        }
+
+        if(mapHasKey(map,"emoji")) {
+            Value emojiValue = getValueInMap(map,"emoji");
+            Emoji emoji;
+            if(emojiValue instanceof EmojiValue) {
+                emoji = ((EmojiValue) emojiValue).emoji;
+            } else {
+                emoji = UnicodeEmojiImpl.fromString(emojiValue.getString());
+            }
+            selectMenuOptionBuilder.setEmoji(emoji);
+        }
+
+        if(mapHasKey(map,"default")) {
+            selectMenuOptionBuilder.setDefault(getBooleanInMap(map,"default"));
+        }
+
+        return  selectMenuOptionBuilder.build();
     }
 }

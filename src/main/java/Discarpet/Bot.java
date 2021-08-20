@@ -75,7 +75,7 @@ public class Bot {
 				buttonInteraction.ifPresent(interaction -> DiscordEvents.DISCORD_BUTTON.onDiscordButton(this, interaction));
 
 				Optional<SelectMenuInteraction> selectMenuInteraction = messageComponentInteraction.asSelectMenuInteraction();
-				selectMenuInteraction.ifPresent(interaction -> DiscordEvents.DISCORD_BUTTON.onDiscordSelectMenu(this, interaction));
+				selectMenuInteraction.ifPresent(interaction -> DiscordEvents.DISCORD_SELECT_MENU.onDiscordSelectMenu(this, interaction));
 			});
 
 		} catch (CompletionException ce) {

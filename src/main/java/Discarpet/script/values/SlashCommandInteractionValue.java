@@ -5,6 +5,7 @@ import carpet.script.value.MapValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
+import org.javacord.api.interaction.InteractionBase;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.interaction.SlashCommandInteractionOption;
 
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class SlashCommandInteractionValue extends Value {
+public class SlashCommandInteractionValue extends Value implements InteractionValue {
 
     public SlashCommandInteraction slashCommandInteraction;
 
@@ -95,6 +96,11 @@ public class SlashCommandInteractionValue extends Value {
     }
 
     public SlashCommandInteraction getSlashCommandInteraction() {
+        return slashCommandInteraction;
+    }
+
+    @Override
+    public InteractionBase getInteractionBase() {
         return slashCommandInteraction;
     }
 }

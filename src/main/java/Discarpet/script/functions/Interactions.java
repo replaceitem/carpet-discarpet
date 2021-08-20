@@ -2,8 +2,8 @@ package Discarpet.script.functions;
 
 import Discarpet.Discarpet;
 import Discarpet.script.values.EmbedBuilderValue;
+import Discarpet.script.values.InteractionValue;
 import Discarpet.script.values.ServerValue;
-import Discarpet.script.values.SlashCommandInteractionValue;
 import carpet.script.Expression;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.ListValue;
@@ -13,9 +13,9 @@ import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.server.Server;
+import org.javacord.api.interaction.InteractionBase;
 import org.javacord.api.interaction.SlashCommand;
 import org.javacord.api.interaction.SlashCommandBuilder;
-import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.interaction.SlashCommandOption;
 import org.javacord.api.interaction.SlashCommandOptionBuilder;
 import org.javacord.api.interaction.SlashCommandOptionChoice;
@@ -114,25 +114,23 @@ public class Interactions {
 
         expr.addContextFunction("dc_respond_interaction",-1, (c, t, lv) -> {
             if(lv.size() < 2 || lv.size() > 3) throw new InternalExpressionException("'dc_respond_interaction' expected 2 or 3 parameters");
-            Value slashCommandInteractionValue = lv.get(0);
-            if(!(slashCommandInteractionValue instanceof SlashCommandInteractionValue)) throw new InternalExpressionException("'dc_respond_interaction' expected a message interaction or slash command value as the first argument");
-            SlashCommandInteraction slashCommandInteraction = ((SlashCommandInteractionValue) slashCommandInteractionValue).slashCommandInteraction;
+            Value interactionValue = lv.get(0);
+            if(!(interactionValue instanceof InteractionValue)) throw new InternalExpressionException("'dc_respond_interaction' expected a message interaction or slash command value as the first argument");
+            InteractionBase interactionBase = ((InteractionValue) interactionValue).getInteractionBase();
             String type = lv.get(1).getString();
 
             if(type.equalsIgnoreCase("RESPOND_LATER")) {
-                slashCommandInteraction.respondLater();
+                interactionBase.respondLater();
             } else if (type.equalsIgnoreCase("RESPOND_IMMEDIATELY") || type.equalsIgnoreCase("RESPOND_FOLLOWUP")) {
                 if(lv.size() != 3) throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + type);
                 Value content = lv.get(2);
                 if(type.equalsIgnoreCase("RESPOND_IMMEDIATELY")) {
-                    InteractionImmediateResponseBuilder immediateResponder = slashCommandInteraction.createImmediateResponder();
-                    if(content instanceof EmbedBuilderValue) immediateResponder.addEmbed(((EmbedBuilderValue) content).embedBuilder);
-                    else immediateResponder.setContent(content.getString());
+                    InteractionImmediateResponseBuilder immediateResponder = interactionBase.createImmediateResponder();
+                    applyValueToInteractionMessage(content,immediateResponder);
                     immediateResponder.respond();
                 } else {
-                    InteractionFollowupMessageBuilder followupMessageBuilder = slashCommandInteraction.createFollowupMessageBuilder();
-                    if(content instanceof EmbedBuilderValue) followupMessageBuilder.addEmbed(((EmbedBuilderValue) content).embedBuilder);
-                    else followupMessageBuilder.setContent(content.getString());
+                    InteractionFollowupMessageBuilder followupMessageBuilder = interactionBase.createFollowupMessageBuilder();
+                    applyValueToInteractionMessage(content,followupMessageBuilder);
                     followupMessageBuilder.send();
                 }
             } else throw new InternalExpressionException("invalid response type for 'dc_respond_interaction', expected RESPOND_LATER, RESPOND_IMMEDIATELY or RESPOND_FOLLOWUP");
@@ -219,18 +217,12 @@ public class Interactions {
 
 //SAME AS Sending.messageBuilderFromValue but for some reason they dont share a common interface, even though same methods -_-
 
-    public static InteractionMessageBuilderBase<?> interactionMessageFromValue(Value value, InteractionMessageBuilderBase<?> interactionMessageBuilderBase) {
-        if(value instanceof StringValue) {
-            interactionMessageBuilderBase.setContent(value.getString());
-            return interactionMessageBuilderBase;
-        }
+    public static void applyValueToInteractionMessage(Value value, InteractionMessageBuilderBase<?> interactionMessageBuilderBase) {
 
         if(value instanceof EmbedBuilderValue) {
             interactionMessageBuilderBase.addEmbed(((EmbedBuilderValue) value).embedBuilder);
-            return interactionMessageBuilderBase;
-        }
-
-        if(value instanceof MapValue) {
+            return;
+        } else if(value instanceof MapValue) {
             Map<Value, Value> map = ((MapValue) value).getMap();
 
             Value contentValue = map.get(new StringValue("content"));
@@ -267,9 +259,9 @@ public class Interactions {
                     }
                 } else throw new InternalExpressionException("Expected a list as 'components' value");
             }
+            return;
         }
-
-        return interactionMessageBuilderBase;
+        interactionMessageBuilderBase.setContent(value.getString());
     }
 
     public static void addAttachmentFromValue(ExtendedInteractionMessageBuilderBase<?> interactionMessageBuilderBase, Value value) {
