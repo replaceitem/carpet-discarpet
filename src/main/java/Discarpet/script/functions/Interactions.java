@@ -122,21 +122,29 @@ public class Interactions {
             InteractionBase interactionBase = ((InteractionValue) interactionValue).getInteractionBase();
             String type = lv.get(1).getString();
 
+            CompletableFuture<?> cf;
+
             if(type.equalsIgnoreCase("RESPOND_LATER")) {
-                interactionBase.respondLater();
+                cf = interactionBase.respondLater();
             } else if (type.equalsIgnoreCase("RESPOND_IMMEDIATELY") || type.equalsIgnoreCase("RESPOND_FOLLOWUP")) {
                 if(lv.size() != 3) throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + type);
                 Value content = lv.get(2);
                 if(type.equalsIgnoreCase("RESPOND_IMMEDIATELY")) {
                     InteractionImmediateResponseBuilder immediateResponder = interactionBase.createImmediateResponder();
                     applyValueToInteractionMessage(content,immediateResponder);
-                    immediateResponder.respond();
+                    cf = immediateResponder.respond();
                 } else {
                     InteractionFollowupMessageBuilder followupMessageBuilder = interactionBase.createFollowupMessageBuilder();
                     applyValueToInteractionMessage(content,followupMessageBuilder);
-                    followupMessageBuilder.send();
+                    cf = followupMessageBuilder.send();
                 }
             } else throw new InternalExpressionException("invalid response type for 'dc_respond_interaction', expected RESPOND_LATER, RESPOND_IMMEDIATELY or RESPOND_FOLLOWUP");
+
+            cf.exceptionally(throwable -> {
+                Discarpet.LOGGER.error("Error responding to interaction: " + throwable);
+                return null;
+            });
+
             return Value.TRUE;
         });
     }
@@ -218,10 +226,9 @@ public class Interactions {
         }
     }
 
-//SAME AS Sending.messageBuilderFromValue but for some reason they dont share a common interface, even though same methods -_-
+// ALMOST SAME AS Sending.messageBuilderFromValue but for some reason they dont share a common interface, even though same methods -_-
 
     public static void applyValueToInteractionMessage(Value value, InteractionMessageBuilderBase<?> interactionMessageBuilderBase) {
-        MessageBuilder messageBuilder = new MessageBuilder();
 
         if(value instanceof EmbedBuilderValue) {
             interactionMessageBuilderBase.addEmbed(((EmbedBuilderValue) value).embedBuilder);
@@ -229,7 +236,7 @@ public class Interactions {
             Map<Value, Value> map = ((MapValue) value).getMap();
 
             if(mapHasKey(map,"content")) {
-                messageBuilder.setContent(getStringInMap(map,"content"));
+                interactionMessageBuilderBase.setContent(getStringInMap(map,"content"));
             }
 
             if(mapHasKey(map,"attachments")) {
@@ -244,7 +251,7 @@ public class Interactions {
                 List<Value> embeds = getListInMap(map,"embeds");
                 for (Value v : embeds) {
                     if(v instanceof EmbedBuilderValue) {
-                        messageBuilder.addEmbed(((EmbedBuilderValue) v).embedBuilder);
+                        interactionMessageBuilderBase.addEmbed(((EmbedBuilderValue) v).embedBuilder);
                     } else throw new InternalExpressionException("'embeds' list expected only embed builder values");
                 }
             }
@@ -252,9 +259,11 @@ public class Interactions {
             if(mapHasKey(map,"components")) {
                 List<Value> components = getListInMap(map,"components");
                 for (Value v : components) {
-                    messageBuilder.addComponents(Sending.getActionRowFromValue(v));
+                    interactionMessageBuilderBase.addComponents(Sending.getActionRowFromValue(v));
                 }
             }
+        } else {
+            interactionMessageBuilderBase.setContent(value.getString());
         }
     }
 
