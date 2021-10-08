@@ -1,5 +1,6 @@
 package Discarpet.script.values;
 
+import carpet.script.value.BooleanValue;
 import carpet.script.value.ListValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
@@ -30,9 +31,9 @@ public class UserValue extends Value {
             case "avatar":
                 return StringValue.of(user.getAvatar().getUrl().toString());
             case "is_bot":
-                return new NumericValue(user.isBot());
+                return BooleanValue.of(user.isBot());
             case "is_self":
-                return new NumericValue(user.isYourself());
+                return BooleanValue.of(user.isYourself());
             default:
                 return Value.NULL;
         }

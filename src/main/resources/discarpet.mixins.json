@@ -3,11 +3,11 @@
   "package": "Discarpet.mixins",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "CallbackListAccessor",
     "MinecraftChat_Mixin",
     "ServerPlayNetworkHandler_GameMessageMixin"
   ],
   "client": [
-
   ],
   "injectors": {
     "defaultRequire": 1
