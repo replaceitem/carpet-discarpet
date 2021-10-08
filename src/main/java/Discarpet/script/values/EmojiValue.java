@@ -1,5 +1,6 @@
 package Discarpet.script.values;
 
+import carpet.script.value.BooleanValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
@@ -29,11 +30,11 @@ public class EmojiValue extends Value {
                     return Value.NULL;
                 }
             case "is_animated":
-                return new NumericValue(emoji.isAnimated());
+                return BooleanValue.of(emoji.isAnimated());
             case "is_unicode":
-                return new NumericValue(emoji.isUnicodeEmoji());
+                return BooleanValue.of(emoji.isUnicodeEmoji());
             case "is_custom":
-                return new NumericValue(emoji.isCustomEmoji());
+                return BooleanValue.of(emoji.isCustomEmoji());
             default:
                 return Value.NULL;
         }

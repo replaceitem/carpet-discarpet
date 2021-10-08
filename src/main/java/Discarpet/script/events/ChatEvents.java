@@ -2,6 +2,7 @@ package Discarpet.script.events;
 
 import carpet.CarpetServer;
 import carpet.script.CarpetEventServer.Event;
+import carpet.script.value.BooleanValue;
 import carpet.script.value.EntityValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
@@ -59,7 +60,7 @@ public class ChatEvents extends Event {
     public static ChatEvents CHAT_MESSAGE = new ChatEvents("chat_message", 3, false) {
         public void onChatMessage(String message, ServerPlayerEntity player,boolean isCommand) {
             this.handler.call(() -> {
-                return Arrays.asList(new StringValue(message), new EntityValue(player), new NumericValue(isCommand));
+                return Arrays.asList(new StringValue(message), new EntityValue(player), BooleanValue.of(isCommand));
             }, () -> {
                 return player.getCommandSource();
             });

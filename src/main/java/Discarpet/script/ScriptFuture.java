@@ -19,7 +19,7 @@ public class ScriptFuture extends CarpetEventServer.Callback {
         this.ctx = (CarpetContext) context;
     }
     public void execute(List<Value> args) {
-        CarpetServer.scriptServer.runScheduledCall(this.ctx.origin, this.ctx.s, this.host, (CarpetScriptHost)this.ctx.host, this.function, args);
+        CarpetServer.scriptServer.events.runScheduledCall(this.ctx.origin, this.ctx.s, this.host, (CarpetScriptHost)this.ctx.host, this.function, args);
     }
     public void execute(Value arg) {
         List<Value> args = Arrays.asList(arg);

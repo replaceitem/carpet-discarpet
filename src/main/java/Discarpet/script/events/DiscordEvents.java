@@ -1,6 +1,7 @@
 package Discarpet.script.events;
 
 import Discarpet.Discarpet;
+import Discarpet.mixins.CallbackListAccessor;
 import Discarpet.script.values.ButtonInteractionValue;
 import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.SelectMenuInteractionValue;
@@ -11,8 +12,10 @@ import Discarpet.script.values.ReactionValue;
 import Discarpet.Bot;
 import carpet.CarpetServer;
 import carpet.script.CarpetEventServer;
+import carpet.script.value.BooleanValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
+import carpet.utils.CarpetProfiler;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.World;
 import carpet.script.CarpetEventServer.Event;
@@ -64,7 +67,7 @@ public class DiscordEvents extends Event {
             if(bot == null) return;
             if(CarpetServer.minecraft_server != null && !CarpetServer.minecraft_server.isRunning()) return; //prevent errors when message comes while stopping
             callHandlerInBotApps(bot,() -> {
-                return Arrays.asList(new ReactionValue(reaction),new UserValue(user), new NumericValue(added));
+                return Arrays.asList(new ReactionValue(reaction),new UserValue(user), BooleanValue.of(added));
             }, () -> {
                 try {
                     return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
@@ -133,37 +136,39 @@ public class DiscordEvents extends Event {
     };
 
     public void callHandlerInBotApps(Bot triggerBot, Supplier<List<Value>> argumentSupplier, Supplier<ServerCommandSource> cmdSourceSupplier) {
-        if (handler.callList.size() > 0) {
-            List<Value> argv = (List)argumentSupplier.get();
-            ServerCommandSource source = cmdSourceSupplier.get();
-            if(source == null) return;
 
+        if (handler.callList.size() > 0)
+        {
+            CarpetProfiler.ProfilerToken currentSection = CarpetProfiler.start_section(null, "Scarpet events", CarpetProfiler.TYPE.GENERAL);
+            List<Value> argv = argumentSupplier.get(); // empty for onTickDone
+            ServerCommandSource source;
+            try
+            {
+                 source = cmdSourceSupplier.get();
+            }
+            catch (NullPointerException noReference) // todo figure out what happens when closing.
+            {
+                return;
+            }
+            String nameCheck = ((CallbackListAccessor) handler).isPerPlayerDistribution()?source.getName():null;
             assert argv.size() == handler.reqArgs;
-
             List<CarpetEventServer.Callback> fails = new ArrayList<>();
-            Iterator var6 = handler.callList.iterator();
-
-            CarpetEventServer.Callback call;
-            while(var6.hasNext()) {
-                call = (CarpetEventServer.Callback)var6.next();
-                Bot scriptBot = Discarpet.getBotInHost(CarpetServer.scriptServer.getHostByName(call.host));
+            for (CarpetEventServer.Callback call: handler.callList)
+            {
+                // supressing calls where target player hosts simply don't match
+                // handling global hosts with player targets is left to when the host is resolved (few calls deeper).
+                if (nameCheck != null && call.optionalTarget != null && !nameCheck.equals(call.optionalTarget)) continue;
+                Bot scriptBot = Discarpet.getBotInHost(CarpetServer.scriptServer.getAppHostByName(call.host));
                 if(scriptBot == null) {
                     fails.add(call);
                     continue;
                 }
                 if(scriptBot.id.equals(triggerBot.id)) {
-                    if (!call.execute(source, argv)) {
-                        fails.add(call);
-                    }
+                    if (call.execute(source, argv) == CarpetEventServer.CallbackResult.FAIL) fails.add(call);
                 }
             }
-
-            var6 = fails.iterator();
-
-            while(var6.hasNext()) {
-                call = (CarpetEventServer.Callback)var6.next();
-                handler.callList.remove(call);
-            }
+            for (CarpetEventServer.Callback call : fails) handler.callList.remove(call);
+            CarpetProfiler.end_current_section(currentSection);
         }
     }
 }
