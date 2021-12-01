@@ -1,6 +1,7 @@
 package Discarpet.script.events;
 
 import Discarpet.Discarpet;
+import Discarpet.mixins.CallbackListAccessor;
 import Discarpet.script.values.ButtonInteractionValue;
 import Discarpet.script.values.SelectMenuInteractionValue;
 import Discarpet.script.values.SlashCommandInteractionValue;
