@@ -18,7 +18,7 @@ public class ServerPlayNetworkHandler_GameMessageMixin {
 
     @Shadow public ServerPlayerEntity player;
 
-    @Inject( at = @At("HEAD"), method = "onGameMessage")
+    @Inject( at = @At("HEAD"), method = "onChatMessage")
     public void onGameMessage(ChatMessageC2SPacket packet, CallbackInfo ci) {
         String normalized = StringUtils.normalizeSpace(packet.getChatMessage());
         ChatEvents.CHAT_MESSAGE.onChatMessage(packet.getChatMessage(),this.player,normalized.startsWith("/"));
