@@ -1,9 +1,7 @@
 package Discarpet.script.events;
 
 import Discarpet.Discarpet;
-import Discarpet.mixins.CallbackListAccessor;
 import Discarpet.script.values.ButtonInteractionValue;
-import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.SelectMenuInteractionValue;
 import Discarpet.script.values.SlashCommandInteractionValue;
 import Discarpet.script.values.UserValue;
@@ -13,24 +11,20 @@ import Discarpet.Bot;
 import carpet.CarpetServer;
 import carpet.script.CarpetEventServer;
 import carpet.script.value.BooleanValue;
-import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
 import carpet.utils.CarpetProfiler;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.World;
 import carpet.script.CarpetEventServer.Event;
-import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.Reaction;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.interaction.ButtonInteraction;
-import org.javacord.api.interaction.MessageComponentInteraction;
 import org.javacord.api.interaction.SelectMenuInteraction;
 import org.javacord.api.interaction.SlashCommandInteraction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
 
