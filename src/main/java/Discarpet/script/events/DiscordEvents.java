@@ -134,36 +134,36 @@ public class DiscordEvents extends Event {
 
         if (handler.callList.size() > 0)
         {
-            CarpetProfiler.ProfilerToken currentSection = CarpetProfiler.start_section(null, "Scarpet events", CarpetProfiler.TYPE.GENERAL);
-            List<Value> argv = argumentSupplier.get(); // empty for onTickDone
-            ServerCommandSource source;
-            try
-            {
-                 source = cmdSourceSupplier.get();
-            }
-            catch (NullPointerException noReference) // todo figure out what happens when closing.
-            {
-                return;
-            }
-            String nameCheck = ((CallbackListAccessor) handler).isPerPlayerDistribution()?source.getName():null;
-            assert argv.size() == handler.reqArgs;
-            List<CarpetEventServer.Callback> fails = new ArrayList<>();
-            for (CarpetEventServer.Callback call: handler.callList)
-            {
-                // supressing calls where target player hosts simply don't match
-                // handling global hosts with player targets is left to when the host is resolved (few calls deeper).
-                if (nameCheck != null && call.optionalTarget != null && !nameCheck.equals(call.optionalTarget)) continue;
-                Bot scriptBot = Discarpet.getBotInHost(CarpetServer.scriptServer.getAppHostByName(call.host));
-                if(scriptBot == null) {
-                    fails.add(call);
-                    continue;
+            CarpetServer.scriptServer.events.handleEvents.runIfEnabled( () -> {
+                CarpetProfiler.ProfilerToken currentSection = CarpetProfiler.start_section(null, "Scarpet events", CarpetProfiler.TYPE.GENERAL);
+                List<Value> argv = argumentSupplier.get(); // empty for onTickDone
+                ServerCommandSource source;
+                try {
+                    source = cmdSourceSupplier.get();
+                } catch (NullPointerException noReference) // todo figure out what happens when closing.
+                {
+                    return;
                 }
-                if(scriptBot.id.equals(triggerBot.id)) {
-                    if (call.execute(source, argv) == CarpetEventServer.CallbackResult.FAIL) fails.add(call);
+                String nameCheck = ((CallbackListAccessor) handler).isPerPlayerDistribution() ? source.getName() : null;
+                assert argv.size() == handler.reqArgs;
+                List<CarpetEventServer.Callback> fails = new ArrayList<>();
+                for (CarpetEventServer.Callback call : handler.callList) {
+                    // supressing calls where target player hosts simply don't match
+                    // handling global hosts with player targets is left to when the host is resolved (few calls deeper).
+                    if (nameCheck != null && call.optionalTarget != null && !nameCheck.equals(call.optionalTarget))
+                        continue;
+                    Bot scriptBot = Discarpet.getBotInHost(CarpetServer.scriptServer.getAppHostByName(call.host));
+                    if (scriptBot == null) {
+                        fails.add(call);
+                        continue;
+                    }
+                    if (scriptBot.id.equals(triggerBot.id)) {
+                        if (call.execute(source, argv) == CarpetEventServer.CallbackResult.FAIL) fails.add(call);
+                    }
                 }
-            }
-            for (CarpetEventServer.Callback call : fails) handler.callList.remove(call);
-            CarpetProfiler.end_current_section(currentSection);
+                for (CarpetEventServer.Callback call : fails) handler.callList.remove(call);
+                CarpetProfiler.end_current_section(currentSection);
+            });
         }
     }
 }
