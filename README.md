@@ -6,7 +6,7 @@
 
 # [Download](https://github.com/replaceitem/carpet-discarpet/releases)
 
-Message me on discord if you need help or anything else: `replaceitem#9118`
+If you need help, message me on discord (replaceitem#9118) or ping me in the [Carpet mod discord](https://discord.gg/gn99m4QRY4)
 
 ## Documentation
 
