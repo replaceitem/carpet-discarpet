@@ -1,34 +1,48 @@
 package Discarpet.script.values;
 
+import Discarpet.script.util.ValueUtil;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
+import org.javacord.api.entity.Mentionable;
+import org.javacord.api.entity.Nameable;
+import org.javacord.api.entity.channel.Channel;
+import org.javacord.api.entity.channel.ServerChannel;
 import org.javacord.api.entity.channel.ServerTextChannel;
-import org.javacord.api.entity.channel.TextChannel;
+
+import java.util.Optional;
 
 public class ChannelValue extends Value {
 
-    private final ServerTextChannel channel;
+    private final Channel channel;
 
-    public ChannelValue(TextChannel channel) {
-        this.channel = (ServerTextChannel) channel;
+    public ChannelValue(Channel channel) {
+        this.channel = channel;
+    }
+
+    public static Value of(Channel channel) {
+        if(channel == null) return Value.NULL;
+        return new ChannelValue(channel);
+    }
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static Value of(Optional<? extends Channel> optionalChannel){
+        return of(ValueUtil.unpackOptional(optionalChannel));
+    }
+
+    public Channel getChannel() {
+        return channel;
     }
 
     public Value getProperty(String property) {
-        switch (property) {
-            case "name":
-                return StringValue.of(channel.getName());
-            case "topic":
-                return StringValue.of(channel.getTopic());
-            case "id":
-                return StringValue.of(channel.getIdAsString());
-            case "mention_tag":
-                return StringValue.of(channel.getMentionTag());
-            case "server":
-                return new ServerValue(channel.getServer());
-            default:
-                return Value.NULL;
-        }
+        return switch (property) {
+            case "name" -> StringValue.of(channel instanceof Nameable nameableChannel ? nameableChannel.getName() : null);
+            case "type" -> StringValue.of(channel.getType().toString());
+            case "topic" -> StringValue.of(channel instanceof ServerTextChannel serverTextChannel ? serverTextChannel.getTopic() : null);
+            case "id" -> StringValue.of(channel.getIdAsString());
+            case "mention_tag" -> StringValue.of(channel instanceof Mentionable mentionableChannel ? mentionableChannel.getMentionTag() : null);
+            case "server" -> new ServerValue(channel instanceof ServerChannel serverChannel ? serverChannel.getServer() : null);
+            default -> Value.NULL;
+        };
     }
 
 
@@ -44,7 +58,7 @@ public class ChannelValue extends Value {
 
     @Override
     public String getString() {
-        return channel.getName();
+        return channel.getType() + ":" + channel.getIdAsString();
     }
 
     @Override
@@ -55,9 +69,5 @@ public class ChannelValue extends Value {
     @Override
     public NbtElement toTag(boolean b) {
         return null;
-    }
-
-    public ServerTextChannel getChannel() {
-        return channel;
     }
 }

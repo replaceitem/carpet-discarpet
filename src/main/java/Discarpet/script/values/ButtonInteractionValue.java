@@ -1,5 +1,6 @@
 package Discarpet.script.values;
 
+import Discarpet.Discarpet;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
@@ -15,21 +16,13 @@ public class ButtonInteractionValue extends Value implements InteractionValue {
     }
 
     public Value getProperty(String property) {
-
-        switch (property) {
-            case "id":
-                return StringValue.of(buttonInteraction.getCustomId());
-            case "channel":
-                if(buttonInteraction.getChannel().isEmpty()) return Value.NULL;
-                return new ChannelValue(buttonInteraction.getChannel().get());
-            case "user":
-                return new UserValue(buttonInteraction.getUser());
-            case "message":
-                if(buttonInteraction.getMessage().isEmpty()) return Value.NULL;
-                return new MessageValue(buttonInteraction.getMessage().get());
-            default:
-                return Value.NULL;
-        }
+        return switch (property) {
+            case "id" -> StringValue.of(buttonInteraction.getCustomId());
+            case "channel" -> ChannelValue.of(buttonInteraction.getChannel());
+            case "user" -> new UserValue(buttonInteraction.getUser());
+            case "message" -> MessageValue.of(buttonInteraction.getMessage());
+            default -> Value.NULL;
+        };
     }
 
 

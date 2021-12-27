@@ -1,18 +1,21 @@
 package Discarpet.script.functions;
 
+import Discarpet.Bot;
 import Discarpet.Discarpet;
+import Discarpet.script.util.ValueUtil;
 import Discarpet.script.values.EmbedBuilderValue;
 import Discarpet.script.values.InteractionValue;
+import Discarpet.script.values.MessageValue;
 import Discarpet.script.values.ServerValue;
 import carpet.script.Expression;
 import carpet.script.exception.InternalExpressionException;
+import carpet.script.value.BooleanValue;
 import carpet.script.value.ListValue;
 import carpet.script.value.MapValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import org.javacord.api.DiscordApi;
-import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.interaction.InteractionBase;
 import org.javacord.api.interaction.SlashCommand;
@@ -32,10 +35,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static Discarpet.ScarpetMapValueUtil.*;
+import static Discarpet.Discarpet.getBotInContext;
+import static Discarpet.Discarpet.scarpetNoBotException;
+import static Discarpet.script.util.ScarpetMapValueUtil.*;
 
 public class Interactions {
     public static void apply(Expression expr) {
@@ -69,96 +74,88 @@ public class Interactions {
                 slashCommandCompletableFuture = builder.createGlobal(Discarpet.getBotInContext(c).getApi());
             } else throw new InternalExpressionException("'dc_create_slash_command' requires a server or null as the third parameter");
 
-            slashCommandCompletableFuture.exceptionally(throwable -> {
-                Discarpet.LOGGER.error("Failed to create slash command:");
-                throwable.printStackTrace();
-                return null;
-            });
-
-            return Value.TRUE;
+            return BooleanValue.of(ValueUtil.awaitFutureBoolean(slashCommandCompletableFuture,"Error creating slash command"));
         });
 
         expr.addContextFunction("dc_delete_slash_command",-1, (c, t, lv) -> {
-            DiscordApi api = Discarpet.getBotInContext(c).getApi();
+            Bot bot = getBotInContext(c);
+            if (bot == null) scarpetNoBotException("dc_get_bot_user");
+            DiscordApi api = bot.getApi();
 
             if(lv.size() == 0) { //delete all
-                deleteGlobalSlashCommands(api);
-                api.getServers().forEach(server -> Interactions.deleteServerSlashCommands(api,server));
-                return Value.TRUE;
+                return BooleanValue.of(ValueUtil.awaitFutureBoolean(CompletableFuture.allOf(deleteGlobalSlashCommands(api),deleteAllServerSlashCommands(api)),"Error deleting all slash commands"));
             }
 
             Value serverValue = lv.get(0);
 
             if(lv.size()==1) { //delete all in server / global
                 if(serverValue.isNull()) {
-                    deleteGlobalSlashCommands(api);
-                } else if(serverValue instanceof ServerValue) {
-                    deleteServerSlashCommands(api,((ServerValue) serverValue).getServer());
+                    return BooleanValue.of(ValueUtil.awaitFutureBoolean(deleteGlobalSlashCommands(api),"Error deleting all global slash commands"));
+                } else if(serverValue instanceof ServerValue server) {
+                    return BooleanValue.of(ValueUtil.awaitFutureBoolean(deleteServerSlashCommands(api, server.getServer()),"Error deleting server slash commands"));
                 } else throw new InternalExpressionException("'dc_delete_slash_command' requires a server or null as the third parameter");
             }
 
             String name = lv.get(1).getString();
 
-            if(lv.size() == 2) { //delete in server / global with specific name
-                if(serverValue.isNull()) {
-                    api.getGlobalSlashCommands().join().forEach(slashCommand -> {
-                        if(slashCommand.getName().equals(name)) slashCommand.deleteGlobal().join();
-                    });
-                } else if (serverValue instanceof ServerValue) {
-                    api.getServerSlashCommands(((ServerValue) serverValue).getServer()).join().forEach(slashCommand -> {
-                        if(slashCommand.getName().equals(name)) slashCommand.deleteForServer(((ServerValue) serverValue).getServer()).join();
-                    });
-                } else throw new InternalExpressionException("'dc_delete_slash_command' requires a server or null as the second parameter");
-            }
-
-            return Value.TRUE;
+            if(serverValue.isNull()) {
+                return BooleanValue.of(ValueUtil.awaitFutureBoolean(deleteGlobalSlashCommandsByName(api,name),"Error deleting global slash command"));
+            } else if (serverValue instanceof ServerValue server) {
+                return BooleanValue.of(ValueUtil.awaitFutureBoolean(deleteServerSlashCommandsByName(api,server.getServer(),name),"Error deleting server slash command"));
+            } else throw new InternalExpressionException("'dc_delete_slash_command' requires a server or null as the second parameter");
         });
 
 
         expr.addContextFunction("dc_respond_interaction",-1, (c, t, lv) -> {
             if(lv.size() < 2 || lv.size() > 3) throw new InternalExpressionException("'dc_respond_interaction' expected 2 or 3 parameters");
-            Value interactionValue = lv.get(0);
-            if(!(interactionValue instanceof InteractionValue)) throw new InternalExpressionException("'dc_respond_interaction' expected a message interaction or slash command value as the first argument");
-            InteractionBase interactionBase = ((InteractionValue) interactionValue).getInteractionBase();
+            if(!(lv.get(0) instanceof InteractionValue interactionValue)) throw new InternalExpressionException("'dc_respond_interaction' expected a message interaction or slash command value as the first argument");
+            InteractionBase interactionBase = interactionValue.getInteractionBase();
             String type = lv.get(1).getString();
 
-            CompletableFuture<?> cf;
-
             if(type.equalsIgnoreCase("RESPOND_LATER")) {
-                cf = interactionBase.respondLater();
+                return BooleanValue.of(ValueUtil.awaitFutureBoolean(interactionBase.respondLater(),"Error sending 'respond_later' response to interaction"));
             } else if (type.equalsIgnoreCase("RESPOND_IMMEDIATELY") || type.equalsIgnoreCase("RESPOND_FOLLOWUP")) {
                 if(lv.size() != 3) throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + type);
                 Value content = lv.get(2);
                 if(type.equalsIgnoreCase("RESPOND_IMMEDIATELY")) {
                     InteractionImmediateResponseBuilder immediateResponder = interactionBase.createImmediateResponder();
                     applyValueToInteractionMessage(content,immediateResponder);
-                    cf = immediateResponder.respond();
+                    return BooleanValue.of(ValueUtil.awaitFutureBoolean(immediateResponder.respond(),"Error sending 'respond_immediately' response to interaction"));
                 } else {
                     InteractionFollowupMessageBuilder followupMessageBuilder = interactionBase.createFollowupMessageBuilder();
                     applyValueToInteractionMessage(content,followupMessageBuilder);
-                    cf = followupMessageBuilder.send();
+                    return MessageValue.of(ValueUtil.awaitFuture(followupMessageBuilder.send(),"Error sending 'respond_followup' response to interaction"));
                 }
             } else throw new InternalExpressionException("invalid response type for 'dc_respond_interaction', expected RESPOND_LATER, RESPOND_IMMEDIATELY or RESPOND_FOLLOWUP");
-
-            cf.exceptionally(throwable -> {
-                Discarpet.LOGGER.error("Error responding to interaction: " + throwable);
-                return null;
-            });
-
-            return Value.TRUE;
         });
     }
 
-    public static void deleteGlobalSlashCommands(DiscordApi api) {
-        api.getGlobalSlashCommands().join().forEach(slashCommand -> slashCommand.deleteGlobal().join());
+    public static CompletableFuture<Void> deleteGlobalSlashCommands(DiscordApi api) {
+        return api.getGlobalSlashCommands().thenAccept(slashCommands -> {
+            futureStreamAllOf(slashCommands.stream().map(SlashCommand::deleteGlobal));
+        });
     }
 
-    public static void deleteServerSlashCommands(DiscordApi api, Server server) {
-        try {
-            api.getServerSlashCommands(server).join().forEach(slashCommand -> {
-                slashCommand.deleteForServer(server).join();
-            });
-        } catch (CompletionException ignored) {}
+    public static CompletableFuture<Void> deleteGlobalSlashCommandsByName(DiscordApi api, String name) {
+        return api.getGlobalSlashCommands().thenAccept(slashCommands -> futureStreamAllOf(slashCommands.stream()
+                .filter(slashCommand -> slashCommand.getName().equals(name))
+                .map(SlashCommand::deleteGlobal)));
+    }
+
+    public static CompletableFuture<Void> deleteAllServerSlashCommands(DiscordApi api) {
+        return futureStreamAllOf(api.getServers().stream().map(server -> deleteServerSlashCommands(api,server)));
+    }
+
+    public static CompletableFuture<Void> deleteServerSlashCommands(DiscordApi api, Server server) {
+        return api.getServerSlashCommands(server).thenAccept(slashCommands -> {
+            futureStreamAllOf(slashCommands.stream().map(slashCommand -> slashCommand.deleteForServer(server)));
+        });
+    }
+
+    public static CompletableFuture<Void> deleteServerSlashCommandsByName(DiscordApi api, Server server, String name) {
+        return api.getServerSlashCommands(server).thenAccept(slashCommands -> futureStreamAllOf(slashCommands.stream()
+                        .filter(slashCommand -> slashCommand.getName().equals(name))
+                        .map(slashCommand -> slashCommand.deleteForServer(server))));
     }
 
 
@@ -259,7 +256,7 @@ public class Interactions {
             if(mapHasKey(map,"components")) {
                 List<Value> components = getListInMap(map,"components");
                 for (Value v : components) {
-                    interactionMessageBuilderBase.addComponents(Sending.getActionRowFromValue(v));
+                    interactionMessageBuilderBase.addComponents(Messages.getActionRowFromValue(v));
                 }
             }
         } else {
@@ -288,7 +285,7 @@ public class Interactions {
             try {
                 url = new URL(urlValue.getString());
             } catch (MalformedURLException e) {
-                throw new InternalExpressionException("Invalid URL for attachment file '" + urlValue.getString() + "': " + e.toString());
+                throw new InternalExpressionException("Invalid URL for attachment file '" + urlValue.getString() + "': " + e);
             }
             if(spoiler) interactionMessageBuilderBase.addAttachmentAsSpoiler(url);
             else interactionMessageBuilderBase.addAttachment(url);
@@ -305,5 +302,11 @@ public class Interactions {
             if(spoiler) interactionMessageBuilderBase.addAttachmentAsSpoiler(data,name);
             else interactionMessageBuilderBase.addAttachment(data,name);
         }
+    }
+
+
+    private static CompletableFuture<Void> futureStreamAllOf(Stream<CompletableFuture<?>> completableFutureStream) {
+        CompletableFuture<?>[] futures = completableFutureStream.toArray(CompletableFuture[]::new);
+        return CompletableFuture.allOf(futures);
     }
 }

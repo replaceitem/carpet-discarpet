@@ -1,14 +1,13 @@
 package Discarpet.script.values;
 
+import Discarpet.script.util.ValueUtil;
 import carpet.script.value.BooleanValue;
-import carpet.script.value.ListValue;
-import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
 import org.javacord.api.entity.user.User;
 
-import java.util.List;
+import java.util.Optional;
 
 public class UserValue extends Value {
 
@@ -18,53 +17,31 @@ public class UserValue extends Value {
         this.user = user;
     }
 
-    public Value getProperty(String property) {
-        switch (property) {
-            case "name":
-                return StringValue.of(user.getName());
-            case "mention_tag":
-                return StringValue.of(user.getMentionTag());
-            case "discriminated_name":
-                return StringValue.of(user.getDiscriminatedName());
-            case "id":
-                return StringValue.of(user.getIdAsString());
-            case "avatar":
-                return StringValue.of(user.getAvatar().getUrl().toString());
-            case "is_bot":
-                return BooleanValue.of(user.isBot());
-            case "is_self":
-                return BooleanValue.of(user.isYourself());
-            default:
-                return Value.NULL;
-        }
+    public static Value of(User user) {
+        if(user == null) return Value.NULL;
+        return new UserValue(user);
+    }
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static Value of(Optional<User> optionalUser){
+        return of(ValueUtil.unpackOptional(optionalUser));
     }
 
-    public Value setProperty(String property, List<Value> values) {
-        switch (property) {
-            case "nickname":
-                if(values.size() < 2) return Value.NULL;
-                if(!(values.get(0) instanceof ServerValue)) return Value.NULL;
-                user.updateNickname(((ServerValue) values.get(0)).getServer(), values.get(1).getString());
-                return Value.TRUE;
-            default:
-                return Value.NULL;
-        }
+    public Value getProperty(String property) {
+        return switch (property) {
+            case "name" -> StringValue.of(user.getName());
+            case "mention_tag" -> StringValue.of(user.getMentionTag());
+            case "discriminated_name" -> StringValue.of(user.getDiscriminatedName());
+            case "id" -> StringValue.of(user.getIdAsString());
+            case "avatar" -> StringValue.of(user.getAvatar().getUrl().toString());
+            case "is_bot" -> BooleanValue.of(user.isBot());
+            case "is_self" -> BooleanValue.of(user.isYourself());
+            case "private_channel" -> ChannelValue.of(ValueUtil.awaitFuture(user.openPrivateChannel(),"Error opening private channel with user"));
+            default -> Value.NULL;
+        };
     }
 
     @Override
     public Value in(Value value1) {
-        if(value1 instanceof ListValue) {
-            if(value1.length() < 2) {
-                return Value.NULL;
-            } else {
-                List<Value> args = ((ListValue) value1).getItems();
-                System.out.println("args = " + args);
-                String property = args.get(0).getString();
-                args = args.subList(1,args.size());
-                System.out.println("args = " + args);
-                return setProperty(property,args);
-            }
-        }
         return getProperty(value1.getString());
     }
 

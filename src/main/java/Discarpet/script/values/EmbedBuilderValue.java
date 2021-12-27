@@ -20,6 +20,9 @@ public class EmbedBuilderValue extends Value {
         return Value.NULL;
     }
 
+    public EmbedBuilder getEmbedBuilder() {
+        return embedBuilder;
+    }
 
     @Override
     public Value in(Value value1) {

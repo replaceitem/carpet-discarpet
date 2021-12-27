@@ -3,14 +3,20 @@ package Discarpet;
 import Discarpet.commands.DiscarpetCommand;
 import Discarpet.script.events.ChatEvents;
 import Discarpet.script.events.DiscordEvents;
-import Discarpet.script.functions.Get;
 import Discarpet.script.functions.Embeds;
 import Discarpet.script.functions.Interactions;
-import Discarpet.script.functions.Sending;
-import Discarpet.script.functions.Set;
+import Discarpet.script.functions.Messages;
+import Discarpet.script.functions.Self;
+import Discarpet.script.functions.Channels;
+import Discarpet.script.functions.Users;
 import Discarpet.script.functions.ValueFromId;
+import Discarpet.script.values.ButtonInteractionValue;
 import Discarpet.script.values.ChannelValue;
+import Discarpet.script.values.EmbedBuilderValue;
+import Discarpet.script.values.EmojiValue;
 import Discarpet.script.values.MessageValue;
+import Discarpet.script.values.ReactionValue;
+import Discarpet.script.values.SelectMenuInteractionValue;
 import Discarpet.script.values.ServerValue;
 import Discarpet.script.values.SlashCommandInteractionValue;
 import Discarpet.script.values.UserValue;
@@ -35,11 +41,16 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.javacord.api.entity.channel.ServerTextChannel;
+import org.javacord.api.entity.channel.Channel;
+import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.message.Reaction;
+import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
+import org.javacord.api.interaction.ButtonInteraction;
+import org.javacord.api.interaction.SelectMenuInteraction;
 import org.javacord.api.interaction.SlashCommandInteraction;
 
 import java.io.IOException;
@@ -66,15 +77,32 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void onGameStarted() {
-		SimpleTypeConverter.registerType(UserValue.class, User.class, UserValue::getUser, "user");
-		SimpleTypeConverter.registerType(ServerValue.class, Server.class, ServerValue::getServer, "server");
+		SimpleTypeConverter.registerType(ButtonInteractionValue.class, ButtonInteraction.class, ButtonInteractionValue::getButtonInteraction, "button_interaction");
+		SimpleTypeConverter.registerType(ChannelValue.class, Channel.class, ChannelValue::getChannel, "channel");
+		SimpleTypeConverter.registerType(EmbedBuilderValue.class, EmbedBuilder.class, EmbedBuilderValue::getEmbedBuilder, "embed_builder");
+		SimpleTypeConverter.registerType(EmojiValue.class, Emoji.class, EmojiValue::getEmoji, "emoji");
 		SimpleTypeConverter.registerType(MessageValue.class, Message.class, MessageValue::getMessage, "message");
-		SimpleTypeConverter.registerType(ChannelValue.class, ServerTextChannel.class, ChannelValue::getChannel, "channel");
+		SimpleTypeConverter.registerType(ReactionValue.class, Reaction.class, ReactionValue::getReaction, "message");
+		SimpleTypeConverter.registerType(SelectMenuInteractionValue.class, SelectMenuInteraction.class, SelectMenuInteractionValue::getSelectMenuInteraction, "message");
+		SimpleTypeConverter.registerType(ServerValue.class, Server.class, ServerValue::getServer, "server");
 		SimpleTypeConverter.registerType(SlashCommandInteractionValue.class, SlashCommandInteraction.class, SlashCommandInteractionValue::getSlashCommandInteraction, "slash_command_interaction");
+		SimpleTypeConverter.registerType(UserValue.class, User.class, UserValue::getUser, "user");
+
+		OutputConverter.registerToValue(ButtonInteraction.class, ButtonInteractionValue::new);
+		OutputConverter.registerToValue(Channel.class, ChannelValue::new);
+		OutputConverter.registerToValue(EmbedBuilder.class, EmbedBuilderValue::new);
+		OutputConverter.registerToValue(Emoji.class, EmojiValue::new);
+		OutputConverter.registerToValue(Message.class, MessageValue::new);
+		OutputConverter.registerToValue(Reaction.class, ReactionValue::new);
+		OutputConverter.registerToValue(SelectMenuInteraction.class, SelectMenuInteractionValue::new);
+		OutputConverter.registerToValue(Server.class, ServerValue::new);
+		OutputConverter.registerToValue(SlashCommandInteraction.class, SlashCommandInteractionValue::new);
 		OutputConverter.registerToValue(User.class, UserValue::new);
-		AnnotationParser.parseFunctionClass(Get.class);
-		AnnotationParser.parseFunctionClass(Sending.class);
-		AnnotationParser.parseFunctionClass(Set.class);
+
+		AnnotationParser.parseFunctionClass(Channels.class);
+		AnnotationParser.parseFunctionClass(Messages.class);
+		AnnotationParser.parseFunctionClass(Self.class);
+		AnnotationParser.parseFunctionClass(Users.class);
 		AnnotationParser.parseFunctionClass(ValueFromId.class);
 	}
 
@@ -90,7 +118,6 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void scarpetApi(CarpetExpression expression) {
-		Sending.apply(expression.getExpr());
 		Embeds.apply(expression.getExpr());
 		Interactions.apply(expression.getExpr());
 	}

@@ -9,7 +9,7 @@ All Discarpet values have a type name (which you get from `type()`) with the pre
 
 `dc_channel`
 
-A channel value represents a Discord channel in a Discord server.
+A channel value represents a Discord channel.
 
 Queryable:
 
@@ -21,7 +21,9 @@ Queryable:
 
 `mention_tag` (String) Mention tag for the channel. This can be put inside a message for the channel to be a clickable link.
 
-`server` ([Server](#Server)) Server this channel is in
+`server` (Server) Server this channel is in, or null if this is a private channel
+
+`type` (String) Channel type
 
 ## EmbedBuilder
 
@@ -65,11 +67,11 @@ Queryable:
 
 `id` (String) Get the id of the message
 
-`channel` ([Channel](#Channel)) Get the channel this message is inside
+`channel` (Channel) Get the channel this message is inside
 
-`user` ([User](#User)) Get the user that wrote this message. Note that this may fail (and return null) if the user is not cached, but if queried after the `__on_discord_message` event, it should be fine
+`user` (User) Get the user that wrote this message. Note that this may fail (and return null) if the user is not cached, but if queried after the `__on_discord_message` event, it should be fine
 
-`server` ([Server](#Server)) Get the server this message was written in
+`server` (Server) Get the server this message was written in
 
 `delete` (boolean) This is not actually a query, but it removes the message. Returns false if the bot does not have permission to delete the message, otherwise false
 
@@ -81,11 +83,11 @@ A reaction on a message. Main use is in `__on_discord_reaction` event
 
 Queryable:
 
-`emoji` ([Emoji](#Emoji)) The emoji of this reaction
+`emoji` (Emoji) The emoji of this reaction
 
 `count` (Number) Amount of reactions with this emoji
 
-`message` ([Message](#Message)) The message this reacion is attached to
+`message` (Message) The message this reacion is attached to
 
 ## Server
 
@@ -99,7 +101,7 @@ Queryable:
 
 `id` (String) The ID of the server
 
-`users` (List of Users) All users in this server (this requires the member [intent](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Setup.md#Intents))
+`users` (List of Users) All users in this server (this requires the member Intent)
 
 `channels` (List of Channels) All channels in this server
 
@@ -125,6 +127,8 @@ Queryable:
 
 `is_self` (boolean) True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself
 
+`private_channel` (Channel) The private messages channel with the user. Note that this may block, if the private channel was not yet opened.
+
 ## Slash command interaction
 
 `dc_slash_command_interaction`
@@ -137,9 +141,9 @@ Queryable:
 
 `options` (Map) A map containing all options that were specified in the command, with the key being the name of the option, with a corresponding value that has been chosen for this option.
 
-`user` ([User](#User)) The user that executed the command.
+`user` (User) The user that executed the command.
 
-`channel` ([Channel](#Channel)) The channel this command was executed in.
+`channel` (Channel) The channel this command was executed in.
 
 ## Button and Select menu interaction
 
@@ -153,11 +157,11 @@ Queryable:
 
 `id` (String) Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter
 
-`channel` ([Channel](#Channel)) The channel this interaction was made in.
+`channel` (Channel) The channel this interaction was made in.
 
-`user` ([User](#User)) The user that used the interaction.
+`user` (User) The user that used the interaction.
 
-`message` ([Message](#Message)) The message this interaction is attached to.
+`message` (Message) The message this interaction is attached to.
 
 Queryable things exclusive to select menus:
 
