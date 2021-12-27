@@ -77,13 +77,10 @@ public class Bot {
 				Optional<SelectMenuInteraction> selectMenuInteraction = messageComponentInteraction.asSelectMenuInteraction();
 				selectMenuInteraction.ifPresent(interaction -> DiscordEvents.DISCORD_SELECT_MENU.onDiscordSelectMenu(this, interaction));
 			});
-
 		} catch (CompletionException ce) {
 			String error = "Could not login bot " + id;
-			LOGGER.warn(error);
-			ce.getCause().printStackTrace();
+			LOGGER.warn(error,ce);
 			if(source != null) source.sendFeedback(new LiteralText(error).formatted(Formatting.RED),false);
-			ce.printStackTrace();
 			api = null;
 		}
 	}
