@@ -14,7 +14,10 @@ import org.javacord.api.interaction.SelectMenuInteraction;
 
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static Discarpet.Discarpet.LOGGER;
@@ -29,9 +32,12 @@ public class Bot {
 	public Bot(String id, String token, HashSet<Intent> intents, ServerCommandSource source) {
 		this.id = id;
 		try {
-			api = new DiscordApiBuilder().setToken(token).setAllIntentsWhere(intent -> {
-				return !intent.isPrivileged() || intents.contains(intent);
-			}).login().join();
+			DiscordApiBuilder apiBuilder = new DiscordApiBuilder();
+			apiBuilder.setToken(token);
+			apiBuilder.setAllIntentsWhere(intent -> !intent.isPrivileged() || intents.contains(intent));
+			CompletableFuture<DiscordApi> cf = apiBuilder.login();
+			cf.orTimeout(10, TimeUnit.SECONDS);
+			api = cf.get();
 
 			String msg;
 			if(intents.size() == 0) {
@@ -77,10 +83,11 @@ public class Bot {
 				Optional<SelectMenuInteraction> selectMenuInteraction = messageComponentInteraction.asSelectMenuInteraction();
 				selectMenuInteraction.ifPresent(interaction -> DiscordEvents.DISCORD_SELECT_MENU.onDiscordSelectMenu(this, interaction));
 			});
-		} catch (CompletionException ce) {
+		} catch (CompletionException | InterruptedException | ExecutionException ce) {
 			String error = "Could not login bot " + id;
 			LOGGER.warn(error,ce);
 			if(source != null) source.sendFeedback(new LiteralText(error).formatted(Formatting.RED),false);
+			if(api != null) api.disconnect();
 			api = null;
 		}
 	}
