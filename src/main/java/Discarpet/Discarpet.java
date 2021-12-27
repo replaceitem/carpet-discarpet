@@ -112,6 +112,12 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	}
 
 	@Override
+	public void onServerClosed(MinecraftServer server) {
+		LOGGER.info("Disconnecting all Discord bots");
+		discordBots.forEach((s, bot) -> bot.getApi().disconnect());
+	}
+
+	@Override
 	public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
 		DiscarpetCommand.register(dispatcher);
 	}
