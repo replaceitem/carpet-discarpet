@@ -1,11 +1,12 @@
 package Discarpet.script.values;
 
+import Discarpet.Discarpet;
+import Discarpet.script.util.ValueUtil;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import com.vdurmont.emoji.EmojiParser;
 import net.minecraft.nbt.NbtElement;
 import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 
 import java.util.Optional;
@@ -18,41 +19,25 @@ public class MessageValue extends Value {
         this.message = message;
     }
 
+    public static Value of(Message message) {
+        if(message == null) return Value.NULL;
+        return new MessageValue(message);
+    }
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static Value of(Optional<Message> optionalMessage){
+        return of(ValueUtil.unpackOptional(optionalMessage));
+    }
+
     public Value getProperty(String property) {
-        switch (property) {
-            case "content":
-                return StringValue.of(message.getContent());
-            case "readable_content":
-                //not all user mentions will be parsed, if they are not cached
-                return StringValue.of(EmojiParser.parseToAliases(message.getReadableContent()));
-            case "id":
-                return StringValue.of(message.getIdAsString());
-            case "channel":
-                return new ChannelValue(message.getChannel());
-            case "user":
-                Optional<User> optionalUser = message.getUserAuthor();
-                if(optionalUser.isPresent()) {
-                    return new UserValue(optionalUser.get());
-                } else {
-                    return Value.NULL;
-                }
-            case "server":
-                Optional<Server> optionalServer = message.getServer();
-                if(optionalServer.isPresent()) {
-                    return new ServerValue(optionalServer.get());
-                } else {
-                    return Value.NULL;
-                }
-            case "delete":
-                if(message.canYouDelete()) {
-                    message.delete();
-                    return Value.TRUE;
-                } else {
-                    return Value.FALSE;
-                }
-            default:
-                return Value.NULL;
-        }
+        return switch (property) {
+            case "content" -> StringValue.of(message.getContent());
+            case "readable_content" -> StringValue.of(EmojiParser.parseToAliases(message.getReadableContent())); //not all user mentions will be parsed, if they are not cached
+            case "id" -> StringValue.of(message.getIdAsString());
+            case "channel" -> new ChannelValue(message.getChannel());
+            case "user" -> UserValue.of(message.getUserAuthor());
+            case "server" -> ServerValue.of(message.getServer());
+            default -> Value.NULL;
+        };
     }
 
 

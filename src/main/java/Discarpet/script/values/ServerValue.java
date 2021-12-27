@@ -1,11 +1,14 @@
 package Discarpet.script.values;
 
+import Discarpet.script.util.ValueUtil;
 import carpet.script.value.ListValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
+import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.server.Server;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ServerValue extends Value {
@@ -16,19 +19,23 @@ public class ServerValue extends Value {
         this.server = server;
     }
 
+    public static Value of(Server server) {
+        if(server == null) return Value.NULL;
+        return new ServerValue(server);
+    }
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static Value of(Optional<Server> optionalServer){
+        return of(ValueUtil.unpackOptional(optionalServer));
+    }
+
     public Value getProperty(String property) {
-        switch (property) {
-            case "name":
-                return StringValue.of(server.getName());
-            case "id":
-                return StringValue.of(server.getIdAsString());
-            case "users":
-                return ListValue.wrap(server.getMembers().stream().map(UserValue::new).collect(Collectors.toList()));
-            case "channels":
-                return ListValue.wrap(server.getMembers().stream().map(UserValue::new).collect(Collectors.toList()));
-            default:
-                return Value.NULL;
-        }
+        return switch (property) {
+            case "name" -> StringValue.of(server.getName());
+            case "id" -> StringValue.of(server.getIdAsString());
+            case "users" -> ListValue.wrap(server.getMembers().stream().map(UserValue::new).collect(Collectors.toList()));
+            case "channels" -> ListValue.wrap(server.getMembers().stream().map(UserValue::new).collect(Collectors.toList()));
+            default -> Value.NULL;
+        };
     }
 
 

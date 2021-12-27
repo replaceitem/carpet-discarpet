@@ -1,3 +1,4 @@
+//file:noinspection GradlePackageUpdate
 plugins {
 	id 'fabric-loom' version '0.10-SNAPSHOT'
 	id 'maven-publish'

@@ -1,25 +1,18 @@
 package Discarpet.script.functions;
 
-import Discarpet.ScarpetMapValueUtil;
-import Discarpet.script.ScriptFuture;
+import Discarpet.script.util.ValueUtil;
 import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.EmbedBuilderValue;
 import Discarpet.script.values.EmojiValue;
-import Discarpet.script.values.MessageValue;
-import Discarpet.script.values.UserValue;
-import carpet.script.Expression;
 import carpet.script.annotation.ScarpetFunction;
-import carpet.script.argument.FunctionArgument;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.ListValue;
 import carpet.script.value.MapValue;
-import carpet.script.value.NumericValue;
-import carpet.script.value.StringValue;
 import carpet.script.value.Value;
-import com.vdurmont.emoji.EmojiParser;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageBuilder;
+import org.javacord.api.entity.message.Messageable;
 import org.javacord.api.entity.message.component.ActionRow;
 import org.javacord.api.entity.message.component.Button;
 import org.javacord.api.entity.message.component.ButtonBuilder;
@@ -40,53 +33,39 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import static Discarpet.Discarpet.scarpetException;
-import static Discarpet.ScarpetMapValueUtil.*;
+import static Discarpet.script.util.ScarpetMapValueUtil.*;
 
-public class Sending {
-	@ScarpetFunction
-	public boolean dc_react(Message message, Value emojiValue) {
-		if (!(emojiValue instanceof EmojiValue || emojiValue instanceof StringValue)) scarpetException("dc_react","emoji",1);
-		if (!message.canYouAddNewReactions()) return false;
-		
-		if(emojiValue instanceof EmojiValue) {
-            message.addReaction(((EmojiValue) emojiValue).emoji);
-        } else {
-            message.addReaction(emojiValue.getString());
-        }
-		
-		return true;
-	}
-	
-    public static void apply(Expression expr) {
-        expr.addContextFunction("dc_send_message", -1, (c, t, lv) -> {
-            if(!(lv.size()==2 || lv.size()==3)) throw new InternalExpressionException("'dc_send_message' requires two or tree arguments");
+public class Messages {
+    @ScarpetFunction
+    public Message dc_send_message(Value target, Value messageContent) {
+        MessageBuilder messageBuilder = messageBuilderFromValue(messageContent);
 
-            Value channelValue = lv.get(0);
-            Value messageValue = lv.get(1);
+        if(target instanceof ChannelValue channel && channel.getChannel() instanceof Messageable messageable) {
+            CompletableFuture<Message> cf = messageBuilder.send(messageable);
+            return ValueUtil.awaitFuture(cf,"Error sending message");
+        } else throw new InternalExpressionException("'dc_send_message' expected a text channel or user as the first parameter");
 
-            MessageBuilder messageBuilder = messageBuilderFromValue(messageValue);
-
-            CompletableFuture<Message> cf;
-
-            if(channelValue instanceof ChannelValue) {
-                cf = messageBuilder.send(((ChannelValue) channelValue).getChannel());
-            } else if(channelValue instanceof UserValue) {
-                cf = messageBuilder.send(((UserValue) channelValue).getUser());
-            } else throw new InternalExpressionException("'dc_send_message' expected a channel or user as the first parameter");
-
-            if(lv.size()==3) {
-                FunctionArgument functionArgument = FunctionArgument.findIn(c, expr.module, lv, 2, false, false);
-                ScriptFuture future = new ScriptFuture(c, functionArgument.function);
-                cf.thenAccept(message -> {
-                    future.execute(new MessageValue(message));
-                });
-            }
-
-            return Value.TRUE;
-        });
     }
 
+    @ScarpetFunction
+    public boolean dc_delete_message(Message message) {
+        if(message.canYouDelete()) return false;
+        return ValueUtil.awaitFutureBoolean(message.delete(),"Error deleting message");
+    }
+
+	@ScarpetFunction
+	public boolean dc_react(Message message, Value emojiValue) {
+		if (!message.canYouAddNewReactions()) return false;
+
+        CompletableFuture<Void> cf;
+		if(emojiValue instanceof EmojiValue) {
+            cf = message.addReaction(((EmojiValue) emojiValue).emoji);
+        } else {
+            cf = message.addReaction(emojiValue.getString());
+        }
+
+        return ValueUtil.awaitFutureBoolean(cf, "Error reacting to message");
+	}
 
     public static MessageBuilder messageBuilderFromValue(Value value) {
 	    MessageBuilder messageBuilder = new MessageBuilder();
@@ -151,7 +130,7 @@ public class Sending {
             try {
                 url = new URL(path);
             } catch (MalformedURLException e) {
-                throw new InternalExpressionException("Invalid URL for attachment file '" + path + "': " + e.toString());
+                throw new InternalExpressionException("Invalid URL for attachment file '" + path + "': " + e);
             }
             if(spoiler) builder.addAttachmentAsSpoiler(url);
             else builder.addAttachment(url);

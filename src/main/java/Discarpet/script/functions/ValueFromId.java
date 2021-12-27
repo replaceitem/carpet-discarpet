@@ -5,7 +5,6 @@ import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.EmojiValue;
 import Discarpet.script.values.ServerValue;
 import carpet.script.Context;
-import carpet.script.Expression;
 import carpet.script.annotation.ScarpetFunction;
 import carpet.script.value.ListValue;
 import carpet.script.value.Value;
@@ -27,9 +26,9 @@ public class ValueFromId {
 
         Optional<Channel> optionalChannel = bot.api.getChannelById(channelId);
         if (optionalChannel.isPresent() && optionalChannel.get() instanceof TextChannel) {
-            return new ChannelValue((TextChannel) optionalChannel.get());
+            return new ChannelValue(optionalChannel.get());
         } else {
-            return Value.FALSE;
+            return Value.NULL;
         }
 	}
 	
@@ -39,10 +38,10 @@ public class ValueFromId {
         if (bot == null) scarpetNoBotException("dc_server_from_id");
 
         Optional<Server> optionalServer = bot.api.getServerById(serverId);
-        if(optionalServer.isPresent() && optionalServer.get() instanceof Server) {
+        if(optionalServer.isPresent()) {
             return new ServerValue(optionalServer.get());
         } else {
-            return Value.FALSE;
+            return Value.NULL;
         }
 	}
 	

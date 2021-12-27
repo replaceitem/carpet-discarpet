@@ -3,20 +3,22 @@
 Discarpet adds a lot of functions to scarpet to control your bot.
 Below is a list of all functions and how they work.
 
-## Sending
+## Messages
 
-### `dc_send_message(channel,content,function?)`
+### `dc_send_message(channel,content)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
 
 This functions sends a message in a specific Discord `channel`. 
 The `content` can be a String, an [`EmbedBuilder`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#embedbuilder)
 or a more complex message consisting of multiple embeds, attachments or interactions (see below).
-Optionally, you can specify a function (or lambda expression, see example below)
-that will be executed when the message was send to modify it, add reactions etc.
 
 This example shows how you can send a message and add reactions to it as soon as it was sent
 
 ```py
-dc_send_message(dc_channel_from_id('YOUR CHANNEL ID'),'Test message',_(message)->(
+task(_()->(
+    message = dc_send_message(dc_channel_from_id('YOUR CHANNEL ID'),'Test message');
     dc_react(message,'🟥');
     dc_react(message,'🟩');
 ));
@@ -112,6 +114,13 @@ Each entry is a map with the following keys:
 
 For examples, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md)
 
+### `dc_delete_message(message)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Deletes the message.
+Returns true if successful, otherwise false.
 
 ### `dc_react(message,emoji)`
 
@@ -119,30 +128,21 @@ React to a [`Message`](https://github.com/replaceitem/carpet-discarpet/blob/mast
 The `emoji` can be a unicode emoji (as a string) or an
 [`emoji`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#emoji) value.
 
-## Values from IDs
-
-### `dc_channel_from_id(id)`
-
-Returns a [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel) value from the
-specified channel id, or `null` if the channel was not found.
-
-### `dc_server_from_id(id)`
-
-Returns a [`server`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#server) value from the
-specified server id, or `null` if the server was not found.
-
-### `dc_emoji_from_id(server,id)`
-
-Returns a [`emoji`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#emoji) value from the
-specified emoji id in a `server`. If there is no emoji with that id, it will instead search for custom emojis which have the name `id`. If there are none, returns an empty list.
-This is only for custom emojis, since standard emojis are specified from the unicode emoji.
-
-## Set
+## Channels
 
 ### `dc_set_channel_topic(channel,text)`
 
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
 This function sets the description of the [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel)
 to the specified `text`. Remember to give the bot permission to do that.
+
+## Self bot actions
+
+### `dc_get_bot_user()`
+
+Returns a user value of the bot itself.
 
 ### `dc_set_activity(type,text)`
 
@@ -155,17 +155,25 @@ The `text` will appear after the type. Returns `null` if the `type` was invalid.
 
 Changes the status of the bot. Can be `online`,`idle`,`dnd`(Do not disturb),`invisible` and `offline`.
 
-## Get
+## Users
 
 ### `dc_get_display_name(user,server)`
 
 Gets the nickname, or name if no nickname is present, from the [`user`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#user) in the [`server`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#server).
 
+### `dc_set_nickname(user,server,name)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Sets the nickname of the `user` on the `server`.#
+Returns `true` if successful, false otherwise.
+
 ## Embeds
 
 ### `dc_build_embed()` `dc_build_embed(property,value...)`
 
-This function is used to create custom Embeds which can be sent using [`dc_send_message`](#dc_send_messagechannelcontentfunction).
+This function is used to create custom Embeds which can be sent using `dc_send_message`.
 
 When ran without arguments, returns an empty [embed](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#embedbuilder) value.
 
@@ -211,6 +219,9 @@ Which gives this result:
 ## Interactions
 
 ### `dc_create_slash_command(name, description, server)` `dc_create_slash_command(name, description, server, options)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
 
 Function for creating slash commands for the bot. When called with 3 parameters,
 only a simple command with no additional options or subcommands is created (e.g. `/ping`).
@@ -293,15 +304,21 @@ For full examples of commands, see [Examples](https://github.com/replaceitem/car
 
 ### `dc_delete_slash_command()` `dc_delete_slash_command(server)` `dc_delete_slash_command(server,name)`
 
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
 Used for deleting slash commands.
 Without any arguments, deletes all global and server commands of the bot.
 When a server is specified, deletes all slash commands in that server, or if the server is `null`,
 deletes all global slash commands. When a name is specified, deletes only the slash commands with that name.
 
 Note that this function halts the current thread in order to ensure that the slash commands got removed,
-so creating a slash command immediately after wouldnt conflict with this.
+so creating a slash command immediately after wouldn't conflict with this.
 
 ### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
 
 This function is used for responding to interactions.
 The first parameter is any interaction (slash command, button, select menu) from its corresponding event.
@@ -321,3 +338,26 @@ The `message` needs to be specified for this.
 The `message` needs to be specified for this.
 
 The `message` parameter the same as the message parameter in `dc_send_message`
+
+This function returns `null` if the response could not be sent,
+otherwise `true`.
+Only if using `RESPOND_FOLLOWUP`,
+this will return a message value with the sent message.
+
+## Values from IDs
+
+### `dc_channel_from_id(id)`
+
+Returns a [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel) value from the
+specified channel id, or `null` if the channel was not found.
+
+### `dc_server_from_id(id)`
+
+Returns a [`server`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#server) value from the
+specified server id, or `null` if the server was not found.
+
+### `dc_emoji_from_id(server,id)`
+
+Returns a [`emoji`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#emoji) value from the
+specified emoji id in a `server`. If there is no emoji with that id, it will instead search for custom emojis which have the name `id`. If there are none, returns an empty list.
+This is only for custom emojis, since standard emojis are specified from the unicode emoji.

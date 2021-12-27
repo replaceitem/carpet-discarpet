@@ -14,16 +14,16 @@ public class ReactionValue extends Value {
     }
 
     public Value getProperty(String property) {
-        switch (property) {
-            case "emoji":
-                return new EmojiValue(reaction.getEmoji());
-            case "count":
-                return NumericValue.of(reaction.getCount());
-            case "message":
-                return new MessageValue(reaction.getMessage());
-            default:
-                return Value.NULL;
-        }
+        return switch (property) {
+            case "emoji" -> new EmojiValue(reaction.getEmoji());
+            case "count" -> NumericValue.of(reaction.getCount());
+            case "message" -> new MessageValue(reaction.getMessage());
+            default -> Value.NULL;
+        };
+    }
+
+    public Reaction getReaction() {
+        return reaction;
     }
 
     @Override
