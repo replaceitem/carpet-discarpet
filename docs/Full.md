@@ -1,5 +1,6 @@
 # Setting up Bots
 
+
 ## Logging in
 
 First, you need a Discord bot account.
@@ -100,7 +101,7 @@ the bot from the config will be applied.
 In the config file, you can enable two kinds of intents for your bot.
 You should leave them as `false`, unless you use functions that require your bot to have this permission.
 In that case, you also need to enable the permissions in the Discord developer portal (Bot/Privileged Gateway Intents).
-There is a hint at all functions that need an additional Intent so you know when you need them.
+There is a hint at all functions that need an additional Intent, so you know when you need them.
 
 # Discarpet Values
 
@@ -113,7 +114,7 @@ All Discarpet values have a type name (which you get from `type()`) with the pre
 
 `dc_channel`
 
-A channel value represents a Discord channel in a Discord server.
+A channel value represents a Discord channel.
 
 Queryable:
 
@@ -125,7 +126,9 @@ Queryable:
 
 `mention_tag` (String) Mention tag for the channel. This can be put inside a message for the channel to be a clickable link.
 
-`server` ([Server](#Server)) Server this channel is in
+`server` (Server) Server this channel is in, or null if this is a private channel
+
+`type` (String) Channel type
 
 ## EmbedBuilder
 
@@ -169,11 +172,11 @@ Queryable:
 
 `id` (String) Get the id of the message
 
-`channel` ([Channel](#Channel)) Get the channel this message is inside
+`channel` (Channel) Get the channel this message is inside
 
-`user` ([User](#User)) Get the user that wrote this message. Note that this may fail (and return null) if the user is not cached, but if queried after the `__on_discord_message` event, it should be fine
+`user` (User) Get the user that wrote this message. Note that this may fail (and return null) if the user is not cached, but if queried after the `__on_discord_message` event, it should be fine
 
-`server` ([Server](#Server)) Get the server this message was written in
+`server` (Server) Get the server this message was written in
 
 `delete` (boolean) This is not actually a query, but it removes the message. Returns false if the bot does not have permission to delete the message, otherwise false
 
@@ -185,11 +188,11 @@ A reaction on a message. Main use is in `__on_discord_reaction` event
 
 Queryable:
 
-`emoji` ([Emoji](#Emoji)) The emoji of this reaction
+`emoji` (Emoji) The emoji of this reaction
 
 `count` (Number) Amount of reactions with this emoji
 
-`message` ([Message](#Message)) The message this reacion is attached to
+`message` (Message) The message this reacion is attached to
 
 ## Server
 
@@ -203,7 +206,7 @@ Queryable:
 
 `id` (String) The ID of the server
 
-`users` (List of Users) All users in this server (this requires the member [intent](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Setup.md#Intents))
+`users` (List of Users) All users in this server (this requires the member Intent)
 
 `channels` (List of Channels) All channels in this server
 
@@ -229,6 +232,8 @@ Queryable:
 
 `is_self` (boolean) True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself
 
+`private_channel` (Channel) The private messages channel with the user. Note that this may block, if the private channel was not yet opened.
+
 ## Slash command interaction
 
 `dc_slash_command_interaction`
@@ -241,9 +246,9 @@ Queryable:
 
 `options` (Map) A map containing all options that were specified in the command, with the key being the name of the option, with a corresponding value that has been chosen for this option.
 
-`user` ([User](#User)) The user that executed the command.
+`user` (User) The user that executed the command.
 
-`channel` ([Channel](#Channel)) The channel this command was executed in.
+`channel` (Channel) The channel this command was executed in.
 
 ## Button and Select menu interaction
 
@@ -257,11 +262,11 @@ Queryable:
 
 `id` (String) Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter
 
-`channel` ([Channel](#Channel)) The channel this interaction was made in.
+`channel` (Channel) The channel this interaction was made in.
 
-`user` ([User](#User)) The user that used the interaction.
+`user` (User) The user that used the interaction.
 
-`message` ([Message](#Message)) The message this interaction is attached to.
+`message` (Message) The message this interaction is attached to.
 
 Queryable things exclusive to select menus:
 
@@ -278,20 +283,22 @@ Queryable things exclusive to select menus:
 Discarpet adds a lot of functions to scarpet to control your bot.
 Below is a list of all functions and how they work.
 
-## Sending
+## Messages
 
-### `dc_send_message(channel,content,function?)`
+### `dc_send_message(channel,content)`
 
-This functions sends a message in a specific Discord `channel`.
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+This functions sends a message in a specific Discord `channel`. 
 The `content` can be a String, an [`EmbedBuilder`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#embedbuilder)
 or a more complex message consisting of multiple embeds, attachments or interactions (see below).
-Optionally, you can specify a function (or lambda expression, see example below)
-that will be executed when the message was send to modify it, add reactions etc.
 
 This example shows how you can send a message and add reactions to it as soon as it was sent
 
 ```py
-dc_send_message(dc_channel_from_id('YOUR CHANNEL ID'),'Test message',_(message)->(
+task(_()->(
+    message = dc_send_message(dc_channel_from_id('YOUR CHANNEL ID'),'Test message');
     dc_react(message,'🟥');
     dc_react(message,'🟩');
 ));
@@ -302,33 +309,37 @@ To construct more complex messages you can use a map as the `content`.
 This map can contain various things you can include in your message.
 
 * `'content'` (String) This is just the regular text of the message
-* `'attachments'` (List) A list of attachments that will be sent along the message.
-  Each attachment is represented by a map containing one of these map keys:
 
-  * `'file'` (String) A path to a file that will be attached to the message
-  * `'url'` (String) A url to a file that will be attached to the message
-  * `'bytes'` (String) A string, which will be converted to bytes and directly saved to a file.
+* `'attachments'` (List) A list of attachments that will be sent along the message.
+Each attachment is represented by a map containing one of these map keys:
+    * `'file'` (String) A path to a file that will be attached to the message
+    
+    * `'url'` (String) A url to a file that will be attached to the message
+    
+    * `'bytes'` (String) A string, which will be converted to bytes and directly saved to a file.
     This can be used to save to txt files, or even non text file formats,
     in which case the string's characters will be saved as the file's bytes.
     In this case, the map must additionally contain a `'name'` value containing the filename for the file.
+    
+    Additionally, a `'spoiler'` value can be set to true, to mark the file as a spoiler.
 
-  Additionally, a `'spoiler'` value can be set to true, to mark the file as a spoiler.
-
-  Example:
-
-  ```py
-  dc_send_message(channel,{
-      'content'->'I am sending you a secret file:',
-      'attachments'->[
-          {
-              'bytes'->'Text in the file',
-              'name'->'secret_message.txt',
-              'spoiler'->true
-          }
-      ],
-  });
-  ```
+    Example:
+    
+    ```py
+    dc_send_message(channel,{
+        'content'->'I am sending you a secret file:',
+        'attachments'->[
+            {
+                'bytes'->'Text in the file',
+                'name'->'secret_message.txt',
+                'spoiler'->true
+            }
+        ],
+    });
+    ```
+  
 * `'embeds'` (List) A list of EmbedBuilder value to attach to the message
+
 * `'components'` (List) A list of lists with message components like buttons or select menus in them.
 
 Each sub list represents one row of message components.
@@ -343,10 +354,15 @@ This can be `'button'` or `'select_menu'`.
 Buttons can have the following values:
 
 * `'id'` (String) the id of this button, which is used to recognize the button in the `__on_discord_button` event. Note that this is only for non `url` type buttons
+
 * `'style'` (String) The type of button, can be either `blurple`, `grey`, `green`, `red` or `url`.
+
 * `'label'` (String) The text shown on the button.
+
 * `'emoji'` (String or Emoji) The emoji shown next to the text on the button.
+
 * `'url'` (String) The url for `url` style buttons only
+
 * `'disabled'` (boolean) If the button is disabled or not
 
 **Select menus:**
@@ -354,20 +370,37 @@ Buttons can have the following values:
 Buttons can have the following values:
 
 * `'id'` (String) the id of this button, which is used to recognize the select menu in the `__on_discord_select_menu` event.
-* `'options'` (List) All options in the selection menu.
-  Each entry is a map with the following keys:
 
-  * `'value'` (String) The value behind this option that will be received in the `__on_discord_select_menu` event
-  * `'label'` (String) The text shown in the menu
-  * `'description'` (String) The description shown in the menu
-  * `'emoji'` (Emoji or String) An emoji shown next to the entry in the select menu
-  * `'default'` (boolean) If this entry is selected by default
+* `'options'` (List) All options in the selection menu.
+Each entry is a map with the following keys:
+
+    * `'value'` (String) The value behind this option that will be received in the `__on_discord_select_menu` event
+    
+    * `'label'` (String) The text shown in the menu
+    
+    * `'description'` (String) The description shown in the menu
+    
+    * `'emoji'` (Emoji or String) An emoji shown next to the entry in the select menu
+    
+    * `'default'` (boolean) If this entry is selected by default
+
 * `'min'` (number) The minimum amount of entries that have so be selected
+
 * `'max'` (number) The maximum amount of entries that can be selected
+
 * `'placeholder'` (String) The text displayed if nothing is selected
+
 * `'disabled'` (boolean) If the select menu is disabled or not
 
 For examples, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md)
+
+### `dc_delete_message(message)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Deletes the message.
+Returns true if successful, otherwise false.
 
 ### `dc_react(message,emoji)`
 
@@ -375,30 +408,21 @@ React to a [`Message`](https://github.com/replaceitem/carpet-discarpet/blob/mast
 The `emoji` can be a unicode emoji (as a string) or an
 [`emoji`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#emoji) value.
 
-## Values from IDs
-
-### `dc_channel_from_id(id)`
-
-Returns a [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel) value from the
-specified channel id, or `null` if the channel was not found.
-
-### `dc_server_from_id(id)`
-
-Returns a [`server`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#server) value from the
-specified server id, or `null` if the server was not found.
-
-### `dc_emoji_from_id(server,id)`
-
-Returns a [`emoji`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#emoji) value from the
-specified emoji id in a `server`. If there is no emoji with that id, it will instead search for custom emojis which have the name `id`. If there are none, returns an empty list.
-This is only for custom emojis, since standard emojis are specified from the unicode emoji.
-
-## Set
+## Channels
 
 ### `dc_set_channel_topic(channel,text)`
 
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
 This function sets the description of the [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel)
 to the specified `text`. Remember to give the bot permission to do that.
+
+## Self bot actions
+
+### `dc_get_bot_user()`
+
+Returns a user value of the bot itself.
 
 ### `dc_set_activity(type,text)`
 
@@ -411,17 +435,25 @@ The `text` will appear after the type. Returns `null` if the `type` was invalid.
 
 Changes the status of the bot. Can be `online`,`idle`,`dnd`(Do not disturb),`invisible` and `offline`.
 
-## Get
+## Users
 
 ### `dc_get_display_name(user,server)`
 
 Gets the nickname, or name if no nickname is present, from the [`user`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#user) in the [`server`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#server).
 
+### `dc_set_nickname(user,server,name)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Sets the nickname of the `user` on the `server`.#
+Returns `true` if successful, false otherwise.
+
 ## Embeds
 
 ### `dc_build_embed()` `dc_build_embed(property,value...)`
 
-This function is used to create custom Embeds which can be sent using [`dc_send_message`](#dc_send_messagechannelcontentfunction).
+This function is used to create custom Embeds which can be sent using `dc_send_message`.
 
 When ran without arguments, returns an empty [embed](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#embedbuilder) value.
 
@@ -468,6 +500,9 @@ Which gives this result:
 
 ### `dc_create_slash_command(name, description, server)` `dc_create_slash_command(name, description, server, options)`
 
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
 Function for creating slash commands for the bot. When called with 3 parameters,
 only a simple command with no additional options or subcommands is created (e.g. `/ping`).
 `name` and `description` are shown by discord inside the slash command menu.
@@ -495,32 +530,36 @@ dc_create_slash_command(name, description, server, [
 Each option has multiple things you can specify:
 
 * `'type'` (String): the type of option. There are two things this can do, either:
-
-  * Add a subcommand group or subcommand using `'SUB_COMMAND_GROUP'` and `'SUB_COMMAND'`.
+    * Add a subcommand group or subcommand using `'SUB_COMMAND_GROUP'` and `'SUB_COMMAND'`.
     Sub command groups are always on the first "layer",
-    while subcommands are always one layer deeper than sub command groups.
+    while subcommands are always one layer deeper than sub command groups. 
     Note that this is quite limited in comparison to minecraft commands.
     All paths of the command tree have to have either just a sub command, or a sub command group with sub commands each.
-    This means that the length of the commands (without the other options that aren't subcommands) has to be equal.
+    This means that the length of the commands (without the other options that aren't subcommands) has to be equal. 
     See: https://canary.discord.com/developers/docs/interactions/slash-commands#nested-subcommands-and-groups
-  * Add options to the back of the command, with the types:
+    
+    * Add options to the back of the command, with the types:
+        * `'STRING'`
+        * `'INTEGER'`
+        * `'BOOLEAN'`
+        * `'USER'`
+        * `'CHANNEL'`
+        * `'ROLE'`
+        * `'MENTIONABLE'`
 
-    * `'STRING'`
-    * `'INTEGER'`
-    * `'BOOLEAN'`
-    * `'USER'`
-    * `'CHANNEL'`
-    * `'ROLE'`
-    * `'MENTIONABLE'`
 * `'name'` (String): For subcommands, this is the name of the subcommands, and for other options,
-  this is the name displayed by discord
+this is the name displayed by discord
+
 * `'description'` (String): A description which will be shown in discord about the command option
+
 * `'required'` (boolean, optional): If this option is required or not. If left out, defaults to false.
+
 * `'options'` (list, optional): Sub-options to this sub command/group. This is only for subcommands or subcommand groups.
+
 * `'choices'` (list, optional): Specify value that can be autocompleted in in the slash command.
-  Entries in this list are maps containing a name, and a value.
-  The name is whats actually shown, and the value what will be received when executing the command.
-  The value can be a string or a number.
+Entries in this list are maps containing a name, and a value.
+The name is whats actually shown, and the value what will be received when executing the command.
+The value can be a string or a number.
 
 e.g.:
 
@@ -545,15 +584,21 @@ For full examples of commands, see [Examples](https://github.com/replaceitem/car
 
 ### `dc_delete_slash_command()` `dc_delete_slash_command(server)` `dc_delete_slash_command(server,name)`
 
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
 Used for deleting slash commands.
 Without any arguments, deletes all global and server commands of the bot.
 When a server is specified, deletes all slash commands in that server, or if the server is `null`,
 deletes all global slash commands. When a name is specified, deletes only the slash commands with that name.
 
 Note that this function halts the current thread in order to ensure that the slash commands got removed,
-so creating a slash command immediately after wouldnt conflict with this.
+so creating a slash command immediately after wouldn't conflict with this.
 
 ### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
 
 This function is used for responding to interactions.
 The first parameter is any interaction (slash command, button, select menu) from its corresponding event.
@@ -563,14 +608,40 @@ or telling discord that the answer will come, which gives a 15 minute time to se
 The `type` can be one of three things:
 
 * `'RESPOND_LATER'` This does not require the third `message` parameter,
-  and just tells discord that the interaction was received and an answer will come.
-  You will then need to send a RESPOND_FOLLOWUP response within 15 minutes.
-* `'RESPOND_IMMEDIATELY'` This sends an immediate response which has to come within 3 seconds.
-  The `message` needs to be specified for this.
-* `'RESPOND_FOLLOWUP'` This is used for sending a followup response within 15 minutes after the `RESPOND_LATER` response has been sent.
-  The `message` needs to be specified for this.
+and just tells discord that the interaction was received and an answer will come.
+You will then need to send a RESPOND_FOLLOWUP response within 15 minutes.
 
-The `message` parameter the same as the message parameter in `dc_send_message`# Discarpet Events
+* `'RESPOND_IMMEDIATELY'` This sends an immediate response which has to come within 3 seconds.
+The `message` needs to be specified for this.
+
+* `'RESPOND_FOLLOWUP'` This is used for sending a followup response within 15 minutes after the `RESPOND_LATER` response has been sent.
+The `message` needs to be specified for this.
+
+The `message` parameter the same as the message parameter in `dc_send_message`
+
+This function returns `null` if the response could not be sent,
+otherwise `true`.
+Only if using `RESPOND_FOLLOWUP`,
+this will return a message value with the sent message.
+
+## Values from IDs
+
+### `dc_channel_from_id(id)`
+
+Returns a [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel) value from the
+specified channel id, or `null` if the channel was not found.
+
+### `dc_server_from_id(id)`
+
+Returns a [`server`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#server) value from the
+specified server id, or `null` if the server was not found.
+
+### `dc_emoji_from_id(server,id)`
+
+Returns a [`emoji`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#emoji) value from the
+specified emoji id in a `server`. If there is no emoji with that id, it will instead search for custom emojis which have the name `id`. If there are none, returns an empty list.
+This is only for custom emojis, since standard emojis are specified from the unicode emoji.# Discarpet Events
+
 
 Discarpet's scarpet events are used to detect events that happen in discord servers the bot is in. Additionally, there are also events for when a chat message gets sent in minecraft or a general system message happens.
 
@@ -583,12 +654,12 @@ Event that execute on system messages, for example to be used to redirect system
 `text` -> String: Text of the system message
 
 `type` -> String: Type of the message, could be for example:
+   
+  chat.type.text -> Normal chat message
 
-chat.type.text -> Normal chat message
-
-multiplayer.player.left -> Someone left the game
-
-chat.type.admin -> Admin command executed
+  multiplayer.player.left -> Someone left the game
+  
+  chat.type.admin -> Admin command executed
 
 `entity` -> Entity: Entity that message came from, or null if not sent from an entity
 
@@ -665,42 +736,47 @@ Executes when a user uses a select menu component on a message
 ## Replying to messages
 
 ```py
-__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+__config() -> {'scope'->'global','bot'->'BOT'};
 
 __on_discord_message(message) -> (
-    if(message~'user'~'is_self',return()); //# stop the event if the message is from the bot itself
+    if(message~'user'~'is_self',return()); // stop the event if the message is from the bot itself
 
     if(message~'content' == 'Ping',
-        dc_send_message(message~'channel','Pong!');
+        // use a task to not freeze the game
+        task(_(outer(message)) -> (
+            dc_send_message(message~'channel','Pong!');
+        ));
     );
 );
+
 ```
 
 ## Showing online players in bot activity
 
 ```py
-__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+__config() -> {'scope'->'global','bot'->'BOT'};
 
 __on_tick() -> (
-    if(tick_time()%(20*5) == 0, // Consider discords rate limit (only execute every 5 seconds)
-        if(length(player('all')) != 0,
+    if(tick_time()%(20*30) == 0, // Consider discords rate limit (only execute every 30 seconds)
+        if(length(player('all')) != 0, // are players online?
             dc_set_activity('playing','with ' + join(', ',player('all'))); //display list of players
-            dc_set_status('online'); //status should be online
+            dc_set_status('online'); // status should be online
         ,
-            dc_set_activity('playing','with nobody'); //alternative text if nobody is online
-            dc_set_status('idle'); //set status to idle
+            dc_set_activity('playing','with nobody'); // alternative text if nobody is online
+            dc_set_status('idle'); // set status to idle
         );
     );
 );
+
 ```
 
 ## Sending all Minecraft log messages to a discord channel
 
 ```py
-__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+__config() -> {'scope'->'global','bot'->'BOT'};
 
 global_executions = 0;
-global_log = dc_channel_from_id('CHANNEL ID');
+global_log = dc_channel_from_id('789877625497190440');
 
 __on_tick() -> (
     global_executions = 0;
@@ -710,65 +786,78 @@ __on_system_message(text,type,entity) -> (
     global_executions += 1; //prevent recursion
     if(global_executions < 10,
         if((type~'commands.save.') == null, //dont send 'saving world' messages
-            dc_send_message(global_log,text); //send to discord
+            task(_(outer(text)) -> (
+                dc_send_message(global_log,text); //send to discord
+            ));
         );
     );
 );
+
 ```
 
-## Simple discord command
+## Simple discord command (not a slash command)
 
 ```py
-__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+__config() -> {'scope'->'global','bot'->'BOT'};
 
 __on_discord_message(message) -> (
-    if(message~'user'~'is_self',return()); //ignore messages by the bot itself
+    if(message~'user'~'is_self',return()); // ignore messages by the bot itself
 
     text = message~'content';
 
-    if(slice(text,0,1)=='!', //check for a ! indicating a command
+    if(slice(text,0,1)=='!', // check for a ! indicating a command
+        // split all arguments to a list
         cmd = split(' ',slice(text,1));
 
-        if(cmd:0 == 'list', //!list command
-            dc_send_message(message~'channel','Currently online: ' + join(', ',player('all')));
+        if(cmd:0 == 'list', // !list command
+            task(_(outer(message)) -> (
+                dc_send_message(message~'channel','Currently online: ' + join(', ',player('all')));
+            ));
             return();
         );
 
-        if(cmd:0 == 'help',  //!help command
-            dc_send_message(message~'channel','I\'m sorry but i cant help you');
+        if(cmd:0 == 'help',  // !help command
+            task(_(outer(message)) -> (
+                dc_send_message(message~'channel','I\'m sorry but i cant help you');
+            ));
             return();
         );
     );
 );
+
 ```
 
 ## If you dont trust your server members as much
-
 ```py
-__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+__config() -> {'scope'->'global','bot'->'BOT'};
 
-global_log = dc_channel_from_id('CHANNEL ID');
+global_log = dc_channel_from_id('789877625497190440');
 
 __on_player_interacts_with_block(player, hand, block, face, hitvec) -> (
     if((['chest','barrel']~block != null) || (block~'shulker_box' != null), //warning when player opens chest/barrel/shulkerbox
-        dc_send_message(global_log,str('%s opened %s at %s in %s',player,block,pos(block),current_dimension()));
+        task(_(outer(player),outer(block)) -> (
+            dc_send_message(global_log,str('%s opened %s at %s in %s',player,block,pos(block),current_dimension()));
+        ));
     );
 );
 __on_player_places_block(player, item_tuple, hand, block) -> (
     if(block == 'tnt', //warning when player places tnt
-        dc_send_message(global_log,str(':warning: %s placed %s at %s in %s',player,block,pos(block),current_dimension()));
+        task(_(outer(player),outer(block)) -> (
+            dc_send_message(global_log,str(':warning: %s placed %s at %s in %s',player,block,pos(block),current_dimension()));
+        ));
     );
 );
-```
 
+```
 ## Reactions as user input
 
 ```py
-__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+__config() -> {'scope'->'global','bot'->'BOT'};
 
-channel = dc_channel_from_id('CHANNEL ID');
+global_channel = dc_channel_from_id('759102744761335891');
 
-dc_send_message(channel,'React with 🟩 to accept of 🟥 to deny',_(message)->(
+task(_()->(
+    message = dc_send_message(global_channel,'React with 🟩 to accept or 🟥 to deny');
     global_msgid = message~'id';
     dc_react(message,'🟥');
     dc_react(message,'🟩');
@@ -777,11 +866,10 @@ dc_send_message(channel,'React with 🟩 to accept of 🟥 to deny',_(message)->
 __on_discord_reaction(reaction,user,added) -> (
     if(user~'is_self',return());
     if(reaction~'message'~'id' == global_msgid,
-        if(added,
-            dc_send_message(reaction~'message'~'channel',user~'name' + ' voted with ' + reaction~'emoji'~'unicode');
-        ,
-            dc_send_message(reaction~'message'~'channel',user~'name' + ' removed the vote for ' + reaction~'emoji'~'unicode');
-        );
+        action = if(added,'voted with','removed the vote for');
+        task(_(outer(reaction),outer(user),outer(action))-> (
+            dc_send_message(reaction~'message'~'channel',user~'name' + ' ' + action + ' ' + reaction~'emoji'~'unicode');
+        ));
     );
 );
 
@@ -790,7 +878,7 @@ __on_discord_reaction(reaction,user,added) -> (
 ## Embeds
 
 ```py
-__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+__config() -> {'scope'->'global','bot'->'BOT','stay_loaded'->false};
 
 e = dc_build_embed();
 dc_build_embed(e,'title','SuperCoolEmbed');
@@ -804,21 +892,47 @@ dc_build_embed(e,'color',255,128,0);
 dc_build_embed(e,'footer','gnembon','https://avatars1.githubusercontent.com/u/41132274?s=460&v=4');
 dc_build_embed(e,'image','https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/logo.png');
 dc_build_embed(e,'thumbnail','https://avatars3.githubusercontent.com/u/40722305?s=460&u=ae87da388b3b0aeab05edf67cef1c6f7208727d3&v=4');
-dc_send_message(dc_channel_from_id('YOUR CHANNEL'),e);
-```
+dc_send_message(dc_channel_from_id('759102744761335891'),e);
 
+```
 See [`dc_build_embed()`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#dc_build_embed-dc_build_embedpropertyvalue)
 
 ## Chat between Minecraft and Discord
 
 ```py
-__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+__config() -> {'scope'->'global','bot'->'BOT','stay_loaded'->false};
 
 global_executions = 0;
-global_chat = dc_channel_from_id('CHANNEL ID');
+global_chat = dc_channel_from_id('789877643070799902');
 
 __on_tick() -> (
     global_executions = 0;
+);
+
+__on_discord_message(message) -> (
+    if(message~'channel'~'id'!=global_chat~'id',return()); //limit to chat channel only
+    if(message~'user'~'is_self',return()); //ignore messages by the bot itself
+    for(player('all'),
+        col = 'd'; // this could be replaced with a custom way of fetching user color
+        if(col == null,col = 'w');
+        print(_,format(str('%s [%s]',col,dc_get_display_name(message~'user',message~'server')))+format(str('w  %s',message~'readable_content')))
+    );
+);
+
+__on_system_message(text,type,entity) -> (
+    global_executions += 1; //prevent recursion
+    if(global_executions < 10,
+        if(!(type~'admin'),
+            if((type~'commands.save.') == null, //dont send 'saving world' messages
+                msg = __parse_mentions(text,global_chat~'server');
+                task(_(outer(msg)) -> dc_send_message(global_chat,msg)); //send to discord
+            );
+        );
+    );
+);
+
+__on_chat_message(msg,player,command) -> (
+    task(_(outer(msg)) -> dc_send_message(global_chat,'chat: ' + msg)); //send to discord
 );
 
 __parse_mentions(msg,server) -> (
@@ -828,66 +942,52 @@ __parse_mentions(msg,server) -> (
     msg;
 );
 
-__on_discord_message(message) -> (
-    if(message~'channel'~'id'!=global_chat~'id',return()); //limit to chat channel only
-    if(message~'user'~'is_self',return()); //ignore messages by the bot itself
-    for(player('all'), //note that printing to individual players doesn't trigger __on_system_message(), which is what we want
-        print(_,format(str('%s [%s]',col,dc_get_display_name(message~'user',message~'server')))+format(str('#7289DA  %s',message~'readable_content')))
-    );
-);
-
-__on_system_message(text,type,entity) -> (
-    global_executions += 1; //prevent recursion
-    if(global_executions < 10,
-        if(!(type~'admin') && !(type~'commands.save.'), //dont send 'saving world' messages and admin messages
-            dc_send_message(global_chat,__parse_mentions(text,global_chat~'server')); //send to discord
-        );
-    );
-);
 ```
 
 ## Slash commands
 
 ```py
-__config() -> {'scope'->'global','bot'->'YOUR BOT'};
+__config() -> {'scope'->'global','bot'->'BOT'};
 
-//remove all commands first
-dc_delete_slash_command();
 
-server = dc_server_from_id('YOUR SERVER');
+initialize_commands() -> (
+    //remove all commands first
+    dc_delete_slash_command();
 
-//simple ping command
-dc_create_slash_command('ping','Ping -> Pong!',server);
+    server = dc_server_from_id('689483030754099267');
 
-//more complex command with subcommand groups and subcommands, as well as options
-dc_create_slash_command('example','Test command',server,[
-    {
-        'type'->'SUB_COMMAND_GROUP',
-        'name'->'delete',
-        'description'->'Delete something',
-        'options'->[
-            {
-                'type'->'SUB_COMMAND',
-                'name'->'channel',
-                'description'->'Remove something',
-                'options'->[
-                    {
-                        'type'->'CHANNEL',
-                        'name'->'channel',
-                        'description'->'What channel to delete',
-                        'required'->true
-                    },
-                    {
-                        'type'->'BOOLEAN',
-                        'name'->'force',
-                        'description'->'Force delete channel?',
-                        'required'->false
-                    }
-                ]
-            }
-        ]
-    },
-    {
+    //simple ping command
+    dc_create_slash_command('ping','Ping -> Pong!',server);
+
+    //more complex command with subcommand groups and subcommands, as well as options
+    dc_create_slash_command('example','Test command',server,[
+        {
+            'type'->'SUB_COMMAND_GROUP',
+            'name'->'delete',
+            'description'->'Delete something',
+            'options'->[
+                {
+                    'type'->'SUB_COMMAND',
+                    'name'->'channel',
+                    'description'->'Remove something',
+                    'options'->[
+                        {
+                            'type'->'CHANNEL',
+                            'name'->'channel',
+                            'description'->'What channel to delete',
+                            'required'->true
+                        },
+                        {
+                            'type'->'BOOLEAN',
+                            'name'->'force',
+                            'description'->'Force delete channel?',
+                            'required'->false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             'type'->'SUB_COMMAND_GROUP',
             'name'->'create',
             'description'->'Create something',
@@ -933,133 +1033,144 @@ dc_create_slash_command('example','Test command',server,[
                 }
             ]
         }
-]);
+    ]);
+);
+
+// reload commands async, as that would otherwise freeze the game for multiple seconds
+task('initialize_commands');
+
 
 
 __on_discord_slash_command(cmd) -> (
     //check which command was executed
     if(cmd~'command':0 == 'ping',
         //respond immediately
-        dc_respond_interaction(cmd,'RESPOND_IMMEDIATELY','Pong!');
-        return();
+        task(_(outer(cmd))->dc_respond_interaction(cmd,'RESPOND_IMMEDIATELY','Pong!'));
     , //else
         //tell discord that its gonna take a bit for the response
         dc_respond_interaction(cmd,'RESPOND_LATER');
-        //respond after 10 seconds
-        schedule(200,_(cmd)->dc_respond_interaction(cmd,'RESPOND_FOLLOWUP','Executed ' + cmd~'command' + ' with options ' + cmd~'options'),cmd);
+        //respond after 5 seconds
+        task(_(outer(cmd))->(
+            sleep(5000);
+            dc_respond_interaction(cmd,'RESPOND_FOLLOWUP','Executed ' + cmd~'command' + ' with options ' + cmd~'options');
+        ));
     );
 );
+
 ```
 
 ## Buttons and select menus
 
 ```py
-__config() -> {'scope'->'global','stay_loaded'->true,'bot'->'YOUR BOT'};
+__config() -> {'scope'->'global','stay_loaded'->true,'bot'->'BOT'};
 
-ch = dc_channel_from_id('CHANNEL');
+global_ch = dc_channel_from_id('759102744761335891');
 
-dc_send_message(ch,{
-    'content'->'Example interactions',
-    'components'->
-    [
+task(_()->(
+    dc_send_message(global_ch,{
+        'content'->'Example interactions',
+        'components'->
         [
-            {
-                'component'->'button',
-                'id'->'btn1',
-                'style'->'red',
-                'label'->'Red button',
-                'emoji'->'❌'
-            },
-            {
-                'component'->'button',
-                'id'->'btn2',
-                'style'->'blurple',
-                'label'->'Blurple button',
-                'emoji'->'🚪'
-            },
-            {
-                 'component'->'button',
-                 'id'->'btn3',
-                 'style'->'green',
-                 'label'->'Green button',
-                 'emoji'->'👑'
-            },
-             {
-                  'component'->'button',
-                  'id'->'btn4',
-                  'style'->'grey',
-                  'label'->'Grey button',
-                  'emoji'->'📧'
-             }
-        ],
-        [
+            [
+                {
+                    'component'->'button',
+                    'id'->'btn1',
+                    'style'->'red',
+                    'label'->'Red button',
+                    'emoji'->'❌'
+                },
+                {
+                    'component'->'button',
+                    'id'->'btn2',
+                    'style'->'blurple',
+                    'label'->'Blurple button',
+                    'emoji'->'🚪'
+                },
+                {
+                     'component'->'button',
+                     'id'->'btn3',
+                     'style'->'green',
+                     'label'->'Green button',
+                     'emoji'->'👑'
+                },
+                 {
+                      'component'->'button',
+                      'id'->'btn4',
+                      'style'->'grey',
+                      'label'->'Grey button',
+                      'emoji'->'📧'
+                 }
+            ],
+            [
 
-            {
-                'component'->'select_menu',
-                'id'->'select1',
-                'placeholder'->'Select at least 2 items here',
-                'min'->2,
-                'max'->5,
-                'options'->[
-                    {
-                        'value'->'pizza',
-                        'label'->'Pizza',
-                        'description'->'I mean who doesn\'t like pizza?',
-                        'emoji'->'🍕'
-                    },
-                    {
-                        'value'->'cake',
-                        'label'->'Cake',
-                        'description'->'If you prefer sweet food',
-                        'emoji'->'🍰'
-                    },
-                    {
-                        'value'->'popcorn',
-                        'label'->'Popcorn',
-                        'description'->'Just like in the cinema',
-                        'emoji'->'🍿'
-                    },
-                    {
-                        'value'->'bread',
-                        'label'->'Bread',
-                        'description'->'Something simple but delicious',
-                        'emoji'->'🍞'
-                    },
-                    {
-                        'value'->'carrot',
-                        'label'->'Carrot',
-                        'description'->'Something healthy',
-                        'emoji'->'🥕'
-                    }
-                ]
-            }
+                {
+                    'component'->'select_menu',
+                    'id'->'select1',
+                    'placeholder'->'Select at least 2 items here',
+                    'min'->2,
+                    'max'->5,
+                    'options'->[
+                        {
+                            'value'->'pizza',
+                            'label'->'Pizza',
+                            'description'->'I mean who doesn\'t like pizza?',
+                            'emoji'->'🍕'
+                        },
+                        {
+                            'value'->'cake',
+                            'label'->'Cake',
+                            'description'->'If you prefer sweet food',
+                            'emoji'->'🍰'
+                        },
+                        {
+                            'value'->'popcorn',
+                            'label'->'Popcorn',
+                            'description'->'Just like in the cinema',
+                            'emoji'->'🍿'
+                        },
+                        {
+                            'value'->'bread',
+                            'label'->'Bread',
+                            'description'->'Something simple but delicious',
+                            'emoji'->'🍞'
+                        },
+                        {
+                            'value'->'carrot',
+                            'label'->'Carrot',
+                            'description'->'Something healthy',
+                            'emoji'->'🥕'
+                        }
+                    ]
+                }
+            ]
         ]
-    ]
-});
+    });
 
-//doing this in a seperate message, since there is a bug in javacord that breaks events from regular buttons if there is a url button in the same message
-dc_send_message(ch,{
-    'components'-> [[
-        {
-            //leaving 'id' out since its a url button
-            'component'->'button',
-            'style'->'url',
-            'label'->'Open replaceitem\'s github',
-            'emoji'->'🌐',
-            'url'->'https://github.com/replaceitem'
-        }
-    ]],
+    //doing this in a seperate message, since there is a bug in javacord that breaks events from regular buttons if there is a url button in the same message
+    dc_send_message(global_ch,{
+        'content'->'My github:',
+        'components'-> [[
+            {
+                //leaving 'id' out since its a url button
+                'component'->'button',
+                'style'->'url',
+                'label'->'Open replaceitem\'s github',
+                'emoji'->'🌐',
+                'url'->'https://github.com/replaceitem'
+            }
+        ]],
 
-});
+    });
+
+
+));
 
 __on_discord_button(int) -> (
-    logger('button');
-    dc_respond_interaction(int,'respond_immediately','Pressed button ' + int~'id');
+    task(_(outer(int)) -> dc_respond_interaction(int,'respond_immediately','Pressed button ' + int~'id'));
 );
 
 __on_discord_select_menu(int) -> (
-    logger('select');
-    dc_respond_interaction(int,'respond_immediately','Selected ' + str(int~'chosen'));
+    task(_(outer(int)) -> dc_respond_interaction(int,'respond_immediately','Selected ' + str(int~'chosen')));
 );
 
 ```
