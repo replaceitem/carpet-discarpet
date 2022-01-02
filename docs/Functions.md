@@ -183,6 +183,14 @@ Adds a `role` to a `user`. `reason` will be shown in the audit log of your serve
 
 Removes a `role` to a `user`. `reason` will be shown in the audit log of your server.
 
+### `dc_get_user_roles(user, server)`
+
+Returns a list of roles the `user` has in the `server`.
+
+### `dc_get_user_color(user, server)`
+
+Returns the hex color of the top role of the `user` in the `server`.
+
 ## Embeds
 
 ### `dc_build_embed()` `dc_build_embed(property,value...)`
