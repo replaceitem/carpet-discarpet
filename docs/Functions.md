@@ -169,6 +169,20 @@ Gets the nickname, or name if no nickname is present, from the [`user`](https://
 Sets the nickname of the `user` on the `server`.#
 Returns `true` if successful, false otherwise.
 
+### `dc_add_role(user, role, reason)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Adds a `role` to a `user`. `reason` will be shown in the audit log of your server.
+
+### `dc_remove_role(user, role, reason)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Removes a `role` to a `user`. `reason` will be shown in the audit log of your server.
+
 ## Embeds
 
 ### `dc_build_embed()` `dc_build_embed(property,value...)`
