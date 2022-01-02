@@ -348,16 +348,21 @@ this will return a message value with the sent message.
 
 ### `dc_channel_from_id(id)`
 
-Returns a [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel) value from the
+Returns a `channel` value from the
 specified channel id, or `null` if the channel was not found.
 
 ### `dc_server_from_id(id)`
 
-Returns a [`server`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#server) value from the
+Returns a `server` value from the
 specified server id, or `null` if the server was not found.
 
-### `dc_emoji_from_id(server,id)`
+### `dc_emoji_from_id(id)`
 
-Returns a [`emoji`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#emoji) value from the
-specified emoji id in a `server`. If there is no emoji with that id, it will instead search for custom emojis which have the name `id`. If there are none, returns an empty list.
+Returns a `emoji` value from the
+specified emoji id in a `server`.
 This is only for custom emojis, since standard emojis are specified from the unicode emoji.
+
+### `dc_role_from_id(id)`
+
+Returns a `role` value from the
+specified role id, or `null` if the server was not found.
