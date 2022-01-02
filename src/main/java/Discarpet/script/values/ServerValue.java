@@ -33,7 +33,7 @@ public class ServerValue extends Value {
             case "name" -> StringValue.of(server.getName());
             case "id" -> StringValue.of(server.getIdAsString());
             case "users" -> ListValue.wrap(server.getMembers().stream().map(UserValue::new).collect(Collectors.toList()));
-            case "channels" -> ListValue.wrap(server.getMembers().stream().map(UserValue::new).collect(Collectors.toList()));
+            case "channels" -> ListValue.wrap(server.getChannels().stream().map(ChannelValue::new).collect(Collectors.toList()));
             default -> Value.NULL;
         };
     }
