@@ -105,6 +105,8 @@ Queryable:
 
 `channels` (List of Channels) All channels in this server
 
+`roles` (List of Roles) All roles in this server
+
 ## User
 
 `dc_user`
