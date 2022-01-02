@@ -5,6 +5,7 @@ import carpet.script.annotation.OutputConverter;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 
+import java.awt.Color;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -50,5 +51,11 @@ public class ValueUtil {
     public static Value ofOptionalString(Optional<String> optionalString) {
         if(optionalString.isEmpty()) return Value.NULL;
         return StringValue.of(optionalString.get());
+    }
+
+
+    public static Value colorToValue(Color color) {
+        if(color == null) return Value.NULL;
+        return StringValue.of(String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue()));
     }
 }
