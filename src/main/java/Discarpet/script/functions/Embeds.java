@@ -21,7 +21,7 @@ public class Embeds {
             if(lv.size()==0) return new EmbedBuilderValue();
             if(lv.size()==1) return Value.FALSE;
             Value builderValue = lv.get(0);
-            if(!(builderValue instanceof EmbedBuilderValue)) scarpetException("dc_build_embed","EmbedBuilder",0);
+            if(!(builderValue instanceof EmbedBuilderValue)) throw scarpetException("dc_build_embed","EmbedBuilder",0);
             String property = lv.get(1).getString();
             EmbedBuilder builder = ((EmbedBuilderValue) builderValue).embedBuilder;
 

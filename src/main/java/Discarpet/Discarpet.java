@@ -174,7 +174,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	public static Bot getBotInHost(ScriptHost h, String source) {
 		Bot bot = getBotInHost(h);
-		if (bot == null) scarpetNoBotException(source);
+		if (bot == null) throw scarpetNoBotException(source);
 		return bot;
 	}
 
@@ -188,13 +188,13 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		return discordBots.get(key);
 	}
 
-	public static void scarpetException(String function, String type, int parameter) {
+	public static InternalExpressionException scarpetException(String function, String type, int parameter) {
 		if(parameter < 0 || parameter > 8) throw new InternalExpressionException("If you read this, replaceitem messed up very badly, and you should contact him through Discord asap (see github page of Discarpet)");
-		throw new InternalExpressionException("'" + function + "' requires a " + type + " as the " + numericWords[parameter] + " argument");
+		return new InternalExpressionException("'" + function + "' requires a " + type + " as the " + numericWords[parameter] + " argument");
 	}
 
-	public static void scarpetNoBotException(String function) {
-		throw new InternalExpressionException(function + " requires a valid bot to be set in in the app config");
+	public static InternalExpressionException scarpetNoBotException(String function) {
+		return new InternalExpressionException(function + " requires a valid bot to be set in in the app config");
 	}
 
 	//writing this made me realize how lazy i am
