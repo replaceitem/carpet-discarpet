@@ -71,15 +71,14 @@ public class Interactions {
             if(serverValue instanceof ServerValue) {
                 slashCommandCompletableFuture = builder.createForServer(((ServerValue) serverValue).getServer());
             } else if(serverValue.isNull()) {
-                slashCommandCompletableFuture = builder.createGlobal(Discarpet.getBotInContext(c).getApi());
+                slashCommandCompletableFuture = builder.createGlobal(Discarpet.getBotInContext(c,"dc_create_slash_command").getApi());
             } else throw new InternalExpressionException("'dc_create_slash_command' requires a server or null as the third parameter");
 
             return BooleanValue.of(ValueUtil.awaitFutureBoolean(slashCommandCompletableFuture,"Error creating slash command"));
         });
 
         expr.addContextFunction("dc_delete_slash_command",-1, (c, t, lv) -> {
-            Bot bot = getBotInContext(c);
-            if (bot == null) scarpetNoBotException("dc_get_bot_user");
+            Bot bot = getBotInContext(c,"dc_delete_slash_command");
             DiscordApi api = bot.getApi();
 
             if(lv.size() == 0) { //delete all

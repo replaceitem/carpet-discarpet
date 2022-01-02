@@ -168,8 +168,14 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	}
 
 
-	public static Bot getBotInContext(Context c) {
-		return getBotInHost(c.host);
+	public static Bot getBotInContext(Context c, String source) {
+		return getBotInHost(c.host, source);
+	}
+
+	public static Bot getBotInHost(ScriptHost h, String source) {
+		Bot bot = getBotInHost(h);
+		if (bot == null) scarpetNoBotException(source);
+		return bot;
 	}
 
 	public static Bot getBotInHost(ScriptHost h) {
