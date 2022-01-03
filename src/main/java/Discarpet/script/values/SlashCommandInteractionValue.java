@@ -82,7 +82,7 @@ public class SlashCommandInteractionValue extends Value implements InteractionVa
 
     @Override
     public String getString() {
-        return slashCommandInteraction.getCommandName();
+        return slashCommandInteraction.toString();
     }
 
     @Override

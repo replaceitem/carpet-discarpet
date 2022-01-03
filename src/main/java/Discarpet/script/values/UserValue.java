@@ -52,7 +52,7 @@ public class UserValue extends Value {
 
     @Override
     public String getString() {
-        return user.getDiscriminatedName();
+        return user.toString();
     }
 
     @Override

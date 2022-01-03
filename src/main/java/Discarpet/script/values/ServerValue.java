@@ -52,7 +52,7 @@ public class ServerValue extends Value {
 
     @Override
     public String getString() {
-        return server.getName();
+        return server.toString();
     }
 
     @Override
