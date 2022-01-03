@@ -5,10 +5,10 @@
 
 First, you need a Discord bot account.
 You can create one at the [Discord developer portal](https://discord.com/developers/applications).
-If youre not sure how to do that, look up a tutorial for that.
+If you aren't sure how to do that, look up a tutorial for that.
 
 When you installed Discarpet and start your server, it should create a `discarpet.json` file in the config folder of the server
-(Yes, this mod is made for servers, i never tried using it in singleplayer, it may work, it may not).
+(Yes, this mod is made for servers, I never tried using it in singleplayer, it may work, it may not).
 
 The file should look like this by default:
 
@@ -26,8 +26,8 @@ The file should look like this by default:
 ```
 
 To add your bot to the game, copy and paste your Bot token from the Developer portal into the `"Your Bot Token"` field.
-The `"bot_id"` is used to identify your bot in scarpet later. You should just give the bot a name so you can identify it.
-This doesnt need to be what you called it in the developer portal,
+The `"bot_id"` is used to identify your bot in scarpet later. You should just give the bot a name, so you can identify it.
+This doesn't need to be what you called it in the developer portal,
 it's just an arbitrary name.
 The `member_intent` and `presence_intent` can be set to `true` if these intents are needed by your bots.
 For more info, see the section about [intents](#Intents).
@@ -55,7 +55,7 @@ will take you directly to the webpage where you can add the bot to any discord s
 
 ## Making a script
 
-Now its time time to create your bot scarpet script!
+Now it's time to create your bot scarpet script!
 
 Since Discarpet supports multiple bots at the same time, you need to specify which bot you want to use in your script.
 This is done by specifying a `'bot'` to the config line, like this:
@@ -92,7 +92,7 @@ Keep in mind that each script can only have one bot.
 Each script will only receive events from that one specified bot,
 and when getting [values from ids](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#Values-from-ids),
 the value will have the context of the bot of the script. That would mean that if you pass a message value from an event to another script,
-and add a reaction there, ther user of the reaction will still be from the script where the event happened.
+and add a reaction there, the user of the reaction will still be from the script where the event happened.
 Only if you query [values from ids](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#Values-from-ids),
 the bot from the config will be applied.
 

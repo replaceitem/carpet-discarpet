@@ -104,7 +104,7 @@ Each entry is a map with the following keys:
     
     * `'default'` (boolean) If this entry is selected by default
 
-* `'min'` (number) The minimum amount of entries that have so be selected
+* `'min'` (number) The minimum amount of entries that have to be selected
 
 * `'max'` (number) The maximum amount of entries that can be selected
 
@@ -205,7 +205,7 @@ The following properties are allowed:
 
 `dc_build_embed(embed,'title',title)`
 `dc_build_embed(embed,'description',description)`
-`dc_build_embed(embed,'author',userValue)` Automtically uses the name us the user, as well as his avatar and clickable link
+`dc_build_embed(embed,'author',userValue)` Automatically uses the name of the user, as well as his avatar and clickable link
 `dc_build_embed(embed,'author',name)` Only use a custom name
 `dc_build_embed(embed,'author',name,clickURL,iconURL)` Use custom name, url and icon
 `dc_build_embed(embed,'add_field',title,description)`
@@ -216,7 +216,7 @@ The following properties are allowed:
 `dc_build_embed(embed,'image',imageURL)`
 `dc_build_embed(embed,'thumbnail','thumbnailURL')`
 
-Here is a example on how to build an embed:
+Here is an example on how to build an embed:
 
 ```py
 e = dc_build_embed();
@@ -298,9 +298,9 @@ this is the name displayed by discord
 
 * `'options'` (list, optional): Sub-options to this sub command/group. This is only for subcommands or subcommand groups.
 
-* `'choices'` (list, optional): Specify value that can be autocompleted in in the slash command.
+* `'choices'` (list, optional): Specify value that can be autocompleted in the slash command.
 Entries in this list are maps containing a name, and a value.
-The name is whats actually shown, and the value what will be received when executing the command.
+The name is what's actually shown, and the value what will be received when executing the command.
 The value can be a string or a number.
 
 e.g.:
@@ -346,7 +346,7 @@ This function is used for responding to interactions.
 The first parameter is any interaction (slash command, button, select menu) from its corresponding event.
 Discord interactions expect a response within 3 seconds after executing it.
 Either, that response is directly sending an answer,
-or telling discord that the answer will come, which gives a 15 minute time to send a followup response.
+or telling discord that the answer will come, which gives a 15-minute time to send a followup response.
 The `type` can be one of three things:
 
 * `'RESPOND_LATER'` This does not require the third `message` parameter,
