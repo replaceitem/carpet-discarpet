@@ -53,7 +53,7 @@ public class MessageValue extends Value {
 
     @Override
     public String getString() {
-        return message.getIdAsString();
+        return message.toString();
     }
 
     @Override

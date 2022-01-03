@@ -58,7 +58,7 @@ public class SelectMenuInteractionValue extends Value implements InteractionValu
 
     @Override
     public String getString() {
-        return selectMenuInteraction.getCustomId();
+        return selectMenuInteraction.toString();
     }
 
     @Override

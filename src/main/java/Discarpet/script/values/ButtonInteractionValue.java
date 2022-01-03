@@ -38,7 +38,7 @@ public class ButtonInteractionValue extends Value implements InteractionValue {
 
     @Override
     public String getString() {
-        return buttonInteraction.getCustomId();
+        return buttonInteraction.toString();
     }
 
     @Override

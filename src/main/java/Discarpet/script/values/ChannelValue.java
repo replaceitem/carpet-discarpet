@@ -58,7 +58,7 @@ public class ChannelValue extends Value {
 
     @Override
     public String getString() {
-        return channel.getType() + ":" + channel.getIdAsString();
+        return channel.toString();
     }
 
     @Override
