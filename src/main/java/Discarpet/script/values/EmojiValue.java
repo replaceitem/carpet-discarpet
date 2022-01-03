@@ -58,7 +58,7 @@ public class EmojiValue extends Value {
 
     @Override
     public boolean getBoolean() {
-        return false;
+        return true;
     }
 
     @Override

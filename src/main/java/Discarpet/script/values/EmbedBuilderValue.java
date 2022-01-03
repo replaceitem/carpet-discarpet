@@ -41,7 +41,7 @@ public class EmbedBuilderValue extends Value {
 
     @Override
     public boolean getBoolean() {
-        return false;
+        return true;
     }
 
     @Override
