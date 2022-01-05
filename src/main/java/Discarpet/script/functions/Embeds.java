@@ -18,6 +18,7 @@ public class Embeds {
     public static void apply(Expression expr) {
 
         expr.addContextFunction("dc_build_embed", -1, (c, t, lv) -> {
+            c.host.issueDeprecation("Building an embed using the dc_build_embed function and the embed value");
             if(lv.size()==0) return new EmbedBuilderValue();
             if(lv.size()==1) return Value.FALSE;
             Value builderValue = lv.get(0);

@@ -39,8 +39,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static Discarpet.Discarpet.getBotInContext;
-import static Discarpet.Discarpet.scarpetNoBotException;
-import static Discarpet.script.util.ScarpetMapValueUtil.*;
+import static Discarpet.script.util.MapValueUtil.*;
 
 public class Interactions {
     public static void apply(Expression expr) {
