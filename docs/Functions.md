@@ -11,8 +11,7 @@ Below is a list of all functions and how they work.
 |---|
 
 This functions sends a message in a specific Discord `channel`. 
-The `content` can be a String, an [`EmbedBuilder`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#embedbuilder)
-or a more complex message consisting of multiple embeds, attachments or interactions (see below).
+The `content` is a parsable Message content. But if you just want text, it can be a regular string.
 
 This example shows how you can send a message and add reactions to it as soon as it was sent
 
@@ -24,95 +23,7 @@ task(_()->(
 ));
 ```
 
-To construct more complex messages you can use a map as the `content`.
-
-This map can contain various things you can include in your message.
-
-* `'content'` (String) This is just the regular text of the message
-
-* `'attachments'` (List) A list of attachments that will be sent along the message.
-Each attachment is represented by a map containing one of these map keys:
-    * `'file'` (String) A path to a file that will be attached to the message
-    
-    * `'url'` (String) A url to a file that will be attached to the message
-    
-    * `'bytes'` (String) A string, which will be converted to bytes and directly saved to a file.
-    This can be used to save to txt files, or even non text file formats,
-    in which case the string's characters will be saved as the file's bytes.
-    In this case, the map must additionally contain a `'name'` value containing the filename for the file.
-    
-    Additionally, a `'spoiler'` value can be set to true, to mark the file as a spoiler.
-
-    Example:
-    
-    ```py
-    dc_send_message(channel,{
-        'content'->'I am sending you a secret file:',
-        'attachments'->[
-            {
-                'bytes'->'Text in the file',
-                'name'->'secret_message.txt',
-                'spoiler'->true
-            }
-        ],
-    });
-    ```
-  
-* `'embeds'` (List) A list of EmbedBuilder value to attach to the message
-
-* `'components'` (List) A list of lists with message components like buttons or select menus in them.
-
-Each sub list represents one row of message components.
-Each message component is represented by a map.
-
-The type of component is set by a `'component'` value in that map.
-
-This can be `'button'` or `'select_menu'`.
-
-**Button:**
-
-Buttons can have the following values:
-
-* `'id'` (String) the id of this button, which is used to recognize the button in the `__on_discord_button` event. Note that this is only for non `url` type buttons
-
-* `'style'` (String) The type of button, can be either `blurple`, `grey`, `green`, `red` or `url`.
-
-* `'label'` (String) The text shown on the button.
-
-* `'emoji'` (String or Emoji) The emoji shown next to the text on the button.
-
-* `'url'` (String) The url for `url` style buttons only
-
-* `'disabled'` (boolean) If the button is disabled or not
-
-**Select menus:**
-
-Buttons can have the following values:
-
-* `'id'` (String) the id of this button, which is used to recognize the select menu in the `__on_discord_select_menu` event.
-
-* `'options'` (List) All options in the selection menu.
-Each entry is a map with the following keys:
-
-    * `'value'` (String) The value behind this option that will be received in the `__on_discord_select_menu` event
-    
-    * `'label'` (String) The text shown in the menu
-    
-    * `'description'` (String) The description shown in the menu
-    
-    * `'emoji'` (Emoji or String) An emoji shown next to the entry in the select menu
-    
-    * `'default'` (boolean) If this entry is selected by default
-
-* `'min'` (number) The minimum amount of entries that have to be selected
-
-* `'max'` (number) The maximum amount of entries that can be selected
-
-* `'placeholder'` (String) The text displayed if nothing is selected
-
-* `'disabled'` (boolean) If the select menu is disabled or not
-
-For examples, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md)
+For more examples, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md)
 
 ### `dc_delete_message(message)`
 
@@ -194,6 +105,9 @@ Returns the hex color of the top role of the `user` in the `server`.
 ## Embeds
 
 ### `dc_build_embed()` `dc_build_embed(property,value...)`
+
+| ❗ **Note** This function is **deprecated**, use the parsable embed value instead. |
+|---|
 
 This function is used to create custom Embeds which can be sent using `dc_send_message`.
 
