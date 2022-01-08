@@ -1,5 +1,6 @@
 package Discarpet.script.util;
 
+import Discarpet.script.util.content.ContentApplier;
 import Discarpet.script.values.EmbedBuilderValue;
 import carpet.CarpetServer;
 import carpet.script.exception.InternalExpressionException;
@@ -16,58 +17,54 @@ import java.util.Map;
 import static Discarpet.script.util.MapValueUtil.*;
 
 public class MessageContentParser {
-    public static MessageBuilder parseMessageContent(Value value) {
+    public static void parseMessageContent(ContentApplier a, Value value) {
         try {
-            MessageBuilder m = new MessageBuilder();
             if(value instanceof MapValue mapContent) {
                 Map<Value, Value> map = mapContent.getMap();
 
-                if(mapHasKey(map,"content")) m.setContent(getStringInMap(map,"content"));
-                if(mapHasKey(map,"attachments")) setAttachments(m, getListInMap(map,"attachments"));
-                if(mapHasKey(map,"embeds")) setEmbeds(m, getListInMap(map,"embeds"));
-                if(mapHasKey(map,"components")) setComponents(m, getListInMap(map,"components"));
+                if(mapHasKey(map,"content")) a.setContent(getStringInMap(map,"content"));
+                if(mapHasKey(map,"attachments")) setAttachments(a, getListInMap(map,"attachments"));
+                if(mapHasKey(map,"embeds")) setEmbeds(a, getListInMap(map,"embeds"));
+                if(mapHasKey(map,"components")) setComponents(a, getListInMap(map,"components"));
 
-                return m;
+                return;
             }
-            m.setContent(value.getString());
-            return m;
+            a.setContent(value.getString());
         } catch (Exception ex) {
             throw new InternalExpressionException("Could not parse message content: " + ex.getMessage());
         }
     }
 
-    private static void setAttachments(MessageBuilder m, List<Value> attachments) {
+    private static void setAttachments(ContentApplier a, List<Value> attachments) {
         for (int i = 0; i < attachments.size(); i++) {
             Value attachment = attachments.get(i);
             try {
-                addAttachment(m, attachment);
+                addAttachment(a, attachment);
             } catch (Exception ex) {
                 throw new InternalExpressionException("Could not parse attachment with index " + i + " inside 'attachments' list: " + ex.getMessage());
             }
         }
     }
 
-    private static void addAttachment(MessageBuilder m, Value attachment) {
+    private static void addAttachment(ContentApplier a, Value attachment) {
         if(!(attachment instanceof MapValue attachmentMap)) throw new InternalExpressionException("Expected a map value");
         Map<Value, Value> map = attachmentMap.getMap();
 
-        if(mapHasKey(map,"file")) addFileAttachment(m, map);
-        else if(mapHasKey(map,"url")) addUrlAttachment(m, map);
-        else if(mapHasKey(map,"bytes")) addBytesAttachment(m, map);
+        if(mapHasKey(map,"file")) addFileAttachment(a, map);
+        else if(mapHasKey(map,"url")) addUrlAttachment(a, map);
+        else if(mapHasKey(map,"bytes")) addBytesAttachment(a, map);
         else throw new InternalExpressionException("Expected either 'file', 'url' or 'bytes' value in map for attachment");
     }
 
-    private static void addFileAttachment(MessageBuilder m, Map<Value, Value> map) {
-        boolean spoiler = getBooleanInMapOrDefault(map, "spoiler", false);
+    private static void addFileAttachment(ContentApplier a, Map<Value, Value> map) {
         String path = getStringInMap(map,"file");
         File file = new File(path);
         if(!file.exists()) throw new InternalExpressionException("Invalid path for attachment file: '" + path + "'");
-        if(spoiler) m.addAttachmentAsSpoiler(file);
-        else m.addAttachment(file);
+        boolean spoiler = getBooleanInMapOrDefault(map, "spoiler", false);
+        a.addAttachment(file,spoiler);
     }
 
-    private static void addUrlAttachment(MessageBuilder m, Map<Value, Value> map) {
-        boolean spoiler = getBooleanInMapOrDefault(map, "spoiler", false);
+    private static void addUrlAttachment(ContentApplier a, Map<Value, Value> map) {
         String path = getStringInMap(map,"url");
         URL url;
         try {
@@ -75,46 +72,45 @@ public class MessageContentParser {
         } catch (MalformedURLException e) {
             throw new InternalExpressionException("Invalid URL for attachment file: '" + path + "': " + e);
         }
-        if(spoiler) m.addAttachmentAsSpoiler(url);
-        else m.addAttachment(url);
+        boolean spoiler = getBooleanInMapOrDefault(map, "spoiler", false);
+        a.addAttachment(url,spoiler);
     }
 
-    private static void addBytesAttachment(MessageBuilder m, Map<Value, Value> map) {
-        boolean spoiler = getBooleanInMapOrDefault(map, "spoiler", false);
+    private static void addBytesAttachment(ContentApplier a, Map<Value, Value> map) {
         String name = getStringInMap(map,"name");
         byte[] data = getStringInMap(map,"bytes").getBytes();
-        if(spoiler) m.addAttachmentAsSpoiler(data,name);
-        else m.addAttachment(data,name);
+        boolean spoiler = getBooleanInMapOrDefault(map, "spoiler", false);
+        a.addAttachment(data,name,spoiler);
     }
 
 
 
-    private static void setEmbeds(MessageBuilder m, List<Value> embeds) {
+    private static void setEmbeds(ContentApplier a, List<Value> embeds) {
         for (int i = 0; i < embeds.size(); i++) {
             Value embed = embeds.get(i);
             try {
-                addEmbed(m, embed);
+                addEmbed(a, embed);
             } catch (Exception ex) {
                 throw new InternalExpressionException("Could not parse embed with index " + i + " inside 'embeds' list: " + ex.getMessage());
             }
         }
     }
 
-    private static void addEmbed(MessageBuilder m, Value embed) {
+    private static void addEmbed(ContentApplier a, Value embed) {
         if(embed instanceof EmbedBuilderValue embedBuilderValue) {
             // using global host, as I won't bother getting context to this deep in the trace
             CarpetServer.scriptServer.globalHost.issueDeprecation("EmbedBuilder value");
-            m.addEmbed(embedBuilderValue.getEmbedBuilder());
+            a.addEmbed(embedBuilderValue.getEmbedBuilder());
             return;
         }
-        m.addEmbed(EmbedParser.parseEmbed(embed));
+        a.addEmbed(EmbedParser.parseEmbed(embed));
     }
 
-    private static void setComponents(MessageBuilder m, List<Value> components) {
+    private static void setComponents(ContentApplier a, List<Value> components) {
         for (int i = 0; i < components.size(); i++) {
             Value component = components.get(i);
             try {
-                m.addComponents(MessageComponentParser.parseMessageComponent(component));
+                a.addComponents(MessageComponentParser.parseMessageComponent(component));
             } catch (Exception ex) {
                 throw new InternalExpressionException("Could not parse component row with index " + i + " inside 'components' list: " + ex.getMessage());
             }

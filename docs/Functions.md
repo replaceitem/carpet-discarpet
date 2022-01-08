@@ -11,7 +11,7 @@ Below is a list of all functions and how they work.
 |---|
 
 This functions sends a message in a specific Discord `channel`. 
-The `content` is a parsable Message content. But if you just want text, it can be a regular string.
+The `content` is a parsable [Message content](/docs/Parsable.md#Message-content). But if you just want text, it can be a regular string.
 
 This example shows how you can send a message and add reactions to it as soon as it was sent
 
@@ -167,7 +167,7 @@ If `server` is `null`, the slash command will be global, meaning they work in al
 *NOTE:* GLOBAL slash commands can take up to 1 hour to update, so for testing,
 you should only use server slash commands, which are created immediately.
 
-Additionally, you can specify additional options to your command.
+Additionally, you can specify additional [Slash command options](/docs/Parsable.md#Slash-command-option) to your command.
 Options are supplied in a list, with each option being a map that specifies some parameters.
 
 e.g.:
@@ -181,59 +181,6 @@ dc_create_slash_command(name, description, server, [
         option 2
     }
 ])
-```
-
-Each option has multiple things you can specify:
-
-* `'type'` (String): the type of option. There are two things this can do, either:
-    * Add a subcommand group or subcommand using `'SUB_COMMAND_GROUP'` and `'SUB_COMMAND'`.
-    Sub command groups are always on the first "layer",
-    while subcommands are always one layer deeper than sub command groups. 
-    Note that this is quite limited in comparison to minecraft commands.
-    All paths of the command tree have to have either just a sub command, or a sub command group with sub commands each.
-    This means that the length of the commands (without the other options that aren't subcommands) has to be equal. 
-    See: https://canary.discord.com/developers/docs/interactions/slash-commands#nested-subcommands-and-groups
-    
-    * Add options to the back of the command, with the types:
-        * `'STRING'`
-        * `'INTEGER'`
-        * `'BOOLEAN'`
-        * `'USER'`
-        * `'CHANNEL'`
-        * `'ROLE'`
-        * `'MENTIONABLE'`
-
-* `'name'` (String): For subcommands, this is the name of the subcommands, and for other options,
-this is the name displayed by discord
-
-* `'description'` (String): A description which will be shown in discord about the command option
-
-* `'required'` (boolean, optional): If this option is required or not. If left out, defaults to false.
-
-* `'options'` (list, optional): Sub-options to this sub command/group. This is only for subcommands or subcommand groups.
-
-* `'choices'` (list, optional): Specify value that can be autocompleted in the slash command.
-Entries in this list are maps containing a name, and a value.
-The name is what's actually shown, and the value what will be received when executing the command.
-The value can be a string or a number.
-
-e.g.:
-
-```py
-'choices'->[
-    {
-        'name'->'Red',
-        'value'->'red'
-    },
-    {
-        'name'->'Green',
-        'value'->'green'
-    },
-    {
-        'name'->'Blue',
-        'value'->'blue'
-    }
-]
 ```
 
 For full examples of commands, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md#Slash-commands)
@@ -273,7 +220,7 @@ The `message` needs to be specified for this.
 * `'RESPOND_FOLLOWUP'` This is used for sending a followup response within 15 minutes after the `RESPOND_LATER` response has been sent.
 The `message` needs to be specified for this.
 
-The `message` parameter the same as the message parameter in `dc_send_message`
+The `message` parameter the same as the [Message content](/docs/Parsable.md#Message-content) parameter in `dc_send_message`
 
 This function returns `null` if the response could not be sent,
 otherwise `true`.
