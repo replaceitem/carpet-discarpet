@@ -11,9 +11,9 @@ For more complex messages, a map with the following values is used:
 | Value | Type | Description |
 |---|---|---|
 | `content` | String | Message content as a string, same thing as specifying just a string instead of a map |
-| `attachments` | List of Attachments (optional) | A list of all the attachments on this message |
-| `embeds` | List of Embeds (optional) | A list of all the embeds on this message |
-| `components` | List of List of Message components (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components |
+| `attachments` | List of [Attachments](#Attachment) (optional) | A list of all the attachments on this message |
+| `embeds` | List of [Embeds](#Embed) (optional) | A list of all the embeds on this message |
+| `components` | List of List of [Message components](#Message-component) (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components |
 
 Example:
 
@@ -90,13 +90,13 @@ An embed is represented by a map with the following values:
 | `title` | String | The title of the embed |
 | `url` | String (optional) | The URL redirect when clicking on the embed title |
 | `description` | String (optional) | Description text below the title |
-| `author` | Embed author (optional) | The author shown on top of the embed |
-| `field` | List of Embed fields (optional) | All fields inside the embed |
+| `author` | [Embed author](#Embed-author) (optional) | The author shown on top of the embed |
+| `field` | List of [Embed fields](#Embed-field) (optional) | All fields inside the embed |
 | `color` | Color (optional) | The color of the embed |
-| `footer` | Embed footer (optional) | The footer shown at the bottom of the embed |
+| `footer` | [Embed footer](#Embed-footer) (optional) | The footer shown at the bottom of the embed |
 | `image` | String (optional) | The URL to an image which will be shown in the embed |
 | `thumbnail` | String (optional) | The URL to an image which will be shown as a thumbnail in the embed |
-| `timestamp` | Timestamp (optional) | The timestamp of the embed, which will be shown at the bottom |
+| `timestamp` | [Timestamp](#Timestamp) (optional) | The timestamp of the embed, which will be shown at the bottom |
 
 ### Embed author
 
@@ -201,7 +201,7 @@ Examples:
 
 | Value | Type | Description |
 |---|---|---|
-| `options` | List of Select menu options | All options selectable on this select menu |
+| `options` | List of [Select menu options](#Select-menu-option) | All options selectable on this select menu |
 | `min` | number (optional) | The minimum number of options that need to be selected |
 | `max` | number (optional) | The maximum number of options that need to be selected |
 | `placeholder` | String (optional) | The text displayed when nothing is selected yet |
@@ -241,3 +241,31 @@ Example:
     'default'->'true'
 }
 ```
+
+### Slash command option
+
+There are two things this can do, depending on the `type`.
+Either add subcommand literals, or parameters to the command. 
+Sub command groups are always on the first "layer",
+while subcommands are always one layer deeper than sub command groups.
+Note that this is quite limited in comparison to minecraft commands.
+All paths of the command tree have to have either just a sub command, or a sub command group with sub commands each.
+This means that the length of the command chains (without the other options that aren't subcommands) has to be equal for all subcommands.
+See: https://canary.discord.com/developers/docs/interactions/slash-commands#nested-subcommands-and-groups
+
+| Value | Type | Description |
+|---|---|---|
+| `type` | String | The type of slash command option. Can be `sub_command`,`sub_command_group`, `string`, `integer`, `boolean`, `user`, `channel`, `role` and `mentionable` |
+| `name` | String | The name of this option |
+| `description` | String | The description shown for this command option |
+| `required` | boolean (optional, defaults to false) | Whether this option is required to be specified |
+| `options` | List of [Slash command options](#Slash-command-option) (optional) | Sub-options to this sub-command/group. This is only for `sub_command` or `sub_command_group`. |
+| `choices` | List of [Slash command choices](#Slash-command-choice) (optional) | Autocompletable choices for this command option |
+
+
+### Slash command choice
+
+| Value | Type | Description |
+|---|---|---|
+| `name` | String | The visible autocompleted filled in choice for the option |
+| `value` | String | The value that will be received in the slash command event as the option value |

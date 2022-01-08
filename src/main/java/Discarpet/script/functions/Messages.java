@@ -2,6 +2,7 @@ package Discarpet.script.functions;
 
 import Discarpet.script.util.MessageContentParser;
 import Discarpet.script.util.ValueUtil;
+import Discarpet.script.util.content.MessageContentApplier;
 import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.EmojiValue;
 import carpet.script.annotation.ScarpetFunction;
@@ -16,7 +17,8 @@ import java.util.concurrent.CompletableFuture;
 public class Messages {
     @ScarpetFunction
     public Message dc_send_message(Value target, Value messageContent) {
-        MessageBuilder messageBuilder = MessageContentParser.parseMessageContent(messageContent);
+        MessageBuilder messageBuilder = new MessageBuilder();
+        MessageContentParser.parseMessageContent(new MessageContentApplier(messageBuilder),messageContent);
 
         if(target instanceof ChannelValue channel && channel.getChannel() instanceof Messageable messageable) {
             CompletableFuture<Message> cf = messageBuilder.send(messageable);
