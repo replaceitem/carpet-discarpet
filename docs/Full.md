@@ -5,10 +5,10 @@
 
 First, you need a Discord bot account.
 You can create one at the [Discord developer portal](https://discord.com/developers/applications).
-If youre not sure how to do that, look up a tutorial for that.
+If you aren't sure how to do that, look up a tutorial for that.
 
 When you installed Discarpet and start your server, it should create a `discarpet.json` file in the config folder of the server
-(Yes, this mod is made for servers, i never tried using it in singleplayer, it may work, it may not).
+(Yes, this mod is made for servers, I never tried using it in singleplayer, it may work, it may not).
 
 The file should look like this by default:
 
@@ -26,8 +26,8 @@ The file should look like this by default:
 ```
 
 To add your bot to the game, copy and paste your Bot token from the Developer portal into the `"Your Bot Token"` field.
-The `"bot_id"` is used to identify your bot in scarpet later. You should just give the bot a name so you can identify it.
-This doesnt need to be what you called it in the developer portal,
+The `"bot_id"` is used to identify your bot in scarpet later. You should just give the bot a name, so you can identify it.
+This doesn't need to be what you called it in the developer portal,
 it's just an arbitrary name.
 The `member_intent` and `presence_intent` can be set to `true` if these intents are needed by your bots.
 For more info, see the section about [intents](#Intents).
@@ -55,7 +55,7 @@ will take you directly to the webpage where you can add the bot to any discord s
 
 ## Making a script
 
-Now its time time to create your bot scarpet script!
+Now it's time to create your bot scarpet script!
 
 Since Discarpet supports multiple bots at the same time, you need to specify which bot you want to use in your script.
 This is done by specifying a `'bot'` to the config line, like this:
@@ -92,7 +92,7 @@ Keep in mind that each script can only have one bot.
 Each script will only receive events from that one specified bot,
 and when getting [values from ids](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#Values-from-ids),
 the value will have the context of the bot of the script. That would mean that if you pass a message value from an event to another script,
-and add a reaction there, ther user of the reaction will still be from the script where the event happened.
+and add a reaction there, the user of the reaction will still be from the script where the event happened.
 Only if you query [values from ids](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#Values-from-ids),
 the bot from the config will be applied.
 
@@ -118,27 +118,23 @@ A channel value represents a Discord channel.
 
 Queryable:
 
-`name` (String) The name of the Discord channel
-
-`topic` (String) The topic of the channel (See `dc_set_channel_topic`)
-
-`id` (String) ID of the channel
-
-`mention_tag` (String) Mention tag for the channel. This can be put inside a message for the channel to be a clickable link.
-
-`server` (Server) Server this channel is in, or null if this is a private channel
-
-`type` (String) Channel type
+| Property | Type | Description |
+|---|---|---|
+| `name` | String | The name of the Discord channel |
+| `topic` | String | The topic of the channel (See `dc_set_channel_topic`) |
+| `id` | String | ID of the channel |
+| `mention_tag` | String | Mention tag for the channel. This can be put inside a message for the channel to be a clickable link. |
+| `server` | Server | Server this channel is in, or null if this is a private channel |
+| `type` | String | Channel type |
 
 ## EmbedBuilder
 
 `dc_embed_builder`
 
+| ❗ **Note** This value type is **deprecated**, use the parsable embed value instead. |
+|---|
+
 A EmbedBuilder is used to create Embeds. This is mainly used with the `dc_build_embed` function.
-
-Queryable:
-
-This value has nothing to query.
 
 ## Emoji
 
@@ -148,15 +144,13 @@ This value stores an Emoji, which could be a normal unicode emoji, or a custom e
 
 Queryable:
 
-`mention_tag` (String) Mention tag for the emoji. This can be used to put into messages to contain the emoji.
-
-`unicode` (String) Returns the emoji as a unicode character. If it's a custom emoji, returns `null`
-
-`is_animated` (boolean) True if the emojis is animated, false if not
-
-`is_unicode` (boolean) True if the emoji is a unicode emoji, false otherwise
-
-`is_custom` (boolean) True if the emoji is a custom one, otherwise false
+| Property | Type | Description |
+|---|---|---|
+| `mention_tag` | String | Mention tag for the emoji. This can be used to put into messages to contain the emoji. |
+| `unicode` | String | Returns the emoji as a unicode character. If it's a custom emoji, returns `null` |
+| `is_animated` | boolean | True if the emojis is animated, false if not |
+| `is_unicode` | boolean | True if the emoji is a unicode emoji, false otherwise |
+| `is_custom` | boolean | True if the emoji is a custom one, otherwise false |
 
 ## Message
 
@@ -166,19 +160,15 @@ A Discord message which has been sent. Main use is in `__on_discord_message` eve
 
 Queryable:
 
-`content` (String) Get the content (text) of the message, not that things like emojis, mentions or channels will appear as their id. For the readable content, see below.
-
-`readable_content` (String) Get the content and replace all emojis, mentions, channels with their readable representation. Note that if a user is not cached, mentions to him may not get parsed.
-
-`id` (String) Get the id of the message
-
-`channel` (Channel) Get the channel this message is inside
-
-`user` (User) Get the user that wrote this message. Note that this may fail (and return null) if the user is not cached, but if queried after the `__on_discord_message` event, it should be fine
-
-`server` (Server) Get the server this message was written in
-
-`delete` (boolean) This is not actually a query, but it removes the message. Returns false if the bot does not have permission to delete the message, otherwise false
+| Property | Type | Description |
+|---|---|---|
+| `content` | String | Get the content (text) of the message, not that things like emojis, mentions or channels will appear as their id. For the readable content, see below. |
+| `readable_content` | String | Get the content and replace all emojis, mentions, channels with their readable representation. Note that if a user is not cached, mentions to him may not get parsed. |
+| `id` | String | Get the id of the message |
+| `channel` | Channel | Get the channel this message is inside |
+| `user` | User | Get the user that wrote this message. Note that this may fail (and return null) if the user is not cached, but if queried after the `__on_discord_message` event, it should be fine |
+| `server` | Server | Get the server this message was written in |
+| `delete` | boolean | This is not actually a query, but it removes the message. Returns false if the bot does not have permission to delete the message, otherwise false |
 
 ## Reaction
 
@@ -188,11 +178,11 @@ A reaction on a message. Main use is in `__on_discord_reaction` event
 
 Queryable:
 
-`emoji` (Emoji) The emoji of this reaction
-
-`count` (Number) Amount of reactions with this emoji
-
-`message` (Message) The message this reacion is attached to
+| Property | Type | Description |
+|---|---|---|
+| `emoji` | Emoji | The emoji of this reaction |
+| `count` | Number | Amount of reactions with this emoji |
+| `message` | Message | The message this reacion is attached to |
 
 ## Server
 
@@ -202,13 +192,13 @@ A Discord server
 
 Queryable:
 
-`name` (String) The name of the server
-
-`id` (String) The ID of the server
-
-`users` (List of Users) All users in this server (this requires the member Intent)
-
-`channels` (List of Channels) All channels in this server
+| Property | Type | Description |
+|---|---|---|
+| `name` | String | The name of the server |
+| `id` | String | The ID of the server |
+| `users` | List of Users | All users in this server (this requires the member Intent) |
+| `channels` | List of Channels | All channels in this server |
+| `roles` | List of Roles | All roles in this server |
 
 ## User
 
@@ -218,21 +208,39 @@ A discord user. Can be from a real discord account or a bot
 
 Queryable:
 
-`name` (String) The name of the user (Does not include nicknames, use `dc_get_display_name` for that)
+| Property | Type | Description |
+|---|---|---|
+| `name` | String | The name of the user (Does not include nicknames, use `dc_get_display_name` for that) |
+| `mention_tag` | String | The mention tag to mention a user in a message |
+| `discriminated_name` | String | The name of the user with its discriminator. e.g. `replaceitem#9118` |
+| `id` | String | ID of the user |
+| `avatar` | String | URL of the users profile picture |
+| `is_bot` | boolean | True if the user is a bot, false if it is a regular user |
+| `is_self` | boolean | True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself |
+| `private_channel` | Channel | The private messages channel with the user. Note that this may block, if the private channel was not yet opened. |
 
-`mention_tag` (String) The mention tag to mention a user in a message
+## Role
 
-`discriminated_name` (String) The name of the user with its discriminator. e.g. `replaceitem#9118`
+`dc_role`
 
-`id` (String) ID of the user
+A discord role.
 
-`avatar` (String) URL of the users profile picture
+Queryable:
 
-`is_bot` (boolean) True if the user is a bot, false if it is a regular user
+| Property | Type | Description |
+|---|---|---|
+| `name` | String | The name of the role |
+| `id` | String | The id of the role |
+| `mention_tag` | String | The tag used to mention this role |
+| `color` | String | Hex color string of the role color |
+| `position` | number | The position of this role as it is sorted in the server settings |
+| `server` | Server | The server of this role |
+| `users` | List of Users | All users with the role |
+| `displayed_separately` | boolean | Are the users with this role shown separately in the member list |
+| `is_everyone_role` | boolean | Whether this role is the @everyone role |
+| `managed` | boolean | Whether this role is managed by an integration or not |
+| `mentionable` | boolean | Whether this role is mentionable or not |
 
-`is_self` (boolean) True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself
-
-`private_channel` (Channel) The private messages channel with the user. Note that this may block, if the private channel was not yet opened.
 
 ## Slash command interaction
 
@@ -242,13 +250,12 @@ Value from `__on_discord_slash_command(interaction)` event, used for getting the
 
 Queryable:
 
-`command` (List) List of command option that were executed. If a user executed the slash command `/channel remove #bot-spam`, this would return `['channel', 'remove']`.
-
-`options` (Map) A map containing all options that were specified in the command, with the key being the name of the option, with a corresponding value that has been chosen for this option.
-
-`user` (User) The user that executed the command.
-
-`channel` (Channel) The channel this command was executed in.
+| Property | Type | Description |
+|---|---|---|
+| `command` | List | List of command option that were executed. If a user executed the slash command `/channel remove #bot-spam`, this would return `['channel', 'remove']`. |
+| `options` | Map | A map containing all options that were specified in the command, with the key being the name of the option, with a corresponding value that has been chosen for this option. |
+| `user` | User | The user that executed the command. |
+| `channel` | Channel | The channel this command was executed in. |
 
 ## Button and Select menu interaction
 
@@ -260,25 +267,22 @@ These values have mostly the same things to query.
 
 Queryable:
 
-`id` (String) Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter
-
-`channel` (Channel) The channel this interaction was made in.
-
-`user` (User) The user that used the interaction.
-
-`message` (Message) The message this interaction is attached to.
+| Property | Type | Description |
+|---|---|---|
+| `id` | String | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter |
+| `channel` | Channel | The channel this interaction was made in. |
+| `user` | User | The user that used the interaction. |
+| `message` | Message | The message this interaction is attached to. |
 
 Queryable things exclusive to select menus:
 
-`chosen` (List) List the values of the chosen options
-
-`options` (List) All values of options in the select menu
-
-`min` (number) Minimum amount of selected entries for this select menu
-
-`max` (number) Maximum amount of selected entries for this select menu
-
-`placeholder` (String) Placeholder text of this select menu# Discarpet functions
+| Property | Type | Description |
+|---|---|---|
+| `chosen` | List | List the values of the chosen options |
+| `options` | List | All values of options in the select menu |
+| `min` | number |Minimum amount of selected entries for this select menu |
+| `max` | number | Maximum amount of selected entries for this select menu |
+| `placeholder` | String | Placeholder text of this select menu |# Discarpet functions
 
 Discarpet adds a lot of functions to scarpet to control your bot.
 Below is a list of all functions and how they work.
@@ -291,8 +295,7 @@ Below is a list of all functions and how they work.
 |---|
 
 This functions sends a message in a specific Discord `channel`. 
-The `content` can be a String, an [`EmbedBuilder`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#embedbuilder)
-or a more complex message consisting of multiple embeds, attachments or interactions (see below).
+The `content` is a parsable [Message content](/docs/Parsable.md#Message-content). But if you just want text, it can be a regular string.
 
 This example shows how you can send a message and add reactions to it as soon as it was sent
 
@@ -304,95 +307,7 @@ task(_()->(
 ));
 ```
 
-To construct more complex messages you can use a map as the `content`.
-
-This map can contain various things you can include in your message.
-
-* `'content'` (String) This is just the regular text of the message
-
-* `'attachments'` (List) A list of attachments that will be sent along the message.
-Each attachment is represented by a map containing one of these map keys:
-    * `'file'` (String) A path to a file that will be attached to the message
-    
-    * `'url'` (String) A url to a file that will be attached to the message
-    
-    * `'bytes'` (String) A string, which will be converted to bytes and directly saved to a file.
-    This can be used to save to txt files, or even non text file formats,
-    in which case the string's characters will be saved as the file's bytes.
-    In this case, the map must additionally contain a `'name'` value containing the filename for the file.
-    
-    Additionally, a `'spoiler'` value can be set to true, to mark the file as a spoiler.
-
-    Example:
-    
-    ```py
-    dc_send_message(channel,{
-        'content'->'I am sending you a secret file:',
-        'attachments'->[
-            {
-                'bytes'->'Text in the file',
-                'name'->'secret_message.txt',
-                'spoiler'->true
-            }
-        ],
-    });
-    ```
-  
-* `'embeds'` (List) A list of EmbedBuilder value to attach to the message
-
-* `'components'` (List) A list of lists with message components like buttons or select menus in them.
-
-Each sub list represents one row of message components.
-Each message component is represented by a map.
-
-The type of component is set by a `'component'` value in that map.
-
-This can be `'button'` or `'select_menu'`.
-
-**Button:**
-
-Buttons can have the following values:
-
-* `'id'` (String) the id of this button, which is used to recognize the button in the `__on_discord_button` event. Note that this is only for non `url` type buttons
-
-* `'style'` (String) The type of button, can be either `blurple`, `grey`, `green`, `red` or `url`.
-
-* `'label'` (String) The text shown on the button.
-
-* `'emoji'` (String or Emoji) The emoji shown next to the text on the button.
-
-* `'url'` (String) The url for `url` style buttons only
-
-* `'disabled'` (boolean) If the button is disabled or not
-
-**Select menus:**
-
-Buttons can have the following values:
-
-* `'id'` (String) the id of this button, which is used to recognize the select menu in the `__on_discord_select_menu` event.
-
-* `'options'` (List) All options in the selection menu.
-Each entry is a map with the following keys:
-
-    * `'value'` (String) The value behind this option that will be received in the `__on_discord_select_menu` event
-    
-    * `'label'` (String) The text shown in the menu
-    
-    * `'description'` (String) The description shown in the menu
-    
-    * `'emoji'` (Emoji or String) An emoji shown next to the entry in the select menu
-    
-    * `'default'` (boolean) If this entry is selected by default
-
-* `'min'` (number) The minimum amount of entries that have so be selected
-
-* `'max'` (number) The maximum amount of entries that can be selected
-
-* `'placeholder'` (String) The text displayed if nothing is selected
-
-* `'disabled'` (boolean) If the select menu is disabled or not
-
-For examples, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md)
+For more examples, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md)
 
 ### `dc_delete_message(message)`
 
@@ -449,9 +364,34 @@ Gets the nickname, or name if no nickname is present, from the [`user`](https://
 Sets the nickname of the `user` on the `server`.#
 Returns `true` if successful, false otherwise.
 
+### `dc_add_role(user, role, reason)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Adds a `role` to a `user`. `reason` will be shown in the audit log of your server.
+
+### `dc_remove_role(user, role, reason)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Removes a `role` to a `user`. `reason` will be shown in the audit log of your server.
+
+### `dc_get_user_roles(user, server)`
+
+Returns a list of roles the `user` has in the `server`.
+
+### `dc_get_user_color(user, server)`
+
+Returns the hex color of the top role of the `user` in the `server`.
+
 ## Embeds
 
 ### `dc_build_embed()` `dc_build_embed(property,value...)`
+
+| ❗ **Note** This function is **deprecated**, use the parsable embed value instead. |
+|---|
 
 This function is used to create custom Embeds which can be sent using `dc_send_message`.
 
@@ -463,7 +403,7 @@ The following properties are allowed:
 
 `dc_build_embed(embed,'title',title)`
 `dc_build_embed(embed,'description',description)`
-`dc_build_embed(embed,'author',userValue)` Automtically uses the name us the user, as well as his avatar and clickable link
+`dc_build_embed(embed,'author',userValue)` Automatically uses the name of the user, as well as his avatar and clickable link
 `dc_build_embed(embed,'author',name)` Only use a custom name
 `dc_build_embed(embed,'author',name,clickURL,iconURL)` Use custom name, url and icon
 `dc_build_embed(embed,'add_field',title,description)`
@@ -474,7 +414,7 @@ The following properties are allowed:
 `dc_build_embed(embed,'image',imageURL)`
 `dc_build_embed(embed,'thumbnail','thumbnailURL')`
 
-Here is a example on how to build an embed:
+Here is an example on how to build an embed:
 
 ```py
 e = dc_build_embed();
@@ -511,7 +451,7 @@ If `server` is `null`, the slash command will be global, meaning they work in al
 *NOTE:* GLOBAL slash commands can take up to 1 hour to update, so for testing,
 you should only use server slash commands, which are created immediately.
 
-Additionally, you can specify additional options to your command.
+Additionally, you can specify additional [Slash command options](/docs/Parsable.md#Slash-command-option) to your command.
 Options are supplied in a list, with each option being a map that specifies some parameters.
 
 e.g.:
@@ -525,59 +465,6 @@ dc_create_slash_command(name, description, server, [
         option 2
     }
 ])
-```
-
-Each option has multiple things you can specify:
-
-* `'type'` (String): the type of option. There are two things this can do, either:
-    * Add a subcommand group or subcommand using `'SUB_COMMAND_GROUP'` and `'SUB_COMMAND'`.
-    Sub command groups are always on the first "layer",
-    while subcommands are always one layer deeper than sub command groups. 
-    Note that this is quite limited in comparison to minecraft commands.
-    All paths of the command tree have to have either just a sub command, or a sub command group with sub commands each.
-    This means that the length of the commands (without the other options that aren't subcommands) has to be equal. 
-    See: https://canary.discord.com/developers/docs/interactions/slash-commands#nested-subcommands-and-groups
-    
-    * Add options to the back of the command, with the types:
-        * `'STRING'`
-        * `'INTEGER'`
-        * `'BOOLEAN'`
-        * `'USER'`
-        * `'CHANNEL'`
-        * `'ROLE'`
-        * `'MENTIONABLE'`
-
-* `'name'` (String): For subcommands, this is the name of the subcommands, and for other options,
-this is the name displayed by discord
-
-* `'description'` (String): A description which will be shown in discord about the command option
-
-* `'required'` (boolean, optional): If this option is required or not. If left out, defaults to false.
-
-* `'options'` (list, optional): Sub-options to this sub command/group. This is only for subcommands or subcommand groups.
-
-* `'choices'` (list, optional): Specify value that can be autocompleted in in the slash command.
-Entries in this list are maps containing a name, and a value.
-The name is whats actually shown, and the value what will be received when executing the command.
-The value can be a string or a number.
-
-e.g.:
-
-```py
-'choices'->[
-    {
-        'name'->'Red',
-        'value'->'red'
-    },
-    {
-        'name'->'Green',
-        'value'->'green'
-    },
-    {
-        'name'->'Blue',
-        'value'->'blue'
-    }
-]
 ```
 
 For full examples of commands, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md#Slash-commands)
@@ -604,7 +491,7 @@ This function is used for responding to interactions.
 The first parameter is any interaction (slash command, button, select menu) from its corresponding event.
 Discord interactions expect a response within 3 seconds after executing it.
 Either, that response is directly sending an answer,
-or telling discord that the answer will come, which gives a 15 minute time to send a followup response.
+or telling discord that the answer will come, which gives a 15-minute time to send a followup response.
 The `type` can be one of three things:
 
 * `'RESPOND_LATER'` This does not require the third `message` parameter,
@@ -617,7 +504,7 @@ The `message` needs to be specified for this.
 * `'RESPOND_FOLLOWUP'` This is used for sending a followup response within 15 minutes after the `RESPOND_LATER` response has been sent.
 The `message` needs to be specified for this.
 
-The `message` parameter the same as the message parameter in `dc_send_message`
+The `message` parameter the same as the [Message content](/docs/Parsable.md#Message-content) parameter in `dc_send_message`
 
 This function returns `null` if the response could not be sent,
 otherwise `true`.
@@ -628,19 +515,24 @@ this will return a message value with the sent message.
 
 ### `dc_channel_from_id(id)`
 
-Returns a [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel) value from the
+Returns a `channel` value from the
 specified channel id, or `null` if the channel was not found.
 
 ### `dc_server_from_id(id)`
 
-Returns a [`server`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#server) value from the
+Returns a `server` value from the
 specified server id, or `null` if the server was not found.
 
-### `dc_emoji_from_id(server,id)`
+### `dc_emoji_from_id(id)`
 
-Returns a [`emoji`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#emoji) value from the
-specified emoji id in a `server`. If there is no emoji with that id, it will instead search for custom emojis which have the name `id`. If there are none, returns an empty list.
-This is only for custom emojis, since standard emojis are specified from the unicode emoji.# Discarpet Events
+Returns a `emoji` value from the
+specified emoji id in a `server`.
+This is only for custom emojis, since standard emojis are specified from the unicode emoji.
+
+### `dc_role_from_id(id)`
+
+Returns a `role` value from the
+specified role id, or `null` if the server was not found.# Discarpet Events
 
 
 Discarpet's scarpet events are used to detect events that happen in discord servers the bot is in. Additionally, there are also events for when a chat message gets sent in minecraft or a general system message happens.
@@ -701,7 +593,7 @@ Event that execute on chat messages, can be used to redirect chat messages to a 
 
 ## `__on_discord_message(message)`
 
-Executes when a message is sent in a channel the bot has acess to.
+Executes when a message is sent in a channel the bot has access to.
 
 `message` -> [Message](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#message): The message that was sent
 
@@ -880,19 +772,49 @@ __on_discord_reaction(reaction,user,added) -> (
 ```py
 __config() -> {'scope'->'global','bot'->'BOT','stay_loaded'->false};
 
-e = dc_build_embed();
-dc_build_embed(e,'title','SuperCoolEmbed');
-dc_build_embed(e,'description','This embed is super cool!');
-dc_build_embed(e,'author','replaceitem','https://github.com/replaceitem','https://avatars3.githubusercontent.com/u/40722305?s=460&u=ae87da388b3b0aeab05edf67cef1c6f7208727d3&v=4');
-dc_build_embed(e,'add_field','Field 1','This field is the first');
-dc_build_embed(e,'add_field','Field 2','This field is the second');
-dc_build_embed(e,'add_inline_field','Inline field 1','This is an inline field');
-dc_build_embed(e,'add_inline_field','Inline field 2','This is another inline field');
-dc_build_embed(e,'color',255,128,0);
-dc_build_embed(e,'footer','gnembon','https://avatars1.githubusercontent.com/u/41132274?s=460&v=4');
-dc_build_embed(e,'image','https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/logo.png');
-dc_build_embed(e,'thumbnail','https://avatars3.githubusercontent.com/u/40722305?s=460&u=ae87da388b3b0aeab05edf67cef1c6f7208727d3&v=4');
-dc_send_message(dc_channel_from_id('759102744761335891'),e);
+e = {
+    'title'->'SuperCoolEmbed',
+    'url'->'https://github.com/gnembon/fabric-carpet',
+    'description'->'SuperCoolEmbed',
+    'author'->{
+        'name'->'replaceitem',
+        'url'->'https://github.com/replaceitem',
+        'icon'->'https://avatars3.githubusercontent.com/u/40722305?s=460&u=ae87da388b3b0aeab05edf67cef1c6f7208727d3&v=4'
+    },
+    'fields'->[
+        {
+            'name'->'Field 1',
+            'value'->'This field is the first'
+        },
+        {
+            'name'->'Field 2',
+            'value'->'This field is the second'
+        },
+        {
+            'name'->'Inline field 1',
+            'value'->'This is an inline field',
+            'inline'->true
+        },
+        {
+            'name'->'Inline field 2',
+            'value'->'This is another inline field',
+            'inline'->true
+        }
+    ],
+    'color'->[255,128,0],
+    'footer'->{
+        'text'->'gnembon',
+        'icon'->'https://avatars1.githubusercontent.com/u/41132274?s=460&v=4'
+    },
+    'image'->'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png',
+    'thumbnail'->'https://repository-images.githubusercontent.com/185908133/04119080-f738-11e9-9e23-03d4e371d438',
+    'timestamp'->convert_date(2022,12,1,20,51,20)
+};
+
+dc_send_message(dc_channel_from_id('759102744761335891'),{
+    'content'->'',
+    'embeds'->[e]
+});
 
 ```
 See [`dc_build_embed()`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#dc_build_embed-dc_build_embedpropertyvalue)
@@ -1056,6 +978,30 @@ __on_discord_slash_command(cmd) -> (
         ));
     );
 );
+
+```
+
+
+## Attachments
+
+```py
+__config() -> {'scope'->'global','bot'->'BOT','stay_loaded'->false};
+
+dc_send_message(dc_channel_from_id('759102744761335891'),{
+    'content'->'',
+    'attachments'->[
+        {
+            'file'->'C:/some/path/to/file.zip'
+        },
+        {
+            'url'->'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png'
+        },
+        {
+            'bytes'->'Hello world!',
+            'name'->'Message.txt'
+        }
+    ]
+});
 
 ```
 
