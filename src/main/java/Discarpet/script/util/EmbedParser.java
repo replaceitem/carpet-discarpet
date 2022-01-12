@@ -26,7 +26,7 @@ public class EmbedParser {
             if(mapHasKey(map, "color")) e.setColor(MiscParser.parseColor(getValueInMap(map, "color")));
             if(mapHasKey(map, "footer")) setFooter(e, getValueInMap(map, "footer"));
             if(mapHasKey(map, "image")) e.setImage(getStringInMap(map, "image"));
-            if(mapHasKey(map, "thumbnail")) e.setImage(getStringInMap(map, "thumbnail"));
+            if(mapHasKey(map, "thumbnail")) e.setThumbnail(getStringInMap(map, "thumbnail"));
             if(mapHasKey(map, "timestamp")) e.setTimestamp(MiscParser.parseTimestamp(getValueInMap(map, "timestamp")));
 
             return e;

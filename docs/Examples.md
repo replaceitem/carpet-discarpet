@@ -147,19 +147,49 @@ __on_discord_reaction(reaction,user,added) -> (
 ```py
 __config() -> {'scope'->'global','bot'->'BOT','stay_loaded'->false};
 
-e = dc_build_embed();
-dc_build_embed(e,'title','SuperCoolEmbed');
-dc_build_embed(e,'description','This embed is super cool!');
-dc_build_embed(e,'author','replaceitem','https://github.com/replaceitem','https://avatars3.githubusercontent.com/u/40722305?s=460&u=ae87da388b3b0aeab05edf67cef1c6f7208727d3&v=4');
-dc_build_embed(e,'add_field','Field 1','This field is the first');
-dc_build_embed(e,'add_field','Field 2','This field is the second');
-dc_build_embed(e,'add_inline_field','Inline field 1','This is an inline field');
-dc_build_embed(e,'add_inline_field','Inline field 2','This is another inline field');
-dc_build_embed(e,'color',255,128,0);
-dc_build_embed(e,'footer','gnembon','https://avatars1.githubusercontent.com/u/41132274?s=460&v=4');
-dc_build_embed(e,'image','https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/logo.png');
-dc_build_embed(e,'thumbnail','https://avatars3.githubusercontent.com/u/40722305?s=460&u=ae87da388b3b0aeab05edf67cef1c6f7208727d3&v=4');
-dc_send_message(dc_channel_from_id('759102744761335891'),e);
+e = {
+    'title'->'SuperCoolEmbed',
+    'url'->'https://github.com/gnembon/fabric-carpet',
+    'description'->'SuperCoolEmbed',
+    'author'->{
+        'name'->'replaceitem',
+        'url'->'https://github.com/replaceitem',
+        'icon'->'https://avatars3.githubusercontent.com/u/40722305?s=460&u=ae87da388b3b0aeab05edf67cef1c6f7208727d3&v=4'
+    },
+    'fields'->[
+        {
+            'name'->'Field 1',
+            'value'->'This field is the first'
+        },
+        {
+            'name'->'Field 2',
+            'value'->'This field is the second'
+        },
+        {
+            'name'->'Inline field 1',
+            'value'->'This is an inline field',
+            'inline'->true
+        },
+        {
+            'name'->'Inline field 2',
+            'value'->'This is another inline field',
+            'inline'->true
+        }
+    ],
+    'color'->[255,128,0],
+    'footer'->{
+        'text'->'gnembon',
+        'icon'->'https://avatars1.githubusercontent.com/u/41132274?s=460&v=4'
+    },
+    'image'->'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png',
+    'thumbnail'->'https://repository-images.githubusercontent.com/185908133/04119080-f738-11e9-9e23-03d4e371d438',
+    'timestamp'->convert_date(2022,12,1,20,51,20)
+};
+
+dc_send_message(dc_channel_from_id('759102744761335891'),{
+    'content'->'',
+    'embeds'->[e]
+});
 
 ```
 See [`dc_build_embed()`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#dc_build_embed-dc_build_embedpropertyvalue)
@@ -323,6 +353,30 @@ __on_discord_slash_command(cmd) -> (
         ));
     );
 );
+
+```
+
+
+## Attachments
+
+```py
+__config() -> {'scope'->'global','bot'->'BOT','stay_loaded'->false};
+
+dc_send_message(dc_channel_from_id('759102744761335891'),{
+    'content'->'',
+    'attachments'->[
+        {
+            'file'->'C:/some/path/to/file.zip'
+        },
+        {
+            'url'->'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png'
+        },
+        {
+            'bytes'->'Hello world!',
+            'name'->'Message.txt'
+        }
+    ]
+});
 
 ```
 

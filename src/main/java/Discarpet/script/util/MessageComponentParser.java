@@ -58,12 +58,13 @@ public class MessageComponentParser {
     private static Button getButton(Map<Value,Value> map) {
         ButtonBuilder buttonBuilder = new ButtonBuilder();
 
-        buttonBuilder.setCustomId(getStringInMap(map,"id"));
 
         String styleName = getStringInMap(map,"style");
         ButtonStyle style = ButtonStyle.fromName(styleName.toLowerCase());
         if (style.equals(ButtonStyle.UNKNOWN)) throw new InternalExpressionException("Unknown button style: " + styleName);
         buttonBuilder.setStyle(style);
+
+        if(!style.equals(ButtonStyle.LINK)) buttonBuilder.setCustomId(getStringInMap(map,"id"));
 
         if(mapHasKey(map,"label")) {
             buttonBuilder.setLabel(getStringInMap(map,"label"));
