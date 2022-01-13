@@ -109,49 +109,6 @@ Returns the hex color of the top role of the `user` in the `server`. If the user
 | ❗ **Note** This function is **deprecated**, use the parsable embed value instead. |
 |---|
 
-This function is used to create custom Embeds which can be sent using `dc_send_message`.
-
-When ran without arguments, returns an empty [embed](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#embedbuilder) value.
-
-The value is used to specify different properties of the Embed. This is done by specifying a `property` and a `value` in the function.
-
-The following properties are allowed:
-
-`dc_build_embed(embed,'title',title)`
-`dc_build_embed(embed,'description',description)`
-`dc_build_embed(embed,'author',userValue)` Automatically uses the name of the user, as well as his avatar and clickable link
-`dc_build_embed(embed,'author',name)` Only use a custom name
-`dc_build_embed(embed,'author',name,clickURL,iconURL)` Use custom name, url and icon
-`dc_build_embed(embed,'add_field',title,description)`
-`dc_build_embed(embed,'add_inline_field',title,description)`
-`dc_build_embed(embed,'color',r,g,b)`
-`dc_build_embed(embed,'color',[r,g,b])`
-`dc_build_embed(embed,'footer',name,iconURL)`
-`dc_build_embed(embed,'image',imageURL)`
-`dc_build_embed(embed,'thumbnail','thumbnailURL')`
-
-Here is an example on how to build an embed:
-
-```py
-e = dc_build_embed();
-dc_build_embed(e,'title','SuperCoolEmbed');
-dc_build_embed(e,'description','This embed is super cool!');
-dc_build_embed(e,'author','replaceitem','https://github.com/replaceitem','https://avatars3.githubusercontent.com/u/40722305?s=460&u=ae87da388b3b0aeab05edf67cef1c6f7208727d3&v=4');
-dc_build_embed(e,'add_field','Field 1','This field is the first');
-dc_build_embed(e,'add_field','Field 2','This field is the second');
-dc_build_embed(e,'add_inline_field','Inline field 1','This is an inline field');
-dc_build_embed(e,'add_inline_field','Inline field 2','This is another inline field');
-dc_build_embed(e,'color',255,128,0);
-dc_build_embed(e,'footer','gnembon','https://avatars1.githubusercontent.com/u/41132274?s=460&v=4');
-dc_build_embed(e,'image','https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/logo.png');
-dc_build_embed(e,'thumbnail','https://avatars3.githubusercontent.com/u/40722305?s=460&u=ae87da388b3b0aeab05edf67cef1c6f7208727d3&v=4');
-dc_send_message(dc_channel_from_id('CHANNEL ID HERE'),e);
-```
-
-Which gives this result:
-
-![Example embed](/docs/embed.png)
-
 ## Interactions
 
 ### `dc_create_slash_command(name, description, server)` `dc_create_slash_command(name, description, server, options)`

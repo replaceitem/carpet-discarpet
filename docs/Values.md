@@ -29,8 +29,6 @@ Queryable:
 | ❗ **Note** This value type is **deprecated**, use the parsable embed value instead. |
 |---|
 
-A EmbedBuilder is used to create Embeds. This is mainly used with the `dc_build_embed` function.
-
 ## Emoji
 
 `dc_emoji`
