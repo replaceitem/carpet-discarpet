@@ -1,5 +1,9 @@
 # Discarpet
 
+[![Fabric mod](https://img.shields.io/badge/mod%20loader-fabric-d64541?style=flat-square)](https://fabricmc.net/)
+[![Server side mod](https://img.shields.io/badge/environment-server-orangered?style=flat-square)](https://fabricmc.net/)
+[![GitHub downloads](https://img.shields.io/github/downloads/replaceitem/carpet-discarpet/total?style=flat-square)](https://github.com/replaceitem/carpet-discarpet/releases)
+
 ## A Carpet extension for scarpet discord functionality
 
 ![Discarpet](src/main/resources/assets/discarpet/icon.png)
