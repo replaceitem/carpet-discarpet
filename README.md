@@ -10,11 +10,11 @@ If you need help, message me on discord (replaceitem#9118) or ping me in the [Ca
 
 ## Documentation
 
-## [Full](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Full.md)
+## [Full documentation](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Full.md)
 
-### [Setup](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Setup.md)
-### [Values](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md)
-### [Functions](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md)
-### [Events](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Events.md)
-
-## [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md)
+#### [Setup](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Setup.md)
+#### [Values](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md)
+#### [Parsable](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Parsable.md)
+#### [Functions](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md)
+#### [Events](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Events.md)
+#### [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md)
