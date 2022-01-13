@@ -17,7 +17,7 @@ For more complex messages, a map with the following values is used:
 
 Example:
 
-```
+```js
 {
     'content'->'I am sending you some files',
     'attachments'->[
@@ -60,21 +60,21 @@ An attachment can be created in three ways.
 From a File, a URL or from a string which will be the raw bytes of the file.
 
 For a File, only a `file` value is specified:
-```
+```js
 {
     'file'->'C:/some/path/to/a/file.zip'
 }
 ```
 
 For a URL, only a `url` value is specified:
-```
+```js
 {
     'file'->'https://www.example.com/some/file/url.csv'
 }
 ```
 
 For a byte array, a `bytes` and `name` value is specified:
-```
+```js
 {
     'bytes'->'This would be the contents of this txt file',
     'name'->'MyFile.txt'
@@ -113,7 +113,7 @@ Otherwise, the embed author will just be the string representation of the given 
 
 Example:
 
-```
+```js
 {
     'name'->'replaceitem',
     'url'->'https://github.com/replaceitem',
@@ -177,7 +177,7 @@ Buttons and select menus both have the following values:
 | `url` | String (optional, only required for `url` style) | The URL opened when clicking the button. This is only used for the `url` style |
 
 Examples:
-```
+```js
 {
     'component'->'buttom',
     'id'->'delete_button',
@@ -186,7 +186,7 @@ Examples:
     'emoji'->'❌'
 }
 ```
-```
+```js
 {
     'component'->'button',
     'id'->'link_to_github_button',
@@ -207,7 +207,7 @@ Examples:
 | `placeholder` | String (optional) | The text displayed when nothing is selected yet |
 
 Example:
-```
+```js
 {
     'component'->'select_menu',
     'id'->'food_select_menu',
@@ -232,7 +232,7 @@ Example:
 | `default` | boolean (optional) | Whether this is selected by default or not |
 
 Example:
-```
+```js
 {
     'value'->'bread',
     'label'->'Bread',
@@ -251,7 +251,7 @@ while subcommands are always one layer deeper than sub command groups.
 Note that this is quite limited in comparison to minecraft commands.
 All paths of the command tree have to have either just a sub command, or a sub command group with sub commands each.
 This means that the length of the command chains (without the other options that aren't subcommands) has to be equal for all subcommands.
-See: https://canary.discord.com/developers/docs/interactions/slash-commands#nested-subcommands-and-groups
+See: https://canary.discord.com/developers/docs/interactions/application-commands#subcommands-and-subcommand-groups
 
 | Value | Type | Description |
 |---|---|---|
