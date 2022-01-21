@@ -92,6 +92,11 @@ public class Bot {
 		}
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof Bot bot && this.id.equals(bot.id);
+	}
+
 	public String getInvite() {
 		return api.createBotInvite();
 	}
