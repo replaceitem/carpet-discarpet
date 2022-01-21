@@ -1049,12 +1049,11 @@ See [`dc_build_embed()`](https://github.com/replaceitem/carpet-discarpet/blob/ma
 ```py
 __config() -> {'scope'->'global','bot'->'BOT','stay_loaded'->false};
 
-global_executions = 0;
-global_chat = dc_channel_from_id('789877643070799902');
+global_chat = dc_channel_from_id('YOUR CHANNEL ID');
 
-__on_tick() -> (
-    global_executions = 0;
-);
+global_rec = 0;
+
+__on_tick() -> global_rec = 0;
 
 __on_discord_message(message) -> (
     if(message~'channel'~'id'!=global_chat~'id',return()); //limit to chat channel only
@@ -1067,22 +1066,17 @@ __on_discord_message(message) -> (
 );
 
 __on_system_message(text,type,entity) -> (
-    global_executions += 1; //prevent recursion
-    if(global_executions < 10,
-        if(!(type~'admin'),
-            if((type~'commands.save.') == null, //dont send 'saving world' messages
-                msg = __parse_mentions(text,global_chat~'server');
-                task(_(outer(msg)) -> dc_send_message(global_chat,msg)); //send to discord
-            );
+    if(global_rec > 10,return());
+    global_rec += 1;
+    if(!(type~'admin'),
+        if((type~'commands.save.') == null, //don't send 'saving world' messages
+            msg = parse_mentions(text,global_chat~'server'); //allow for pings from inside minecraft
+            task(_(outer(msg)) -> dc_send_message(global_chat,msg)); //send to discord
         );
     );
 );
 
-__on_chat_message(msg,player,command) -> (
-    task(_(outer(msg)) -> dc_send_message(global_chat,'chat: ' + msg)); //send to discord
-);
-
-__parse_mentions(msg,server) -> (
+parse_mentions(msg,server) -> (
     for(server~'users',
         msg = replace(msg,'@' + dc_get_display_name(_,server),_~'mention_tag');
     );
