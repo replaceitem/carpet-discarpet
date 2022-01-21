@@ -1049,7 +1049,7 @@ See [`dc_build_embed()`](https://github.com/replaceitem/carpet-discarpet/blob/ma
 ```py
 __config() -> {'scope'->'global','bot'->'BOT','stay_loaded'->false};
 
-global_chat = dc_channel_from_id('YOUR CHANNEL ID');
+global_chat = dc_channel_from_id('789877643070799902');
 
 global_rec = 0;
 
@@ -1061,6 +1061,8 @@ __on_discord_message(message) -> (
     for(player('all'),
         col = 'd'; // this could be replaced with a custom way of fetching user color
         if(col == null,col = 'w');
+        col = dc_get_user_color(message~'user',message~'server');
+        if(col==null,col='#FFFFFF');
         print(_,format(str('%s [%s]',col,dc_get_display_name(message~'user',message~'server')))+format(str('w  %s',message~'readable_content')))
     );
 );
