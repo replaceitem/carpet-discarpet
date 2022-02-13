@@ -55,7 +55,7 @@ public class DiscarpetCommand {
             commandContext.getSource().sendFeedback(text,false);
             return 1;
         }))).then(literal("reload").executes(commandContext->{
-                Discarpet.loadBots(commandContext.getSource());
+                Discarpet.loadConfig(commandContext.getSource());
                 return 1;
             }))
         );

@@ -1,51 +1,29 @@
 package Discarpet.script.functions;
 
-import Discarpet.Bot;
+import Discarpet.config.Bot;
 import Discarpet.Discarpet;
-import Discarpet.script.util.MessageComponentParser;
 import Discarpet.script.util.MessageContentParser;
 import Discarpet.script.util.SlashCommandParser;
 import Discarpet.script.util.ValueUtil;
-import Discarpet.script.util.content.ContentApplier;
 import Discarpet.script.util.content.InteractionFollowupMessageContentApplier;
 import Discarpet.script.util.content.InteractionImmediateResponseContentApplier;
-import Discarpet.script.values.EmbedBuilderValue;
 import Discarpet.script.values.InteractionValue;
 import Discarpet.script.values.MessageValue;
 import Discarpet.script.values.ServerValue;
 import carpet.script.Expression;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.BooleanValue;
-import carpet.script.value.ListValue;
-import carpet.script.value.MapValue;
-import carpet.script.value.NumericValue;
-import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.interaction.InteractionBase;
 import org.javacord.api.interaction.SlashCommand;
 import org.javacord.api.interaction.SlashCommandBuilder;
-import org.javacord.api.interaction.SlashCommandOption;
-import org.javacord.api.interaction.SlashCommandOptionBuilder;
-import org.javacord.api.interaction.SlashCommandOptionChoice;
-import org.javacord.api.interaction.SlashCommandOptionType;
-import org.javacord.api.interaction.callback.ExtendedInteractionMessageBuilderBase;
-import org.javacord.api.interaction.callback.InteractionFollowupMessageBuilder;
-import org.javacord.api.interaction.callback.InteractionImmediateResponseBuilder;
-import org.javacord.api.interaction.callback.InteractionMessageBuilderBase;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static Discarpet.Discarpet.getBotInContext;
-import static Discarpet.script.util.MapValueUtil.*;
 
 public class Interactions {
     public static void apply(Expression expr) {

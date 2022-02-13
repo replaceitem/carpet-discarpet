@@ -8,15 +8,10 @@ import Discarpet.script.values.SlashCommandInteractionValue;
 import Discarpet.script.values.UserValue;
 import Discarpet.script.values.MessageValue;
 import Discarpet.script.values.ReactionValue;
-import Discarpet.Bot;
+import Discarpet.config.Bot;
 import carpet.CarpetServer;
-import carpet.script.CarpetEventServer;
-import carpet.script.CarpetScriptHost;
-import carpet.script.CarpetScriptServer;
-import carpet.script.ScriptHost;
 import carpet.script.value.BooleanValue;
 import carpet.script.value.Value;
-import carpet.utils.CarpetProfiler;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.World;
 import carpet.script.CarpetEventServer.Event;
@@ -27,10 +22,8 @@ import org.javacord.api.interaction.ButtonInteraction;
 import org.javacord.api.interaction.SelectMenuInteraction;
 import org.javacord.api.interaction.SlashCommandInteraction;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 

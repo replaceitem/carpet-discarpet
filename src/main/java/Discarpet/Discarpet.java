@@ -1,6 +1,9 @@
 package Discarpet;
 
 import Discarpet.commands.DiscarpetCommand;
+import Discarpet.config.Bot;
+import Discarpet.config.BotConfig;
+import Discarpet.config.ConfigManager;
 import Discarpet.script.events.ChatEvents;
 import Discarpet.script.events.DiscordEvents;
 import Discarpet.script.functions.Embeds;
@@ -55,6 +58,7 @@ import org.javacord.api.interaction.ButtonInteraction;
 import org.javacord.api.interaction.SelectMenuInteraction;
 import org.javacord.api.interaction.SlashCommandInteraction;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,6 +69,7 @@ import java.util.Map;
 
 public class Discarpet implements CarpetExtension, ModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger("Discarpet");
+	protected static ConfigManager configManager;
 
 	public static Map<String,Bot> discordBots = new HashMap<>();
 
@@ -72,6 +77,18 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	public void onInitialize() {
 		DiscordEvents.noop();
 		ChatEvents.noop();
+
+		try {
+			Path configDir = FabricLoader.getInstance().getConfigDir().normalize();
+			Files.createDirectories(configDir);
+			File configFile = configDir.resolve("discarpet.json").normalize().toFile();
+			configManager = new ConfigManager(configFile);
+		} catch (IOException e) {
+			Discarpet.LOGGER.error("Error loading Discarpet configuration file");
+		}
+		
+		loadConfig(null);
+		
 		CarpetServer.manageExtension(this);
 		Discarpet.LOGGER.info("Discarpet loaded");
 	}
@@ -112,7 +129,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void onServerLoaded(MinecraftServer server) {
-		loadBots(null);
+		
 	}
 
 	@Override
@@ -132,6 +149,13 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		Interactions.apply(expression.getExpr());
 	}
 
+	public static void loadConfig(ServerCommandSource source) {
+		if(configManager.loadAndUpdate()) {
+			Discarpet.LOGGER.info("No Discarpet configuration file found, creating one. Edit config/discarpet.json to add your bots");
+		} else {
+			loadBots(source);
+		}
+	}
 
 	public static void loadBots(ServerCommandSource source) {
 		if(source != null) {
@@ -148,26 +172,14 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 			}
 		});
 		discordBots.clear();
-		try {
-			Path configDir = FabricLoader.getInstance().getConfigDir().normalize();
-			Files.createDirectories(configDir);
-			Path configFile = configDir.resolve("discarpet.json").normalize();
-			boolean created = Config.load(configFile.toFile());
-			if(created) {
-				Discarpet.LOGGER.warn("No config file present, generating empty file. To specify your bots, edit config/discarpet.json");
-			}
-			Config.getInstance().toFile(configFile.toFile());
-			if(created) return;
-			for (BotConfig s : Config.getInstance().BOTS) {
-				if(s == null) continue;
-				HashSet<Intent> intents = new HashSet<>();
-				if(s.PRESENCE_INTENT) intents.add(Intent.GUILD_PRESENCES);
-				if(s.MEMBER_INTENT) intents.add(Intent.GUILD_MEMBERS);
-				Bot bot = new Bot(s.BOT_ID,s.BOT_TOKEN,intents,source);
-				if(bot.api != null) discordBots.put(bot.id, bot);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+
+		for (BotConfig s : configManager.getConfig().BOTS) {
+			if(s == null) continue;
+			HashSet<Intent> intents = new HashSet<>();
+			if(s.PRESENCE_INTENT) intents.add(Intent.GUILD_PRESENCES);
+			if(s.MEMBER_INTENT) intents.add(Intent.GUILD_MEMBERS);
+			Bot bot = new Bot(s.BOT_ID,s.BOT_TOKEN,intents,source);
+			if(bot.api != null) discordBots.put(bot.id, bot);
 		}
 	}
 

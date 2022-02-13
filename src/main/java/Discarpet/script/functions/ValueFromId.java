@@ -1,6 +1,6 @@
 package Discarpet.script.functions;
 
-import Discarpet.Bot;
+import Discarpet.config.Bot;
 import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.EmojiValue;
 import Discarpet.script.values.RoleValue;
