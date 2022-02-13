@@ -1,6 +1,6 @@
 package Discarpet.script.functions;
 
-import Discarpet.Bot;
+import Discarpet.config.Bot;
 import carpet.script.Context;
 import carpet.script.annotation.ScarpetFunction;
 import org.javacord.api.entity.activity.ActivityType;
@@ -8,7 +8,6 @@ import org.javacord.api.entity.user.User;
 import org.javacord.api.entity.user.UserStatus;
 
 import static Discarpet.Discarpet.getBotInContext;
-import static Discarpet.Discarpet.scarpetNoBotException;
 
 public class Self {
     @ScarpetFunction

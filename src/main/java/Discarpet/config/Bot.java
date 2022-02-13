@@ -1,4 +1,4 @@
-package Discarpet;
+package Discarpet.config;
 
 import Discarpet.script.events.DiscordEvents;
 import net.minecraft.server.command.ServerCommandSource;
