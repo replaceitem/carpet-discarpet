@@ -43,8 +43,16 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.Filter;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.AppenderRef;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.filter.CompositeFilter;
+import org.apache.logging.log4j.core.filter.StringMatchFilter;
 import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.intent.Intent;
@@ -153,6 +161,19 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		if(configManager.loadAndUpdate()) {
 			Discarpet.LOGGER.info("No Discarpet configuration file found, creating one. Edit config/discarpet.json to add your bots");
 		} else {
+			if(configManager.getConfig().DISABLE_RECONNECT_LOGS) {
+				// hackfix, if you know a better solution, feel free to open a PR
+				String loggerName = "org.javacord.core.util.gateway.DiscordWebSocketAdapter";
+				LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+				Configuration configuration = ctx.getConfiguration();
+				Filter websocketClosedFilter = new StringMatchFilter.Builder().setMatchString("Websocket closed with reason 'Discord commanded a reconnect (Received opcode 7)' and code COMMANDED_RECONNECT (4999) by client!").setOnMatch(Filter.Result.DENY).setOnMismatch(Filter.Result.NEUTRAL).build();
+				Filter reconnect1sFilter = new StringMatchFilter.Builder().setMatchString("Trying to reconnect/resume in 1 seconds!").setOnMatch(Filter.Result.DENY).setOnMismatch(Filter.Result.NEUTRAL).build();
+				Filter compositeFilter = CompositeFilter.createFilters(new Filter[]{websocketClosedFilter, reconnect1sFilter});
+				configuration.addLoggerFilter((org.apache.logging.log4j.core.Logger) LogManager.getLogger(loggerName),compositeFilter);
+				LoggerConfig loggerConfig = LoggerConfig.createLogger(false, Level.INFO, loggerName, "true", new AppenderRef[0], null,configuration, compositeFilter);
+				configuration.addLogger(loggerName, loggerConfig);
+				ctx.updateLoggers();
+			}
 			loadBots(source);
 		}
 	}
