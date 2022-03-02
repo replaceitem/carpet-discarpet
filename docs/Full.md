@@ -16,12 +16,13 @@ The file should look like this by default:
 {
   "bots": [
     {
-      "bot_id": "Your Bot ID",
-      "bot_token": "Your Bot Token",
+      "bot_id": "Your bot ID",
+      "bot_token": "Your bot token",
       "member_intent": false,
       "presence_intent": false
     }
-  ]
+  ],
+  "disable_reconnect_logs": false
 }
 ```
 
@@ -43,7 +44,8 @@ Now your config should look something like this:
       "member_intent": false,
       "presence_intent": false
     }
-  ]
+  ],
+  "disable_reconnect_logs": false
 }
 ```
 
@@ -84,7 +86,8 @@ To have multiple bots running on your server, just add them to the config file l
       "bot_id": "third_bot",
       "bot_token": "token for third bot"
     }
-  ]
+  ],
+  "disable_reconnect_logs": false
 }
 ```
 
@@ -103,7 +106,16 @@ You should leave them as `false`, unless you use functions that require your bot
 In that case, you also need to enable the permissions in the Discord developer portal (Bot/Privileged Gateway Intents).
 There is a hint at all functions that need an additional Intent, so you know when you need them.
 
-# Discarpet Values
+## Disabling log messages
+
+If you run Discarpet for a while, you might notice messages that look like this:
+
+```
+[ReadingThread/INFO]: Websocket closed with reason 'Discord commanded a reconnect (Received opcode 7)' and code COMMANDED_RECONNECT (4999) by client!
+[ReadingThread/INFO]: Trying to reconnect/resume in 1 seconds!
+```
+
+To disable those messages, you can set the `disable_reconnect_logs` config option to `true`# Discarpet Values
 
 Discarpet adds various new value types to scarpet, that wrap a Discord value.
 This page lists all of them and which values can be queried from it.
