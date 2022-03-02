@@ -9,9 +9,6 @@ import java.util.function.Predicate;
 
 @Mixin(CarpetEventServer.CallbackList.class)
 public interface CallbackListAccessor {
-    @Accessor
-    boolean isPerPlayerDistribution();
-
     @Invoker
     void callRemoveCallsIf(Predicate<CarpetEventServer.Callback> when);
 }
