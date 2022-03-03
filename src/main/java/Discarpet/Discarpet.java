@@ -6,7 +6,6 @@ import Discarpet.config.BotConfig;
 import Discarpet.config.ConfigManager;
 import Discarpet.script.events.ChatEvents;
 import Discarpet.script.events.DiscordEvents;
-import Discarpet.script.functions.Embeds;
 import Discarpet.script.functions.Interactions;
 import Discarpet.script.functions.Messages;
 import Discarpet.script.functions.Self;
@@ -24,6 +23,7 @@ import Discarpet.script.values.SelectMenuInteractionValue;
 import Discarpet.script.values.ServerValue;
 import Discarpet.script.values.SlashCommandInteractionValue;
 import Discarpet.script.values.UserValue;
+import Discarpet.script.values.WebhookValue;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
 import carpet.script.CarpetExpression;
@@ -62,6 +62,7 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.permission.Role;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
+import org.javacord.api.entity.webhook.Webhook;
 import org.javacord.api.interaction.ButtonInteraction;
 import org.javacord.api.interaction.SelectMenuInteraction;
 import org.javacord.api.interaction.SlashCommandInteraction;
@@ -115,6 +116,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		SimpleTypeConverter.registerType(ServerValue.class, Server.class, ServerValue::getServer, "server");
 		SimpleTypeConverter.registerType(SlashCommandInteractionValue.class, SlashCommandInteraction.class, SlashCommandInteractionValue::getSlashCommandInteraction, "slash_command_interaction");
 		SimpleTypeConverter.registerType(UserValue.class, User.class, UserValue::getUser, "user");
+		SimpleTypeConverter.registerType(WebhookValue.class, Webhook.class, WebhookValue::getWebhook, "webhook");
 
 		OutputConverter.registerToValue(ButtonInteraction.class, ButtonInteractionValue::new);
 		OutputConverter.registerToValue(Channel.class, ChannelValue::new);
@@ -127,6 +129,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		OutputConverter.registerToValue(Server.class, ServerValue::new);
 		OutputConverter.registerToValue(SlashCommandInteraction.class, SlashCommandInteractionValue::new);
 		OutputConverter.registerToValue(User.class, UserValue::new);
+		OutputConverter.registerToValue(Webhook.class, WebhookValue::new);
 
 		AnnotationParser.parseFunctionClass(Channels.class);
 		AnnotationParser.parseFunctionClass(Messages.class);
@@ -153,7 +156,6 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void scarpetApi(CarpetExpression expression) {
-		Embeds.apply(expression.getExpr());
 		Interactions.apply(expression.getExpr());
 	}
 

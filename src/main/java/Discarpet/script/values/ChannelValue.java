@@ -1,6 +1,7 @@
 package Discarpet.script.values;
 
 import Discarpet.script.util.ValueUtil;
+import carpet.script.value.ListValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
@@ -9,10 +10,11 @@ import org.javacord.api.entity.Nameable;
 import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.channel.ServerChannel;
 import org.javacord.api.entity.channel.ServerTextChannel;
+import org.javacord.api.entity.message.Messageable;
 
 import java.util.Optional;
 
-public class ChannelValue extends Value {
+public class ChannelValue extends Value implements MessageableValue {
 
     private final Channel channel;
 
@@ -33,6 +35,11 @@ public class ChannelValue extends Value {
         return channel;
     }
 
+    @Override
+    public Messageable getMessageable() {
+        return channel instanceof Messageable messageableChannel ? messageableChannel : null;
+    }
+
     public Value getProperty(String property) {
         return switch (property) {
             case "name" -> StringValue.of(channel instanceof Nameable nameableChannel ? nameableChannel.getName() : null);
@@ -41,6 +48,7 @@ public class ChannelValue extends Value {
             case "id" -> StringValue.of(channel.getIdAsString());
             case "mention_tag" -> StringValue.of(channel instanceof Mentionable mentionableChannel ? mentionableChannel.getMentionTag() : null);
             case "server" -> new ServerValue(channel instanceof ServerChannel serverChannel ? serverChannel.getServer() : null);
+            case "webhooks" -> channel instanceof ServerTextChannel serverTextChannel ? ListValue.wrap(serverTextChannel.getWebhooks().join().stream().map(WebhookValue::of)) : Value.NULL;
             default -> Value.NULL;
         };
     }
