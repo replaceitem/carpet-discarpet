@@ -269,3 +269,11 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 |---|---|---|
 | `name` | String | The visible autocompleted filled in choice for the option |
 | `value` | String | The value that will be received in the slash command event as the option value |
+
+### Webhook builder
+
+| Value | Type | Description |
+|---|---|---|
+| `name` | String (optional when updating) | The username of the webhook |
+| `avatar` | String (optional) | A URL to the avatar shown on the webhook |
+| `reason` | String (optional) | Reason shown in Audit log |
