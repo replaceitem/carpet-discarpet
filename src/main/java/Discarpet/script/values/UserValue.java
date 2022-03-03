@@ -5,11 +5,12 @@ import carpet.script.value.BooleanValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
+import org.javacord.api.entity.message.Messageable;
 import org.javacord.api.entity.user.User;
 
 import java.util.Optional;
 
-public class UserValue extends Value {
+public class UserValue extends Value implements MessageableValue {
 
     private final User user;
 
@@ -24,6 +25,11 @@ public class UserValue extends Value {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public static Value of(Optional<User> optionalUser){
         return of(ValueUtil.unpackOptional(optionalUser));
+    }
+
+    @Override
+    public Messageable getMessageable() {
+        return user;
     }
 
     public Value getProperty(String property) {

@@ -6,6 +6,7 @@ import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
 import org.javacord.api.entity.channel.Channel;
+import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.server.Server;
 
 import java.util.Optional;
@@ -35,6 +36,7 @@ public class ServerValue extends Value {
             case "users" -> ListValue.wrap(server.getMembers().stream().map(UserValue::new));
             case "channels" -> ListValue.wrap(server.getChannels().stream().map(ChannelValue::new));
             case "roles" -> ListValue.wrap(server.getRoles().stream().map(RoleValue::new));
+            case "webhooks" -> ListValue.wrap(server.getWebhooks().join().stream().map(WebhookValue::of));
             default -> Value.NULL;
         };
     }

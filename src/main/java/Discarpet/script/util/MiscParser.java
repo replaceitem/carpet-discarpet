@@ -2,12 +2,19 @@ package Discarpet.script.util;
 
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.ListValue;
+import carpet.script.value.MapValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
+import org.javacord.api.entity.webhook.WebhookBuilder;
+import org.javacord.api.entity.webhook.WebhookUpdater;
 
 import java.awt.*;
+import java.net.URL;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
+
+import static Discarpet.script.util.MapValueUtil.*;
 
 public class MiscParser {
     public static Color parseColor(Value color) {
@@ -32,6 +39,32 @@ public class MiscParser {
             return Instant.parse(timestamp.toString());
         } catch (Exception ex) {
             throw new InternalExpressionException("Could not parse timestamp: " + ex.getMessage());
+        }
+    }
+    
+    public static WebhookBuilder parseWebhookBuilder(Value webhookBuilder, WebhookBuilder builder) {
+        try {
+            if(!(webhookBuilder instanceof MapValue mapValue)) throw new InternalExpressionException("Webhook builder needs to be a map value");
+            Map<Value, Value> map = mapValue.getMap();
+            builder.setName(getStringInMap(map,"name"));
+            if(mapHasKey(map,"avatar")) builder.setAvatar(new URL(getStringInMap(map,"avatar")));
+            if(mapHasKey(map,"reason")) builder.setAuditLogReason(getStringInMap(map,"reason"));
+            return builder;
+        } catch (Exception ex) {
+            throw new InternalExpressionException("Could not parse webhook builder: " + ex.getMessage());
+        }
+    }
+
+    public static WebhookUpdater parseWebhookUpdater(Value webhookBuilder, WebhookUpdater updater) {
+        try {
+            if(!(webhookBuilder instanceof MapValue mapValue)) throw new InternalExpressionException("Webhook builder needs to be a map value");
+            Map<Value, Value> map = mapValue.getMap();
+            if(mapHasKey(map,"name")) updater.setName(getStringInMap(map,"name"));
+            if(mapHasKey(map,"avatar")) updater.setAvatar(new URL(getStringInMap(map,"avatar")));
+            if(mapHasKey(map,"reason")) updater.setAuditLogReason(getStringInMap(map,"reason"));
+            return updater;
+        } catch (Exception ex) {
+            throw new InternalExpressionException("Could not parse webhook builder: " + ex.getMessage());
         }
     }
 }

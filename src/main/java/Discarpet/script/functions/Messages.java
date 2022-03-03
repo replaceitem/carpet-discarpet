@@ -3,8 +3,8 @@ package Discarpet.script.functions;
 import Discarpet.script.util.MessageContentParser;
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.util.content.MessageContentApplier;
-import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.EmojiValue;
+import Discarpet.script.values.MessageableValue;
 import carpet.script.annotation.ScarpetFunction;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.Value;
@@ -20,10 +20,11 @@ public class Messages {
         MessageBuilder messageBuilder = new MessageBuilder();
         MessageContentParser.parseMessageContent(new MessageContentApplier(messageBuilder),messageContent);
 
-        if(target instanceof ChannelValue channel && channel.getChannel() instanceof Messageable messageable) {
+        if(target instanceof MessageableValue messageableValue && messageableValue.getMessageable() != null) {
+            Messageable messageable = messageableValue.getMessageable();
             CompletableFuture<Message> cf = messageBuilder.send(messageable);
             return ValueUtil.awaitFuture(cf,"Error sending message");
-        } else throw new InternalExpressionException("'dc_send_message' expected a text channel or user as the first parameter");
+        } else throw new InternalExpressionException("'dc_send_message' expected a text channel, user or incoming webhook as the first parameter");
 
     }
 

@@ -35,8 +35,8 @@ public class SlashCommandParser {
     }
 
     private static SlashCommandOption parseSlashCommandOption(Value value) {
-        if(!(value instanceof MapValue listValue)) throw new InternalExpressionException("Slash command option needs to be a map value");
-        Map<Value, Value> map = listValue.getMap();
+        if(!(value instanceof MapValue mapValue)) throw new InternalExpressionException("Slash command option needs to be a map value");
+        Map<Value, Value> map = mapValue.getMap();
 
         SlashCommandOptionBuilder s = new SlashCommandOptionBuilder();
         s.setType(SlashCommandOptionType.valueOf(getStringInMap(map,"type").toUpperCase(Locale.ROOT)));
@@ -63,8 +63,8 @@ public class SlashCommandParser {
     }
 
     private static SlashCommandOptionChoice parseSlashCommandOptionChoice(Value value) {
-        if(!(value instanceof MapValue listValue)) throw new InternalExpressionException("Slash command option choice needs to be a map value");
-        Map<Value, Value> map = listValue.getMap();
+        if(!(value instanceof MapValue mapValue)) throw new InternalExpressionException("Slash command option choice needs to be a map value");
+        Map<Value, Value> map = mapValue.getMap();
         SlashCommandOptionChoiceBuilder s = new SlashCommandOptionChoiceBuilder();
         s.setName(getStringInMap(map,"name"));
         Value valueValue = getValueInMap(map, "value");
