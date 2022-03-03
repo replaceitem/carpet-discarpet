@@ -1,12 +1,9 @@
 package Discarpet.script.util;
 
 import Discarpet.script.util.content.ContentApplier;
-import Discarpet.script.values.EmbedBuilderValue;
-import carpet.CarpetServer;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.MapValue;
 import carpet.script.value.Value;
-import org.javacord.api.entity.message.MessageBuilder;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -97,12 +94,6 @@ public class MessageContentParser {
     }
 
     private static void addEmbed(ContentApplier a, Value embed) {
-        if(embed instanceof EmbedBuilderValue embedBuilderValue) {
-            // using global host, as I won't bother getting context to this deep in the trace
-            CarpetServer.scriptServer.globalHost.issueDeprecation("EmbedBuilder value");
-            a.addEmbed(embedBuilderValue.getEmbedBuilder());
-            return;
-        }
         a.addEmbed(EmbedParser.parseEmbed(embed));
     }
 
