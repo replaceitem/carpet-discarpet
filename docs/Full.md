@@ -138,13 +138,8 @@ Queryable:
 | `mention_tag` | String | Mention tag for the channel. This can be put inside a message for the channel to be a clickable link. |
 | `server` | Server | Server this channel is in, or null if this is a private channel |
 | `type` | String | Channel type |
+| `webhooks` | List of Webhooks | All webhooks in this channel |
 
-## EmbedBuilder
-
-`dc_embed_builder`
-
-| ❗ **Note** This value type is **deprecated**, use the parsable embed value instead. |
-|---|
 
 ## Emoji
 
@@ -209,6 +204,7 @@ Queryable:
 | `users` | List of Users | All users in this server (this requires the member Intent) |
 | `channels` | List of Channels | All channels in this server |
 | `roles` | List of Roles | All roles in this server |
+| `webhooks` | List of Webhooks | All webhooks in this server |
 
 ## User
 
@@ -292,7 +288,23 @@ Queryable things exclusive to select menus:
 | `options` | List | All values of options in the select menu |
 | `min` | number |Minimum amount of selected entries for this select menu |
 | `max` | number | Maximum amount of selected entries for this select menu |
-| `placeholder` | String | Placeholder text of this select menu |# Parsable values
+| `placeholder` | String | Placeholder text of this select menu |
+
+## Webhook
+
+`dc_webhook`
+
+A webhook in a channel.
+
+Queryable:
+
+| Property | Type | Description |
+|---|---|---|
+| `id` | String | The id of the webhook |
+| `channel` | Channel | The channel this webhook is in |
+| `type` | String | Webhook type, can be either `'INCOMING'`, `'CHANNEL_FOLLOWER'` and `'UNKNOWN'` |
+| `token` | String | The token of the webhooks, only works for incoming webhooks |
+| `url` | String | Webhook URL, only works for incoming webhooks |# Parsable values
 
 Many discord entities don't have their own value, as they can be represented with scarpet maps, lists, and other values.
 
@@ -562,19 +574,28 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 | Value | Type | Description |
 |---|---|---|
 | `name` | String | The visible autocompleted filled in choice for the option |
-| `value` | String | The value that will be received in the slash command event as the option value |# Discarpet functions
+| `value` | String | The value that will be received in the slash command event as the option value |
+
+### Webhook builder
+
+| Value | Type | Description |
+|---|---|---|
+| `name` | String (optional when updating) | The username of the webhook |
+| `avatar` | String (optional) | A URL to the avatar shown on the webhook |
+| `reason` | String (optional) | Reason shown in Audit log |# Discarpet functions
 
 Discarpet adds a lot of functions to scarpet to control your bot.
 Below is a list of all functions and how they work.
 
 ## Messages
 
-### `dc_send_message(channel,content)`
+### `dc_send_message(target,content)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
 |---|
 
-This functions sends a message in a specific Discord `channel`. 
+This functions sends a message in a specific Discord channel, to a private message channel or a webhook.
+`target` can be a Channel, User or Webhook value.
 The `content` is a parsable [Message content](/docs/Parsable.md#Message-content). But if you just want text, it can be a regular string.
 
 This example shows how you can send a message and add reactions to it as soon as it was sent
@@ -599,9 +620,9 @@ Returns true if successful, otherwise false.
 
 ### `dc_react(message,emoji)`
 
-React to a [`Message`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#message) with an `emoji`.
+React to a [`Message`](/docs/Values.md#message) with an `emoji`.
 The `emoji` can be a unicode emoji (as a string) or an
-[`emoji`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#emoji) value.
+[`emoji`](/docs/Values.md#emoji) value.
 
 ## Channels
 
@@ -612,6 +633,18 @@ The `emoji` can be a unicode emoji (as a string) or an
 
 This function sets the description of the [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel)
 to the specified `text`. Remember to give the bot permission to do that.
+
+### `dc_create_webhook(channel, webhookBuilder)`
+
+Creates a new Webhook in the specified `channel` with the specified options in `webhookBuilder` as a [webhook builder parsable](/docs/Parsable.md#Webhook-builder).
+
+### `dc_update_webhook(webhook, webhookBuilder)`
+
+Updates the `webhook` with the specified options in `webhookBuilder` as a [webhook builder parsable](/docs/Parsable.md#Webhook-builder).
+
+### `dc_delete_webhook(webhook)`
+
+Deletes the `webhook`.
 
 ## Self bot actions
 
@@ -665,13 +698,6 @@ Returns a list of roles the `user` has in the `server`.
 ### `dc_get_user_color(user, server)`
 
 Returns the hex color of the top role of the `user` in the `server`. If the user has no role with a color, returns null.
-
-## Embeds
-
-### `dc_build_embed()` `dc_build_embed(property,value...)`
-
-| ❗ **Note** This function is **deprecated**, use the parsable embed value instead. |
-|---|
 
 ## Interactions
 
