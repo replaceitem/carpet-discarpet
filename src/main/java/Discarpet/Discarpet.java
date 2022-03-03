@@ -57,7 +57,6 @@ import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.Reaction;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.permission.Role;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
@@ -224,16 +223,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		return discordBots.get(key);
 	}
 
-	public static InternalExpressionException scarpetException(String function, String type, int parameter) {
-		if(parameter < 0 || parameter > 8) throw new InternalExpressionException("If you read this, replaceitem messed up very badly, and you should contact him through Discord asap (see github page of Discarpet)");
-		return new InternalExpressionException("'" + function + "' requires a " + type + " as the " + numericWords[parameter] + " argument");
-	}
-
 	public static InternalExpressionException scarpetNoBotException(String function) {
 		return new InternalExpressionException(function + " requires a valid bot to be set in in the app config");
 	}
-
-	//writing this made me realize how lazy i am
-	static final private String[] numericWords = {"first","second","third","fourth","fifth","sixth","seventh","eighth","ninth"};
-
 }
