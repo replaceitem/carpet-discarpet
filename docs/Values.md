@@ -21,13 +21,8 @@ Queryable:
 | `mention_tag` | String | Mention tag for the channel. This can be put inside a message for the channel to be a clickable link. |
 | `server` | Server | Server this channel is in, or null if this is a private channel |
 | `type` | String | Channel type |
+| `webhooks` | List of Webhooks | All webhooks in this channel |
 
-## EmbedBuilder
-
-`dc_embed_builder`
-
-| ❗ **Note** This value type is **deprecated**, use the parsable embed value instead. |
-|---|
 
 ## Emoji
 
@@ -92,6 +87,7 @@ Queryable:
 | `users` | List of Users | All users in this server (this requires the member Intent) |
 | `channels` | List of Channels | All channels in this server |
 | `roles` | List of Roles | All roles in this server |
+| `webhooks` | List of Webhooks | All webhooks in this server |
 
 ## User
 
@@ -176,3 +172,19 @@ Queryable things exclusive to select menus:
 | `min` | number |Minimum amount of selected entries for this select menu |
 | `max` | number | Maximum amount of selected entries for this select menu |
 | `placeholder` | String | Placeholder text of this select menu |
+
+## Webhook
+
+`dc_webhook`
+
+A webhook in a channel.
+
+Queryable:
+
+| Property | Type | Description |
+|---|---|---|
+| `id` | String | The id of the webhook |
+| `channel` | Channel | The channel this webhook is in |
+| `type` | String | Webhook type, can be either `'INCOMING'`, `'CHANNEL_FOLLOWER'` and `'UNKNOWN'` |
+| `token` | String | The token of the webhooks, only works for incoming webhooks |
+| `url` | String | Webhook URL, only works for incoming webhooks |
