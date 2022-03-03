@@ -14,7 +14,6 @@ import Discarpet.script.functions.Users;
 import Discarpet.script.functions.ValueFromId;
 import Discarpet.script.values.ButtonInteractionValue;
 import Discarpet.script.values.ChannelValue;
-import Discarpet.script.values.EmbedBuilderValue;
 import Discarpet.script.values.EmojiValue;
 import Discarpet.script.values.MessageValue;
 import Discarpet.script.values.ReactionValue;
@@ -107,7 +106,6 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	public void onGameStarted() {
 		SimpleTypeConverter.registerType(ButtonInteractionValue.class, ButtonInteraction.class, ButtonInteractionValue::getButtonInteraction, "button_interaction");
 		SimpleTypeConverter.registerType(ChannelValue.class, Channel.class, ChannelValue::getChannel, "channel");
-		SimpleTypeConverter.registerType(EmbedBuilderValue.class, EmbedBuilder.class, EmbedBuilderValue::getEmbedBuilder, "embed_builder");
 		SimpleTypeConverter.registerType(EmojiValue.class, Emoji.class, EmojiValue::getEmoji, "emoji");
 		SimpleTypeConverter.registerType(MessageValue.class, Message.class, MessageValue::getMessage, "message");
 		SimpleTypeConverter.registerType(ReactionValue.class, Reaction.class, ReactionValue::getReaction, "message");
@@ -120,7 +118,6 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 		OutputConverter.registerToValue(ButtonInteraction.class, ButtonInteractionValue::new);
 		OutputConverter.registerToValue(Channel.class, ChannelValue::new);
-		OutputConverter.registerToValue(EmbedBuilder.class, EmbedBuilderValue::new);
 		OutputConverter.registerToValue(Emoji.class, EmojiValue::new);
 		OutputConverter.registerToValue(Message.class, MessageValue::new);
 		OutputConverter.registerToValue(Reaction.class, ReactionValue::new);
