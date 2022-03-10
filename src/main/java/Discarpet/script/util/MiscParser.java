@@ -5,6 +5,7 @@ import carpet.script.value.ListValue;
 import carpet.script.value.MapValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
+import org.javacord.api.entity.message.WebhookMessageBuilder;
 import org.javacord.api.entity.webhook.WebhookBuilder;
 import org.javacord.api.entity.webhook.WebhookUpdater;
 
@@ -42,29 +43,41 @@ public class MiscParser {
         }
     }
     
-    public static WebhookBuilder parseWebhookBuilder(Value webhookBuilder, WebhookBuilder builder) {
+    public static WebhookBuilder parseWebhookProfile(Value webhookBuilder, WebhookBuilder builder) {
         try {
-            if(!(webhookBuilder instanceof MapValue mapValue)) throw new InternalExpressionException("Webhook builder needs to be a map value");
+            if(!(webhookBuilder instanceof MapValue mapValue)) throw new InternalExpressionException("Webhook profile needs to be a map value");
             Map<Value, Value> map = mapValue.getMap();
             builder.setName(getStringInMap(map,"name"));
             if(mapHasKey(map,"avatar")) builder.setAvatar(new URL(getStringInMap(map,"avatar")));
             if(mapHasKey(map,"reason")) builder.setAuditLogReason(getStringInMap(map,"reason"));
             return builder;
         } catch (Exception ex) {
-            throw new InternalExpressionException("Could not parse webhook builder: " + ex.getMessage());
+            throw new InternalExpressionException("Could not parse webhook profile: " + ex.getMessage());
         }
     }
 
-    public static WebhookUpdater parseWebhookUpdater(Value webhookBuilder, WebhookUpdater updater) {
+    public static WebhookUpdater parseWebhookProfileUpdater(Value webhookBuilder, WebhookUpdater updater) {
         try {
-            if(!(webhookBuilder instanceof MapValue mapValue)) throw new InternalExpressionException("Webhook builder needs to be a map value");
+            if(!(webhookBuilder instanceof MapValue mapValue)) throw new InternalExpressionException("Webhook profile needs to be a map value");
             Map<Value, Value> map = mapValue.getMap();
             if(mapHasKey(map,"name")) updater.setName(getStringInMap(map,"name"));
             if(mapHasKey(map,"avatar")) updater.setAvatar(new URL(getStringInMap(map,"avatar")));
             if(mapHasKey(map,"reason")) updater.setAuditLogReason(getStringInMap(map,"reason"));
             return updater;
         } catch (Exception ex) {
-            throw new InternalExpressionException("Could not parse webhook builder: " + ex.getMessage());
+            throw new InternalExpressionException("Could not parse webhook profile: " + ex.getMessage());
+        }
+    }
+
+    public static WebhookMessageBuilder parseWebhookMessageContentProfile(Value webhookBuilder, WebhookMessageBuilder builder) {
+        try {
+            if(!(webhookBuilder instanceof MapValue mapValue)) throw new InternalExpressionException("Webhook profile needs to be a map value");
+            Map<Value, Value> map = mapValue.getMap();
+            if(mapHasKey(map,"name")) builder.setDisplayName(getStringInMap(map,"name"));
+            if(mapHasKey(map,"avatar")) builder.setDisplayAvatar(new URL(getStringInMap(map,"avatar")));
+            return builder;
+        } catch (Exception ex) {
+            throw new InternalExpressionException("Could not parse webhook profile: " + ex.getMessage());
         }
     }
 }
