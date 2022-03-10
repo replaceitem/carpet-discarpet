@@ -23,14 +23,14 @@ public class Channels {
 	public Webhook dc_create_webhook(Channel channel, Value webhookBuilder) {
 		if(!(channel instanceof ServerTextChannel textChannel)) return null;
 		WebhookBuilder builder = new WebhookBuilder(textChannel);
-		MiscParser.parseWebhookBuilder(webhookBuilder,builder);
+		MiscParser.parseWebhookProfile(webhookBuilder,builder);
 		return ValueUtil.awaitFuture(builder.create(),"Error creating webhook");
 	}
 
 	@ScarpetFunction
 	public Webhook dc_update_webhook(Webhook webhook, Value webhookBuilder) {
 		WebhookUpdater updater = webhook.createUpdater();
-		MiscParser.parseWebhookUpdater(webhookBuilder, updater);
+		MiscParser.parseWebhookProfileUpdater(webhookBuilder, updater);
 		return ValueUtil.awaitFuture(updater.update(),"Error updating webhook");
 	}
 

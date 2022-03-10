@@ -50,13 +50,17 @@ The `emoji` can be a unicode emoji (as a string) or an
 This function sets the description of the [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel)
 to the specified `text`. Remember to give the bot permission to do that.
 
-### `dc_create_webhook(channel, webhookBuilder)`
+### `dc_create_webhook(channel, webhookProfile)`
 
-Creates a new Webhook in the specified `channel` with the specified options in `webhookBuilder` as a [webhook builder parsable](/docs/Parsable.md#Webhook-builder).
+Creates a new Webhook in the specified `channel` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
 
-### `dc_update_webhook(webhook, webhookBuilder)`
+### `dc_update_webhook(webhook, webhookProfile)`
 
-Updates the `webhook` with the specified options in `webhookBuilder` as a [webhook builder parsable](/docs/Parsable.md#Webhook-builder).
+Updates the `webhook` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
+
+### `dc_send_webhook(webhook, content, webhookProfile)`
+
+Sends a message to the webhook, but in contrast to `dc_send_message(webhook, content)` also allows to change the `webhookProfile` in one request.
 
 ### `dc_delete_webhook(webhook)`
 

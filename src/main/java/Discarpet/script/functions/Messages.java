@@ -1,8 +1,10 @@
 package Discarpet.script.functions;
 
 import Discarpet.script.util.MessageContentParser;
+import Discarpet.script.util.MiscParser;
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.util.content.MessageContentApplier;
+import Discarpet.script.util.content.WebhookMessageContentApplier;
 import Discarpet.script.values.EmojiValue;
 import Discarpet.script.values.MessageableValue;
 import carpet.script.annotation.ScarpetFunction;
@@ -11,7 +13,11 @@ import carpet.script.value.Value;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.Messageable;
+import org.javacord.api.entity.message.WebhookMessageBuilder;
+import org.javacord.api.entity.webhook.IncomingWebhook;
+import org.javacord.api.entity.webhook.Webhook;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class Messages {
@@ -25,7 +31,17 @@ public class Messages {
             CompletableFuture<Message> cf = messageBuilder.send(messageable);
             return ValueUtil.awaitFuture(cf,"Error sending message");
         } else throw new InternalExpressionException("'dc_send_message' expected a text channel, user or incoming webhook as the first parameter");
-
+    }
+    
+    @ScarpetFunction
+    public Message dc_send_webhook(Webhook webhook, Value messageContent, Value webhookProfile) {
+        Optional<IncomingWebhook> optionalIncomingWebhook = webhook.asIncomingWebhook();
+        if(optionalIncomingWebhook.isEmpty()) throw new InternalExpressionException("'dc_send_webhook' expected an incoming webhook as the first parameter");
+        WebhookMessageBuilder webhookMessageBuilder = new WebhookMessageBuilder();
+        MessageContentParser.parseMessageContent(new WebhookMessageContentApplier(webhookMessageBuilder),messageContent);
+        MiscParser.parseWebhookMessageContentProfile(webhookProfile, webhookMessageBuilder);
+        CompletableFuture<Message> cf = webhookMessageBuilder.send(optionalIncomingWebhook.get());
+        return ValueUtil.awaitFuture(cf,"Error sending message");
     }
 
     @ScarpetFunction
