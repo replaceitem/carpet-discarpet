@@ -52,17 +52,29 @@ to the specified `text`. Remember to give the bot permission to do that.
 
 ### `dc_create_webhook(channel, webhookProfile)`
 
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
 Creates a new Webhook in the specified `channel` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
 
 ### `dc_update_webhook(webhook, webhookProfile)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
 
 Updates the `webhook` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
 
 ### `dc_send_webhook(webhook, content, webhookProfile)`
 
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
 Sends a message to the webhook, but in contrast to `dc_send_message(webhook, content)` also allows to change the `webhookProfile` in one request.
 
 ### `dc_delete_webhook(webhook)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
 
 Deletes the `webhook`.
 
