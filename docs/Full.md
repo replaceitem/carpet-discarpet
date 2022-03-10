@@ -576,13 +576,13 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 | `name` | String | The visible autocompleted filled in choice for the option |
 | `value` | String | The value that will be received in the slash command event as the option value |
 
-### Webhook builder
+### Webhook profile
 
 | Value | Type | Description |
 |---|---|---|
-| `name` | String (optional when updating) | The username of the webhook |
+| `name` | String (optional, unless creating webhook) | The username of the webhook |
 | `avatar` | String (optional) | A URL to the avatar shown on the webhook |
-| `reason` | String (optional) | Reason shown in Audit log |# Discarpet functions
+| `reason` | String (optional) | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |# Discarpet functions
 
 Discarpet adds a lot of functions to scarpet to control your bot.
 Below is a list of all functions and how they work.
@@ -634,13 +634,17 @@ The `emoji` can be a unicode emoji (as a string) or an
 This function sets the description of the [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel)
 to the specified `text`. Remember to give the bot permission to do that.
 
-### `dc_create_webhook(channel, webhookBuilder)`
+### `dc_create_webhook(channel, webhookProfile)`
 
-Creates a new Webhook in the specified `channel` with the specified options in `webhookBuilder` as a [webhook builder parsable](/docs/Parsable.md#Webhook-builder).
+Creates a new Webhook in the specified `channel` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
 
-### `dc_update_webhook(webhook, webhookBuilder)`
+### `dc_update_webhook(webhook, webhookProfile)`
 
-Updates the `webhook` with the specified options in `webhookBuilder` as a [webhook builder parsable](/docs/Parsable.md#Webhook-builder).
+Updates the `webhook` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
+
+### `dc_send_webhook(webhook, content, webhookProfile)`
+
+Sends a message to the webhook, but in contrast to `dc_send_message(webhook, content)` also allows to change the `webhookProfile` in one request.
 
 ### `dc_delete_webhook(webhook)`
 
