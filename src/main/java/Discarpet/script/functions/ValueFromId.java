@@ -1,15 +1,8 @@
 package Discarpet.script.functions;
 
 import Discarpet.config.Bot;
-import Discarpet.script.values.ChannelValue;
-import Discarpet.script.values.EmojiValue;
-import Discarpet.script.values.RoleValue;
-import Discarpet.script.values.ServerValue;
-import Discarpet.script.values.UserValue;
 import carpet.script.Context;
 import carpet.script.annotation.ScarpetFunction;
-import carpet.script.exception.InternalExpressionException;
-import carpet.script.value.Value;
 import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.emoji.Emoji;
@@ -22,6 +15,8 @@ import org.javacord.api.entity.webhook.Webhook;
 
 import static Discarpet.Discarpet.*;
 
+
+@SuppressWarnings("unused")
 public class ValueFromId {
 	@ScarpetFunction
 	public Channel dc_channel_from_id(Context ctx, String channelId) {
