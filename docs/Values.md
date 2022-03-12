@@ -57,6 +57,7 @@ Queryable:
 | `user` | User | Get the user that wrote this message. Note that this may fail (and return null) if the user is not cached, but if queried after the `__on_discord_message` event, it should be fine |
 | `server` | Server | Get the server this message was written in |
 | `delete` | boolean | This is not actually a query, but it removes the message. Returns false if the bot does not have permission to delete the message, otherwise false |
+| `nonce` | String | The nonce of this message |
 
 ## Reaction
 
