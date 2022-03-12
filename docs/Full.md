@@ -174,6 +174,7 @@ Queryable:
 | `user` | User | Get the user that wrote this message. Note that this may fail (and return null) if the user is not cached, but if queried after the `__on_discord_message` event, it should be fine |
 | `server` | Server | Get the server this message was written in |
 | `delete` | boolean | This is not actually a query, but it removes the message. Returns false if the bot does not have permission to delete the message, otherwise false |
+| `nonce` | String | The nonce of this message |
 
 ## Reaction
 
@@ -320,6 +321,10 @@ For more complex messages, a map with the following values is used:
 | `attachments` | List of [Attachments](#Attachment) (optional) | A list of all the attachments on this message |
 | `embeds` | List of [Embeds](#Embed) (optional) | A list of all the embeds on this message |
 | `components` | List of List of [Message components](#Message-component) (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components |
+| `allowed_mentions` | [Allowed mentions](#Allowed-mentions) | Allowed mentions of this message |
+| `reply_to` | [Message](/docs/Values.md#Message) | Message this message is replying to |
+| `nonce` | String | Nonce of the message |
+| `tts` | boolean | Whether this message is a text-to-speech message |
 
 Example:
 
@@ -576,6 +581,18 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 | `name` | String | The visible autocompleted filled in choice for the option |
 | `value` | String | The value that will be received in the slash command event as the option value |
 
+### Allowed mentions
+
+Note that all of the options default to false, meaning that as soon as the allowed mentions are specified, all mentions are disabled by default.
+
+| Value | Type | Description |
+|---|---|---|
+| `mention_roles` | boolean (optional, defaults to false) | Whether roles can be mentioned |
+| `mention_users` | boolean (optional, defaults to false) | Whether users can be mentioned |
+| `mention_everyone` | boolean (optional, defaults to false) | Whether `@everyone` and `@here` can be mentioned |
+| `roles` | List of [Roles](/docs/Values.md#Role) or Role ids (String) | Roles that should be mentioned |
+| `users` | List of [Users](/docs/Values.md#User) or User ids (String) | Users that should be mentioned |
+
 ### Webhook profile
 
 | Value | Type | Description |
@@ -811,7 +828,39 @@ This is only for custom emojis, since standard emojis are specified from the uni
 ### `dc_role_from_id(id)`
 
 Returns a `role` value from the
-specified role id, or `null` if the server was not found.# Discarpet Events
+specified role id, or `null` if the role was not found.
+
+### `dc_user_from_id(id)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Returns a `user` value from the
+specified role id, or `null` if the user was not found.
+
+### `dc_message_from_id(id, channel)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Returns a `message` value from the
+specified message id and channel, or `null` if the message was not found.
+
+### `dc_webhook_from_id(id, token)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Returns a `webhook` value from the
+specified webhook id and token, or `null` if the webhook was not found.
+
+### `dc_webhook_from_url(url)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Returns a `webhook` value from the
+specified webhook url, or `null` if the webhook was not found.# Discarpet Events
 
 
 Discarpet's scarpet events are used to detect events that happen in discord servers the bot is in. Additionally, there are also events for when a chat message gets sent in minecraft or a general system message happens.
