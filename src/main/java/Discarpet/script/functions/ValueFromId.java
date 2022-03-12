@@ -50,20 +50,20 @@ public class ValueFromId {
 	
 	@ScarpetFunction
 	public Message dc_message_from_id(Context ctx, String messageId, Channel channel) {
-		Bot bot = getBotInContext(ctx,"dc_user_from_id");
+		Bot bot = getBotInContext(ctx,"dc_message_from_id");
 		if(!(channel instanceof TextChannel textChannel)) return null;
 		return bot.api.getMessageById(messageId, textChannel).join();
 	}
 
 	@ScarpetFunction
 	public Webhook dc_webhook_from_id(Context ctx, String webhookId, String token) {
-		Bot bot = getBotInContext(ctx,"dc_user_from_id");
+		Bot bot = getBotInContext(ctx,"dc_webhook_from_id");
 		return bot.api.getIncomingWebhookByIdAndToken(webhookId, token).join();
 	}
 
 	@ScarpetFunction
 	public Webhook dc_webhook_from_url(Context ctx, String webhookUrl) {
-		Bot bot = getBotInContext(ctx,"dc_user_from_id");
+		Bot bot = getBotInContext(ctx,"dc_webhook_from_url");
 		return bot.api.getIncomingWebhookByUrl(webhookUrl).join();
 	}
 }
