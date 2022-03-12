@@ -20,12 +20,12 @@ import org.javacord.api.entity.webhook.Webhook;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+@SuppressWarnings("unused")
 public class Messages {
     @ScarpetFunction
     public Message dc_send_message(Value target, Value messageContent) {
         MessageBuilder messageBuilder = new MessageBuilder();
         MessageContentParser.parseMessageContent(new MessageContentApplier(messageBuilder),messageContent);
-
         if(target instanceof MessageableValue messageableValue && messageableValue.getMessageable() != null) {
             Messageable messageable = messageableValue.getMessageable();
             CompletableFuture<Message> cf = messageBuilder.send(messageable);

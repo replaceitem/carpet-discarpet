@@ -1,9 +1,11 @@
 package Discarpet.script.util;
 
 import Discarpet.script.util.content.ContentApplier;
+import Discarpet.script.values.MessageValue;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.MapValue;
 import carpet.script.value.Value;
+import org.javacord.api.entity.message.mention.AllowedMentionsBuilder;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -23,7 +25,10 @@ public class MessageContentParser {
                 if(mapHasKey(map,"attachments")) setAttachments(a, getListInMap(map,"attachments"));
                 if(mapHasKey(map,"embeds")) setEmbeds(a, getListInMap(map,"embeds"));
                 if(mapHasKey(map,"components")) setComponents(a, getListInMap(map,"components"));
-
+                if(mapHasKey(map,"allowed_mentions")) setAllowedMentions(a, getValueInMap(map,"allowed_mentions"));
+                if(mapHasKey(map,"reply_to")) setReplyTo(a, getValueInMap(map,"reply_to"));
+                if(mapHasKey(map,"nonce")) a.setNonce(getStringInMap(map,"nonce"));
+                if(mapHasKey(map,"tts")) a.setTts(getBooleanInMap(map,"tts"));
                 return;
             }
             a.setContent(value.getString());
@@ -106,5 +111,48 @@ public class MessageContentParser {
                 throw new InternalExpressionException("Could not parse component row with index " + i + " inside 'components' list: " + ex.getMessage());
             }
         }
+    }
+    
+    private static void setAllowedMentions(ContentApplier a, Value value) {
+        try {
+            if(!(value instanceof MapValue mapValue)) throw new InternalExpressionException("Allowed mentions needs to be a map value");
+            Map<Value, Value> map = mapValue.getMap();
+            AllowedMentionsBuilder b = new AllowedMentionsBuilder();
+            b.setMentionRoles(getBooleanInMapOrDefault(map,"mention_roles",false));
+            b.setMentionUsers(getBooleanInMapOrDefault(map,"mention_users",false));
+            b.setMentionEveryoneAndHere(getBooleanInMapOrDefault(map,"mention_everyone",false));
+            if(mapHasKey(map,"roles")) addRoles(b,getListInMap(map,"roles"));
+            if(mapHasKey(map,"users")) addUsers(b,getListInMap(map,"users"));
+            a.setAllowedMentions(b.build());
+        } catch (Exception ex) {
+            throw new InternalExpressionException("Could not parse allowed mentions: " + ex.getMessage());
+        }
+    }
+    
+    private static void addRoles(AllowedMentionsBuilder b, List<Value> list) {
+        for (int i = 0; i < list.size(); i++) {
+            Value roleValue = list.get(i);
+            try {
+                b.addRole(MiscParser.parseRoleId(roleValue));
+            } catch (Exception ex) {
+                throw new InternalExpressionException("Could not parse role with index " + i + " inside 'roles' list: " + ex.getMessage());
+            }
+        }
+    }
+
+    private static void addUsers(AllowedMentionsBuilder b, List<Value> list) {
+        for (int i = 0; i < list.size(); i++) {
+            Value userValue = list.get(i);
+            try {
+                b.addUser(MiscParser.parseUserId(userValue));
+            } catch (Exception ex) {
+                throw new InternalExpressionException("Could not parse user with index " + i + " inside 'users' list: " + ex.getMessage());
+            }
+        }
+    }
+
+    private static void setReplyTo(ContentApplier a, Value value) {
+        if(!(value instanceof MessageValue messageValue)) throw new InternalExpressionException("reply_to needs to be a message value");
+        a.replyTo(messageValue.getMessage());
     }
 }

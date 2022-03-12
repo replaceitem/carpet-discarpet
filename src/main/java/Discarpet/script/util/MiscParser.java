@@ -1,5 +1,7 @@
 package Discarpet.script.util;
 
+import Discarpet.script.values.RoleValue;
+import Discarpet.script.values.UserValue;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.ListValue;
 import carpet.script.value.MapValue;
@@ -79,5 +81,14 @@ public class MiscParser {
         } catch (Exception ex) {
             throw new InternalExpressionException("Could not parse webhook profile: " + ex.getMessage());
         }
+    }
+    
+    public static String parseRoleId(Value value) {
+        if(value instanceof RoleValue roleValue) return roleValue.getRole().getIdAsString();
+        return value.getString();
+    }
+    public static String parseUserId(Value value) {
+        if(value instanceof UserValue userValue) return userValue.getUser().getIdAsString();
+        return value.getString();
     }
 }

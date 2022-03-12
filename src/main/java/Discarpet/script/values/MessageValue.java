@@ -1,13 +1,11 @@
 package Discarpet.script.values;
 
-import Discarpet.Discarpet;
 import Discarpet.script.util.ValueUtil;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import com.vdurmont.emoji.EmojiParser;
 import net.minecraft.nbt.NbtElement;
 import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.user.User;
 
 import java.util.Optional;
 
@@ -36,6 +34,7 @@ public class MessageValue extends Value {
             case "channel" -> new ChannelValue(message.getChannel());
             case "user" -> UserValue.of(message.getUserAuthor());
             case "server" -> ServerValue.of(message.getServer());
+            case "nonce" -> ValueUtil.ofOptionalString(message.getNonce());
             default -> Value.NULL;
         };
     }
