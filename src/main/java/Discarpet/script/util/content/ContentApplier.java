@@ -1,7 +1,9 @@
 package Discarpet.script.util.content;
 
+import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.component.HighLevelComponent;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
+import org.javacord.api.entity.message.mention.AllowedMentions;
 
 import java.io.File;
 import java.net.URL;
@@ -23,4 +25,10 @@ public interface ContentApplier {
     void addEmbed(EmbedBuilder embed);
 
     void addComponents(HighLevelComponent highLevelComponent);
+    
+    void setAllowedMentions(AllowedMentions allowedMentions);
+    
+    void replyTo(Message message);
+    void setNonce(String nonce);
+    void setTts(boolean tts);
 }

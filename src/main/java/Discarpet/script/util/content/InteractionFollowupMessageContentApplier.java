@@ -1,7 +1,10 @@
 package Discarpet.script.util.content;
 
+import carpet.script.exception.InternalExpressionException;
+import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.component.HighLevelComponent;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
+import org.javacord.api.entity.message.mention.AllowedMentions;
 import org.javacord.api.interaction.callback.InteractionFollowupMessageBuilder;
 
 import java.io.File;
@@ -9,52 +12,74 @@ import java.net.URL;
 
 public class InteractionFollowupMessageContentApplier implements ContentApplier {
 
-    private final InteractionFollowupMessageBuilder interactionFollowupMessageBuilder;
+    private final InteractionFollowupMessageBuilder builder;
+
+    private static final InternalExpressionException NOT_SUPPORTED = new InternalExpressionException("Not supported for interactions");
 
     public InteractionFollowupMessageContentApplier(InteractionFollowupMessageBuilder builder) {
-        this.interactionFollowupMessageBuilder = builder;
+        this.builder = builder;
     }
 
     public InteractionFollowupMessageBuilder get() {
-        return interactionFollowupMessageBuilder;
+        return builder;
     }
 
     @Override
     public void setContent(String content) {
-        interactionFollowupMessageBuilder.setContent(content);
+        builder.setContent(content);
     }
 
     @Override
     public void addAttachment(File file, boolean spoiler) {
         if(spoiler)
-            interactionFollowupMessageBuilder.addAttachmentAsSpoiler(file);
+            builder.addAttachmentAsSpoiler(file);
         else
-            interactionFollowupMessageBuilder.addAttachment(file);
+            builder.addAttachment(file);
     }
 
     @Override
     public void addAttachment(URL url, boolean spoiler) {
         if(spoiler)
-            interactionFollowupMessageBuilder.addAttachmentAsSpoiler(url);
+            builder.addAttachmentAsSpoiler(url);
         else
-            interactionFollowupMessageBuilder.addAttachment(url);
+            builder.addAttachment(url);
     }
 
     @Override
     public void addAttachment(byte[] bytes, String name, boolean spoiler) {
         if(spoiler)
-            interactionFollowupMessageBuilder.addAttachmentAsSpoiler(bytes,name);
+            builder.addAttachmentAsSpoiler(bytes,name);
         else
-            interactionFollowupMessageBuilder.addAttachment(bytes,name);
+            builder.addAttachment(bytes,name);
     }
 
     @Override
     public void addEmbed(EmbedBuilder embed) {
-        interactionFollowupMessageBuilder.addEmbed(embed);
+        builder.addEmbed(embed);
     }
 
     @Override
     public void addComponents(HighLevelComponent highLevelComponent) {
-        interactionFollowupMessageBuilder.addComponents(highLevelComponent);
+        builder.addComponents(highLevelComponent);
+    }
+
+    @Override
+    public void setAllowedMentions(AllowedMentions allowedMentions) {
+        builder.setAllowedMentions(allowedMentions);
+    }
+
+    @Override
+    public void replyTo(Message message) {
+        throw NOT_SUPPORTED;
+    }
+
+    @Override
+    public void setNonce(String nonce) {
+        throw NOT_SUPPORTED;
+    }
+
+    @Override
+    public void setTts(boolean tts) {
+        builder.setTts(tts);
     }
 }
