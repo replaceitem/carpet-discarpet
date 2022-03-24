@@ -11,13 +11,11 @@ Event that execute on system messages, for example to be used to redirect system
 
 `text` -> String: Text of the system message
 
-`type` -> String: Type of the message, could be for example:
+`type` -> String: Translation text key, or null if `text` is a literal text. For example:
    
-  chat.type.text -> Normal chat message
-
-  multiplayer.player.left -> Someone left the game
-  
-  chat.type.admin -> Admin command executed
+* `chat.type.text` -> Normal chat message
+* `multiplayer.player.left` -> Someone left the game
+* `chat.type.admin` -> Admin command executed
 
 `entity` -> Entity: Entity that message came from, or null if not sent from an entity
 
