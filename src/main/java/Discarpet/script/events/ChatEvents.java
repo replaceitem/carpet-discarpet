@@ -29,21 +29,9 @@ public class ChatEvents extends Event {
     public static ChatEvents SYSTEM_MESSAGE = new ChatEvents("system_message", 3, false) {
         public void onSystemMessage(Text text,Entity entity) {
             this.handler.call(() -> {
-                String message;
-                String type;
-                if(text instanceof TranslatableText) {
-                    type = ((TranslatableText) text).getKey();
-                    message = text.getString();
-                } else if(text instanceof LiteralText) {
-                    type = text.getClass().getName();
-                    message = (text).getString();
-                } else {
-                    message = text.getString();
-                    type = text.getClass().getName();
-                }
-                if(entity == null) return Arrays.asList(new StringValue(message), new StringValue(type), Value.NULL);
-                return Arrays.asList(new StringValue(message), new StringValue(type),new EntityValue(entity));
-
+                String message = text.getString();
+                String type = (text instanceof TranslatableText translatableText) ? translatableText.getKey() : null;
+                return Arrays.asList(StringValue.of(message), StringValue.of(type), EntityValue.of(entity));
             }, () -> {
                 if(entity == null) {
                     return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
