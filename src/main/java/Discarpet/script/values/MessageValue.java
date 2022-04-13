@@ -1,6 +1,7 @@
 package Discarpet.script.values;
 
 import Discarpet.script.util.ValueUtil;
+import carpet.script.value.ListValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import com.vdurmont.emoji.EmojiParser;
@@ -35,6 +36,7 @@ public class MessageValue extends Value {
             case "user" -> UserValue.of(message.getUserAuthor());
             case "server" -> ServerValue.of(message.getServer());
             case "nonce" -> ValueUtil.ofOptionalString(message.getNonce());
+            case "attachments" -> ListValue.wrap(message.getAttachments().stream().map(AttachmentValue::new));
             default -> Value.NULL;
         };
     }

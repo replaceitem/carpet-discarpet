@@ -58,6 +58,28 @@ Queryable:
 | `server` | Server | Get the server this message was written in |
 | `delete` | boolean | This is not actually a query, but it removes the message. Returns false if the bot does not have permission to delete the message, otherwise false |
 | `nonce` | String | The nonce of this message |
+| `attachments` | List of Attachments | A list of attachments on this message |
+
+## Attachment
+
+`dc_attachment`
+
+An attachment from a message
+
+Queryable:
+
+| Property | Type | Description |
+|---|---|---|
+| `message` | Message | The message of this attachment |
+| `file_name` | String | File name of the attachment |
+| `size` | number | The size as the number of bytes of the attached file |
+| `url` | String | The URL of this file |
+| `proxy_url` | String | The proxy URL of this file |
+| `is_image` | boolean | Whether this file is an image or not |
+| `width` | number or null | The width of the attached image, or null if not an image |
+| `height` | number or null | The height of the attached image, or null if not an image |
+| `is_spoiler` | boolean | Whether this file is marked as a spoiler |
+| `download` | String | Downloads the file's bytes as a string. Be careful with this one, big files can block the game for quite some time |
 
 ## Reaction
 
