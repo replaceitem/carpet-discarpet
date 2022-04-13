@@ -12,6 +12,7 @@ import Discarpet.script.functions.Self;
 import Discarpet.script.functions.Channels;
 import Discarpet.script.functions.Users;
 import Discarpet.script.functions.ValueFromId;
+import Discarpet.script.values.AttachmentValue;
 import Discarpet.script.values.ButtonInteractionValue;
 import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.EmojiValue;
@@ -56,6 +57,7 @@ import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.message.MessageAttachment;
 import org.javacord.api.entity.message.Reaction;
 import org.javacord.api.entity.permission.Role;
 import org.javacord.api.entity.server.Server;
@@ -103,6 +105,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void onGameStarted() {
+		SimpleTypeConverter.registerType(AttachmentValue.class, MessageAttachment.class, AttachmentValue::getAttachment, "attachment");
 		SimpleTypeConverter.registerType(ButtonInteractionValue.class, ButtonInteraction.class, ButtonInteractionValue::getButtonInteraction, "button_interaction");
 		SimpleTypeConverter.registerType(ChannelValue.class, Channel.class, ChannelValue::getChannel, "channel");
 		SimpleTypeConverter.registerType(EmojiValue.class, Emoji.class, EmojiValue::getEmoji, "emoji");
@@ -115,6 +118,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		SimpleTypeConverter.registerType(UserValue.class, User.class, UserValue::getUser, "user");
 		SimpleTypeConverter.registerType(WebhookValue.class, Webhook.class, WebhookValue::getWebhook, "webhook");
 
+		OutputConverter.registerToValue(MessageAttachment.class, AttachmentValue::new);
 		OutputConverter.registerToValue(ButtonInteraction.class, ButtonInteractionValue::new);
 		OutputConverter.registerToValue(Channel.class, ChannelValue::new);
 		OutputConverter.registerToValue(Emoji.class, EmojiValue::new);

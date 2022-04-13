@@ -2,6 +2,7 @@ package Discarpet.script.util;
 
 import Discarpet.Discarpet;
 import carpet.script.annotation.OutputConverter;
+import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 
@@ -51,6 +52,11 @@ public class ValueUtil {
     public static Value ofOptionalString(Optional<String> optionalString) {
         if(optionalString.isEmpty()) return Value.NULL;
         return StringValue.of(optionalString.get());
+    }
+
+    public static Value ofOptionalNumber(Optional<Integer> optionalInteger) {
+        if(optionalInteger.isEmpty()) return Value.NULL;
+        return NumericValue.of(optionalInteger.get());
     }
 
 
