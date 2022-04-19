@@ -106,7 +106,7 @@ public class MessageContentParser {
         for (int i = 0; i < components.size(); i++) {
             Value component = components.get(i);
             try {
-                a.addComponents(MessageComponentParser.parseMessageComponent(component));
+                a.addComponent(MessageComponentParser.parseMessageComponent(component));
             } catch (Exception ex) {
                 throw new InternalExpressionException("Could not parse component row with index " + i + " inside 'components' list: " + ex.getMessage());
             }

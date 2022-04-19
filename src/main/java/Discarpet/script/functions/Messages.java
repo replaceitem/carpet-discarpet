@@ -5,7 +5,6 @@ import Discarpet.script.util.MiscParser;
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.util.content.MessageContentApplier;
 import Discarpet.script.util.content.WebhookMessageContentApplier;
-import Discarpet.script.values.EmojiValue;
 import Discarpet.script.values.MessageableValue;
 import carpet.script.annotation.ScarpetFunction;
 import carpet.script.exception.InternalExpressionException;
@@ -55,11 +54,7 @@ public class Messages {
 		if (!message.canYouAddNewReactions()) return false;
 
         CompletableFuture<Void> cf;
-		if(emojiValue instanceof EmojiValue) {
-            cf = message.addReaction(((EmojiValue) emojiValue).emoji);
-        } else {
-            cf = message.addReaction(emojiValue.getString());
-        }
+        cf = message.addReaction(ValueUtil.emojiFromValue(emojiValue));
 
         return ValueUtil.awaitFutureBoolean(cf, "Error reacting to message");
 	}

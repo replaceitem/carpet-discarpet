@@ -1,10 +1,13 @@
 package Discarpet.script.util;
 
 import Discarpet.Discarpet;
+import Discarpet.script.values.EmojiValue;
 import carpet.script.annotation.OutputConverter;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import org.javacord.api.entity.emoji.Emoji;
+import org.javacord.core.entity.emoji.UnicodeEmojiImpl;
 
 import java.awt.Color;
 import java.util.Optional;
@@ -63,5 +66,9 @@ public class ValueUtil {
     public static Value colorToValue(Color color) {
         if(color == null) return Value.NULL;
         return StringValue.of(String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue()));
+    }
+    
+    public static Emoji emojiFromValue(Value value) {
+        return (value instanceof EmojiValue emojiValue) ? emojiValue.getEmoji() : UnicodeEmojiImpl.fromString(value.getString());
     }
 }

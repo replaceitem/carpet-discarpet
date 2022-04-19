@@ -24,7 +24,7 @@ public interface ContentApplier {
 
     void addEmbed(EmbedBuilder embed);
 
-    void addComponents(HighLevelComponent highLevelComponent);
+    void addComponent(HighLevelComponent highLevelComponent);
     
     void setAllowedMentions(AllowedMentions allowedMentions);
     
