@@ -14,17 +14,23 @@ import java.util.Map;
 public class MapValueUtil {
 
     private static Value getValueInMapNullable(Map<Value,Value> map, String key) {
-        return map.get(new StringValue(key));
+        Value value = map.get(new StringValue(key));
+        return (value == null || value.isNull()) ? null : value;
     }
 
     @NotNull
     public static Value getValueInMap(Map<Value,Value> map, String key) {
+        return getValueInMap(map,key, true);
+    }
+    
+    public static Value getValueInMap(Map<Value,Value> map, String key, boolean required) {
         Value value = getValueInMapNullable(map, key);
-        if(value == null || value.isNull()) {
+        if((value == null || value.isNull()) && required) {
             throw new InternalExpressionException("Missing required '" + key + "' value in map. ");
         }
         return value;
     }
+    
     @NotNull
     public static String getStringInMap(Map<Value,Value> map, String key) {
         return getValueInMap(map,key).getString();

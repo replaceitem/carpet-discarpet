@@ -5,7 +5,8 @@
   "mixins": [
     "CallbackListAccessor",
     "MinecraftServer_systemMessageEventMixin",
-    "ServerPlayNetworkHandler_GameMessageMixin"
+    "ServerPlayNetworkHandler_GameMessageMixin",
+    "SimpleTypeConverterAccessor"
   ],
   "client": [
   ],

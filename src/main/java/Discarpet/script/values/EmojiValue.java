@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class EmojiValue extends Value {
 
-    public Emoji emoji;
+    private Emoji emoji;
 
     public EmojiValue(Emoji emoji) {
         this.emoji = emoji;
