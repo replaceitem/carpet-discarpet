@@ -75,6 +75,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import static Discarpet.script.parsable.Parser.registerParsable;
+
 
 public class Discarpet implements CarpetExtension, ModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger("Discarpet");

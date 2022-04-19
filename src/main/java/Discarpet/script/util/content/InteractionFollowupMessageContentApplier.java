@@ -59,7 +59,7 @@ public class InteractionFollowupMessageContentApplier implements ContentApplier 
     }
 
     @Override
-    public void addComponents(HighLevelComponent highLevelComponent) {
+    public void addComponent(HighLevelComponent highLevelComponent) {
         builder.addComponents(highLevelComponent);
     }
 

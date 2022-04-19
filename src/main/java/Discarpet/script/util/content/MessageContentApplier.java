@@ -56,7 +56,7 @@ public class MessageContentApplier implements ContentApplier {
     }
 
     @Override
-    public void addComponents(HighLevelComponent highLevelComponent) {
+    public void addComponent(HighLevelComponent highLevelComponent) {
         builder.addComponents(highLevelComponent);
     }
 

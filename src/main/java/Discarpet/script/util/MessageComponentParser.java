@@ -73,7 +73,7 @@ public class MessageComponentParser {
         if(mapHasKey(map,"emoji")) {
             Value emoji = getValueInMap(map,"emoji");
             if(emoji instanceof EmojiValue emojiValue) {
-                buttonBuilder.setEmoji(emojiValue.emoji);
+                buttonBuilder.setEmoji(emojiValue.getEmoji());
             } else {
                 buttonBuilder.setEmoji(emoji.getString());
             }

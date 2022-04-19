@@ -50,7 +50,7 @@ public class InteractionImmediateResponseContentApplier implements ContentApplie
     }
 
     @Override
-    public void addComponents(HighLevelComponent highLevelComponent) {
+    public void addComponent(HighLevelComponent highLevelComponent) {
         builder.addComponents(highLevelComponent);
     }
 
