@@ -12,6 +12,23 @@ import Discarpet.script.functions.Self;
 import Discarpet.script.functions.Channels;
 import Discarpet.script.functions.Users;
 import Discarpet.script.functions.ValueFromId;
+import Discarpet.script.parsable.Parser;
+import Discarpet.script.parsable.parsables.AllowedMentionsParsable;
+import Discarpet.script.parsable.parsables.AttachmentParsable;
+import Discarpet.script.parsable.parsables.ColorParsable;
+import Discarpet.script.parsable.parsables.ComponentParsable;
+import Discarpet.script.parsable.parsables.EmbedAuthorParsable;
+import Discarpet.script.parsable.parsables.EmbedFieldParsable;
+import Discarpet.script.parsable.parsables.EmbedFooterParsable;
+import Discarpet.script.parsable.parsables.EmbedParsable;
+import Discarpet.script.parsable.parsables.InstantParsable;
+import Discarpet.script.parsable.parsables.MessageContentParsable;
+import Discarpet.script.parsable.parsables.SelectMenuOptionParsable;
+import Discarpet.script.parsable.parsables.SlashCommandOptionChoiceParsable;
+import Discarpet.script.parsable.parsables.SlashCommandOptionParsable;
+import Discarpet.script.parsable.parsables.WebhookMessageProfileParsable;
+import Discarpet.script.parsable.parsables.WebhookProfileParsable;
+import Discarpet.script.parsable.parsables.WebhookProfileUpdaterParsable;
 import Discarpet.script.values.AttachmentValue;
 import Discarpet.script.values.ButtonInteractionValue;
 import Discarpet.script.values.ChannelValue;
@@ -138,6 +155,23 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		AnnotationParser.parseFunctionClass(Self.class);
 		AnnotationParser.parseFunctionClass(Users.class);
 		AnnotationParser.parseFunctionClass(ValueFromId.class);
+
+		Parser.registerParsable(AllowedMentionsParsable.class);
+		Parser.registerParsable(AttachmentParsable.class);
+		Parser.registerParsable(ColorParsable.class);
+		Parser.registerParsable(ComponentParsable.class);
+		Parser.registerParsable(EmbedAuthorParsable.class);
+		Parser.registerParsable(EmbedFieldParsable.class);
+		Parser.registerParsable(EmbedFooterParsable.class);
+		Parser.registerParsable(EmbedParsable.class);
+		Parser.registerParsable(InstantParsable.class);
+		Parser.registerParsable(MessageContentParsable.class);
+		Parser.registerParsable(SelectMenuOptionParsable.class);
+		Parser.registerParsable(SlashCommandOptionChoiceParsable.class);
+		Parser.registerParsable(SlashCommandOptionParsable.class);
+		Parser.registerParsable(WebhookMessageProfileParsable.class);
+		Parser.registerParsable(WebhookProfileParsable.class);
+		Parser.registerParsable(WebhookProfileUpdaterParsable.class);
 	}
 
 	@Override
