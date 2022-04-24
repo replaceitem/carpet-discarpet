@@ -31,6 +31,7 @@ import Discarpet.script.parsable.parsables.SlashCommandOptionParsable;
 import Discarpet.script.parsable.parsables.WebhookMessageProfileParsable;
 import Discarpet.script.parsable.parsables.WebhookProfileParsable;
 import Discarpet.script.parsable.parsables.WebhookProfileUpdaterParsable;
+import Discarpet.script.util.Registration;
 import Discarpet.script.values.AttachmentValue;
 import Discarpet.script.values.ButtonInteractionValue;
 import Discarpet.script.values.ChannelValue;
@@ -126,56 +127,10 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void onGameStarted() {
-		SimpleTypeConverter.registerType(AttachmentValue.class, MessageAttachment.class, AttachmentValue::getAttachment, "attachment");
-		SimpleTypeConverter.registerType(ButtonInteractionValue.class, ButtonInteraction.class, ButtonInteractionValue::getButtonInteraction, "button_interaction");
-		SimpleTypeConverter.registerType(ChannelValue.class, Channel.class, ChannelValue::getChannel, "channel");
-		SimpleTypeConverter.registerType(EmojiValue.class, Emoji.class, EmojiValue::getEmoji, "emoji");
-		SimpleTypeConverter.registerType(MessageValue.class, Message.class, MessageValue::getMessage, "message");
-		SimpleTypeConverter.registerType(ReactionValue.class, Reaction.class, ReactionValue::getReaction, "message");
-		SimpleTypeConverter.registerType(RoleValue.class, Role.class, RoleValue::getRole, "role");
-		SimpleTypeConverter.registerType(SelectMenuInteractionValue.class, SelectMenuInteraction.class, SelectMenuInteractionValue::getSelectMenuInteraction, "message");
-		SimpleTypeConverter.registerType(ServerValue.class, Server.class, ServerValue::getServer, "server");
-		SimpleTypeConverter.registerType(SlashCommandInteractionValue.class, SlashCommandInteraction.class, SlashCommandInteractionValue::getSlashCommandInteraction, "slash_command_interaction");
-		SimpleTypeConverter.registerType(UserValue.class, User.class, UserValue::getUser, "user");
-		SimpleTypeConverter.registerType(WebhookValue.class, Webhook.class, WebhookValue::getWebhook, "webhook");
-
-		OutputConverter.registerToValue(MessageAttachment.class, AttachmentValue::new);
-		OutputConverter.registerToValue(ButtonInteraction.class, ButtonInteractionValue::new);
-		OutputConverter.registerToValue(Channel.class, ChannelValue::new);
-		OutputConverter.registerToValue(Emoji.class, EmojiValue::new);
-		OutputConverter.registerToValue(Message.class, MessageValue::new);
-		OutputConverter.registerToValue(Reaction.class, ReactionValue::new);
-		OutputConverter.registerToValue(Role.class, RoleValue::new);
-		OutputConverter.registerToValue(SelectMenuInteraction.class, SelectMenuInteractionValue::new);
-		OutputConverter.registerToValue(Server.class, ServerValue::new);
-		OutputConverter.registerToValue(SlashCommandInteraction.class, SlashCommandInteractionValue::new);
-		OutputConverter.registerToValue(User.class, UserValue::new);
-		OutputConverter.registerToValue(Webhook.class, WebhookValue::new);
-
-		AnnotationParser.parseFunctionClass(Channels.class);
-		AnnotationParser.parseFunctionClass(Messages.class);
-		AnnotationParser.parseFunctionClass(Self.class);
-		AnnotationParser.parseFunctionClass(Users.class);
-		AnnotationParser.parseFunctionClass(ValueFromId.class);
-
-		Parser.registerParsable(AllowedMentionsParsable.class);
-		Parser.registerParsable(AttachmentParsable.class);
-		Parser.registerParsable(ButtonParsable.class);
-		Parser.registerParsable(ColorParsable.class);
-		Parser.registerParsable(ComponentParsable.class);
-		Parser.registerParsable(EmbedAuthorParsable.class);
-		Parser.registerParsable(EmbedFieldParsable.class);
-		Parser.registerParsable(EmbedFooterParsable.class);
-		Parser.registerParsable(EmbedParsable.class);
-		Parser.registerParsable(InstantParsable.class);
-		Parser.registerParsable(MessageContentParsable.class);
-		Parser.registerParsable(SelectMenuOptionParsable.class);
-		Parser.registerParsable(SelectMenuParsable.class);
-		Parser.registerParsable(SlashCommandOptionChoiceParsable.class);
-		Parser.registerParsable(SlashCommandOptionParsable.class);
-		Parser.registerParsable(WebhookMessageProfileParsable.class);
-		Parser.registerParsable(WebhookProfileParsable.class);
-		Parser.registerParsable(WebhookProfileUpdaterParsable.class);
+		Registration.registerInputTypes();
+		Registration.registerOutputTypes();
+		Registration.registerFunctions();
+		Registration.registerParsables();
 	}
 
 	@Override
