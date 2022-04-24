@@ -15,6 +15,7 @@ import Discarpet.script.functions.ValueFromId;
 import Discarpet.script.parsable.Parser;
 import Discarpet.script.parsable.parsables.AllowedMentionsParsable;
 import Discarpet.script.parsable.parsables.AttachmentParsable;
+import Discarpet.script.parsable.parsables.ButtonParsable;
 import Discarpet.script.parsable.parsables.ColorParsable;
 import Discarpet.script.parsable.parsables.ComponentParsable;
 import Discarpet.script.parsable.parsables.EmbedAuthorParsable;
@@ -24,6 +25,7 @@ import Discarpet.script.parsable.parsables.EmbedParsable;
 import Discarpet.script.parsable.parsables.InstantParsable;
 import Discarpet.script.parsable.parsables.MessageContentParsable;
 import Discarpet.script.parsable.parsables.SelectMenuOptionParsable;
+import Discarpet.script.parsable.parsables.SelectMenuParsable;
 import Discarpet.script.parsable.parsables.SlashCommandOptionChoiceParsable;
 import Discarpet.script.parsable.parsables.SlashCommandOptionParsable;
 import Discarpet.script.parsable.parsables.WebhookMessageProfileParsable;
@@ -158,6 +160,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 		Parser.registerParsable(AllowedMentionsParsable.class);
 		Parser.registerParsable(AttachmentParsable.class);
+		Parser.registerParsable(ButtonParsable.class);
 		Parser.registerParsable(ColorParsable.class);
 		Parser.registerParsable(ComponentParsable.class);
 		Parser.registerParsable(EmbedAuthorParsable.class);
@@ -167,6 +170,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		Parser.registerParsable(InstantParsable.class);
 		Parser.registerParsable(MessageContentParsable.class);
 		Parser.registerParsable(SelectMenuOptionParsable.class);
+		Parser.registerParsable(SelectMenuParsable.class);
 		Parser.registerParsable(SlashCommandOptionChoiceParsable.class);
 		Parser.registerParsable(SlashCommandOptionParsable.class);
 		Parser.registerParsable(WebhookMessageProfileParsable.class);

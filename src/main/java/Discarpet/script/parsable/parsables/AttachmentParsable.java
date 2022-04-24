@@ -17,7 +17,7 @@ public class AttachmentParsable implements Applicable<ContentApplier> {
     @Optional String url;
     @Optional String bytes;
     @Optional String name;
-    @Optional Boolean spoiler;
+    @Optional Boolean spoiler = false;
     
     
     @Override

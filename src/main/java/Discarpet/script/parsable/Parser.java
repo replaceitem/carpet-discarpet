@@ -2,7 +2,6 @@ package Discarpet.script.parsable;
 
 import Discarpet.mixins.SimpleTypeConverterAccessor;
 import Discarpet.script.util.MapValueUtil;
-import carpet.script.annotation.OutputConverter;
 import carpet.script.annotation.SimpleTypeConverter;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.ListValue;
@@ -72,12 +71,16 @@ public class Parser {
         if(primitive != null) return primitive;
         
         Class<?> parsableClass = parsableClasses.get(resultClass);
-        if (ParsableConstructor.class.isAssignableFrom(parsableClass)) {
-            if(!hasRegisteredParser(resultClass)) {
-                throw new InternalExpressionException("Could not parse " + name + ", since there was no registered parser");
+        if (parsableClass != null) {
+            if(ParsableConstructor.class.isAssignableFrom(parsableClass)) {
+                if (!hasRegisteredParser(resultClass)) {
+                    throw new InternalExpressionException("Could not parse " + name + ", since there was no registered parser");
+                }
+                ParsableConstructor<T> parsable = (ParsableConstructor<T>) parseParsableType(value, parsableClass, name);
+                return parsable.construct();
+            } else if(Redirector.class.isAssignableFrom(parsableClass)) {
+                return (T) parseParsableType(value, parsableClass, name);
             }
-            ParsableConstructor<T> parsable = (ParsableConstructor<T>) parseParsableType(value, parsableClass, name);
-            return parsable.construct();
         }
         return parseParsableType(value, resultClass, name);
     }
@@ -109,23 +112,29 @@ public class Parser {
     }
     
     public static <T> T parseParsableType(Value value, Class<T> parsableClass, String name) {
-        try {
+        try {            
             if(DirectParsable.class.isAssignableFrom(parsableClass)) {
                 T parsedValue = callConstructor(parsableClass, name);
                 if(((DirectParsable) parsedValue).tryParseDirectly(value)) {
                     return parsedValue;
                 }
             }
+
+            T parsedObject = parsableClass.cast(parseClass(value, parsableClass));
             
-            return parsableClass.cast(parseClass(value, parsableClass));
+            if(Redirector.class.isAssignableFrom(parsableClass)) {
+                Class<? extends T> redirectedClass = ((Redirector<T>) parsedObject).redirect();
+                return parseType(value, redirectedClass);
+            }
+            return parsedObject;
         } catch (Exception e) {
-            throw new InternalExpressionException("Could not parse '" + name + "' as " + parsableClass.getSimpleName() + ": " + e.getMessage());
+            throw new InternalExpressionException("Could not parse '" + name + "' as '" + getClassName(parsableClass) + "': " + e.getMessage());
         }
     }
     
     
     public static Object parseClass(Value value, Class<?> parsableClass) {
-        ParsableClass parsableClassAnnotation = getParsableClassAnnotation(parsableClass);
+        ParsableClass parsableClassAnnotation = getRequiredParsableClassAnnotation(parsableClass);
         String name = parsableClassAnnotation.name();
         if(!(value instanceof MapValue mapValue)) throw new InternalExpressionException("Could not parse " + name + ", value needs to be a map");
         Map<Value, Value> map = mapValue.getMap();
@@ -157,21 +166,23 @@ public class Parser {
                 if (fieldType == List.class) {
                     if (!(value instanceof ListValue listValue))
                         throw new InternalExpressionException("'" + name + "' value needs to be a list");
-                    Class<?> generic = getListType(field);
-                    if (generic == null)
-                        throw new InternalExpressionException("No type parameter provided for field " + name);
-                    if(generic == List.class) {
-                        object = parse2DList(listValue.getItems(),generic,name);
-                    } else {
-                        object = parseList(listValue.getItems(), generic, name);
-                    }
+                    Type generic = getListType(field);
+                    if(generic instanceof ParameterizedType parameterizedType && parameterizedType.getRawType() == List.class) {
+                        Type actualGenericType = getActualGenericType(parameterizedType);
+                        if(actualGenericType == null) throw new InternalExpressionException("No type argument on list");
+                        if(!(actualGenericType instanceof Class clazz)) throw new InternalExpressionException("Invalid type argument on list: " + actualGenericType);
+                        object = parse2DList(listValue.getItems(), clazz,name);
+                    } else if(generic instanceof Class clazz) {
+                        object = parseList(listValue.getItems(), clazz, name);
+                    } else throw new InternalExpressionException("Invalid type parameter provided for field " + name);
                 } else {
                     object = parseType(value, fieldType, name);
                 }
+                field.setAccessible(true);
                 field.set(parsedValue, object);
             }
         } catch (IllegalAccessException e) {
-            throw new InternalExpressionException("Could not assign field " + name + ": " + e.getMessage());
+            throw new InternalExpressionException("Could not assign field '" + name + "': " + e.getMessage());
         }
     }
     
@@ -209,34 +220,35 @@ public class Parser {
         Type[] genericInterfaces = clazz.getGenericInterfaces();
         if(genericInterfaces.length == 0) return null;
         Type genericInterface = genericInterfaces[0];
-        return getClassFromType(genericInterface);
+        Type actualGenericType = getActualGenericType(genericInterface);
+        if(actualGenericType instanceof Class genericClass) return genericClass;
+        return null;
     }
     
-    private static Class<?> getListType(Field field) {
+    private static Type getListType(Field field) {
         Type genericType = field.getGenericType();
-        return getClassFromType(genericType);
+        return getActualGenericType(genericType);
     }
     
-    private static Class<?> getClassFromType(Type type) {
+    public static Type getActualGenericType(Type type) {
         if(!(type instanceof ParameterizedType parameterizedType)) return null;
         Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
         if(actualTypeArguments.length == 0) return null;
-        Type actualTypeArgument = actualTypeArguments[0];
-        if(!(actualTypeArgument instanceof Class generic)) return null;
-        return generic;
+        return actualTypeArguments[0];
     }
     
-    private static ParsableClass getParsableClassAnnotation(Class<?> parsableClass) {
+    private static ParsableClass getRequiredParsableClassAnnotation(Class<?> parsableClass) {
         ParsableClass parsableClassAnnotation = parsableClass.getAnnotation(ParsableClass.class);
-        if(parsableClassAnnotation == null) throw new InternalExpressionException("Trying to parse class without ParsableClass annotation");
+        if(parsableClassAnnotation == null) throw new InternalExpressionException("Trying to parse class " + parsableClass.getSimpleName() + " without ParsableClass annotation");
         return parsableClassAnnotation;
     }
     
-    private static String getClassName(Class<?> clazz) {
+    public static String getClassName(Class<?> clazz) {
         if(parsableClasses.containsKey(clazz)) {
             clazz = parsableClasses.get(clazz);
         }
-        ParsableClass parsableClassAnnotation = getParsableClassAnnotation(clazz);
+        if(!clazz.isAnnotationPresent(ParsableClass.class)) return clazz.getSimpleName();
+        ParsableClass parsableClassAnnotation = getRequiredParsableClassAnnotation(clazz);
         return parsableClassAnnotation.name();
     }
 }

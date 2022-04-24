@@ -19,7 +19,7 @@ public class InstantParsable implements ParsableConstructor<Instant>, DirectPars
             this.epoch_millis = Instant.ofEpochMilli(numericTimestamp.getLong()).toEpochMilli();
             return true;
         }
-        if(value.toString().equalsIgnoreCase("now")) {
+        if(value.getString().equalsIgnoreCase("now")) {
             this.epoch_millis = Instant.now().toEpochMilli();
             return true;
         }
