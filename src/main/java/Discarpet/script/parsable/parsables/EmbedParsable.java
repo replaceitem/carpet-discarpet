@@ -15,7 +15,7 @@ public class EmbedParsable implements ParsableConstructor<EmbedBuilder> {
     @Optional String url;
     @Optional String description;
     @Optional EmbedAuthorParsable author;
-    @Optional List<EmbedFieldParsable> fields;
+    @Optional List<EmbedFieldParsable> fields = List.of();
     @Optional Color color;
     @Optional EmbedFooterParsable footer;
     @Optional String image;

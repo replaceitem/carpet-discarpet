@@ -41,8 +41,8 @@ public class MessageContentParsable implements Applicable<ContentApplier>, Direc
         for (ActionRow actionRow : actionRows) {
             contentApplier.addComponent(actionRow);
         }
-        contentApplier.setAllowedMentions(allowed_mentions);
-        contentApplier.replyTo(reply_to);
+        if(allowed_mentions != null) contentApplier.setAllowedMentions(allowed_mentions);
+        if(reply_to != null) contentApplier.replyTo(reply_to);
         contentApplier.setNonce(nonce);
         contentApplier.setTts(tts);
     }

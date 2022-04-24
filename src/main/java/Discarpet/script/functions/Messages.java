@@ -1,7 +1,8 @@
 package Discarpet.script.functions;
 
-import Discarpet.script.util.MessageContentParser;
-import Discarpet.script.util.MiscParser;
+import Discarpet.script.parsable.Parser;
+import Discarpet.script.parsable.parsables.MessageContentParsable;
+import Discarpet.script.parsable.parsables.WebhookMessageProfileParsable;
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.util.content.MessageContentApplier;
 import Discarpet.script.util.content.WebhookMessageContentApplier;
@@ -24,7 +25,7 @@ public class Messages {
     @ScarpetFunction
     public Message dc_send_message(Value target, Value messageContent) {
         MessageBuilder messageBuilder = new MessageBuilder();
-        MessageContentParser.parseMessageContent(new MessageContentApplier(messageBuilder),messageContent);
+        Parser.parseType(messageContent, MessageContentParsable.class).apply(new MessageContentApplier(messageBuilder));
         if(target instanceof MessageableValue messageableValue && messageableValue.getMessageable() != null) {
             Messageable messageable = messageableValue.getMessageable();
             CompletableFuture<Message> cf = messageBuilder.send(messageable);
@@ -37,8 +38,8 @@ public class Messages {
         Optional<IncomingWebhook> optionalIncomingWebhook = webhook.asIncomingWebhook();
         if(optionalIncomingWebhook.isEmpty()) throw new InternalExpressionException("'dc_send_webhook' expected an incoming webhook as the first parameter");
         WebhookMessageBuilder webhookMessageBuilder = new WebhookMessageBuilder();
-        MessageContentParser.parseMessageContent(new WebhookMessageContentApplier(webhookMessageBuilder),messageContent);
-        MiscParser.parseWebhookMessageContentProfile(webhookProfile, webhookMessageBuilder);
+        Parser.parseType(messageContent, MessageContentParsable.class).apply(new WebhookMessageContentApplier(webhookMessageBuilder));
+        Parser.parseType(webhookProfile, WebhookMessageProfileParsable.class).apply(webhookMessageBuilder);
         CompletableFuture<Message> cf = webhookMessageBuilder.send(optionalIncomingWebhook.get());
         return ValueUtil.awaitFuture(cf,"Error sending message");
     }
