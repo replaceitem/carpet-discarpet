@@ -13,8 +13,10 @@ import java.net.URL;
 public class WebhookMessageContentApplier implements ContentApplier {
 
     private final WebhookMessageBuilder builder;
-
-    private static final InternalExpressionException NOT_SUPPORTED = new InternalExpressionException("Not supported for webhooks");
+    
+    private static void throwNotSupported(String what) {
+        throw new InternalExpressionException("'" + what + "' is not supported for webhooks");
+    }
 
     public WebhookMessageContentApplier(WebhookMessageBuilder builder) {
         this.builder = builder;
@@ -70,12 +72,14 @@ public class WebhookMessageContentApplier implements ContentApplier {
 
     @Override
     public void replyTo(Message message) {
-        throw NOT_SUPPORTED;
+        if(message == null) return;
+        throwNotSupported("reply_to");
     }
 
     @Override
     public void setNonce(String nonce) {
-        throw NOT_SUPPORTED;
+        if(nonce == null) return;
+        throwNotSupported("nonce");
     }
 
     @Override

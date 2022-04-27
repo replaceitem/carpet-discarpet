@@ -14,7 +14,9 @@ public class InteractionFollowupMessageContentApplier implements ContentApplier 
 
     private final InteractionFollowupMessageBuilder builder;
 
-    private static final InternalExpressionException NOT_SUPPORTED = new InternalExpressionException("Not supported for interactions");
+    private static void throwNotSupported(String what) {
+        throw new InternalExpressionException("'" + what + "' is not supported for followup interaction response");
+    }
 
     public InteractionFollowupMessageContentApplier(InteractionFollowupMessageBuilder builder) {
         this.builder = builder;
@@ -70,12 +72,14 @@ public class InteractionFollowupMessageContentApplier implements ContentApplier 
 
     @Override
     public void replyTo(Message message) {
-        throw NOT_SUPPORTED;
+        if(message == null) return;
+        throwNotSupported("reply_to");
     }
 
     @Override
     public void setNonce(String nonce) {
-        throw NOT_SUPPORTED;
+        if(nonce == null) return;
+        throwNotSupported("nonce");
     }
 
     @Override
