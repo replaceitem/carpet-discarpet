@@ -164,7 +164,7 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 |---|---|---|
 | `type` | String | The type of slash command option. Can be `sub_command`,`sub_command_group`, `string`, `integer`, `boolean`, `user`, `channel`, `role` and `mentionable` |
 | `name` | String | The name of this option |
-| `description` | String (optional) | The description shown for this command option |
+| `description` | String | The description shown for this command option |
 | `required` | boolean (optional, defaults to false) | Whether this option is required to be specified |
 | `options` | List of [Slash command options](#Slash-command-option) (optional) | Sub-options to this sub-command/group. This is only for `sub_command` or `sub_command_group`. |
 | `choices` | List of [Slash command option choices](#Slash-command-option-choice) (optional) | Autocompletable choices for this command option |
