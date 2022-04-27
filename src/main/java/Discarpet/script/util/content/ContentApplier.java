@@ -9,10 +9,7 @@ import java.io.File;
 import java.net.URL;
 
 /**
- * Class to wrap {@link org.javacord.api.entity.message.MessageBuilder},
- * {@link org.javacord.api.interaction.callback.InteractionImmediateResponseBuilder} and
- * {@link org.javacord.api.interaction.callback.InteractionFollowupMessageBuilder} that have common methods,
- * for same handling in {@link Discarpet.script.util.MessageContentParser}.
+ * Class to wrap different javacord classes for building messages for different purposes, but do the same thing.
  */
 
 public interface ContentApplier {
