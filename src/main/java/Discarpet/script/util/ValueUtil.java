@@ -2,14 +2,13 @@ package Discarpet.script.util;
 
 import Discarpet.Discarpet;
 import Discarpet.script.values.EmojiValue;
-import carpet.script.annotation.OutputConverter;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.core.entity.emoji.UnicodeEmojiImpl;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 

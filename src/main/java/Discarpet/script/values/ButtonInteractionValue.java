@@ -1,6 +1,5 @@
 package Discarpet.script.values;
 
-import Discarpet.Discarpet;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;

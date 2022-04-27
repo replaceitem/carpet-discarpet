@@ -5,12 +5,9 @@ import carpet.script.value.ListValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
-import org.javacord.api.entity.channel.Channel;
-import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.server.Server;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class ServerValue extends Value {
 

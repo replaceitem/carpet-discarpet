@@ -1,14 +1,9 @@
 package Discarpet.script.util;
 
 import carpet.script.exception.InternalExpressionException;
-import carpet.script.value.ListValue;
-import carpet.script.value.MapValue;
-import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Map;
 
 public class MapValueUtil {
