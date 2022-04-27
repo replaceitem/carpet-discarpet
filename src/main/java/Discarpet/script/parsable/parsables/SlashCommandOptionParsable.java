@@ -17,10 +17,10 @@ public class SlashCommandOptionParsable implements ParsableConstructor<SlashComm
     
     String type;
     String name;
-    @Optional String description;
+    String description;
     @Optional Boolean required = false;
-    @Optional List<SlashCommandOption> options;
-    @Optional List<SlashCommandOptionChoice> choices;
+    @Optional List<SlashCommandOption> options = List.of();
+    @Optional List<SlashCommandOptionChoice> choices = List.of();
     
     
     @Override

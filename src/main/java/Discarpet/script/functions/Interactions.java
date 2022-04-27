@@ -2,8 +2,8 @@ package Discarpet.script.functions;
 
 import Discarpet.config.Bot;
 import Discarpet.Discarpet;
-import Discarpet.script.util.MessageContentParser;
-import Discarpet.script.util.SlashCommandParser;
+import Discarpet.script.parsable.Parser;
+import Discarpet.script.parsable.parsables.MessageContentParsable;
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.util.content.InteractionFollowupMessageContentApplier;
 import Discarpet.script.util.content.InteractionImmediateResponseContentApplier;
@@ -13,13 +13,16 @@ import Discarpet.script.values.ServerValue;
 import carpet.script.Expression;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.BooleanValue;
+import carpet.script.value.ListValue;
 import carpet.script.value.Value;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.interaction.InteractionBase;
 import org.javacord.api.interaction.SlashCommand;
 import org.javacord.api.interaction.SlashCommandBuilder;
+import org.javacord.api.interaction.SlashCommandOption;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
@@ -37,7 +40,19 @@ public class Interactions {
             builder.setName(name);
             builder.setDescription(description);
 
-            if(lv.size() == 4) builder.setOptions(SlashCommandParser.parseSlashCommandOptions(lv.get(3)));
+            if(lv.size() == 4) {
+                Value optionsValue = lv.get(3);
+                if(!(optionsValue instanceof ListValue listValue)) throw new InternalExpressionException("Slash command options need to be a list value");
+                List<Value> options = listValue.getItems();
+                for (int i = 0; i < options.size(); i++) {
+                    Value option = options.get(i);
+                    try {
+                        builder.addOption(Parser.parseType(option,SlashCommandOption.class));
+                    } catch (Exception e) {
+                        throw new InternalExpressionException("Could not parse slash command option with index " + i + " inside options list: " + e.getMessage());
+                    }
+                }
+            }
 
             Value serverValue = lv.get(2);
             CompletableFuture<SlashCommand> slashCommandCompletableFuture;
@@ -92,11 +107,11 @@ public class Interactions {
                 Value content = lv.get(2);
                 if(type.equalsIgnoreCase("RESPOND_IMMEDIATELY")) {
                     InteractionImmediateResponseContentApplier contentApplier = new InteractionImmediateResponseContentApplier(interactionBase.createImmediateResponder());
-                    MessageContentParser.parseMessageContent(contentApplier,content);
+                    Parser.parseType(content, MessageContentParsable.class).apply(contentApplier);
                     return BooleanValue.of(ValueUtil.awaitFutureBoolean(contentApplier.get().respond(),"Error sending 'respond_immediately' response to interaction"));
                 } else {
                     InteractionFollowupMessageContentApplier contentApplier = new InteractionFollowupMessageContentApplier(interactionBase.createFollowupMessageBuilder());
-                    MessageContentParser.parseMessageContent(contentApplier,content);
+                    Parser.parseType(content, MessageContentParsable.class).apply(contentApplier);
                     return MessageValue.of(ValueUtil.awaitFuture(contentApplier.get().send(),"Error sending 'respond_followup' response to interaction"));
                 }
             } else throw new InternalExpressionException("invalid response type for 'dc_respond_interaction', expected RESPOND_LATER, RESPOND_IMMEDIATELY or RESPOND_FOLLOWUP");
