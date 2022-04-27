@@ -32,7 +32,7 @@ From a File, a URL or from a string which will be the raw bytes of the file.
 | Value | Type | Description |
 |---|---|---|
 | `component` | String | Must be `button` |
-| `id` | String | Custom id of the button. Used to identify them when pressed |
+| `id` | String (optional, not required for `url` style buttons) | Custom id of the button. Used to identify them when pressed |
 | `label` | String | The text shown on the button |
 | `disabled` | boolean (optional, defaults to false) | Whether the button is greyed out or pressable |
 | `style` | String (optional, defaults to grey) | Button style. Can be `blurple`, `grey`, `green`, `red` and `url` |
