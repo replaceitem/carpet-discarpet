@@ -10,7 +10,7 @@ import org.javacord.api.entity.message.component.ButtonBuilder;
 
 @ParsableClass(name = "button")
 public class ButtonParsable implements ParsableConstructor<Button> {
-    String id;
+    @Optional String id;
     String label;
     @Optional Boolean disabled = false;
     @Optional String style = "grey";
