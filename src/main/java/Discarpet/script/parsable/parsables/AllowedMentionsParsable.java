@@ -14,8 +14,8 @@ public class AllowedMentionsParsable implements ParsableConstructor<AllowedMenti
     @Optional Boolean mention_roles = false;
     @Optional Boolean mention_users = false;
     @Optional Boolean mention_everyone = false;
-    @Optional List<String> roles;
-    @Optional List<String> users;
+    @Optional List<String> roles = List.of();
+    @Optional List<String> users = List.of();
 
     @Override
     public AllowedMentions construct() {
