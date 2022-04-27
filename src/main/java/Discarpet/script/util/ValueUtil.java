@@ -40,18 +40,7 @@ public class ValueUtil {
         if(optional.isEmpty()) return null;
         return optional.get();
     }
-
-    public static Value convertToValue(Object object) {
-        if(object == null) return Value.NULL;
-        @SuppressWarnings("unchecked")
-        Class<Object> objectClass = (Class<Object>) object.getClass();
-        OutputConverter<Object> converter = OutputConverter.get(objectClass);
-        if(converter == null) {
-            return Value.NULL;
-        }
-        return converter.convert(object).evalValue(null);
-    }
-
+    
     public static Value ofOptionalString(Optional<String> optionalString) {
         if(optionalString.isEmpty()) return Value.NULL;
         return StringValue.of(optionalString.get());

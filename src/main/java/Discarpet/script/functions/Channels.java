@@ -1,8 +1,9 @@
 package Discarpet.script.functions;
 
-import Discarpet.script.util.MiscParser;
+import Discarpet.script.parsable.Parser;
+import Discarpet.script.parsable.parsables.WebhookProfileParsable;
+import Discarpet.script.parsable.parsables.WebhookProfileUpdaterParsable;
 import Discarpet.script.util.ValueUtil;
-import Discarpet.script.values.WebhookValue;
 import carpet.script.annotation.ScarpetFunction;
 import carpet.script.value.Value;
 import org.javacord.api.entity.channel.Channel;
@@ -23,14 +24,14 @@ public class Channels {
 	public Webhook dc_create_webhook(Channel channel, Value webhookBuilder) {
 		if(!(channel instanceof ServerTextChannel textChannel)) return null;
 		WebhookBuilder builder = new WebhookBuilder(textChannel);
-		MiscParser.parseWebhookProfile(webhookBuilder,builder);
+		Parser.parseType(webhookBuilder, WebhookProfileParsable.class).apply(builder);
 		return ValueUtil.awaitFuture(builder.create(),"Error creating webhook");
 	}
 
 	@ScarpetFunction
 	public Webhook dc_update_webhook(Webhook webhook, Value webhookBuilder) {
 		WebhookUpdater updater = webhook.createUpdater();
-		MiscParser.parseWebhookProfileUpdater(webhookBuilder, updater);
+		Parser.parseType(webhookBuilder, WebhookProfileUpdaterParsable.class).apply(updater);
 		return ValueUtil.awaitFuture(updater.update(),"Error updating webhook");
 	}
 
