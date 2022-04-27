@@ -13,7 +13,7 @@ import java.util.List;
 public class SelectMenuParsable implements ParsableConstructor<SelectMenu> {
     String id;
     @Optional Boolean disabled = false;
-    @Optional List<SelectMenuOption> options = List.of();
+    List<SelectMenuOption> options;
     @Optional Integer min = 1;
     @Optional Integer max = 1;
     @Optional String placeholder;
