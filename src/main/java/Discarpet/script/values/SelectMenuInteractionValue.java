@@ -1,5 +1,6 @@
 package Discarpet.script.values;
 
+import Discarpet.script.util.ValueUtil;
 import carpet.script.value.ListValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
@@ -17,32 +18,18 @@ public class SelectMenuInteractionValue extends Value implements InteractionValu
     }
 
     public Value getProperty(String property) {
-
-        switch (property) {
-            case "id":
-                return StringValue.of(selectMenuInteraction.getCustomId());
-            case "chosen":
-                return new ListValue(selectMenuInteraction.getChosenOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())).toList());
-            case "options":
-                return new ListValue(selectMenuInteraction.getPossibleOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())).toList());
-            case "min":
-                return NumericValue.of(selectMenuInteraction.getMinimumValues());
-            case "max":
-                return NumericValue.of(selectMenuInteraction.getMaximumValues());
-            case "placeholder":
-                if(selectMenuInteraction.getPlaceholder().isEmpty()) return Value.NULL;
-                return StringValue.of(selectMenuInteraction.getPlaceholder().get());
-            case "channel":
-                if(selectMenuInteraction.getChannel().isEmpty()) return Value.NULL;
-                return new ChannelValue(selectMenuInteraction.getChannel().get());
-            case "user":
-                return new UserValue(selectMenuInteraction.getUser());
-            case "message":
-                if(selectMenuInteraction.getMessage().isEmpty()) return Value.NULL;
-                return new MessageValue(selectMenuInteraction.getMessage().get());
-            default:
-                return Value.NULL;
-        }
+        return switch (property) {
+            case "id" -> StringValue.of(selectMenuInteraction.getCustomId());
+            case "chosen" -> ListValue.wrap(selectMenuInteraction.getChosenOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())));
+            case "options" -> ListValue.wrap(selectMenuInteraction.getPossibleOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())));
+            case "min" -> NumericValue.of(selectMenuInteraction.getMinimumValues());
+            case "max" -> NumericValue.of(selectMenuInteraction.getMaximumValues());
+            case "placeholder" -> StringValue.of(ValueUtil.unpackOptional(selectMenuInteraction.getPlaceholder()));
+            case "channel" -> ChannelValue.of(selectMenuInteraction.getChannel());
+            case "user" -> UserValue.of(selectMenuInteraction.getUser());
+            case "message" -> MessageValue.of(selectMenuInteraction.getMessage());
+            default -> Value.NULL;
+        };
     }
 
 

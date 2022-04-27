@@ -24,51 +24,53 @@ public class SlashCommandInteractionValue extends Value implements InteractionVa
     }
 
     public Value getProperty(String property) {
-
-        switch (property) {
-            case "command":
-                List<Value> commandPath = new ArrayList<>();
-                commandPath.add(StringValue.of(slashCommandInteraction.getCommandName()));
-
-                slashCommandInteraction.getFirstOption().ifPresent(slashCommandInteractionOption -> {
-                    if(slashCommandInteractionOption.isSubcommandOrGroup()) {
-                        commandPath.add(StringValue.of(slashCommandInteractionOption.getName()));
-                        slashCommandInteractionOption.getFirstOption().ifPresent(slashCommandInteractionOption1 -> {
-                            if(slashCommandInteractionOption1.isSubcommandOrGroup()) {
-                                commandPath.add(StringValue.of(slashCommandInteractionOption1.getName()));
-                            }
-                        });
-                    }
-                });
-                return new ListValue(commandPath);
-            case "options":
-                List<SlashCommandInteractionOption> optionList = slashCommandInteraction.getOptions();
-                while(optionList.size() != 0 && optionList.get(0).isSubcommandOrGroup()) {
-                    optionList = optionList.get(0).getOptions();
-                }
-
-                Map<Value,Value> optionMap = new HashMap<>();
-
-
-                optionList.forEach(slashCommandInteractionOption -> {
-                    Optional<String> stringValue = slashCommandInteractionOption.getStringValue();
-
-                    Value val = stringValue.map(StringValue::of).orElseGet(() -> Value.NULL);
-                    optionMap.put(StringValue.of(slashCommandInteractionOption.getName()), val);
-                });
-
-                return MapValue.wrap(optionMap);
-
-            case "channel":
-                if(slashCommandInteraction.getChannel().isEmpty()) return Value.NULL;
-                return new ChannelValue(slashCommandInteraction.getChannel().get());
-            case "user":
-                return new UserValue(slashCommandInteraction.getUser());
-            default:
-                return Value.NULL;
-        }
+        return switch (property) {
+            case "command" -> getCommand();
+            case "options" -> getOptions();
+            case "channel" -> ChannelValue.of(slashCommandInteraction.getChannel());
+            case "user" -> UserValue.of(slashCommandInteraction.getUser());
+            default -> Value.NULL;
+        };
     }
 
+    
+    private Value getOptions() {
+        List<SlashCommandInteractionOption> optionList = slashCommandInteraction.getOptions();
+        while(optionList.size() != 0 && optionList.get(0).isSubcommandOrGroup()) {
+            optionList = optionList.get(0).getOptions();
+        }
+
+        Map<Value,Value> optionMap = new HashMap<>();
+
+
+        optionList.forEach(slashCommandInteractionOption -> {
+            Optional<String> stringValue = slashCommandInteractionOption.getStringValue();
+
+            Value val = stringValue.map(StringValue::of).orElseGet(() -> Value.NULL);
+            optionMap.put(StringValue.of(slashCommandInteractionOption.getName()), val);
+        });
+
+        return MapValue.wrap(optionMap);
+    }
+    
+    
+    private Value getCommand() {
+        List<Value> commandPath = new ArrayList<>();
+        commandPath.add(StringValue.of(slashCommandInteraction.getCommandName()));
+
+        slashCommandInteraction.getOptionByIndex(0).ifPresent(slashCommandInteractionOption -> {
+            if(slashCommandInteractionOption.isSubcommandOrGroup()) {
+                commandPath.add(StringValue.of(slashCommandInteractionOption.getName()));
+                slashCommandInteractionOption.getOptionByIndex(0).ifPresent(slashCommandInteractionOption1 -> {
+                    if(slashCommandInteractionOption1.isSubcommandOrGroup()) {
+                        commandPath.add(StringValue.of(slashCommandInteractionOption1.getName()));
+                    }
+                });
+            }
+        });
+        return new ListValue(commandPath);
+        
+    }
 
     @Override
     public Value in(Value value1) {
