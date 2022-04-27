@@ -15,7 +15,7 @@ public class SelectMenuOptionParsable implements ParsableConstructor<SelectMenuO
     String label;
     @Optional Value emoji;
     @Optional String description;
-    @Optional Boolean default_option;
+    @Optional Boolean default_option = false;
     
     
     @Override
