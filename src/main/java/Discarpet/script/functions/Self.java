@@ -9,6 +9,7 @@ import org.javacord.api.entity.user.UserStatus;
 
 import static Discarpet.Discarpet.getBotInContext;
 
+@SuppressWarnings("unused")
 public class Self {
     @ScarpetFunction
     public User dc_get_bot_user(Context c) {

@@ -1,6 +1,7 @@
 package Discarpet.script.util;
 
 import Discarpet.script.functions.Channels;
+import Discarpet.script.functions.Interactions;
 import Discarpet.script.functions.Messages;
 import Discarpet.script.functions.Self;
 import Discarpet.script.functions.Users;
@@ -19,6 +20,7 @@ import Discarpet.script.parsable.parsables.InstantParsable;
 import Discarpet.script.parsable.parsables.MessageContentParsable;
 import Discarpet.script.parsable.parsables.SelectMenuOptionParsable;
 import Discarpet.script.parsable.parsables.SelectMenuParsable;
+import Discarpet.script.parsable.parsables.SlashCommandBuilderParsable;
 import Discarpet.script.parsable.parsables.SlashCommandOptionChoiceParsable;
 import Discarpet.script.parsable.parsables.SlashCommandOptionParsable;
 import Discarpet.script.parsable.parsables.WebhookMessageProfileParsable;
@@ -28,17 +30,21 @@ import Discarpet.script.values.AttachmentValue;
 import Discarpet.script.values.ButtonInteractionValue;
 import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.EmojiValue;
+import Discarpet.script.values.InteractionValue;
 import Discarpet.script.values.MessageValue;
 import Discarpet.script.values.ReactionValue;
 import Discarpet.script.values.RoleValue;
 import Discarpet.script.values.SelectMenuInteractionValue;
 import Discarpet.script.values.ServerValue;
+import Discarpet.script.values.SlashCommandInteractionOptionValue;
 import Discarpet.script.values.SlashCommandInteractionValue;
+import Discarpet.script.values.SlashCommandValue;
 import Discarpet.script.values.UserValue;
 import Discarpet.script.values.WebhookValue;
 import carpet.script.annotation.AnnotationParser;
 import carpet.script.annotation.OutputConverter;
 import carpet.script.annotation.SimpleTypeConverter;
+import carpet.script.annotation.ValueCaster;
 import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.message.Message;
@@ -50,7 +56,9 @@ import org.javacord.api.entity.user.User;
 import org.javacord.api.entity.webhook.Webhook;
 import org.javacord.api.interaction.ButtonInteraction;
 import org.javacord.api.interaction.SelectMenuInteraction;
+import org.javacord.api.interaction.SlashCommand;
 import org.javacord.api.interaction.SlashCommandInteraction;
+import org.javacord.api.interaction.SlashCommandInteractionOption;
 
 public class Registration {
     public static void registerInputTypes() {
@@ -63,7 +71,9 @@ public class Registration {
         SimpleTypeConverter.registerType(RoleValue.class, Role.class, RoleValue::getRole, "role");
         SimpleTypeConverter.registerType(SelectMenuInteractionValue.class, SelectMenuInteraction.class, SelectMenuInteractionValue::getSelectMenuInteraction, "message");
         SimpleTypeConverter.registerType(ServerValue.class, Server.class, ServerValue::getServer, "server");
+        SimpleTypeConverter.registerType(SlashCommandInteractionOptionValue.class, SlashCommandInteractionOption.class, SlashCommandInteractionOptionValue::getSlashCommandInteractionOption, "slash_command_option");
         SimpleTypeConverter.registerType(SlashCommandInteractionValue.class, SlashCommandInteraction.class, SlashCommandInteractionValue::getSlashCommandInteraction, "slash_command_interaction");
+        SimpleTypeConverter.registerType(SlashCommandValue.class, SlashCommand.class, SlashCommandValue::getSlashCommand, "slash_command");
         SimpleTypeConverter.registerType(UserValue.class, User.class, UserValue::getUser, "user");
         SimpleTypeConverter.registerType(WebhookValue.class, Webhook.class, WebhookValue::getWebhook, "webhook");
     }
@@ -78,13 +88,16 @@ public class Registration {
         OutputConverter.registerToValue(Role.class, RoleValue::new);
         OutputConverter.registerToValue(SelectMenuInteraction.class, SelectMenuInteractionValue::new);
         OutputConverter.registerToValue(Server.class, ServerValue::new);
+        OutputConverter.registerToValue(SlashCommandInteractionOption.class, SlashCommandInteractionOptionValue::new);
         OutputConverter.registerToValue(SlashCommandInteraction.class, SlashCommandInteractionValue::new);
+        OutputConverter.registerToValue(SlashCommand.class, SlashCommandValue::new);
         OutputConverter.registerToValue(User.class, UserValue::new);
         OutputConverter.registerToValue(Webhook.class, WebhookValue::new);
     }
     
     public static void registerFunctions() {
         AnnotationParser.parseFunctionClass(Channels.class);
+        AnnotationParser.parseFunctionClass(Interactions.class);
         AnnotationParser.parseFunctionClass(Messages.class);
         AnnotationParser.parseFunctionClass(Self.class);
         AnnotationParser.parseFunctionClass(Users.class);
@@ -107,8 +120,13 @@ public class Registration {
         Parser.registerParsable(SelectMenuParsable.class);
         Parser.registerParsable(SlashCommandOptionChoiceParsable.class);
         Parser.registerParsable(SlashCommandOptionParsable.class);
+        Parser.registerParsable(SlashCommandBuilderParsable.class);
         Parser.registerParsable(WebhookMessageProfileParsable.class);
         Parser.registerParsable(WebhookProfileParsable.class);
         Parser.registerParsable(WebhookProfileUpdaterParsable.class);
+    }
+    
+    public static void registerValueCasters() {
+        ValueCaster.register(InteractionValue.class, "interaction");
     }
 }

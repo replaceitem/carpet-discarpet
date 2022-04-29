@@ -131,7 +131,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `description` | String (optional) | A description for this option |
 | `default_option` | boolean (optional) | Whether this is selected by default or not |
 
-#### Select menu
+### Select menu
 
 | Value | Type | Description |
 |---|---|---|
@@ -141,6 +141,14 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `min` | number (optional) | The minimum number of options that need to be selected |
 | `max` | number (optional) | The maximum number of options that need to be selected |
 | `placeholder` | String (optional) | The text displayed when nothing is selected yet |
+
+### Slash command builder
+
+| Value | Type | Description |
+|---|---|---|
+| `name` | String | The slash command name |
+| `description` | String | The description |
+| `options` | List of slash command options | The sub-options of the command |
 
 ### Slash command option choice
 
@@ -162,7 +170,7 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 
 | Value | Type | Description |
 |---|---|---|
-| `type` | String | The type of slash command option. Can be `sub_command`,`sub_command_group`, `string`, `integer`, `boolean`, `user`, `channel`, `role` and `mentionable` |
+| `type` | String | The type of slash command option. Can be `sub_command`,`sub_command_group`, `string`, `integer`, `boolean`, `user`, `channel`, `role`, `mentionable` and `number` |
 | `name` | String | The name of this option |
 | `description` | String | The description shown for this command option |
 | `required` | boolean (optional, defaults to false) | Whether this option is required to be specified |
