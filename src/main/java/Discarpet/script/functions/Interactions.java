@@ -7,7 +7,7 @@ import Discarpet.script.parsable.parsables.SlashCommandBuilderParsable;
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.util.content.InteractionFollowupMessageContentApplier;
 import Discarpet.script.util.content.InteractionImmediateResponseContentApplier;
-import Discarpet.script.values.InteractionValue;
+import Discarpet.script.values.common.InteractionValue;
 import Discarpet.script.values.ServerValue;
 import Discarpet.script.values.SlashCommandValue;
 import carpet.script.Context;
@@ -35,7 +35,7 @@ public class Interactions {
             Bot bot = getBotInContext(context, "dc_create_slash_command");
             cf = slashCommandBuilder.createGlobal(bot.getApi());
         } else  if (server instanceof ServerValue serverValue){
-            cf = slashCommandBuilder.createForServer(serverValue.getServer());
+            cf = slashCommandBuilder.createForServer(serverValue.getInternal());
         } else throw new InternalExpressionException("Expected a server or null");
         return ValueUtil.awaitFutureBoolean(cf, "Error creating slash command");        
     }
@@ -48,8 +48,8 @@ public class Interactions {
     }
     
     @ScarpetFunction(maxParams = 3)
-    public Message dc_respond_interaction(InteractionValue interactionValue, String responseType, Value... response) {
-        InteractionBase interactionBase = interactionValue.getInteractionBase();
+    public Message dc_respond_interaction(InteractionValue<?> interactionValue, String responseType, Value... response) {
+        InteractionBase interactionBase = interactionValue.getBase();
         if(responseType.equalsIgnoreCase("RESPOND_LATER")) {
             ValueUtil.awaitFuture(interactionBase.respondLater(),"Error sending 'respond_later' response to interaction");
             return null;

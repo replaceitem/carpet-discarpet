@@ -6,7 +6,7 @@ import Discarpet.script.parsable.parsables.WebhookMessageProfileParsable;
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.util.content.MessageContentApplier;
 import Discarpet.script.util.content.WebhookMessageContentApplier;
-import Discarpet.script.values.MessageableValue;
+import Discarpet.script.values.common.MessageableValue;
 import carpet.script.annotation.ScarpetFunction;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.Value;

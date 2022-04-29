@@ -25,7 +25,7 @@ public class EmbedAuthorParsable implements Applicable<EmbedBuilder>, DirectPars
     @Override
     public boolean tryParseDirectly(Value value) {
         if(value instanceof UserValue userValue) {
-            User user = userValue.getUser();
+            User user = userValue.getInternal();
             this.name = user.getName();
             this.icon = user.getAvatar().getUrl().toString();
             return true;
