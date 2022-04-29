@@ -2,6 +2,7 @@ package Discarpet.script.util;
 
 import Discarpet.Discarpet;
 import Discarpet.script.values.EmojiValue;
+import carpet.script.value.BooleanValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
@@ -48,6 +49,11 @@ public class ValueUtil {
     public static Value ofOptionalNumber(Optional<Integer> optionalInteger) {
         if(optionalInteger.isEmpty()) return Value.NULL;
         return NumericValue.of(optionalInteger.get());
+    }
+
+    public static Value ofOptionalBoolean(Optional<Boolean> optionalBoolean) {
+        if(optionalBoolean.isEmpty()) return Value.NULL;
+        return BooleanValue.of(optionalBoolean.get());
     }
 
 

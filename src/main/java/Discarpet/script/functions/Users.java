@@ -9,6 +9,7 @@ import org.javacord.api.entity.permission.Role;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 
+@SuppressWarnings("unused")
 public class Users {
     @ScarpetFunction
     public String dc_get_display_name(User user, Server server) {

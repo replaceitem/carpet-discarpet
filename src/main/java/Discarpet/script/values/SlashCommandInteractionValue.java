@@ -1,21 +1,13 @@
 package Discarpet.script.values;
 
 import carpet.script.value.ListValue;
-import carpet.script.value.MapValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
 import org.javacord.api.interaction.InteractionBase;
 import org.javacord.api.interaction.SlashCommandInteraction;
-import org.javacord.api.interaction.SlashCommandInteractionOption;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-public class SlashCommandInteractionValue extends Value implements InteractionValue {
+public class SlashCommandInteractionValue extends InteractionValue {
 
     public SlashCommandInteraction slashCommandInteraction;
 
@@ -25,51 +17,14 @@ public class SlashCommandInteractionValue extends Value implements InteractionVa
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "command" -> getCommand();
-            case "options" -> getOptions();
+            case "id" -> StringValue.of(slashCommandInteraction.getCommandIdAsString());
+            case "command_name" -> StringValue.of(slashCommandInteraction.getCommandName());
             case "channel" -> ChannelValue.of(slashCommandInteraction.getChannel());
             case "user" -> UserValue.of(slashCommandInteraction.getUser());
+            case "token" -> StringValue.of(slashCommandInteraction.getToken());
+            case "arguments" -> ListValue.wrap((slashCommandInteraction.getArguments().stream().map(SlashCommandInteractionOptionValue::new)));
             default -> Value.NULL;
         };
-    }
-
-    
-    private Value getOptions() {
-        List<SlashCommandInteractionOption> optionList = slashCommandInteraction.getOptions();
-        while(optionList.size() != 0 && optionList.get(0).isSubcommandOrGroup()) {
-            optionList = optionList.get(0).getOptions();
-        }
-
-        Map<Value,Value> optionMap = new HashMap<>();
-
-
-        optionList.forEach(slashCommandInteractionOption -> {
-            Optional<String> stringValue = slashCommandInteractionOption.getStringValue();
-
-            Value val = stringValue.map(StringValue::of).orElseGet(() -> Value.NULL);
-            optionMap.put(StringValue.of(slashCommandInteractionOption.getName()), val);
-        });
-
-        return MapValue.wrap(optionMap);
-    }
-    
-    
-    private Value getCommand() {
-        List<Value> commandPath = new ArrayList<>();
-        commandPath.add(StringValue.of(slashCommandInteraction.getCommandName()));
-
-        slashCommandInteraction.getOptionByIndex(0).ifPresent(slashCommandInteractionOption -> {
-            if(slashCommandInteractionOption.isSubcommandOrGroup()) {
-                commandPath.add(StringValue.of(slashCommandInteractionOption.getName()));
-                slashCommandInteractionOption.getOptionByIndex(0).ifPresent(slashCommandInteractionOption1 -> {
-                    if(slashCommandInteractionOption1.isSubcommandOrGroup()) {
-                        commandPath.add(StringValue.of(slashCommandInteractionOption1.getName()));
-                    }
-                });
-            }
-        });
-        return new ListValue(commandPath);
-        
     }
 
     @Override

@@ -34,6 +34,7 @@ public class ServerValue extends Value {
             case "channels" -> ListValue.wrap(server.getChannels().stream().map(ChannelValue::new));
             case "roles" -> ListValue.wrap(server.getRoles().stream().map(RoleValue::new));
             case "webhooks" -> ListValue.wrap(server.getWebhooks().join().stream().map(WebhookValue::of));
+            case "slash_commands" -> ListValue.wrap(server.getSlashCommands().join().stream().map(SlashCommandValue::new));
             default -> Value.NULL;
         };
     }

@@ -6,7 +6,7 @@ import net.minecraft.nbt.NbtElement;
 import org.javacord.api.interaction.ButtonInteraction;
 import org.javacord.api.interaction.InteractionBase;
 
-public class ButtonInteractionValue extends Value implements InteractionValue {
+public class ButtonInteractionValue extends InteractionValue {
 
     public ButtonInteraction buttonInteraction;
 

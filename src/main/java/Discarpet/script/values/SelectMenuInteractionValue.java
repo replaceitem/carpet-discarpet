@@ -9,7 +9,7 @@ import net.minecraft.nbt.NbtElement;
 import org.javacord.api.interaction.InteractionBase;
 import org.javacord.api.interaction.SelectMenuInteraction;
 
-public class SelectMenuInteractionValue extends Value implements InteractionValue {
+public class SelectMenuInteractionValue extends InteractionValue {
 
     public SelectMenuInteraction selectMenuInteraction;
 

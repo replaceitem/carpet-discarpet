@@ -12,6 +12,7 @@ import org.javacord.api.entity.webhook.Webhook;
 import org.javacord.api.entity.webhook.WebhookBuilder;
 import org.javacord.api.entity.webhook.WebhookUpdater;
 
+@SuppressWarnings("unused")
 public class Channels {
 	
 	@ScarpetFunction

@@ -6,11 +6,9 @@ import Discarpet.config.BotConfig;
 import Discarpet.config.ConfigManager;
 import Discarpet.script.events.ChatEvents;
 import Discarpet.script.events.DiscordEvents;
-import Discarpet.script.functions.Interactions;
 import Discarpet.script.util.Registration;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
-import carpet.script.CarpetExpression;
 import carpet.script.CarpetScriptHost;
 import carpet.script.Context;
 import carpet.script.ScriptHost;
@@ -72,6 +70,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void onGameStarted() {
+		Registration.registerValueCasters();
 		Registration.registerInputTypes();
 		Registration.registerOutputTypes();
 		Registration.registerFunctions();
@@ -92,11 +91,6 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	@Override
 	public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
 		DiscarpetCommand.register(dispatcher);
-	}
-
-	@Override
-	public void scarpetApi(CarpetExpression expression) {
-		Interactions.apply(expression.getExpr());
 	}
 
 	public static void loadConfig(ServerCommandSource source) {

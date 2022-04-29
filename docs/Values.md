@@ -164,10 +164,40 @@ Queryable:
 
 | Property | Type | Description |
 |---|---|---|
-| `command` | List | List of command option that were executed. If a user executed the slash command `/channel remove #bot-spam`, this would return `['channel', 'remove']`. |
-| `options` | Map | A map containing all options that were specified in the command, with the key being the name of the option, with a corresponding value that has been chosen for this option. |
+| `id` | String | The id of the command |
+| `command_name` | String | The name of the slash command |
 | `user` | User | The user that executed the command. |
 | `channel` | Channel | The channel this command was executed in. |
+| `token` | String | The token used to respond to the interaction (normally not needed) |
+| `arguments` | List of slash command options | The selected options of the command |
+
+## Slash command interaction option
+
+`dc_slash_command_interaction_option`
+
+Represents the user-chosen options of a slash command execution.
+
+| Property | Type | Description |
+|---|---|---|
+| `name` | String | Name of the command option |
+| `is_subcommand_or_group` | boolean | Whether this option is a subcommand or subcommand group |
+| `value` | ? (depends on the slash command option type) | The value chosen by the user |
+| `options` | List of slash command interaction options | The sub-options of this option |
+
+## Slash command
+
+`dc_slash_command`
+
+Represents a slash command on a server
+
+| Property | Type | Description |
+|---|---|---|
+| `id` | String | Id of the command |
+| `name` | String | Name of the command |
+| `description` | String | Description of the command |
+| `server` | Server | The server this slash command is in, or null if it's a global slash command |
+| `options` | List of Strings | The names of the slash command options (didn't bother adding a slash command option value, since nobody gonna use it anyway, but if you need it, make an issue and i'll add it) |
+| `creation_timestamp` | number | The timestamp of the command |
 
 ## Button and Select menu interaction
 
