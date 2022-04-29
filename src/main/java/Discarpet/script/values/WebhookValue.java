@@ -1,12 +1,14 @@
 package Discarpet.script.values;
 
+import Discarpet.script.util.ValueUtil;
+import Discarpet.script.values.common.Deletable;
 import Discarpet.script.values.common.MessageableValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import org.javacord.api.entity.webhook.IncomingWebhook;
 import org.javacord.api.entity.webhook.Webhook;
 
-public class WebhookValue extends MessageableValue<Webhook> {
+public class WebhookValue extends MessageableValue<Webhook> implements Deletable {
     public WebhookValue(Webhook webhook) {
         super("webhook",webhook);
     }
@@ -20,5 +22,10 @@ public class WebhookValue extends MessageableValue<Webhook> {
             case "url" -> StringValue.of(value instanceof IncomingWebhook incomingWebhook ? incomingWebhook.getUrl().getPath() : null);
             default -> Value.NULL;
         };
+    }
+
+    @Override
+    public boolean delete() {
+        return ValueUtil.awaitFutureBoolean(value.delete(), "Failed to delete " + this.getTypeString());
     }
 }
