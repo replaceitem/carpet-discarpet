@@ -1,6 +1,7 @@
 package Discarpet.script.values;
 
 import Discarpet.script.util.ValueUtil;
+import Discarpet.script.values.common.Deletable;
 import Discarpet.script.values.common.DiscordValue;
 import carpet.script.value.ListValue;
 import carpet.script.value.StringValue;
@@ -8,7 +9,7 @@ import carpet.script.value.Value;
 import com.vdurmont.emoji.EmojiParser;
 import org.javacord.api.entity.message.Message;
 
-public class MessageValue extends DiscordValue<Message> {
+public class MessageValue extends DiscordValue<Message> implements Deletable {
     public MessageValue(Message message) {
         super("message",message);
     }
@@ -25,5 +26,10 @@ public class MessageValue extends DiscordValue<Message> {
             case "attachments" -> ListValue.wrap(value.getAttachments().stream().map(AttachmentValue::new));
             default -> Value.NULL;
         };
+    }
+
+    @Override
+    public boolean delete() {
+        return ValueUtil.awaitFutureBoolean(value.delete(), "Failed to delete " + this.getTypeString());
     }
 }

@@ -1,13 +1,15 @@
 package Discarpet.script.values;
 
 import Discarpet.script.util.ValueUtil;
+import Discarpet.script.values.common.Deletable;
 import Discarpet.script.values.common.DiscordValue;
 import carpet.script.value.BooleanValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import org.javacord.api.entity.emoji.Emoji;
+import org.javacord.api.entity.emoji.KnownCustomEmoji;
 
-public class EmojiValue extends DiscordValue<Emoji> {
+public class EmojiValue extends DiscordValue<Emoji> implements Deletable {
     public EmojiValue(Emoji emoji) {
         super("emoji",emoji);
     }
@@ -21,5 +23,10 @@ public class EmojiValue extends DiscordValue<Emoji> {
             case "is_custom" -> BooleanValue.of(value.isCustomEmoji());
             default -> Value.NULL;
         };
+    }
+
+    @Override
+    public boolean delete() {
+        return value instanceof KnownCustomEmoji knownCustomEmoji && ValueUtil.awaitFutureBoolean(knownCustomEmoji.delete(), "Failed to delete " + this.getTypeString());
     }
 }

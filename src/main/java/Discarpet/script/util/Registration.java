@@ -5,6 +5,7 @@ import Discarpet.script.functions.Interactions;
 import Discarpet.script.functions.Messages;
 import Discarpet.script.functions.Self;
 import Discarpet.script.functions.Users;
+import Discarpet.script.functions.Util;
 import Discarpet.script.functions.ValueFromId;
 import Discarpet.script.parsable.Parser;
 import Discarpet.script.parsable.parsables.AllowedMentionsParsable;
@@ -93,6 +94,7 @@ public class Registration {
         AnnotationParser.parseFunctionClass(Messages.class);
         AnnotationParser.parseFunctionClass(Self.class);
         AnnotationParser.parseFunctionClass(Users.class);
+        AnnotationParser.parseFunctionClass(Util.class);
         AnnotationParser.parseFunctionClass(ValueFromId.class);
     }
     

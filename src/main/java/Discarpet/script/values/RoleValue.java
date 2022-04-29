@@ -1,6 +1,7 @@
 package Discarpet.script.values;
 
 import Discarpet.script.util.ValueUtil;
+import Discarpet.script.values.common.Deletable;
 import Discarpet.script.values.common.DiscordValue;
 import carpet.script.value.BooleanValue;
 import carpet.script.value.ListValue;
@@ -9,7 +10,7 @@ import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import org.javacord.api.entity.permission.Role;
 
-public class RoleValue extends DiscordValue<Role> {
+public class RoleValue extends DiscordValue<Role> implements Deletable {
     public RoleValue(Role role) {
         super("role",role);
     }
@@ -29,5 +30,10 @@ public class RoleValue extends DiscordValue<Role> {
             case "mentionable" -> BooleanValue.of(value.isMentionable());
             default -> Value.NULL;
         };
+    }
+
+    @Override
+    public boolean delete() {
+        return ValueUtil.awaitFutureBoolean(value.delete(), "Failed to delete " + this.getTypeString());
     }
 }
