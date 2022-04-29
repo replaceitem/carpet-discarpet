@@ -30,7 +30,6 @@ import Discarpet.script.values.AttachmentValue;
 import Discarpet.script.values.ButtonInteractionValue;
 import Discarpet.script.values.ChannelValue;
 import Discarpet.script.values.EmojiValue;
-import Discarpet.script.values.InteractionValue;
 import Discarpet.script.values.MessageValue;
 import Discarpet.script.values.ReactionValue;
 import Discarpet.script.values.RoleValue;
@@ -41,10 +40,14 @@ import Discarpet.script.values.SlashCommandInteractionValue;
 import Discarpet.script.values.SlashCommandValue;
 import Discarpet.script.values.UserValue;
 import Discarpet.script.values.WebhookValue;
+import Discarpet.script.values.common.DiscordValue;
+import Discarpet.script.values.common.InteractionValue;
+import Discarpet.script.values.common.MessageableValue;
 import carpet.script.annotation.AnnotationParser;
 import carpet.script.annotation.OutputConverter;
 import carpet.script.annotation.SimpleTypeConverter;
 import carpet.script.annotation.ValueCaster;
+import carpet.script.value.Value;
 import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.message.Message;
@@ -60,39 +63,28 @@ import org.javacord.api.interaction.SlashCommand;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.interaction.SlashCommandInteractionOption;
 
+import java.util.function.Function;
+
 public class Registration {
     public static void registerInputTypes() {
-        SimpleTypeConverter.registerType(AttachmentValue.class, MessageAttachment.class, AttachmentValue::getAttachment, "attachment");
-        SimpleTypeConverter.registerType(ButtonInteractionValue.class, ButtonInteraction.class, ButtonInteractionValue::getButtonInteraction, "button_interaction");
-        SimpleTypeConverter.registerType(ChannelValue.class, Channel.class, ChannelValue::getChannel, "channel");
-        SimpleTypeConverter.registerType(EmojiValue.class, Emoji.class, EmojiValue::getEmoji, "emoji");
-        SimpleTypeConverter.registerType(MessageValue.class, Message.class, MessageValue::getMessage, "message");
-        SimpleTypeConverter.registerType(ReactionValue.class, Reaction.class, ReactionValue::getReaction, "message");
-        SimpleTypeConverter.registerType(RoleValue.class, Role.class, RoleValue::getRole, "role");
-        SimpleTypeConverter.registerType(SelectMenuInteractionValue.class, SelectMenuInteraction.class, SelectMenuInteractionValue::getSelectMenuInteraction, "message");
-        SimpleTypeConverter.registerType(ServerValue.class, Server.class, ServerValue::getServer, "server");
-        SimpleTypeConverter.registerType(SlashCommandInteractionOptionValue.class, SlashCommandInteractionOption.class, SlashCommandInteractionOptionValue::getSlashCommandInteractionOption, "slash_command_option");
-        SimpleTypeConverter.registerType(SlashCommandInteractionValue.class, SlashCommandInteraction.class, SlashCommandInteractionValue::getSlashCommandInteraction, "slash_command_interaction");
-        SimpleTypeConverter.registerType(SlashCommandValue.class, SlashCommand.class, SlashCommandValue::getSlashCommand, "slash_command");
-        SimpleTypeConverter.registerType(UserValue.class, User.class, UserValue::getUser, "user");
-        SimpleTypeConverter.registerType(WebhookValue.class, Webhook.class, WebhookValue::getWebhook, "webhook");
+        registerDiscordValue(AttachmentValue.class, MessageAttachment.class, AttachmentValue::new);
+        registerDiscordValue(ButtonInteractionValue.class, ButtonInteraction.class, ButtonInteractionValue::new);
+        registerDiscordValue(ChannelValue.class, Channel.class, ChannelValue::new);
+        registerDiscordValue(EmojiValue.class, Emoji.class, EmojiValue::new);
+        registerDiscordValue(MessageValue.class, Message.class, MessageValue::new);
+        registerDiscordValue(ReactionValue.class, Reaction.class, ReactionValue::new);
+        registerDiscordValue(RoleValue.class, Role.class, RoleValue::new);
+        registerDiscordValue(SelectMenuInteractionValue.class, SelectMenuInteraction.class, SelectMenuInteractionValue::new);
+        registerDiscordValue(ServerValue.class, Server.class, ServerValue::new);
+        registerDiscordValue(SlashCommandInteractionOptionValue.class, SlashCommandInteractionOption.class, SlashCommandInteractionOptionValue::new);
+        registerDiscordValue(SlashCommandInteractionValue.class, SlashCommandInteraction.class, SlashCommandInteractionValue::new);
+        registerDiscordValue(SlashCommandValue.class, SlashCommand.class, SlashCommandValue::new);
+        registerDiscordValue(UserValue.class, User.class, UserValue::new);
+        registerDiscordValue(WebhookValue.class, Webhook.class, WebhookValue::new);
     }
     
     public static void registerOutputTypes() {
-        OutputConverter.registerToValue(MessageAttachment.class, AttachmentValue::new);
-        OutputConverter.registerToValue(ButtonInteraction.class, ButtonInteractionValue::new);
-        OutputConverter.registerToValue(Channel.class, ChannelValue::new);
-        OutputConverter.registerToValue(Emoji.class, EmojiValue::new);
-        OutputConverter.registerToValue(Message.class, MessageValue::new);
-        OutputConverter.registerToValue(Reaction.class, ReactionValue::new);
-        OutputConverter.registerToValue(Role.class, RoleValue::new);
-        OutputConverter.registerToValue(SelectMenuInteraction.class, SelectMenuInteractionValue::new);
-        OutputConverter.registerToValue(Server.class, ServerValue::new);
-        OutputConverter.registerToValue(SlashCommandInteractionOption.class, SlashCommandInteractionOptionValue::new);
-        OutputConverter.registerToValue(SlashCommandInteraction.class, SlashCommandInteractionValue::new);
-        OutputConverter.registerToValue(SlashCommand.class, SlashCommandValue::new);
-        OutputConverter.registerToValue(User.class, UserValue::new);
-        OutputConverter.registerToValue(Webhook.class, WebhookValue::new);
+        
     }
     
     public static void registerFunctions() {
@@ -128,5 +120,13 @@ public class Registration {
     
     public static void registerValueCasters() {
         ValueCaster.register(InteractionValue.class, "interaction");
+        ValueCaster.register(MessageableValue.class, "messageable");
+        ValueCaster.register(DiscordValue.class, "discord");
+    }
+    
+    public static <T> void registerDiscordValue(Class<? extends DiscordValue<T>> valueClass, Class<T> internalClass, Function<T, Value> constructor) {
+        String typeName = constructor.apply(null).getTypeString();
+        SimpleTypeConverter.registerType(valueClass, internalClass, DiscordValue::getInternal, typeName);
+        OutputConverter.registerToValue(internalClass, constructor);
     }
 }

@@ -1,53 +1,21 @@
 package Discarpet.script.values;
 
+import Discarpet.script.values.common.DiscordValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
-import net.minecraft.nbt.NbtElement;
 import org.javacord.api.entity.message.Reaction;
 
-public class ReactionValue extends Value {
-
-    public Reaction reaction;
-
+public class ReactionValue extends DiscordValue<Reaction> {
     public ReactionValue(Reaction reaction) {
-        this.reaction = reaction;
+        super("reaction",reaction);
     }
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "emoji" -> new EmojiValue(reaction.getEmoji());
-            case "count" -> NumericValue.of(reaction.getCount());
-            case "message" -> new MessageValue(reaction.getMessage());
+            case "emoji" -> new EmojiValue(value.getEmoji());
+            case "count" -> NumericValue.of(value.getCount());
+            case "message" -> new MessageValue(value.getMessage());
             default -> Value.NULL;
         };
-    }
-
-    public Reaction getReaction() {
-        return reaction;
-    }
-
-    @Override
-    public Value in(Value value1) {
-        return getProperty(value1.getString());
-    }
-
-    @Override
-    public String getTypeString() {
-        return "dc_reaction";
-    }
-
-    @Override
-    public String getString() {
-        return reaction.toString();
-    }
-
-    @Override
-    public boolean getBoolean() {
-        return true;
-    }
-
-    @Override
-    public NbtElement toTag(boolean b) {
-        return null;
     }
 }

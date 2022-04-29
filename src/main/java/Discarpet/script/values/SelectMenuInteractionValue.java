@@ -1,69 +1,30 @@
 package Discarpet.script.values;
 
 import Discarpet.script.util.ValueUtil;
+import Discarpet.script.values.common.InteractionValue;
 import carpet.script.value.ListValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
-import net.minecraft.nbt.NbtElement;
-import org.javacord.api.interaction.InteractionBase;
 import org.javacord.api.interaction.SelectMenuInteraction;
 
-public class SelectMenuInteractionValue extends InteractionValue {
-
-    public SelectMenuInteraction selectMenuInteraction;
-
+public class SelectMenuInteractionValue extends InteractionValue<SelectMenuInteraction> {
     public SelectMenuInteractionValue(SelectMenuInteraction selectMenuInteraction) {
-        this.selectMenuInteraction = selectMenuInteraction;
+        super("select_menu_interaction",selectMenuInteraction);
     }
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "id" -> StringValue.of(selectMenuInteraction.getCustomId());
-            case "chosen" -> ListValue.wrap(selectMenuInteraction.getChosenOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())));
-            case "options" -> ListValue.wrap(selectMenuInteraction.getPossibleOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())));
-            case "min" -> NumericValue.of(selectMenuInteraction.getMinimumValues());
-            case "max" -> NumericValue.of(selectMenuInteraction.getMaximumValues());
-            case "placeholder" -> StringValue.of(ValueUtil.unpackOptional(selectMenuInteraction.getPlaceholder()));
-            case "channel" -> ChannelValue.of(selectMenuInteraction.getChannel());
-            case "user" -> UserValue.of(selectMenuInteraction.getUser());
-            case "message" -> MessageValue.of(selectMenuInteraction.getMessage());
+            case "id" -> StringValue.of(value.getCustomId());
+            case "chosen" -> ListValue.wrap(value.getChosenOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())));
+            case "options" -> ListValue.wrap(value.getPossibleOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())));
+            case "min" -> NumericValue.of(value.getMinimumValues());
+            case "max" -> NumericValue.of(value.getMaximumValues());
+            case "placeholder" -> StringValue.of(ValueUtil.unpackOptional(value.getPlaceholder()));
+            case "channel" -> ChannelValue.of(value.getChannel());
+            case "user" -> UserValue.of(value.getUser());
+            case "message" -> MessageValue.of(value.getMessage());
             default -> Value.NULL;
         };
-    }
-
-
-    @Override
-    public Value in(Value value1) {
-        return getProperty(value1.getString());
-    }
-
-    @Override
-    public String getTypeString() {
-        return "dc_select_menu_interaction";
-    }
-
-    @Override
-    public String getString() {
-        return selectMenuInteraction.toString();
-    }
-
-    @Override
-    public boolean getBoolean() {
-        return true;
-    }
-
-    @Override
-    public NbtElement toTag(boolean b) {
-        return null;
-    }
-
-    public SelectMenuInteraction getSelectMenuInteraction() {
-        return selectMenuInteraction;
-    }
-
-    @Override
-    public InteractionBase getInteractionBase() {
-        return selectMenuInteraction;
     }
 }
