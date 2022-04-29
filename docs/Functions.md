@@ -133,14 +133,12 @@ Returns the hex color of the top role of the `user` in the `server`. If the user
 
 ## Interactions
 
-### `dc_create_slash_command(name, description, server)` `dc_create_slash_command(name, description, server, options)`
+### `dc_create_slash_command(commandBuilder, server?)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
 |---|
 
-Function for creating slash commands for the bot. When called with 3 parameters,
-only a simple command with no additional options or subcommands is created (e.g. `/ping`).
-`name` and `description` are shown by discord inside the slash command menu.
+Function for creating slash commands for the bot using the [Slash command builder parsable](/docs/Parsable.md#Slash-command-builder).
 When specifying a `server`, the slash command will only be for that particular server.
 If `server` is `null`, the slash command will be global, meaning they work in all servers the bot is in.
 *NOTE:* GLOBAL slash commands can take up to 1 hour to update, so for testing,
@@ -148,19 +146,6 @@ you should only use server slash commands, which are created immediately.
 
 Additionally, you can specify additional [Slash command options](/docs/Parsable.md#Slash-command-option) to your command.
 Options are supplied in a list, with each option being a map that specifies some parameters.
-
-e.g.:
-
-```py
-dc_create_slash_command(name, description, server, [
-    {
-        option 1
-    },
-    {
-        option 2
-    }
-])
-```
 
 For full examples of commands, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md#Slash-commands)
 

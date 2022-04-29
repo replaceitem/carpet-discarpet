@@ -250,10 +250,16 @@ initialize_commands() -> (
     server = dc_server_from_id('689483030754099267');
 
     //simple ping command
-    dc_create_slash_command('ping','Ping -> Pong!',server);
+    dc_create_slash_command({
+        'name'->'ping',
+        'description'->'Ping -> Pong!'
+    },server);
 
     //more complex command with subcommand groups and subcommands, as well as options
-    dc_create_slash_command('example','Test command',server,[
+    dc_create_slash_command({
+        'name'->'example',
+        'description'->'Test command'
+        'options'->[
         {
             'type'->'SUB_COMMAND_GROUP',
             'name'->'delete',
