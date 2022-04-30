@@ -35,9 +35,4 @@ public class Channels {
 		Parser.parseType(webhookBuilder, WebhookProfileUpdaterParsable.class).apply(updater);
 		return ValueUtil.awaitFuture(updater.update(),"Error updating webhook");
 	}
-
-	@ScarpetFunction
-	public boolean dc_delete_webhook(Webhook webhook) {
-		return ValueUtil.awaitFutureBoolean(webhook.delete(),"Error deleting webhook");
-	}
 }
