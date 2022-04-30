@@ -245,3 +245,21 @@ specified webhook id and token, or `null` if the webhook was not found.
 
 Returns a `webhook` value from the
 specified webhook url, or `null` if the webhook was not found.
+
+## Utility functions
+
+### `dc_delete(value)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Deletes whatever value provided.
+Returns true or false, depending on whether the deletion was successful.
+
+This works for:
+
+* Emoji
+* Message
+* Role
+* Slash command
+* Webhook
