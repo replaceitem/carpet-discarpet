@@ -9,6 +9,7 @@ repositories {
 		url 'https://masa.dy.fi/maven'
 	}
 	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -36,8 +37,7 @@ dependencies {
 
 	modImplementation "com.vdurmont:emoji-java:5.1.1"
 	include "com.vdurmont:emoji-java:5.1.1"
-
-
+	
 	include "com.squareup.okhttp3:okhttp:3.9.1"
 	include "com.squareup.okhttp3:logging-interceptor:3.9.1"
 	include "com.fasterxml.jackson.core:jackson-databind:2.9.3"
@@ -47,10 +47,12 @@ dependencies {
 	include "com.squareup.okio:okio:1.13.0"
 	include "org.json:json:20170516"
 	
-	//implementation 'org.apache.logging.log4j:log4j-core:2.15.0'
-	//include "org.apache.logging.log4j:log4j-core:2.15.0"
-	//include "org.apache.logging.log4j:log4j-api:2.15.0"
-
+	// soft dependencies
+	
+	modCompileOnly('com.github.replaceitem:scarpet-graphics:4d4e947b7f') {
+		exclude (group: "org.jogamp.gluegen")
+		exclude (group: "org.jogamp.jogl")
+	}
 }
 
 processResources {
