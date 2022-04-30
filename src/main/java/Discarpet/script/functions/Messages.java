@@ -44,12 +44,6 @@ public class Messages {
         return ValueUtil.awaitFuture(cf,"Error sending message");
     }
 
-    @ScarpetFunction
-    public boolean dc_delete_message(Message message) {
-        if(message.canYouDelete()) return false;
-        return ValueUtil.awaitFutureBoolean(message.delete(),"Error deleting message");
-    }
-
 	@ScarpetFunction
 	public boolean dc_react(Message message, Value emojiValue) {
 		if (!message.canYouAddNewReactions()) return false;

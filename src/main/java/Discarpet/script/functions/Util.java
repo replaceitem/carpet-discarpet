@@ -5,6 +5,7 @@ import carpet.script.annotation.ScarpetFunction;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.Value;
 
+@SuppressWarnings("unused")
 public class Util {
     @ScarpetFunction
     public boolean dc_delete(Value value) {

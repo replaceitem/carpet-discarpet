@@ -67,7 +67,7 @@ import org.javacord.api.interaction.SlashCommandInteractionOption;
 import java.util.function.Function;
 
 public class Registration {
-    public static void registerInputTypes() {
+    public static void registerDiscordValue() {
         registerDiscordValue(AttachmentValue.class, MessageAttachment.class, AttachmentValue::new);
         registerDiscordValue(ButtonInteractionValue.class, ButtonInteraction.class, ButtonInteractionValue::new);
         registerDiscordValue(ChannelValue.class, Channel.class, ChannelValue::new);
@@ -82,10 +82,6 @@ public class Registration {
         registerDiscordValue(SlashCommandValue.class, SlashCommand.class, SlashCommandValue::new);
         registerDiscordValue(UserValue.class, User.class, UserValue::new);
         registerDiscordValue(WebhookValue.class, Webhook.class, WebhookValue::new);
-    }
-    
-    public static void registerOutputTypes() {
-        
     }
     
     public static void registerFunctions() {
