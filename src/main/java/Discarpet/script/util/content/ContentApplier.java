@@ -5,6 +5,7 @@ import org.javacord.api.entity.message.component.HighLevelComponent;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.message.mention.AllowedMentions;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 
@@ -18,6 +19,7 @@ public interface ContentApplier {
     void addAttachment(File file, boolean spoiler);
     void addAttachment(URL url, boolean spoiler);
     void addAttachment(byte[] bytes, String name, boolean spoiler);
+    void addAttachment(BufferedImage image, String name, boolean spoiler);
 
     void addEmbed(EmbedBuilder embed);
 

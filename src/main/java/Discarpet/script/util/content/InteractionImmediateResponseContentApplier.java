@@ -7,6 +7,7 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.message.mention.AllowedMentions;
 import org.javacord.api.interaction.callback.InteractionImmediateResponseBuilder;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 
@@ -46,6 +47,11 @@ public class InteractionImmediateResponseContentApplier implements ContentApplie
     @Override
     public void addAttachment(byte[] bytes, String name, boolean spoiler) {
         if(bytes == null) return;
+        throwNotSupported("attachment");
+    }
+
+    @Override
+    public void addAttachment(BufferedImage image, String name, boolean spoiler) {
         throwNotSupported("attachment");
     }
 

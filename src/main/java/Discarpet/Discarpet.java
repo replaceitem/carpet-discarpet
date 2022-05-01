@@ -139,6 +139,10 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		}
 	}
 
+	public static boolean isScarpetGraphicsInstalled() {
+		return FabricLoader.getInstance().isModLoaded("scarpet-graphics");
+	}
+
 
 	public static Bot getBotInContext(Context c, String source) {
 		return getBotInHost(c.host, source);

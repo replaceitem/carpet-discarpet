@@ -7,6 +7,7 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.message.mention.AllowedMentions;
 import org.javacord.api.interaction.callback.InteractionFollowupMessageBuilder;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 
@@ -53,6 +54,14 @@ public class InteractionFollowupMessageContentApplier implements ContentApplier 
             builder.addAttachmentAsSpoiler(bytes,name);
         else
             builder.addAttachment(bytes,name);
+    }
+
+    @Override
+    public void addAttachment(BufferedImage image, String name, boolean spoiler) {
+        if(spoiler)
+            builder.addAttachment(image, name);
+        else
+            builder.addAttachmentAsSpoiler(image, name);
     }
 
     @Override
