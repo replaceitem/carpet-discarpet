@@ -53,6 +53,10 @@ dependencies {
 		exclude (group: "org.jogamp.gluegen")
 		exclude (group: "org.jogamp.jogl")
 	}
+	modRuntimeOnly('com.github.replaceitem:scarpet-graphics:4d4e947b7f') {
+		exclude (group: "org.jogamp.gluegen")
+		exclude (group: "org.jogamp.jogl")
+	}
 }
 
 processResources {
