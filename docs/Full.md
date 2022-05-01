@@ -281,10 +281,40 @@ Queryable:
 
 | Property | Type | Description |
 |---|---|---|
-| `command` | List | List of command option that were executed. If a user executed the slash command `/channel remove #bot-spam`, this would return `['channel', 'remove']`. |
-| `options` | Map | A map containing all options that were specified in the command, with the key being the name of the option, with a corresponding value that has been chosen for this option. |
+| `id` | String | The id of the command |
+| `command_name` | String | The name of the slash command |
 | `user` | User | The user that executed the command. |
 | `channel` | Channel | The channel this command was executed in. |
+| `token` | String | The token used to respond to the interaction (normally not needed) |
+| `arguments` | List of slash command options | The selected options of the command |
+
+## Slash command interaction option
+
+`dc_slash_command_interaction_option`
+
+Represents the user-chosen options of a slash command execution.
+
+| Property | Type | Description |
+|---|---|---|
+| `name` | String | Name of the command option |
+| `is_subcommand_or_group` | boolean | Whether this option is a subcommand or subcommand group |
+| `value` | ? (depends on the slash command option type) | The value chosen by the user |
+| `options` | List of slash command interaction options | The sub-options of this option |
+
+## Slash command
+
+`dc_slash_command`
+
+Represents a slash command on a server
+
+| Property | Type | Description |
+|---|---|---|
+| `id` | String | Id of the command |
+| `name` | String | Name of the command |
+| `description` | String | Description of the command |
+| `server` | Server | The server this slash command is in, or null if it's a global slash command |
+| `options` | List of Strings | The names of the slash command options (didn't bother adding a slash command option value, since nobody gonna use it anyway, but if you need it, make an issue and i'll add it) |
+| `creation_timestamp` | number | The timestamp of the command |
 
 ## Button and Select menu interaction
 
@@ -331,128 +361,71 @@ Queryable:
 
 Many discord entities don't have their own value, as they can be represented with scarpet maps, lists, and other values.
 
-### Message content
+### Allowed mentions
 
-For simplicity, message content can just be a string, which is the content of the message.
-
-For more complex messages, a map with the following values is used:
+Note that all of the options default to false, meaning that as soon as the allowed mentions are specified, all mentions are disabled by default.
 
 | Value | Type | Description |
 |---|---|---|
-| `content` | String | Message content as a string, same thing as specifying just a string instead of a map |
-| `attachments` | List of [Attachments](#Attachment) (optional) | A list of all the attachments on this message |
-| `embeds` | List of [Embeds](#Embed) (optional) | A list of all the embeds on this message |
-| `components` | List of List of [Message components](#Message-component) (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components |
-| `allowed_mentions` | [Allowed mentions](#Allowed-mentions) | Allowed mentions of this message |
-| `reply_to` | [Message](/docs/Values.md#Message) | Message this message is replying to |
-| `nonce` | String | Nonce of the message |
-| `tts` | boolean | Whether this message is a text-to-speech message |
-
-Example:
-
-```js
-{
-    'content'->'I am sending you some files',
-    'attachments'->[
-        {
-            //attachment #1 content
-        },
-        {
-            //attachment #2 content
-        }
-    ],
-    'embeds'->[
-        {
-            //embed #1 content
-        }
-    ],
-    'components'->[
-        [
-            {
-                // first component in row #1
-            },
-            {
-                // second component in row #1
-            }
-        ],
-        [
-            {
-                // first component in row #2
-            },
-            {
-                // second component in row #2
-            }
-        ]
-    ]
-}
-```
+| `mention_roles` | boolean (optional, defaults to false) | Whether roles can be mentioned |
+| `mention_users` | boolean (optional, defaults to false) | Whether users can be mentioned |
+| `mention_everyone` | boolean (optional, defaults to false) | Whether `@everyone` and `@here` can be mentioned |
+| `roles` | List of Role ids (String) | Roles that should be mentioned |
+| `users` | List of User ids (String) | Users that should be mentioned |
 
 ### Attachment
 
-An attachment can be created in three ways.
+An attachment can be created in different ways.
 From a File, a URL or from a string which will be the raw bytes of the file.
-
-For a File, only a `file` value is specified:
-```js
-{
-    'file'->'C:/some/path/to/a/file.zip'
-}
-```
-
-For a URL, only a `url` value is specified:
-```js
-{
-    'file'->'https://www.example.com/some/file/url.csv'
-}
-```
-
-For a byte array, a `bytes` and `name` value is specified:
-```js
-{
-    'bytes'->'This would be the contents of this txt file',
-    'name'->'MyFile.txt'
-}
-```
-
-### Embed
-
-An embed is represented by a map with the following values:
 
 | Value | Type | Description |
 |---|---|---|
-| `title` | String | The title of the embed |
-| `url` | String (optional) | The URL redirect when clicking on the embed title |
-| `description` | String (optional) | Description text below the title |
-| `author` | [Embed author](#Embed-author) (optional) | The author shown on top of the embed |
-| `field` | List of [Embed fields](#Embed-field) (optional) | All fields inside the embed |
-| `color` | Color (optional) | The color of the embed |
-| `footer` | [Embed footer](#Embed-footer) (optional) | The footer shown at the bottom of the embed |
-| `image` | String (optional) | The URL to an image which will be shown in the embed |
-| `thumbnail` | String (optional) | The URL to an image which will be shown as a thumbnail in the embed |
-| `timestamp` | [Timestamp](#Timestamp) (optional) | The timestamp of the embed, which will be shown at the bottom |
+| `file` | String (optional) | File path for attached file |
+| `url` | String (optional) | URL of the file to attach |
+| `bytes` | String (optional) | String, which will be the file's binary data |
+| `name` | String (optional) | File name if using `bytes` |
+| `spoiler` | boolean (optional, defaults to false) | Whether this attachment is a spoiler |
+
+### Button
+
+| Value | Type | Description |
+|---|---|---|
+| `component` | String | Must be `button` |
+| `id` | String (optional, not required for `url` style buttons) | Custom id of the button. Used to identify them when pressed |
+| `label` | String | The text shown on the button |
+| `disabled` | boolean (optional, defaults to false) | Whether the button is greyed out or pressable |
+| `style` | String (optional, defaults to grey) | Button style. Can be `blurple`, `grey`, `green`, `red` and `url` |
+| `emoji` | String or Emoji value (optional) | The emoji shown on the button |
+| `url` | String (optional, only required for `url` style) | The URL opened when clicking the button. This is only used for the `url` style |
+
+### Color
+
+Can also be parsed directly from a list `[r,g,b]`, or a number (`0xRRGGBB`)
+
+| Value | Type | Description |
+|---|---|---|
+| `r` | number | Red component |
+| `g` | number | Green component |
+| `b` | number | Blue component |
+
+### Component
+
+Can be either a [Button](#Button) or a [Select menu](#Select menu).
+In both cases, the values from those parsables must be included.
+
+| Value | Type | Description |
+|---|---|---|
+| `component` | String | Must be `button` or `select_menu` |
 
 ### Embed author
 
-An embed author can be specified by a User value, which will use the username and avatar of the user.
-It can also be parsed from a map with the following values:
+Can also be parsed directly from a [User](/docs/Values.md#User) value, or a string (which will only set `name`).
 
 | Value | Type | Description |
 |---|---|---|
 | `name` | String | The displayed name of the author |
-| `url` | String | The URL link when clicking on the author name |
-| `icon` | String | The URL of the icon/avatar shown next to the author name |
-
-Otherwise, the embed author will just be the string representation of the given value as a name, without URL or icon.
-
-Example:
-
-```js
-{
-    'name'->'replaceitem',
-    'url'->'https://github.com/replaceitem',
-    'icon'->'https://avatars3.githubusercontent.com/u/40722305?s=460&u=ae87da388b3b0aeab05edf67cef1c6f7208727d3&v=4'
-}
-```
+| `url` | String (optional) | The URL link when clicking on the author name |
+| `icon` | String (optional) | The URL of the icon/avatar shown next to the author name |
 
 ### Embed field
 
@@ -460,99 +433,52 @@ Example:
 |---|---|---|
 | `name` | String | The name or title of this field |
 | `value` | String | The value or description of this field |
-| `inline` | boolean (optional) | Whether this field is inline or not. Defaults to false |
-
-### Color
-
-A color can be represented by a number, which in hexadecimal representation equals 0xRRGGBB red, green and blue values.
-
-It can also be parsed from a list with three items, a red, green and blue value: `[255,128,0]` would be yellow.
+| `inline` | boolean (optional) | Whether this field is inline or not |
 
 ### Embed footer
-
-The embed footer is a map with two values:
 
 | Value | Type | Description |
 |---|---|---|
 | `text` | String | The footer text |
-| `icon` | String | The URL of the icon next to the text |
+| `icon` | String (optional) | The URL of the icon next to the text |
 
-Alternatively, the footer can be just a string, which will be the text of the footer, and no icon will be used.
+### Embed
+
+| Value | Type | Description |
+|---|---|---|
+| `title` | String | The title of the embed |
+| `url` | String (optional) | The URL redirect when clicking on the embed title |
+| `description` | String (optional) | Description text below the title |
+| `author` | [Embed author](#Embed-author) (optional) | The author shown on top of the embed |
+| `fields` | List of [Embed fields](#Embed-field) (optional) | All fields inside the embed |
+| `color` | Color (optional) | The color of the embed |
+| `footer` | [Embed footer](#Embed-footer) (optional) | The footer shown at the bottom of the embed |
+| `image` | String (optional) | The URL to an image which will be shown in the embed |
+| `thumbnail` | String (optional) | The URL to an image which will be shown as a thumbnail in the embed |
+| `timestamp` | [Timestamp](#Timestamp) (optional) | The timestamp of the embed, which will be shown at the bottom |
 
 ### Timestamp
 
-A timestamp can just be a numeric value with a unix (or epoch) time in milliseconds (what `unix_time()` returns).
-
-Alternatively, a string `'now'` will be the current timestamp, which would be the same as using `unix_time()`.
-
-Otherwise, it will be attempted to parse the provided value as a string to a timestamp. For more information, search "java Instant.parse".
-
-### Message component
-
-There are two types of message components. Buttons and Select Menus.
-Both have an `id` to identify them in for example the interaction event.
-The type of the message component is specified with the `component` value.
-Buttons and select menus both have the following values:
+Can also be parsed directly from a number, or a string `'now'`, which will parse to the current instant.
 
 | Value | Type | Description |
 |---|---|---|
-| `component` | String | The type of component. Either `button` or `select_menu` |
-| `id` | String | An identifier to identify components later |
-| `disabled` | boolean (optional) | Whether this component is disabled. Defaults to false |
+| `epoch_millis` | number | Milliseconds since the epoch time |
 
-#### Button
+### Message content
 
-| Value | Type | Description |
-|---|---|---|
-| `style` | String | Button style. Can be `blurple`, `grey`, `green`, `red` and `url` |
-| `label` | String (optional) | The text shown on the button |
-| `emoji` | String or Emoji value (optional) | The emoji shown on the button |
-| `url` | String (optional, only required for `url` style) | The URL opened when clicking the button. This is only used for the `url` style |
-
-Examples:
-```js
-{
-    'component'->'buttom',
-    'id'->'delete_button',
-    'style'->'red',
-    'label'->'Click here to delete something',
-    'emoji'->'❌'
-}
-```
-```js
-{
-    'component'->'button',
-    'id'->'link_to_github_button',
-    'style'->'url',
-    'label'->'Click here to get to my GitHub',
-    'emoji'->'😀',
-    'url'->'https://github.com/replaceitem'
-}
-```
-
-#### Select menu
+Can also be parsed directly from a string (In which case only a `content` is present).
 
 | Value | Type | Description |
 |---|---|---|
-| `options` | List of [Select menu options](#Select-menu-option) | All options selectable on this select menu |
-| `min` | number (optional) | The minimum number of options that need to be selected |
-| `max` | number (optional) | The maximum number of options that need to be selected |
-| `placeholder` | String (optional) | The text displayed when nothing is selected yet |
-
-Example:
-```js
-{
-    'component'->'select_menu',
-    'id'->'food_select_menu',
-    'options'->[
-        option1, //see select menu option parsable
-        option2
-    ],
-    'min'->2,
-    'max'->4,
-    'placeholder'->'Select your favorite foods'
-}
-```
+| `content` | String | Message content as a string, same thing as specifying just a string instead of a map |
+| `attachments` | List of [Attachments](#Attachment) (optional) | A list of all the attachments on this message |
+| `embeds` | List of [Embeds](#Embed) (optional) | A list of all the embeds on this message |
+| `components` | List of List of [Message components](#Component) (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components |
+| `allowed_mentions` | [Allowed mentions](#Allowed-mentions) (optional) | Allowed mentions of this message |
+| `reply_to` | [Message](/docs/Values.md#Message) (optional) | Message this message is replying to |
+| `nonce` | String (optional) | Nonce of the message |
+| `tts` | boolean (optional) | Whether this message is a text-to-speech message |
 
 ### Select menu option
 
@@ -560,20 +486,35 @@ Example:
 |---|---|---|
 | `value` | String | The internal value of this option. |
 | `label` | String | The text shown on the option |
-| `description` | String (optional) | A description for this option |
 | `emoji` | String or Emoji value (optional) | The emoji shown on the option |
-| `default` | boolean (optional) | Whether this is selected by default or not |
+| `description` | String (optional) | A description for this option |
+| `default_option` | boolean (optional) | Whether this is selected by default or not |
 
-Example:
-```js
-{
-    'value'->'bread',
-    'label'->'Bread',
-    'description'->'Made out of wheat',
-    'emoji'->'🍞',
-    'default'->'true'
-}
-```
+### Select menu
+
+| Value | Type | Description |
+|---|---|---|
+| `component` | String | Must be `select_menu` |
+| `id` | String | Custom id of the button. Used to identify them when pressed |
+| `options` | List of [Select menu options](#Select-menu-option) | All options selectable on this select menu |
+| `min` | number (optional) | The minimum number of options that need to be selected |
+| `max` | number (optional) | The maximum number of options that need to be selected |
+| `placeholder` | String (optional) | The text displayed when nothing is selected yet |
+
+### Slash command builder
+
+| Value | Type | Description |
+|---|---|---|
+| `name` | String | The slash command name |
+| `description` | String | The description |
+| `options` | List of slash command options | The sub-options of the command |
+
+### Slash command option choice
+
+| Value | Type | Description |
+|---|---|---|
+| `name` | String | The visible autocompleted filled in choice for the option |
+| `value` | String | The value that will be received in the slash command event as the option value |
 
 ### Slash command option
 
@@ -588,38 +529,41 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 
 | Value | Type | Description |
 |---|---|---|
-| `type` | String | The type of slash command option. Can be `sub_command`,`sub_command_group`, `string`, `integer`, `boolean`, `user`, `channel`, `role` and `mentionable` |
+| `type` | String | The type of slash command option. Can be `sub_command`,`sub_command_group`, `string`, `integer`, `boolean`, `user`, `channel`, `role`, `mentionable` and `number` |
 | `name` | String | The name of this option |
 | `description` | String | The description shown for this command option |
 | `required` | boolean (optional, defaults to false) | Whether this option is required to be specified |
 | `options` | List of [Slash command options](#Slash-command-option) (optional) | Sub-options to this sub-command/group. This is only for `sub_command` or `sub_command_group`. |
-| `choices` | List of [Slash command choices](#Slash-command-choice) (optional) | Autocompletable choices for this command option |
+| `choices` | List of [Slash command option choices](#Slash-command-option-choice) (optional) | Autocompletable choices for this command option |
 
 
-### Slash command choice
 
-| Value | Type | Description |
-|---|---|---|
-| `name` | String | The visible autocompleted filled in choice for the option |
-| `value` | String | The value that will be received in the slash command event as the option value |
+### Webhook message profile
 
-### Allowed mentions
-
-Note that all of the options default to false, meaning that as soon as the allowed mentions are specified, all mentions are disabled by default.
+Used when updating the webhook profile along with sending a message
 
 | Value | Type | Description |
 |---|---|---|
-| `mention_roles` | boolean (optional, defaults to false) | Whether roles can be mentioned |
-| `mention_users` | boolean (optional, defaults to false) | Whether users can be mentioned |
-| `mention_everyone` | boolean (optional, defaults to false) | Whether `@everyone` and `@here` can be mentioned |
-| `roles` | List of [Roles](/docs/Values.md#Role) or Role ids (String) | Roles that should be mentioned |
-| `users` | List of [Users](/docs/Values.md#User) or User ids (String) | Users that should be mentioned |
+| `name` | String (optional) | The username of the webhook |
+| `avatar` | String (optional) | A URL to the avatar shown on the webhook |
 
 ### Webhook profile
 
+Used when creating a webhook
+
 | Value | Type | Description |
 |---|---|---|
-| `name` | String (optional, unless creating webhook) | The username of the webhook |
+| `name` | String | The username of the webhook |
+| `avatar` | String (optional) | A URL to the avatar shown on the webhook |
+| `reason` | String (optional) | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |
+
+### Webhook profile updater
+
+Used when updating a webhook profile
+
+| Value | Type | Description |
+|---|---|---|
+| `name` | String (optional) | The username of the webhook |
 | `avatar` | String (optional) | A URL to the avatar shown on the webhook |
 | `reason` | String (optional) | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |# Discarpet functions
 
@@ -756,14 +700,12 @@ Returns the hex color of the top role of the `user` in the `server`. If the user
 
 ## Interactions
 
-### `dc_create_slash_command(name, description, server)` `dc_create_slash_command(name, description, server, options)`
+### `dc_create_slash_command(commandBuilder, server?)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
 |---|
 
-Function for creating slash commands for the bot. When called with 3 parameters,
-only a simple command with no additional options or subcommands is created (e.g. `/ping`).
-`name` and `description` are shown by discord inside the slash command menu.
+Function for creating slash commands for the bot using the [Slash command builder parsable](/docs/Parsable.md#Slash-command-builder).
 When specifying a `server`, the slash command will only be for that particular server.
 If `server` is `null`, the slash command will be global, meaning they work in all servers the bot is in.
 *NOTE:* GLOBAL slash commands can take up to 1 hour to update, so for testing,
@@ -771,19 +713,6 @@ you should only use server slash commands, which are created immediately.
 
 Additionally, you can specify additional [Slash command options](/docs/Parsable.md#Slash-command-option) to your command.
 Options are supplied in a list, with each option being a map that specifies some parameters.
-
-e.g.:
-
-```py
-dc_create_slash_command(name, description, server, [
-    {
-        option 1
-    },
-    {
-        option 2
-    }
-])
-```
 
 For full examples of commands, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md#Slash-commands)
 
@@ -882,7 +811,25 @@ specified webhook id and token, or `null` if the webhook was not found.
 |---|
 
 Returns a `webhook` value from the
-specified webhook url, or `null` if the webhook was not found.# Discarpet Events
+specified webhook url, or `null` if the webhook was not found.
+
+## Utility functions
+
+### `dc_delete(value)`
+
+| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
+|---|
+
+Deletes whatever value provided.
+Returns true or false, depending on whether the deletion was successful.
+
+This works for:
+
+* Emoji
+* Message
+* Role
+* Slash command
+* Webhook# Discarpet Events
 
 
 Discarpet's scarpet events are used to detect events that happen in discord servers the bot is in. Additionally, there are also events for when a chat message gets sent in minecraft or a general system message happens.
@@ -1223,10 +1170,16 @@ initialize_commands() -> (
     server = dc_server_from_id('689483030754099267');
 
     //simple ping command
-    dc_create_slash_command('ping','Ping -> Pong!',server);
+    dc_create_slash_command({
+        'name'->'ping',
+        'description'->'Ping -> Pong!'
+    },server);
 
     //more complex command with subcommand groups and subcommands, as well as options
-    dc_create_slash_command('example','Test command',server,[
+    dc_create_slash_command({
+        'name'->'example',
+        'description'->'Test command'
+        'options'->[
         {
             'type'->'SUB_COMMAND_GROUP',
             'name'->'delete',
