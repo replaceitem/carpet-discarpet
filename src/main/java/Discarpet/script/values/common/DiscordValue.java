@@ -2,6 +2,7 @@ package Discarpet.script.values.common;
 
 import Discarpet.script.util.ValueUtil;
 import carpet.script.annotation.OutputConverter;
+import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
@@ -26,7 +27,20 @@ public abstract class DiscordValue<T> extends Value {
     @SuppressWarnings("unchecked")
     public static <V> Value of(V object) {
         if(object == null) return Value.NULL;
-        OutputConverter<V> outputConverter = (OutputConverter<V>) OutputConverter.get(object.getClass());
+        OutputConverter<V> outputConverter = null;
+        try {
+            outputConverter = (OutputConverter<V>) OutputConverter.get(object.getClass());
+        } catch (NullPointerException ignored) {}
+        if(outputConverter == null) {
+            Class<?>[] interfaces = object.getClass().getInterfaces();
+            for (Class<?> interfaceClass : interfaces) {
+                try {
+                    outputConverter = (OutputConverter<V>) OutputConverter.get(interfaceClass);
+                } catch (NullPointerException ignored) {}
+                if(outputConverter != null) break;
+            }
+        }
+        if(outputConverter == null) throw new InternalExpressionException("Could not find a suitable output converter for DiscordValue.of()");
         return outputConverter.convert(object).evalValue(null);
     }
     
