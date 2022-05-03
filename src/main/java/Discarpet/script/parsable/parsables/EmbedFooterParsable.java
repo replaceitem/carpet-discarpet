@@ -24,11 +24,13 @@ public class EmbedFooterParsable implements Applicable<EmbedBuilder> {
             embedBuilder.setFooter(text,image);
             return;
         }
-        String iconString = icon.getString();
-        File file = new File(iconString);
-        if(file.exists()) {
-            embedBuilder.setFooter(text, file);
-            return;
+        String iconString = icon == null? null : icon.getString();
+        if(iconString != null) {
+            File file = new File(iconString);
+            if (file.exists()) {
+                embedBuilder.setFooter(text, file);
+                return;
+            }
         }
         embedBuilder.setFooter(text, iconString);
     }

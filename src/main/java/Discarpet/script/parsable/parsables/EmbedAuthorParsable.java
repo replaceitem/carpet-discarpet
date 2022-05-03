@@ -30,11 +30,13 @@ public class EmbedAuthorParsable implements Applicable<EmbedBuilder>, DirectPars
             embedBuilder.setAuthor(name,url,image);
             return;
         }
-        String iconString = icon.getString();
-        File file = new File(iconString);
-        if(file.exists()) {
-            embedBuilder.setAuthor(name, url, file);
-            return;
+        String iconString = icon == null? null : icon.getString();
+        if(iconString != null) {
+            File file = new File(iconString);
+            if(file.exists()) {
+                embedBuilder.setAuthor(name, url, file);
+                return;
+            }
         }
         embedBuilder.setAuthor(name, url, iconString);
     }
