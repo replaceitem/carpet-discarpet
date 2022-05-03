@@ -383,6 +383,7 @@ From a File, a URL or from a string which will be the raw bytes of the file.
 | `file` | String (optional) | File path for attached file |
 | `url` | String (optional) | URL of the file to attach |
 | `bytes` | String (optional) | String, which will be the file's binary data |
+| `image` | Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | Image to be sent as an attachment |
 | `name` | String (optional) | File name if using `bytes` |
 | `spoiler` | boolean (optional, defaults to false) | Whether this attachment is a spoiler |
 
@@ -425,7 +426,7 @@ Can also be parsed directly from a [User](/docs/Values.md#User) value, or a stri
 |---|---|---|
 | `name` | String | The displayed name of the author |
 | `url` | String (optional) | The URL link when clicking on the author name |
-| `icon` | String (optional) | The URL of the icon/avatar shown next to the author name |
+| `icon` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/Image of the icon/avatar shown next to the author name |
 
 ### Embed field
 
@@ -440,7 +441,7 @@ Can also be parsed directly from a [User](/docs/Values.md#User) value, or a stri
 | Value | Type | Description |
 |---|---|---|
 | `text` | String | The footer text |
-| `icon` | String (optional) | The URL of the icon next to the text |
+| `icon` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image of the icon next to the text |
 
 ### Embed
 
@@ -453,8 +454,8 @@ Can also be parsed directly from a [User](/docs/Values.md#User) value, or a stri
 | `fields` | List of [Embed fields](#Embed-field) (optional) | All fields inside the embed |
 | `color` | Color (optional) | The color of the embed |
 | `footer` | [Embed footer](#Embed-footer) (optional) | The footer shown at the bottom of the embed |
-| `image` | String (optional) | The URL to an image which will be shown in the embed |
-| `thumbnail` | String (optional) | The URL to an image which will be shown as a thumbnail in the embed |
+| `image` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image which will be shown in the embed |
+| `thumbnail` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image which will be shown as a thumbnail in the embed |
 | `timestamp` | [Timestamp](#Timestamp) (optional) | The timestamp of the embed, which will be shown at the bottom |
 
 ### Timestamp
@@ -554,7 +555,7 @@ Used when creating a webhook
 | Value | Type | Description |
 |---|---|---|
 | `name` | String | The username of the webhook |
-| `avatar` | String (optional) | A URL to the avatar shown on the webhook |
+| `avatar` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | A URL/File path/image to the avatar shown on the webhook |
 | `reason` | String (optional) | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |
 
 ### Webhook profile updater
@@ -564,7 +565,7 @@ Used when updating a webhook profile
 | Value | Type | Description |
 |---|---|---|
 | `name` | String (optional) | The username of the webhook |
-| `avatar` | String (optional) | A URL to the avatar shown on the webhook |
+| `avatar` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | A URL/File path/image to the avatar shown on the webhook |
 | `reason` | String (optional) | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |# Discarpet functions
 
 Discarpet adds a lot of functions to scarpet to control your bot.
