@@ -18,10 +18,12 @@ public class WebhookMessageProfileParsable implements Applicable<WebhookMessageB
     @Override
     public void apply(WebhookMessageBuilder webhookMessageBuilder) {
         webhookMessageBuilder.setDisplayName(name);
-        try {
-            webhookMessageBuilder.setDisplayAvatar(new URL(avatar));
-        } catch (MalformedURLException e) {
-            throw new InternalExpressionException("Invalid avatar URL: " + e);
+        if(avatar != null) {
+            try {
+                webhookMessageBuilder.setDisplayAvatar(new URL(avatar));
+            } catch (MalformedURLException e) {
+                throw new InternalExpressionException("Invalid avatar URL: " + e);
+            }
         }
     }
 }
