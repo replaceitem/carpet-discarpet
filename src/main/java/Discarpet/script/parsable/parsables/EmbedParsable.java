@@ -41,8 +41,8 @@ public class EmbedParsable implements ParsableConstructor<EmbedBuilder> {
         }
         embedBuilder.setColor(color);
         if(footer!=null) footer.apply(embedBuilder);
-        setImage(embedBuilder);
-        setThumbnail(embedBuilder);
+        if(image != null) setImage(embedBuilder);
+        if(thumbnail != null) setThumbnail(embedBuilder);
         embedBuilder.setTimestamp(timestamp);
         return embedBuilder;
     }
