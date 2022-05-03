@@ -63,12 +63,12 @@ public class EmbedParsable implements ParsableConstructor<EmbedBuilder> {
     }
 
     private void setThumbnail(EmbedBuilder embedBuilder) {
-        if(Discarpet.isScarpetGraphicsInstalled() && ScarpetGraphicsDependency.isPixelAccessible(image)) {
-            BufferedImage bufferedImage = ScarpetGraphicsDependency.getImageFromValue(image);
+        if(Discarpet.isScarpetGraphicsInstalled() && ScarpetGraphicsDependency.isPixelAccessible(thumbnail)) {
+            BufferedImage bufferedImage = ScarpetGraphicsDependency.getImageFromValue(thumbnail);
             embedBuilder.setThumbnail(bufferedImage);
             return;
         }
-        String iconString = image.getString();
+        String iconString = thumbnail.getString();
         File file = new File(iconString);
         if(file.exists()) {
             embedBuilder.setThumbnail(file);
