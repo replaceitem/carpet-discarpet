@@ -1167,7 +1167,6 @@ __config() -> {'scope'->'global','bot'->'BOT'};
 
 initialize_commands() -> (
     //remove all commands first
-    dc_delete_slash_command();
 
     server = dc_server_from_id('689483030754099267');
 
@@ -1180,81 +1179,82 @@ initialize_commands() -> (
     //more complex command with subcommand groups and subcommands, as well as options
     dc_create_slash_command({
         'name'->'example',
-        'description'->'Test command'
+        'description'->'Test command',
         'options'->[
-        {
-            'type'->'SUB_COMMAND_GROUP',
-            'name'->'delete',
-            'description'->'Delete something',
-            'options'->[
-                {
-                    'type'->'SUB_COMMAND',
-                    'name'->'channel',
-                    'description'->'Remove something',
-                    'options'->[
-                        {
-                            'type'->'CHANNEL',
-                            'name'->'channel',
-                            'description'->'What channel to delete',
-                            'required'->true
-                        },
-                        {
-                            'type'->'BOOLEAN',
-                            'name'->'force',
-                            'description'->'Force delete channel?',
-                            'required'->false
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            'type'->'SUB_COMMAND_GROUP',
-            'name'->'create',
-            'description'->'Create something',
-            'options'->[
-                {
-                    'type'->'SUB_COMMAND',
-                    'name'->'channel',
-                    'description'->'Create a channel',
-                    'options'->[
-                        {
-                            'type'->'STRING',
-                            'name'->'name',
-                            'description'->'Name of the channel',
-                            'required'->true
-                        },
-                        {
-                            'type'->'BOOLEAN',
-                            'name'->'private',
-                            'description'->'Is this channel private?',
-                            'required'->true
-                        },
-                        {
-                            'type'->'STRING',
-                            'name'->'type',
-                            'description'->'Channel type',
-                            'required'->true,
-                            'choices'->[
-                                {
-                                    'name'->'Text',
-                                    'value'->'text'
-                                },
-                                {
-                                    'name'->'Voice',
-                                    'value'->'voice'
-                                },
-                                {
-                                    'name'->'Announcement',
-                                    'value'->'announcement'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]);
+            {
+                'type'->'SUB_COMMAND_GROUP',
+                'name'->'delete',
+                'description'->'Delete something',
+                'options'->[
+                    {
+                        'type'->'SUB_COMMAND',
+                        'name'->'channel',
+                        'description'->'Remove something',
+                        'options'->[
+                            {
+                                'type'->'CHANNEL',
+                                'name'->'channel',
+                                'description'->'What channel to delete',
+                                'required'->true
+                            },
+                            {
+                                'type'->'BOOLEAN',
+                                'name'->'force',
+                                'description'->'Force delete channel?',
+                                'required'->false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'type'->'SUB_COMMAND_GROUP',
+                'name'->'create',
+                'description'->'Create something',
+                'options'->[
+                    {
+                        'type'->'SUB_COMMAND',
+                        'name'->'channel',
+                        'description'->'Create a channel',
+                        'options'->[
+                            {
+                                'type'->'STRING',
+                                'name'->'name',
+                                'description'->'Name of the channel',
+                                'required'->true
+                            },
+                            {
+                                'type'->'BOOLEAN',
+                                'name'->'private',
+                                'description'->'Is this channel private?',
+                                'required'->true
+                            },
+                            {
+                                'type'->'STRING',
+                                'name'->'type',
+                                'description'->'Channel type',
+                                'required'->true,
+                                'choices'->[
+                                    {
+                                        'name'->'Text',
+                                        'value'->'text'
+                                    },
+                                    {
+                                        'name'->'Voice',
+                                        'value'->'voice'
+                                    },
+                                    {
+                                        'name'->'Announcement',
+                                        'value'->'announcement'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },server);
 );
 
 // reload commands async, as that would otherwise freeze the game for multiple seconds
@@ -1273,7 +1273,7 @@ __on_discord_slash_command(cmd) -> (
         //respond after 5 seconds
         task(_(outer(cmd))->(
             sleep(5000);
-            dc_respond_interaction(cmd,'RESPOND_FOLLOWUP','Executed ' + cmd~'command' + ' with options ' + cmd~'options');
+            dc_respond_interaction(cmd,'RESPOND_FOLLOWUP',cmd~'user' + ' executed ' + cmd~'command_name' + ' with options ' + cmd~'arguments');
         ));
     );
 );
