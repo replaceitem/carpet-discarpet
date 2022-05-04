@@ -167,8 +167,8 @@ Queryable:
 |---|---|---|
 | `id` | String | The id of the command |
 | `command_name` | String | The name of the slash command |
-| `user` | User | The user that executed the command. |
 | `channel` | Channel | The channel this command was executed in. |
+| `user` | User | The user that executed the command. |
 | `token` | String | The token used to respond to the interaction (normally not needed) |
 | `arguments` | List of slash command options | The selected options of the command |
 
