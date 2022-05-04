@@ -171,6 +171,7 @@ Queryable:
 | `user` | User | The user that executed the command. |
 | `token` | String | The token used to respond to the interaction (normally not needed) |
 | `arguments` | List of slash command options | The selected options of the command |
+| `arguments_by_name` | Map of slash command options by their name | Returns a map of all options (and sub-options), with the key being their name |
 
 ## Slash command interaction option
 
