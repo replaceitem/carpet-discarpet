@@ -8,6 +8,7 @@ import carpet.script.value.Value;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.interaction.SlashCommandInteractionOption;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,15 +25,26 @@ public class SlashCommandInteractionValue extends InteractionValue<SlashCommandI
             case "channel" -> ChannelValue.of(value.getChannel());
             case "user" -> UserValue.of(value.getUser());
             case "token" -> StringValue.of(value.getToken());
-            case "arguments" -> ListValue.wrap((value.getArguments().stream().map(SlashCommandInteractionOptionValue::new)));
+            case "arguments" -> ListValue.wrap(getAllArguments().stream().map(SlashCommandInteractionOptionValue::new));
             case "arguments_by_name" -> getArgumentsByName();
             default -> Value.NULL;
         };
     }
+    
+    private List<SlashCommandInteractionOption> getAllArguments() {
+        List<SlashCommandInteractionOption> options = new ArrayList<>(this.value.getOptions());
+        this.value.getOptions().forEach(option -> addOptionRec(options,option));
+        return options;
+    }
+    
+    private void addOptionRec(List<SlashCommandInteractionOption> options, SlashCommandInteractionOption option) {
+        options.add(option);
+        option.getOptions().forEach(option1 -> addOptionRec(options, option1));
+    }
 
     private Value getArgumentsByName() {
         final Map<Value, Value> optionsMap = new HashMap<>();
-        this.addOptions(this.value.getArguments(), optionsMap);
+        this.addOptions(getAllArguments(), optionsMap);
         return MapValue.wrap(optionsMap);
     }
     
