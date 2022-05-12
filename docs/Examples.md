@@ -94,7 +94,7 @@ __on_discord_message(message) -> (
 
 ```
 
-## If you dont trust your server members as much
+## If you don't trust your server members as much
 ```py
 __config() -> {'scope'->'global','bot'->'BOT'};
 
