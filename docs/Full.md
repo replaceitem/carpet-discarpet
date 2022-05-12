@@ -130,15 +130,15 @@ A channel value represents a Discord channel.
 
 Queryable:
 
-| Property | Type | Description |
-|---|---|---|
-| `name` | String | The name of the Discord channel |
-| `topic` | String | The topic of the channel (See `dc_set_channel_topic`) |
-| `id` | String | ID of the channel |
-| `mention_tag` | String | Mention tag for the channel. This can be put inside a message for the channel to be a clickable link. |
-| `server` | Server | Server this channel is in, or null if this is a private channel |
-| `type` | String | Channel type |
-| `webhooks` | List of Webhooks | All webhooks in this channel |
+| Property      | Type             | Description                                                                                           |
+|---------------|------------------|-------------------------------------------------------------------------------------------------------|
+| `name`        | String           | The name of the Discord channel                                                                       |
+| `topic`       | String           | The topic of the channel (See `dc_set_channel_topic`)                                                 |
+| `id`          | String           | ID of the channel                                                                                     |
+| `mention_tag` | String           | Mention tag for the channel. This can be put inside a message for the channel to be a clickable link. |
+| `server`      | Server           | Server this channel is in, or null if this is a private channel                                       |
+| `type`        | String           | Channel type                                                                                          |
+| `webhooks`    | List of Webhooks | All webhooks in this channel                                                                          |
 
 
 ## Emoji
@@ -149,13 +149,13 @@ This value stores an Emoji, which could be a normal unicode emoji, or a custom e
 
 Queryable:
 
-| Property | Type | Description |
-|---|---|---|
-| `mention_tag` | String | Mention tag for the emoji. This can be used to put into messages to contain the emoji. |
-| `unicode` | String | Returns the emoji as a unicode character. If it's a custom emoji, returns `null` |
-| `is_animated` | boolean | True if the emojis is animated, false if not |
-| `is_unicode` | boolean | True if the emoji is a unicode emoji, false otherwise |
-| `is_custom` | boolean | True if the emoji is a custom one, otherwise false |
+| Property      | Type    | Description                                                                            |
+|---------------|---------|----------------------------------------------------------------------------------------|
+| `mention_tag` | String  | Mention tag for the emoji. This can be used to put into messages to contain the emoji. |
+| `unicode`     | String  | Returns the emoji as a unicode character. If it's a custom emoji, returns `null`       |
+| `is_animated` | boolean | True if the emojis is animated, false if not                                           |
+| `is_unicode`  | boolean | True if the emoji is a unicode emoji, false otherwise                                  |
+| `is_custom`   | boolean | True if the emoji is a custom one, otherwise false                                     |
 
 ## Message
 
@@ -165,17 +165,17 @@ A Discord message which has been sent. Main use is in `__on_discord_message` eve
 
 Queryable:
 
-| Property | Type | Description |
-|---|---|---|
-| `content` | String | Get the content (text) of the message, not that things like emojis, mentions or channels will appear as their id. For the readable content, see below. |
-| `readable_content` | String | Get the content and replace all emojis, mentions, channels with their readable representation. Note that if a user is not cached, mentions to him may not get parsed. |
-| `id` | String | Get the id of the message |
-| `channel` | Channel | Get the channel this message is inside |
-| `user` | User | Get the user that wrote this message. Note that this may fail (and return null) if the user is not cached, but if queried after the `__on_discord_message` event, it should be fine |
-| `server` | Server | Get the server this message was written in |
-| `delete` | boolean | This is not actually a query, but it removes the message. Returns false if the bot does not have permission to delete the message, otherwise false |
-| `nonce` | String | The nonce of this message |
-| `attachments` | List of Attachments | A list of attachments on this message |
+| Property           | Type                | Description                                                                                                                                                                         |
+|--------------------|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `content`          | String              | Get the content (text) of the message, not that things like emojis, mentions or channels will appear as their id. For the readable content, see below.                              |
+| `readable_content` | String              | Get the content and replace all emojis, mentions, channels with their readable representation. Note that if a user is not cached, mentions to him may not get parsed.               |
+| `id`               | String              | Get the id of the message                                                                                                                                                           |
+| `channel`          | Channel             | Get the channel this message is inside                                                                                                                                              |
+| `user`             | User                | Get the user that wrote this message. Note that this may fail (and return null) if the user is not cached, but if queried after the `__on_discord_message` event, it should be fine |
+| `server`           | Server              | Get the server this message was written in                                                                                                                                          |
+| `delete`           | boolean             | This is not actually a query, but it removes the message. Returns false if the bot does not have permission to delete the message, otherwise false                                  |
+| `nonce`            | String              | The nonce of this message                                                                                                                                                           |
+| `attachments`      | List of Attachments | A list of attachments on this message                                                                                                                                               |
 
 ## Attachment
 
@@ -185,18 +185,18 @@ An attachment from a message
 
 Queryable:
 
-| Property | Type | Description |
-|---|---|---|
-| `message` | Message | The message of this attachment |
-| `file_name` | String | File name of the attachment |
-| `size` | number | The size as the number of bytes of the attached file |
-| `url` | String | The URL of this file |
-| `proxy_url` | String | The proxy URL of this file |
-| `is_image` | boolean | Whether this file is an image or not |
-| `width` | number or null | The width of the attached image, or null if not an image |
-| `height` | number or null | The height of the attached image, or null if not an image |
-| `is_spoiler` | boolean | Whether this file is marked as a spoiler |
-| `download` | String | Downloads the file's bytes as a string. Be careful with this one, big files can block the game for quite some time |
+| Property     | Type           | Description                                                                                                        |
+|--------------|----------------|--------------------------------------------------------------------------------------------------------------------|
+| `message`    | Message        | The message of this attachment                                                                                     |
+| `file_name`  | String         | File name of the attachment                                                                                        |
+| `size`       | number         | The size as the number of bytes of the attached file                                                               |
+| `url`        | String         | The URL of this file                                                                                               |
+| `proxy_url`  | String         | The proxy URL of this file                                                                                         |
+| `is_image`   | boolean        | Whether this file is an image or not                                                                               |
+| `width`      | number or null | The width of the attached image, or null if not an image                                                           |
+| `height`     | number or null | The height of the attached image, or null if not an image                                                          |
+| `is_spoiler` | boolean        | Whether this file is marked as a spoiler                                                                           |
+| `download`   | String         | Downloads the file's bytes as a string. Be careful with this one, big files can block the game for quite some time |
 
 ## Reaction
 
@@ -206,11 +206,11 @@ A reaction on a message. Main use is in `__on_discord_reaction` event
 
 Queryable:
 
-| Property | Type | Description |
-|---|---|---|
-| `emoji` | Emoji | The emoji of this reaction |
-| `count` | Number | Amount of reactions with this emoji |
-| `message` | Message | The message this reacion is attached to |
+| Property  | Type    | Description                              |
+|-----------|---------|------------------------------------------|
+| `emoji`   | Emoji   | The emoji of this reaction               |
+| `count`   | Number  | Amount of reactions with this emoji      |
+| `message` | Message | The message this reaction is attached to |
 
 ## Server
 
@@ -220,15 +220,15 @@ A Discord server
 
 Queryable:
 
-| Property | Type | Description |
-|---|---|---|
-| `name` | String | The name of the server |
-| `id` | String | The ID of the server |
-| `users` | List of Users | All users in this server (this requires the member Intent) |
-| `channels` | List of Channels | All channels in this server |
-| `roles` | List of Roles | All roles in this server |
-| `webhooks` | List of Webhooks | All webhooks in this server |
-| `slash_commands` | List of Slash commands | All slash commands in this server |
+| Property         | Type                   | Description                                                |
+|------------------|------------------------|------------------------------------------------------------|
+| `name`           | String                 | The name of the server                                     |
+| `id`             | String                 | The ID of the server                                       |
+| `users`          | List of Users          | All users in this server (this requires the member Intent) |
+| `channels`       | List of Channels       | All channels in this server                                |
+| `roles`          | List of Roles          | All roles in this server                                   |
+| `webhooks`       | List of Webhooks       | All webhooks in this server                                |
+| `slash_commands` | List of Slash commands | All slash commands in this server                          |
 
 ## User
 
@@ -238,16 +238,16 @@ A discord user. Can be from a real discord account or a bot
 
 Queryable:
 
-| Property | Type | Description |
-|---|---|---|
-| `name` | String | The name of the user (Does not include nicknames, use `dc_get_display_name` for that) |
-| `mention_tag` | String | The mention tag to mention a user in a message |
-| `discriminated_name` | String | The name of the user with its discriminator. e.g. `replaceitem#9118` |
-| `id` | String | ID of the user |
-| `avatar` | String | URL of the users profile picture |
-| `is_bot` | boolean | True if the user is a bot, false if it is a regular user |
-| `is_self` | boolean | True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself |
-| `private_channel` | Channel | The private messages channel with the user. Note that this may block, if the private channel was not yet opened. |
+| Property             | Type    | Description                                                                                                      |
+|----------------------|---------|------------------------------------------------------------------------------------------------------------------|
+| `name`               | String  | The name of the user (Does not include nicknames, use `dc_get_display_name` for that)                            |
+| `mention_tag`        | String  | The mention tag to mention a user in a message                                                                   |
+| `discriminated_name` | String  | The name of the user with its discriminator. e.g. `replaceitem#9118`                                             |
+| `id`                 | String  | ID of the user                                                                                                   |
+| `avatar`             | String  | URL of the users profile picture                                                                                 |
+| `is_bot`             | boolean | True if the user is a bot, false if it is a regular user                                                         |
+| `is_self`            | boolean | True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself        |
+| `private_channel`    | Channel | The private messages channel with the user. Note that this may block, if the private channel was not yet opened. |
 
 ## Role
 
@@ -257,19 +257,19 @@ A discord role.
 
 Queryable:
 
-| Property | Type | Description |
-|---|---|---|
-| `name` | String | The name of the role |
-| `id` | String | The id of the role |
-| `mention_tag` | String | The tag used to mention this role |
-| `color` | String | Hex color string of the role color |
-| `position` | number | The position of this role as it is sorted in the server settings |
-| `server` | Server | The server of this role |
-| `users` | List of Users | All users with the role |
-| `displayed_separately` | boolean | Are the users with this role shown separately in the member list |
-| `is_everyone_role` | boolean | Whether this role is the @everyone role |
-| `managed` | boolean | Whether this role is managed by an integration or not |
-| `mentionable` | boolean | Whether this role is mentionable or not |
+| Property               | Type          | Description                                                      |
+|------------------------|---------------|------------------------------------------------------------------|
+| `name`                 | String        | The name of the role                                             |
+| `id`                   | String        | The id of the role                                               |
+| `mention_tag`          | String        | The tag used to mention this role                                |
+| `color`                | String        | Hex color string of the role color                               |
+| `position`             | number        | The position of this role as it is sorted in the server settings |
+| `server`               | Server        | The server of this role                                          |
+| `users`                | List of Users | All users with the role                                          |
+| `displayed_separately` | boolean       | Are the users with this role shown separately in the member list |
+| `is_everyone_role`     | boolean       | Whether this role is the @everyone role                          |
+| `managed`              | boolean       | Whether this role is managed by an integration or not            |
+| `mentionable`          | boolean       | Whether this role is mentionable or not                          |
 
 
 ## Slash command interaction
@@ -280,14 +280,14 @@ Value from `__on_discord_slash_command(interaction)` event, used for getting the
 
 Queryable:
 
-| Property | Type | Description |
-|---|---|---|
-| `id` | String | The id of the command |
-| `command_name` | String | The name of the slash command |
-| `channel` | Channel | The channel this command was executed in. |
-| `user` | User | The user that executed the command. |
-| `token` | String | The token used to respond to the interaction (normally not needed) |
-| `arguments` | List of slash command options | The selected options of the command |
+| Property            | Type                                       | Description                                                                   |
+|---------------------|--------------------------------------------|-------------------------------------------------------------------------------|
+| `id`                | String                                     | The id of the command                                                         |
+| `command_name`      | String                                     | The name of the slash command                                                 |
+| `channel`           | Channel                                    | The channel this command was executed in.                                     |
+| `user`              | User                                       | The user that executed the command.                                           |
+| `token`             | String                                     | The token used to respond to the interaction (normally not needed)            |
+| `arguments`         | List of slash command options              | The selected options of the command                                           |
 | `arguments_by_name` | Map of slash command options by their name | Returns a map of all options (and sub-options), with the key being their name |
 
 ## Slash command interaction option
@@ -296,12 +296,12 @@ Queryable:
 
 Represents the user-chosen options of a slash command execution.
 
-| Property | Type | Description |
-|---|---|---|
-| `name` | String | Name of the command option |
-| `is_subcommand_or_group` | boolean | Whether this option is a subcommand or subcommand group |
-| `value` | ? (depends on the slash command option type) | The value chosen by the user |
-| `options` | List of slash command interaction options | The sub-options of this option |
+| Property                 | Type                                         | Description                                             |
+|--------------------------|----------------------------------------------|---------------------------------------------------------|
+| `name`                   | String                                       | Name of the command option                              |
+| `is_subcommand_or_group` | boolean                                      | Whether this option is a subcommand or subcommand group |
+| `value`                  | ? (depends on the slash command option type) | The value chosen by the user                            |
+| `options`                | List of slash command interaction options    | The sub-options of this option                          |
 
 ## Slash command
 
@@ -309,14 +309,14 @@ Represents the user-chosen options of a slash command execution.
 
 Represents a slash command on a server
 
-| Property | Type | Description |
-|---|---|---|
-| `id` | String | Id of the command |
-| `name` | String | Name of the command |
-| `description` | String | Description of the command |
-| `server` | Server | The server this slash command is in, or null if it's a global slash command |
-| `options` | List of Strings | The names of the slash command options (didn't bother adding a slash command option value, since nobody gonna use it anyway, but if you need it, make an issue and i'll add it) |
-| `creation_timestamp` | number | The timestamp of the command |
+| Property             | Type            | Description                                                                                                                                                                     |
+|----------------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                 | String          | Id of the command                                                                                                                                                               |
+| `name`               | String          | Name of the command                                                                                                                                                             |
+| `description`        | String          | Description of the command                                                                                                                                                      |
+| `server`             | Server          | The server this slash command is in, or null if it's a global slash command                                                                                                     |
+| `options`            | List of Strings | The names of the slash command options (didn't bother adding a slash command option value, since nobody gonna use it anyway, but if you need it, make an issue and i'll add it) |
+| `creation_timestamp` | number          | The timestamp of the command                                                                                                                                                    |
 
 ## Button and Select menu interaction
 
@@ -328,22 +328,22 @@ These values have mostly the same things to query.
 
 Queryable:
 
-| Property | Type | Description |
-|---|---|---|
-| `id` | String | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter |
-| `channel` | Channel | The channel this interaction was made in. |
-| `user` | User | The user that used the interaction. |
-| `message` | Message | The message this interaction is attached to. |
+| Property  | Type    | Description                                                                                                 |
+|-----------|---------|-------------------------------------------------------------------------------------------------------------|
+| `id`      | String  | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter |
+| `channel` | Channel | The channel this interaction was made in.                                                                   |
+| `user`    | User    | The user that used the interaction.                                                                         |
+| `message` | Message | The message this interaction is attached to.                                                                |
 
 Queryable things exclusive to select menus:
 
-| Property | Type | Description |
-|---|---|---|
-| `chosen` | List | List the values of the chosen options |
-| `options` | List | All values of options in the select menu |
-| `min` | number |Minimum amount of selected entries for this select menu |
-| `max` | number | Maximum amount of selected entries for this select menu |
-| `placeholder` | String | Placeholder text of this select menu |
+| Property      | Type   | Description                                             |
+|---------------|--------|---------------------------------------------------------|
+| `chosen`      | List   | List the values of the chosen options                   |
+| `options`     | List   | All values of options in the select menu                |
+| `min`         | number | Minimum amount of selected entries for this select menu |
+| `max`         | number | Maximum amount of selected entries for this select menu |
+| `placeholder` | String | Placeholder text of this select menu                    |
 
 ## Webhook
 
@@ -353,13 +353,13 @@ A webhook in a channel.
 
 Queryable:
 
-| Property | Type | Description |
-|---|---|---|
-| `id` | String | The id of the webhook |
-| `channel` | Channel | The channel this webhook is in |
-| `type` | String | Webhook type, can be either `'INCOMING'`, `'CHANNEL_FOLLOWER'` and `'UNKNOWN'` |
-| `token` | String | The token of the webhooks, only works for incoming webhooks |
-| `url` | String | Webhook URL, only works for incoming webhooks |# Parsable values
+| Property  | Type    | Description                                                                    |
+|-----------|---------|--------------------------------------------------------------------------------|
+| `id`      | String  | The id of the webhook                                                          |
+| `channel` | Channel | The channel this webhook is in                                                 |
+| `type`    | String  | Webhook type, can be either `'INCOMING'`, `'CHANNEL_FOLLOWER'` and `'UNKNOWN'` |
+| `token`   | String  | The token of the webhooks, only works for incoming webhooks                    |
+| `url`     | String  | Webhook URL, only works for incoming webhooks                                  |# Parsable values
 
 Many discord entities don't have their own value, as they can be represented with scarpet maps, lists, and other values.
 
@@ -367,156 +367,156 @@ Many discord entities don't have their own value, as they can be represented wit
 
 Note that all of the options default to false, meaning that as soon as the allowed mentions are specified, all mentions are disabled by default.
 
-| Value | Type | Description |
-|---|---|---|
-| `mention_roles` | boolean (optional, defaults to false) | Whether roles can be mentioned |
-| `mention_users` | boolean (optional, defaults to false) | Whether users can be mentioned |
+| Value              | Type                                  | Description                                      |
+|--------------------|---------------------------------------|--------------------------------------------------|
+| `mention_roles`    | boolean (optional, defaults to false) | Whether roles can be mentioned                   |
+| `mention_users`    | boolean (optional, defaults to false) | Whether users can be mentioned                   |
 | `mention_everyone` | boolean (optional, defaults to false) | Whether `@everyone` and `@here` can be mentioned |
-| `roles` | List of Role ids (String) | Roles that should be mentioned |
-| `users` | List of User ids (String) | Users that should be mentioned |
+| `roles`            | List of Role ids (String)             | Roles that should be mentioned                   |
+| `users`            | List of User ids (String)             | Users that should be mentioned                   |
 
 ### Attachment
 
 An attachment can be created in different ways.
 From a File, a URL or from a string which will be the raw bytes of the file.
 
-| Value | Type | Description |
-|---|---|---|
-| `file` | String (optional) | File path for attached file |
-| `url` | String (optional) | URL of the file to attach |
-| `bytes` | String (optional) | String, which will be the file's binary data |
-| `image` | Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | Image to be sent as an attachment |
-| `name` | String (optional) | File name if using `bytes` |
-| `spoiler` | boolean (optional, defaults to false) | Whether this attachment is a spoiler |
+| Value     | Type                                                                                      | Description                                  |
+|-----------|-------------------------------------------------------------------------------------------|----------------------------------------------|
+| `file`    | String (optional)                                                                         | File path for attached file                  |
+| `url`     | String (optional)                                                                         | URL of the file to attach                    |
+| `bytes`   | String (optional)                                                                         | String, which will be the file's binary data |
+| `image`   | Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | Image to be sent as an attachment            |
+| `name`    | String (optional)                                                                         | File name if using `bytes`                   |
+| `spoiler` | boolean (optional, defaults to false)                                                     | Whether this attachment is a spoiler         |
 
 ### Button
 
-| Value | Type | Description |
-|---|---|---|
-| `component` | String | Must be `button` |
-| `id` | String (optional, not required for `url` style buttons) | Custom id of the button. Used to identify them when pressed |
-| `label` | String | The text shown on the button |
-| `disabled` | boolean (optional, defaults to false) | Whether the button is greyed out or pressable |
-| `style` | String (optional, defaults to grey) | Button style. Can be `blurple`, `grey`, `green`, `red` and `url` |
-| `emoji` | String or Emoji value (optional) | The emoji shown on the button |
-| `url` | String (optional, only required for `url` style) | The URL opened when clicking the button. This is only used for the `url` style |
+| Value       | Type                                                    | Description                                                                    |
+|-------------|---------------------------------------------------------|--------------------------------------------------------------------------------|
+| `component` | String                                                  | Must be `button`                                                               |
+| `id`        | String (optional, not required for `url` style buttons) | Custom id of the button. Used to identify them when pressed                    |
+| `label`     | String                                                  | The text shown on the button                                                   |
+| `disabled`  | boolean (optional, defaults to false)                   | Whether the button is greyed out or pressable                                  |
+| `style`     | String (optional, defaults to grey)                     | Button style. Can be `blurple`, `grey`, `green`, `red` and `url`               |
+| `emoji`     | String or Emoji value (optional)                        | The emoji shown on the button                                                  |
+| `url`       | String (optional, only required for `url` style)        | The URL opened when clicking the button. This is only used for the `url` style |
 
 ### Color
 
 Can also be parsed directly from a list `[r,g,b]`, or a number (`0xRRGGBB`)
 
-| Value | Type | Description |
-|---|---|---|
-| `r` | number | Red component |
-| `g` | number | Green component |
-| `b` | number | Blue component |
+| Value | Type   | Description     |
+|-------|--------|-----------------|
+| `r`   | number | Red component   |
+| `g`   | number | Green component |
+| `b`   | number | Blue component  |
 
 ### Component
 
 Can be either a [Button](#Button) or a [Select menu](#Select menu).
 In both cases, the values from those parsables must be included.
 
-| Value | Type | Description |
-|---|---|---|
+| Value       | Type   | Description                       |
+|-------------|--------|-----------------------------------|
 | `component` | String | Must be `button` or `select_menu` |
 
 ### Embed author
 
 Can also be parsed directly from a [User](/docs/Values.md#User) value, or a string (which will only set `name`).
 
-| Value | Type | Description |
-|---|---|---|
-| `name` | String | The displayed name of the author |
-| `url` | String (optional) | The URL link when clicking on the author name |
+| Value  | Type                                                                                                | Description                                                              |
+|--------|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| `name` | String                                                                                              | The displayed name of the author                                         |
+| `url`  | String (optional)                                                                                   | The URL link when clicking on the author name                            |
 | `icon` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/Image of the icon/avatar shown next to the author name |
 
 ### Embed field
 
-| Value | Type | Description |
-|---|---|---|
-| `name` | String | The name or title of this field |
-| `value` | String | The value or description of this field |
-| `inline` | boolean (optional) | Whether this field is inline or not |
+| Value    | Type               | Description                            |
+|----------|--------------------|----------------------------------------|
+| `name`   | String             | The name or title of this field        |
+| `value`  | String             | The value or description of this field |
+| `inline` | boolean (optional) | Whether this field is inline or not    |
 
 ### Embed footer
 
-| Value | Type | Description |
-|---|---|---|
-| `text` | String | The footer text |
+| Value  | Type                                                                                                | Description                                          |
+|--------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------|
+| `text` | String                                                                                              | The footer text                                      |
 | `icon` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image of the icon next to the text |
 
 ### Embed
 
-| Value | Type | Description |
-|---|---|---|
-| `title` | String | The title of the embed |
-| `url` | String (optional) | The URL redirect when clicking on the embed title |
-| `description` | String (optional) | Description text below the title |
-| `author` | [Embed author](#Embed-author) (optional) | The author shown on top of the embed |
-| `fields` | List of [Embed fields](#Embed-field) (optional) | All fields inside the embed |
-| `color` | Color (optional) | The color of the embed |
-| `footer` | [Embed footer](#Embed-footer) (optional) | The footer shown at the bottom of the embed |
-| `image` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image which will be shown in the embed |
-| `thumbnail` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image which will be shown as a thumbnail in the embed |
-| `timestamp` | [Timestamp](#Timestamp) (optional) | The timestamp of the embed, which will be shown at the bottom |
+| Value         | Type                                                                                                | Description                                                             |
+|---------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `title`       | String                                                                                              | The title of the embed                                                  |
+| `url`         | String (optional)                                                                                   | The URL redirect when clicking on the embed title                       |
+| `description` | String (optional)                                                                                   | Description text below the title                                        |
+| `author`      | [Embed author](#Embed-author) (optional)                                                            | The author shown on top of the embed                                    |
+| `fields`      | List of [Embed fields](#Embed-field) (optional)                                                     | All fields inside the embed                                             |
+| `color`       | Color (optional)                                                                                    | The color of the embed                                                  |
+| `footer`      | [Embed footer](#Embed-footer) (optional)                                                            | The footer shown at the bottom of the embed                             |
+| `image`       | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image which will be shown in the embed                |
+| `thumbnail`   | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image which will be shown as a thumbnail in the embed |
+| `timestamp`   | [Timestamp](#Timestamp) (optional)                                                                  | The timestamp of the embed, which will be shown at the bottom           |
 
 ### Timestamp
 
 Can also be parsed directly from a number, or a string `'now'`, which will parse to the current instant.
 
-| Value | Type | Description |
-|---|---|---|
+| Value          | Type   | Description                       |
+|----------------|--------|-----------------------------------|
 | `epoch_millis` | number | Milliseconds since the epoch time |
 
 ### Message content
 
 Can also be parsed directly from a string (In which case only a `content` is present).
 
-| Value | Type | Description |
-|---|---|---|
-| `content` | String | Message content as a string, same thing as specifying just a string instead of a map |
-| `attachments` | List of [Attachments](#Attachment) (optional) | A list of all the attachments on this message |
-| `embeds` | List of [Embeds](#Embed) (optional) | A list of all the embeds on this message |
-| `components` | List of List of [Message components](#Component) (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components |
-| `allowed_mentions` | [Allowed mentions](#Allowed-mentions) (optional) | Allowed mentions of this message |
-| `reply_to` | [Message](/docs/Values.md#Message) (optional) | Message this message is replying to |
-| `nonce` | String (optional) | Nonce of the message |
-| `tts` | boolean (optional) | Whether this message is a text-to-speech message |
+| Value              | Type                                                        | Description                                                                                          |
+|--------------------|-------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| `content`          | String                                                      | Message content as a string, same thing as specifying just a string instead of a map                 |
+| `attachments`      | List of [Attachments](#Attachment) (optional)               | A list of all the attachments on this message                                                        |
+| `embeds`           | List of [Embeds](#Embed) (optional)                         | A list of all the embeds on this message                                                             |
+| `components`       | List of List of [Message components](#Component) (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components |
+| `allowed_mentions` | [Allowed mentions](#Allowed-mentions) (optional)            | Allowed mentions of this message                                                                     |
+| `reply_to`         | [Message](/docs/Values.md#Message) (optional)               | Message this message is replying to                                                                  |
+| `nonce`            | String (optional)                                           | Nonce of the message                                                                                 |
+| `tts`              | boolean (optional)                                          | Whether this message is a text-to-speech message                                                     |
 
 ### Select menu option
 
-| Value | Type | Description |
-|---|---|---|
-| `value` | String | The internal value of this option. |
-| `label` | String | The text shown on the option |
-| `emoji` | String or Emoji value (optional) | The emoji shown on the option |
-| `description` | String (optional) | A description for this option |
-| `default_option` | boolean (optional) | Whether this is selected by default or not |
+| Value            | Type                             | Description                                |
+|------------------|----------------------------------|--------------------------------------------|
+| `value`          | String                           | The internal value of this option.         |
+| `label`          | String                           | The text shown on the option               |
+| `emoji`          | String or Emoji value (optional) | The emoji shown on the option              |
+| `description`    | String (optional)                | A description for this option              |
+| `default_option` | boolean (optional)               | Whether this is selected by default or not |
 
 ### Select menu
 
-| Value | Type | Description |
-|---|---|---|
-| `component` | String | Must be `select_menu` |
-| `id` | String | Custom id of the button. Used to identify them when pressed |
-| `options` | List of [Select menu options](#Select-menu-option) | All options selectable on this select menu |
-| `min` | number (optional) | The minimum number of options that need to be selected |
-| `max` | number (optional) | The maximum number of options that need to be selected |
-| `placeholder` | String (optional) | The text displayed when nothing is selected yet |
+| Value         | Type                                               | Description                                                 |
+|---------------|----------------------------------------------------|-------------------------------------------------------------|
+| `component`   | String                                             | Must be `select_menu`                                       |
+| `id`          | String                                             | Custom id of the button. Used to identify them when pressed |
+| `options`     | List of [Select menu options](#Select-menu-option) | All options selectable on this select menu                  |
+| `min`         | number (optional)                                  | The minimum number of options that need to be selected      |
+| `max`         | number (optional)                                  | The maximum number of options that need to be selected      |
+| `placeholder` | String (optional)                                  | The text displayed when nothing is selected yet             |
 
 ### Slash command builder
 
-| Value | Type | Description |
-|---|---|---|
-| `name` | String | The slash command name |
-| `description` | String | The description |
-| `options` | List of slash command options | The sub-options of the command |
+| Value         | Type                          | Description                    |
+|---------------|-------------------------------|--------------------------------|
+| `name`        | String                        | The slash command name         |
+| `description` | String                        | The description                |
+| `options`     | List of slash command options | The sub-options of the command |
 
 ### Slash command option choice
 
-| Value | Type | Description |
-|---|---|---|
-| `name` | String | The visible autocompleted filled in choice for the option |
+| Value   | Type   | Description                                                                    |
+|---------|--------|--------------------------------------------------------------------------------|
+| `name`  | String | The visible autocompleted filled in choice for the option                      |
 | `value` | String | The value that will be received in the slash command event as the option value |
 
 ### Slash command option
@@ -530,14 +530,14 @@ All paths of the command tree have to have either just a sub command, or a sub c
 This means that the length of the command chains (without the other options that aren't subcommands) has to be equal for all subcommands.
 See: https://canary.discord.com/developers/docs/interactions/application-commands#subcommands-and-subcommand-groups
 
-| Value | Type | Description |
-|---|---|---|
-| `type` | String | The type of slash command option. Can be `sub_command`,`sub_command_group`, `string`, `integer`, `boolean`, `user`, `channel`, `role`, `mentionable` and `number` |
-| `name` | String | The name of this option |
-| `description` | String | The description shown for this command option |
-| `required` | boolean (optional, defaults to false) | Whether this option is required to be specified |
-| `options` | List of [Slash command options](#Slash-command-option) (optional) | Sub-options to this sub-command/group. This is only for `sub_command` or `sub_command_group`. |
-| `choices` | List of [Slash command option choices](#Slash-command-option-choice) (optional) | Autocompletable choices for this command option |
+| Value         | Type                                                                            | Description                                                                                                                                                       |
+|---------------|---------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `type`        | String                                                                          | The type of slash command option. Can be `sub_command`,`sub_command_group`, `string`, `integer`, `boolean`, `user`, `channel`, `role`, `mentionable` and `number` |
+| `name`        | String                                                                          | The name of this option                                                                                                                                           |
+| `description` | String                                                                          | The description shown for this command option                                                                                                                     |
+| `required`    | boolean (optional, defaults to false)                                           | Whether this option is required to be specified                                                                                                                   |
+| `options`     | List of [Slash command options](#Slash-command-option) (optional)               | Sub-options to this sub-command/group. This is only for `sub_command` or `sub_command_group`.                                                                     |
+| `choices`     | List of [Slash command option choices](#Slash-command-option-choice) (optional) | Autocompletable choices for this command option                                                                                                                   |
 
 
 
@@ -545,30 +545,30 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 
 Used when updating the webhook profile along with sending a message
 
-| Value | Type | Description |
-|---|---|---|
-| `name` | String (optional) | The username of the webhook |
+| Value    | Type              | Description                              |
+|----------|-------------------|------------------------------------------|
+| `name`   | String (optional) | The username of the webhook              |
 | `avatar` | String (optional) | A URL to the avatar shown on the webhook |
 
 ### Webhook profile
 
 Used when creating a webhook
 
-| Value | Type | Description |
-|---|---|---|
-| `name` | String | The username of the webhook |
-| `avatar` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | A URL/File path/image to the avatar shown on the webhook |
-| `reason` | String (optional) | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |
+| Value    | Type                                                                                                | Description                                                                     |
+|----------|-----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| `name`   | String                                                                                              | The username of the webhook                                                     |
+| `avatar` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | A URL/File path/image to the avatar shown on the webhook                        |
+| `reason` | String (optional)                                                                                   | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |
 
 ### Webhook profile updater
 
 Used when updating a webhook profile
 
-| Value | Type | Description |
-|---|---|---|
-| `name` | String (optional) | The username of the webhook |
-| `avatar` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | A URL/File path/image to the avatar shown on the webhook |
-| `reason` | String (optional) | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |# Discarpet functions
+| Value    | Type                                                                                                | Description                                                                     |
+|----------|-----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| `name`   | String (optional)                                                                                   | The username of the webhook                                                     |
+| `avatar` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | A URL/File path/image to the avatar shown on the webhook                        |
+| `reason` | String (optional)                                                                                   | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |# Discarpet functions
 
 Discarpet adds a lot of functions to scarpet to control your bot.
 Below is a list of all functions and how they work.
@@ -578,7 +578,7 @@ Below is a list of all functions and how they work.
 ### `dc_send_message(target,content)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 This functions sends a message in a specific Discord channel, to a private message channel or a webhook.
 `target` can be a Channel, User or Webhook value.
@@ -599,7 +599,7 @@ For more examples, see [Examples](https://github.com/replaceitem/carpet-discarpe
 ### `dc_delete_message(message)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Deletes the message.
 Returns true if successful, otherwise false.
@@ -615,7 +615,7 @@ The `emoji` can be a unicode emoji (as a string) or an
 ### `dc_set_channel_topic(channel,text)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 This function sets the description of the [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel)
 to the specified `text`. Remember to give the bot permission to do that.
@@ -623,28 +623,28 @@ to the specified `text`. Remember to give the bot permission to do that.
 ### `dc_create_webhook(channel, webhookProfile)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Creates a new Webhook in the specified `channel` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
 
 ### `dc_update_webhook(webhook, webhookProfile)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Updates the `webhook` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
 
 ### `dc_send_webhook(webhook, content, webhookProfile)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Sends a message to the webhook, but in contrast to `dc_send_message(webhook, content)` also allows to change the `webhookProfile` in one request.
 
 ### `dc_delete_webhook(webhook)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Deletes the `webhook`.
 
@@ -674,7 +674,7 @@ Gets the nickname, or name if no nickname is present, from the [`user`](https://
 ### `dc_set_nickname(user,server,name)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Sets the nickname of the `user` on the `server`.#
 Returns `true` if successful, false otherwise.
@@ -682,14 +682,14 @@ Returns `true` if successful, false otherwise.
 ### `dc_add_role(user, role, reason)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Adds a `role` to a `user`. `reason` will be shown in the audit log of your server.
 
 ### `dc_remove_role(user, role, reason)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Removes a `role` to a `user`. `reason` will be shown in the audit log of your server.
 
@@ -706,7 +706,7 @@ Returns the hex color of the top role of the `user` in the `server`. If the user
 ### `dc_create_slash_command(commandBuilder, server?)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Function for creating slash commands for the bot using the [Slash command builder parsable](/docs/Parsable.md#Slash-command-builder).
 When specifying a `server`, the slash command will only be for that particular server.
@@ -722,7 +722,7 @@ For full examples of commands, see [Examples](https://github.com/replaceitem/car
 ### `dc_delete_slash_command()` `dc_delete_slash_command(server)` `dc_delete_slash_command(server,name)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Used for deleting slash commands.
 Without any arguments, deletes all global and server commands of the bot.
@@ -735,7 +735,7 @@ so creating a slash command immediately after wouldn't conflict with this.
 ### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 This function is used for responding to interactions.
 The first parameter is any interaction (slash command, button, select menu) from its corresponding event.
@@ -787,7 +787,7 @@ specified role id, or `null` if the role was not found.
 ### `dc_user_from_id(id)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Returns a `user` value from the
 specified role id, or `null` if the user was not found.
@@ -795,7 +795,7 @@ specified role id, or `null` if the user was not found.
 ### `dc_message_from_id(id, channel)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Returns a `message` value from the
 specified message id and channel, or `null` if the message was not found.
@@ -803,7 +803,7 @@ specified message id and channel, or `null` if the message was not found.
 ### `dc_webhook_from_id(id, token)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Returns a `webhook` value from the
 specified webhook id and token, or `null` if the webhook was not found.
@@ -811,7 +811,7 @@ specified webhook id and token, or `null` if the webhook was not found.
 ### `dc_webhook_from_url(url)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Returns a `webhook` value from the
 specified webhook url, or `null` if the webhook was not found.
@@ -821,7 +821,7 @@ specified webhook url, or `null` if the webhook was not found.
 ### `dc_delete(value)`
 
 | ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|---|
+|-------------------------------------------------------------------------------------|
 
 Deletes whatever value provided.
 Returns true or false, depending on whether the deletion was successful.
@@ -1017,7 +1017,7 @@ __on_discord_message(message) -> (
 
 ```
 
-## If you dont trust your server members as much
+## If you don't trust your server members as much
 ```py
 __config() -> {'scope'->'global','bot'->'BOT'};
 
