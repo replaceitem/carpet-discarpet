@@ -87,7 +87,7 @@ jar {
 modrinth {
 	token = System.getenv("MODRINTH_TOKEN")
 	projectId = "m00L1GVJ"
-	versionNumber = project.version
+	versionNumber = project.mod_version
 	versionType = "release"
 	uploadFile = remapJar
 	gameVersions = ["1.19"]
