@@ -17,6 +17,7 @@ import carpet.script.value.Value;
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import org.apache.logging.log4j.Level;
@@ -85,7 +86,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	}
 
 	@Override
-	public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
+	public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandBuildContext) {
 		DiscarpetCommand.register(dispatcher);
 	}
 
