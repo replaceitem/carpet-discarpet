@@ -11,8 +11,11 @@ import Discarpet.script.values.ReactionValue;
 import Discarpet.config.Bot;
 import carpet.CarpetServer;
 import carpet.script.value.BooleanValue;
+import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.world.World;
 import carpet.script.CarpetEventServer.Event;
 import org.javacord.api.entity.message.Message;
@@ -42,6 +45,19 @@ public class DiscordEvents extends Event {
     public DiscordEvents(String name, int reqArgs, boolean isGlobalOnly) {
         super(name, reqArgs, isGlobalOnly);
     }
+
+
+    public void onSystemMessage(Text text) {}
+
+    public static DiscordEvents SYSTEM_MESSAGE = new DiscordEvents("system_message", 2, false) {
+        public void onSystemMessage(Text text) {
+            this.handler.call(() -> {
+                String message = text.getString();
+                String type = (text.getContent() instanceof TranslatableTextContent translatableTextContent) ? translatableTextContent.getKey() : null;
+                return Arrays.asList(StringValue.of(message), StringValue.of(type));
+            }, DEFAULT_SOURCE_SUPPLIER);
+        }
+    };
 
     public void onDiscordMessage(Bot bot, Message message) {}
 

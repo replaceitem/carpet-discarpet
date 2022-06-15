@@ -2,7 +2,7 @@ package Discarpet.config;
 
 import Discarpet.script.events.DiscarpetEventsListener;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
@@ -40,7 +40,7 @@ public class Bot {
 			} else {
 				msg = "Bot " + id + " sucessfully logged in with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(","));
 			}
-			if(source != null) source.sendFeedback(new LiteralText(msg),false);
+			if(source != null) source.sendFeedback(Text.literal(msg),false);
 			LOGGER.info(msg);
 			
 			api.getListeners().keySet().forEach(globallyAttachableListener -> api.removeListener(globallyAttachableListener));
@@ -48,7 +48,7 @@ public class Bot {
 		} catch (CompletionException | InterruptedException | ExecutionException ce) {
 			String error = "Could not login bot " + id;
 			LOGGER.warn(error,ce);
-			if(source != null) source.sendFeedback(new LiteralText(error).formatted(Formatting.RED),false);
+			if(source != null) source.sendFeedback(Text.literal(error).formatted(Formatting.RED),false);
 			if(api != null) api.disconnect();
 			api = null;
 		}

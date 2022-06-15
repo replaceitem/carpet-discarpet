@@ -1,6 +1,6 @@
 //file:noinspection GradlePackageUpdate
 plugins {
-	id 'fabric-loom' version '0.11-SNAPSHOT'
+	id 'fabric-loom' version '0.12-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -49,11 +49,11 @@ dependencies {
 	
 	// soft dependencies
 	
-	modCompileOnly('com.github.replaceitem:scarpet-graphics:4d4e947b7f') {
+	modCompileOnly('com.github.replaceitem:scarpet-graphics:v0.1.2') {
 		exclude (group: "org.jogamp.gluegen")
 		exclude (group: "org.jogamp.jogl")
 	}
-	modRuntimeOnly('com.github.replaceitem:scarpet-graphics:4d4e947b7f') {
+	modRuntimeOnly('com.github.replaceitem:scarpet-graphics:v0.1.2') {
 		exclude (group: "org.jogamp.gluegen")
 		exclude (group: "org.jogamp.jogl")
 	}

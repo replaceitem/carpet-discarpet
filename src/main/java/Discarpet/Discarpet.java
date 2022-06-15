@@ -4,7 +4,6 @@ import Discarpet.commands.DiscarpetCommand;
 import Discarpet.config.Bot;
 import Discarpet.config.BotConfig;
 import Discarpet.config.ConfigManager;
-import Discarpet.script.events.ChatEvents;
 import Discarpet.script.events.DiscordEvents;
 import Discarpet.script.util.Registration;
 import carpet.CarpetExtension;
@@ -16,7 +15,6 @@ import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
@@ -50,7 +48,6 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	@Override
 	public void onInitialize() {
 		DiscordEvents.noop();
-		ChatEvents.noop();
 
 		try {
 			Path configDir = FabricLoader.getInstance().getConfigDir().normalize();
@@ -114,13 +111,8 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	}
 
 	public static void loadBots(ServerCommandSource source) {
-		if(source != null) {
-			try {
-				source.getPlayer();
-			} catch (CommandSyntaxException e) {
-				source = null;
-			}
-		}
+		if(source != null && !source.isExecutedByPlayer()) source = null;
+		
 		discordBots.forEach((s, bot) -> {
 			if(bot != null) {
 				if(bot.api != null) bot.api.disconnect();

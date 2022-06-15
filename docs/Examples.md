@@ -37,7 +37,7 @@ __on_tick() -> (
 
 ```
 
-## Sending all Minecraft log messages to a discord channel
+## Sending Minecraft log messages to a discord channel
 
 ```py
 __config() -> {'scope'->'global','bot'->'BOT'};
@@ -49,7 +49,7 @@ __on_tick() -> (
     global_executions = 0;
 );
 
-__on_system_message(text,type,entity) -> (
+__on_system_message(text,type) -> (
     global_executions += 1; //prevent recursion
     if(global_executions < 10,
         if((type~'commands.save.') == null, //dont send 'saving world' messages
