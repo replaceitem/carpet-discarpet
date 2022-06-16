@@ -17,6 +17,14 @@ Event that execute on system messages, for example to be used to redirect system
 * `multiplayer.player.left` -> Someone left the game
 * `chat.type.admin` -> Admin command executed
 
+## `__on_command_executed(player, command)`
+
+Triggers when a player executes a command
+
+`player` -> Entity: Player that executed the command
+
+`command` -> String: Command that was executed
+
 # Discord events
 
 ## `__on_discord_message(message)`

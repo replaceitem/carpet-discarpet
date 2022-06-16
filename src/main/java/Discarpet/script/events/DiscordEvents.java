@@ -46,19 +46,6 @@ public class DiscordEvents extends Event {
         super(name, reqArgs, isGlobalOnly);
     }
 
-
-    public void onSystemMessage(Text text) {}
-
-    public static DiscordEvents SYSTEM_MESSAGE = new DiscordEvents("system_message", 2, false) {
-        public void onSystemMessage(Text text) {
-            this.handler.call(() -> {
-                String message = text.getString();
-                String type = (text.getContent() instanceof TranslatableTextContent translatableTextContent) ? translatableTextContent.getKey() : null;
-                return Arrays.asList(StringValue.of(message), StringValue.of(type));
-            }, DEFAULT_SOURCE_SUPPLIER);
-        }
-    };
-
     public void onDiscordMessage(Bot bot, Message message) {}
 
     public static DiscordEvents DISCORD_MESSAGE = new DiscordEvents("discord_message", 1, false) {
