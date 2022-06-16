@@ -217,7 +217,7 @@ __on_discord_message(message) -> (
     );
 );
 
-__on_system_message(text,type,entity) -> (
+__on_system_message(text,type) -> (
     if(global_rec > 10,return());
     global_rec += 1;
     if(!(type~'admin'),
