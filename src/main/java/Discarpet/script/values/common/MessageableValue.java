@@ -8,6 +8,6 @@ public abstract class MessageableValue<T> extends DiscordValue<T> {
     }
     
     public Messageable getMessageable() {
-        return this.value instanceof Messageable messageable ? messageable : null;
+        return this.delegate instanceof Messageable messageable ? messageable : null;
     }
 }

@@ -20,11 +20,11 @@ public class SlashCommandInteractionValue extends InteractionValue<SlashCommandI
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "id" -> StringValue.of(value.getCommandIdAsString());
-            case "command_name" -> StringValue.of(value.getCommandName());
-            case "channel" -> ChannelValue.of(value.getChannel());
-            case "user" -> UserValue.of(value.getUser());
-            case "token" -> StringValue.of(value.getToken());
+            case "id" -> StringValue.of(delegate.getCommandIdAsString());
+            case "command_name" -> StringValue.of(delegate.getCommandName());
+            case "channel" -> ChannelValue.of(delegate.getChannel());
+            case "user" -> UserValue.of(delegate.getUser());
+            case "token" -> StringValue.of(delegate.getToken());
             case "arguments" -> ListValue.wrap(getAllArguments().stream().map(SlashCommandInteractionOptionValue::new));
             case "arguments_by_name" -> getArgumentsByName();
             default -> Value.NULL;
@@ -32,8 +32,8 @@ public class SlashCommandInteractionValue extends InteractionValue<SlashCommandI
     }
     
     private List<SlashCommandInteractionOption> getAllArguments() {
-        List<SlashCommandInteractionOption> options = new ArrayList<>(this.value.getOptions());
-        this.value.getOptions().forEach(option -> addOptionRec(options,option));
+        List<SlashCommandInteractionOption> options = new ArrayList<>(this.delegate.getOptions());
+        this.delegate.getOptions().forEach(option -> addOptionRec(options,option));
         return options;
     }
     

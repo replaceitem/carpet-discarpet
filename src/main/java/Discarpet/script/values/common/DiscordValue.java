@@ -11,15 +11,15 @@ import java.util.Optional;
 
 public abstract class DiscordValue<T> extends Value {
     
-    protected final T value;
+    protected final T delegate;
     
-    protected DiscordValue(String typeName, T value) {
-        this.value = value;
+    protected DiscordValue(String typeName, T delegate) {
+        this.delegate = delegate;
         this.typeName = typeName;
     }
     
     public T getInternal() {
-        return value;
+        return delegate;
     }
     
     public abstract Value getProperty(String property);

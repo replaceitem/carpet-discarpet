@@ -14,14 +14,14 @@ public class UserValue extends MessageableValue<User> {
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "name" -> StringValue.of(value.getName());
-            case "mention_tag" -> StringValue.of(value.getMentionTag());
-            case "discriminated_name" -> StringValue.of(value.getDiscriminatedName());
-            case "id" -> StringValue.of(value.getIdAsString());
-            case "avatar" -> StringValue.of(value.getAvatar().getUrl().toString());
-            case "is_bot" -> BooleanValue.of(value.isBot());
-            case "is_self" -> BooleanValue.of(value.isYourself());
-            case "private_channel" -> ChannelValue.of(ValueUtil.awaitFuture(value.openPrivateChannel(),"Error opening private channel with user"));
+            case "name" -> StringValue.of(delegate.getName());
+            case "mention_tag" -> StringValue.of(delegate.getMentionTag());
+            case "discriminated_name" -> StringValue.of(delegate.getDiscriminatedName());
+            case "id" -> StringValue.of(delegate.getIdAsString());
+            case "avatar" -> StringValue.of(delegate.getAvatar().getUrl().toString());
+            case "is_bot" -> BooleanValue.of(delegate.isBot());
+            case "is_self" -> BooleanValue.of(delegate.isYourself());
+            case "private_channel" -> ChannelValue.of(ValueUtil.awaitFuture(delegate.openPrivateChannel(),"Error opening private channel with user"));
             default -> Value.NULL;
         };
     }
