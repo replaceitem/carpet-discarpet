@@ -8,6 +8,6 @@ public abstract class InteractionValue<T extends InteractionBase> extends Discor
     }
     
     public T getBase() {
-        return this.value;
+        return this.delegate;
     }
 }

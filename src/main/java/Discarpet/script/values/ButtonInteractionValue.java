@@ -12,10 +12,10 @@ public class ButtonInteractionValue extends InteractionValue<ButtonInteraction> 
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "id" -> StringValue.of(value.getCustomId());
-            case "channel" -> ChannelValue.of(value.getChannel());
-            case "user" -> new UserValue(value.getUser());
-            case "message" -> MessageValue.of(value.getMessage());
+            case "id" -> StringValue.of(delegate.getCustomId());
+            case "channel" -> ChannelValue.of(delegate.getChannel());
+            case "user" -> new UserValue(delegate.getUser());
+            case "message" -> MessageValue.of(delegate.getMessage());
             default -> Value.NULL;
         };
     }

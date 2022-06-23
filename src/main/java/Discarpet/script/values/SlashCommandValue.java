@@ -16,18 +16,18 @@ public class SlashCommandValue extends DiscordValue<SlashCommand> implements Del
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "id" -> StringValue.of(value.getIdAsString());
-            case "name" -> StringValue.of(value.getName());
-            case "description" -> StringValue.of(value.getDescription());
-            case "server" -> ServerValue.of(value.getServer());
-            case "options" -> ListValue.wrap(value.getOptions().stream().map(slashCommandOption -> StringValue.of(slashCommandOption.getName())));
-            case "creation_timestamp" -> NumericValue.of(value.getCreationTimestamp().toEpochMilli());
+            case "id" -> StringValue.of(delegate.getIdAsString());
+            case "name" -> StringValue.of(delegate.getName());
+            case "description" -> StringValue.of(delegate.getDescription());
+            case "server" -> ServerValue.of(delegate.getServer());
+            case "options" -> ListValue.wrap(delegate.getOptions().stream().map(slashCommandOption -> StringValue.of(slashCommandOption.getName())));
+            case "creation_timestamp" -> NumericValue.of(delegate.getCreationTimestamp().toEpochMilli());
             default -> Value.NULL;
         };
     }
 
     @Override
     public boolean delete() {
-        return ValueUtil.awaitFutureBoolean(value.isGlobalApplicationCommand() ? value.deleteGlobal() : value.deleteForServer(value.getServer().orElseThrow()), "Failed to delete " + this.getTypeString());
+        return ValueUtil.awaitFutureBoolean(delegate.isGlobalApplicationCommand() ? delegate.deleteGlobal() : delegate.deleteForServer(delegate.getServer().orElseThrow()), "Failed to delete " + this.getTypeString());
     }
 }

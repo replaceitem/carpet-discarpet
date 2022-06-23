@@ -15,15 +15,15 @@ public class SelectMenuInteractionValue extends InteractionValue<SelectMenuInter
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "id" -> StringValue.of(value.getCustomId());
-            case "chosen" -> ListValue.wrap(value.getChosenOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())));
-            case "options" -> ListValue.wrap(value.getPossibleOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())));
-            case "min" -> NumericValue.of(value.getMinimumValues());
-            case "max" -> NumericValue.of(value.getMaximumValues());
-            case "placeholder" -> StringValue.of(ValueUtil.unpackOptional(value.getPlaceholder()));
-            case "channel" -> ChannelValue.of(value.getChannel());
-            case "user" -> UserValue.of(value.getUser());
-            case "message" -> MessageValue.of(value.getMessage());
+            case "id" -> StringValue.of(delegate.getCustomId());
+            case "chosen" -> ListValue.wrap(delegate.getChosenOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())));
+            case "options" -> ListValue.wrap(delegate.getPossibleOptions().stream().map(selectMenuOption -> StringValue.of(selectMenuOption.getValue())));
+            case "min" -> NumericValue.of(delegate.getMinimumValues());
+            case "max" -> NumericValue.of(delegate.getMaximumValues());
+            case "placeholder" -> StringValue.of(ValueUtil.unpackOptional(delegate.getPlaceholder()));
+            case "channel" -> ChannelValue.of(delegate.getChannel());
+            case "user" -> UserValue.of(delegate.getUser());
+            case "message" -> MessageValue.of(delegate.getMessage());
             default -> Value.NULL;
         };
     }

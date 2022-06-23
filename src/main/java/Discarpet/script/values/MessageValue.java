@@ -16,20 +16,20 @@ public class MessageValue extends DiscordValue<Message> implements Deletable {
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "content" -> StringValue.of(value.getContent());
-            case "readable_content" -> StringValue.of(EmojiParser.parseToAliases(value.getReadableContent())); //not all user mentions will be parsed, if they are not cached
-            case "id" -> StringValue.of(value.getIdAsString());
-            case "channel" -> new ChannelValue(value.getChannel());
-            case "user" -> UserValue.of(value.getUserAuthor());
-            case "server" -> ServerValue.of(value.getServer());
-            case "nonce" -> ValueUtil.ofOptionalString(value.getNonce());
-            case "attachments" -> ListValue.wrap(value.getAttachments().stream().map(AttachmentValue::new));
+            case "content" -> StringValue.of(delegate.getContent());
+            case "readable_content" -> StringValue.of(EmojiParser.parseToAliases(delegate.getReadableContent())); //not all user mentions will be parsed, if they are not cached
+            case "id" -> StringValue.of(delegate.getIdAsString());
+            case "channel" -> new ChannelValue(delegate.getChannel());
+            case "user" -> UserValue.of(delegate.getUserAuthor());
+            case "server" -> ServerValue.of(delegate.getServer());
+            case "nonce" -> ValueUtil.ofOptionalString(delegate.getNonce());
+            case "attachments" -> ListValue.wrap(delegate.getAttachments().stream().map(AttachmentValue::new));
             default -> Value.NULL;
         };
     }
 
     @Override
     public boolean delete() {
-        return ValueUtil.awaitFutureBoolean(value.delete(), "Failed to delete " + this.getTypeString());
+        return ValueUtil.awaitFutureBoolean(delegate.delete(), "Failed to delete " + this.getTypeString());
     }
 }

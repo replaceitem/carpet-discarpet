@@ -15,16 +15,16 @@ public class AttachmentValue extends DiscordValue<MessageAttachment> {
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "message" -> MessageValue.of(value.getMessage());
-            case "file_name" -> StringValue.of(value.getFileName());
-            case "size" -> NumericValue.of(value.getSize());
-            case "url" -> StringValue.of(value.getUrl().toString());
-            case "proxy_url" -> StringValue.of(value.getProxyUrl().toString());
-            case "is_image" -> BooleanValue.of(value.isImage());
-            case "width" -> ValueUtil.ofOptionalNumber(value.getWidth());
-            case "height" -> ValueUtil.ofOptionalNumber(value.getHeight());
-            case "is_spoiler" -> BooleanValue.of(value.isSpoiler());
-            case "download" -> StringValue.of(new String(value.downloadAsByteArray().join()));
+            case "message" -> MessageValue.of(delegate.getMessage());
+            case "file_name" -> StringValue.of(delegate.getFileName());
+            case "size" -> NumericValue.of(delegate.getSize());
+            case "url" -> StringValue.of(delegate.getUrl().toString());
+            case "proxy_url" -> StringValue.of(delegate.getProxyUrl().toString());
+            case "is_image" -> BooleanValue.of(delegate.isImage());
+            case "width" -> ValueUtil.ofOptionalNumber(delegate.getWidth());
+            case "height" -> ValueUtil.ofOptionalNumber(delegate.getHeight());
+            case "is_spoiler" -> BooleanValue.of(delegate.isSpoiler());
+            case "download" -> StringValue.of(new String(delegate.downloadAsByteArray().join()));
             default -> Value.NULL;
         };
     }

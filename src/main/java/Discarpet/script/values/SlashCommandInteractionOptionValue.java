@@ -16,23 +16,23 @@ public class SlashCommandInteractionOptionValue extends DiscordValue<SlashComman
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "name" -> StringValue.of(value.getName());
-            case "is_subcommand_or_group" -> BooleanValue.of(value.isSubcommandOrGroup());
+            case "name" -> StringValue.of(delegate.getName());
+            case "is_subcommand_or_group" -> BooleanValue.of(delegate.isSubcommandOrGroup());
             case "value" -> getValue();
-            case "options" -> ListValue.wrap(value.getOptions().stream().map(SlashCommandInteractionOptionValue::new));
+            case "options" -> ListValue.wrap(delegate.getOptions().stream().map(SlashCommandInteractionOptionValue::new));
            
             default -> Value.NULL;
         };
     }
     
     private Value getValue() {
-        if(value.getStringValue().isPresent()) return StringValue.of(ValueUtil.unpackOptional(value.getStringValue()));
-        if(value.getLongValue().isPresent()) return NumericValue.of(ValueUtil.unpackOptional(value.getLongValue()));
-        if(value.getBooleanValue().isPresent()) return ValueUtil.ofOptionalBoolean(value.getBooleanValue());
-        if(value.getUserValue().isPresent()) return UserValue.of(value.getUserValue());
-        if(value.getChannelValue().isPresent()) return ChannelValue.of(value.getChannelValue());
-        if(value.getRoleValue().isPresent()) return RoleValue.of(value.getRoleValue());
-        if(value.getDecimalValue().isPresent()) return NumericValue.of(ValueUtil.unpackOptional(value.getDecimalValue()));
-        return StringValue.of(ValueUtil.unpackOptional(value.getStringRepresentationValue()));
+        if(delegate.getStringValue().isPresent()) return StringValue.of(ValueUtil.unpackOptional(delegate.getStringValue()));
+        if(delegate.getLongValue().isPresent()) return NumericValue.of(ValueUtil.unpackOptional(delegate.getLongValue()));
+        if(delegate.getBooleanValue().isPresent()) return ValueUtil.ofOptionalBoolean(delegate.getBooleanValue());
+        if(delegate.getUserValue().isPresent()) return UserValue.of(delegate.getUserValue());
+        if(delegate.getChannelValue().isPresent()) return ChannelValue.of(delegate.getChannelValue());
+        if(delegate.getRoleValue().isPresent()) return RoleValue.of(delegate.getRoleValue());
+        if(delegate.getDecimalValue().isPresent()) return NumericValue.of(ValueUtil.unpackOptional(delegate.getDecimalValue()));
+        return StringValue.of(ValueUtil.unpackOptional(delegate.getStringRepresentationValue()));
     }
 }

@@ -12,9 +12,9 @@ public class ReactionValue extends DiscordValue<Reaction> {
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "emoji" -> new EmojiValue(value.getEmoji());
-            case "count" -> NumericValue.of(value.getCount());
-            case "message" -> new MessageValue(value.getMessage());
+            case "emoji" -> new EmojiValue(delegate.getEmoji());
+            case "count" -> NumericValue.of(delegate.getCount());
+            case "message" -> new MessageValue(delegate.getMessage());
             default -> Value.NULL;
         };
     }
