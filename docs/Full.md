@@ -577,8 +577,8 @@ Below is a list of all functions and how they work.
 
 ### `dc_send_message(target,content)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 This functions sends a message in a specific Discord channel, to a private message channel or a webhook.
 `target` can be a Channel, User or Webhook value.
@@ -598,8 +598,8 @@ For more examples, see [Examples](https://github.com/replaceitem/carpet-discarpe
 
 ### `dc_delete_message(message)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Deletes the message.
 Returns true if successful, otherwise false.
@@ -614,37 +614,37 @@ The `emoji` can be a unicode emoji (as a string) or an
 
 ### `dc_set_channel_topic(channel,text)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 This function sets the description of the [`channel`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#channel)
 to the specified `text`. Remember to give the bot permission to do that.
 
 ### `dc_create_webhook(channel, webhookProfile)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Creates a new Webhook in the specified `channel` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
 
 ### `dc_update_webhook(webhook, webhookProfile)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Updates the `webhook` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
 
 ### `dc_send_webhook(webhook, content, webhookProfile)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Sends a message to the webhook, but in contrast to `dc_send_message(webhook, content)` also allows to change the `webhookProfile` in one request.
 
 ### `dc_delete_webhook(webhook)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Deletes the `webhook`.
 
@@ -673,23 +673,23 @@ Gets the nickname, or name if no nickname is present, from the [`user`](https://
 
 ### `dc_set_nickname(user,server,name)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Sets the nickname of the `user` on the `server`.#
 Returns `true` if successful, false otherwise.
 
 ### `dc_add_role(user, role, reason)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Adds a `role` to a `user`. `reason` will be shown in the audit log of your server.
 
 ### `dc_remove_role(user, role, reason)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Removes a `role` to a `user`. `reason` will be shown in the audit log of your server.
 
@@ -705,8 +705,8 @@ Returns the hex color of the top role of the `user` in the `server`. If the user
 
 ### `dc_create_slash_command(commandBuilder, server?)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Function for creating slash commands for the bot using the [Slash command builder parsable](/docs/Parsable.md#Slash-command-builder).
 When specifying a `server`, the slash command will only be for that particular server.
@@ -721,8 +721,8 @@ For full examples of commands, see [Examples](https://github.com/replaceitem/car
 
 ### `dc_delete_slash_command()` `dc_delete_slash_command(server)` `dc_delete_slash_command(server,name)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Used for deleting slash commands.
 Without any arguments, deletes all global and server commands of the bot.
@@ -734,8 +734,8 @@ so creating a slash command immediately after wouldn't conflict with this.
 
 ### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 This function is used for responding to interactions.
 The first parameter is any interaction (slash command, button, select menu) from its corresponding event.
@@ -786,32 +786,32 @@ specified role id, or `null` if the role was not found.
 
 ### `dc_user_from_id(id)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Returns a `user` value from the
 specified role id, or `null` if the user was not found.
 
 ### `dc_message_from_id(id, channel)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Returns a `message` value from the
 specified message id and channel, or `null` if the message was not found.
 
 ### `dc_webhook_from_id(id, token)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Returns a `webhook` value from the
 specified webhook id and token, or `null` if the webhook was not found.
 
 ### `dc_webhook_from_url(url)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Returns a `webhook` value from the
 specified webhook url, or `null` if the webhook was not found.
@@ -820,8 +820,8 @@ specified webhook url, or `null` if the webhook was not found.
 
 ### `dc_delete(value)`
 
-| ❗ **Note** This function is blocking, use it in a task to avoid freezing your game. |
-|-------------------------------------------------------------------------------------|
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
 
 Deletes whatever value provided.
 Returns true or false, depending on whether the deletion was successful.
@@ -832,6 +832,22 @@ This works for:
 * Message
 * Role
 * Slash command
+* Webhook
+
+### `dc_set_name(value, name)`
+
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
+
+Renames whatever value provided.
+Returns true or false, depending on whether the operation was successful.
+
+This works for:
+
+* Channel
+* Emoji
+* Role
+* Server
 * Webhook# Discarpet Events
 
 
