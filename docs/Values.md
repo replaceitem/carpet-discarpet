@@ -75,13 +75,13 @@ Queryable:
 
 `dc_attachment`
 
-An attachment from a message
+An attachment from a message or slash command
 
 Queryable:
 
 | Property     | Type           | Description                                                                                                        |
 |--------------|----------------|--------------------------------------------------------------------------------------------------------------------|
-| `message`    | Message        | The message of this attachment                                                                                     |
+| `message`    | Message        | The message of this attachment, or null if this is not a message attachment                                        |
 | `file_name`  | String         | File name of the attachment                                                                                        |
 | `size`       | number         | The size as the number of bytes of the attached file                                                               |
 | `url`        | String         | The URL of this file                                                                                               |

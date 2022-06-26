@@ -33,6 +33,7 @@ public class SlashCommandInteractionOptionValue extends DiscordValue<SlashComman
         if(delegate.getChannelValue().isPresent()) return ChannelValue.of(delegate.getChannelValue());
         if(delegate.getRoleValue().isPresent()) return RoleValue.of(delegate.getRoleValue());
         if(delegate.getDecimalValue().isPresent()) return NumericValue.of(ValueUtil.unpackOptional(delegate.getDecimalValue()));
+        if(delegate.getAttachmentValue().isPresent()) return AttachmentValue.of(delegate.getAttachmentValue());
         return StringValue.of(ValueUtil.unpackOptional(delegate.getStringRepresentationValue()));
     }
 }

@@ -49,6 +49,7 @@ import carpet.script.annotation.OutputConverter;
 import carpet.script.annotation.SimpleTypeConverter;
 import carpet.script.annotation.ValueCaster;
 import carpet.script.value.Value;
+import org.javacord.api.entity.Attachment;
 import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.message.Message;
@@ -68,7 +69,7 @@ import java.util.function.Function;
 
 public class Registration {
     public static void registerDiscordValue() {
-        registerDiscordValue(AttachmentValue.class, MessageAttachment.class, AttachmentValue::new);
+        registerDiscordValue(AttachmentValue.class, Attachment.class, AttachmentValue::new);
         registerDiscordValue(ButtonInteractionValue.class, ButtonInteraction.class, ButtonInteractionValue::new);
         registerDiscordValue(ChannelValue.class, Channel.class, ChannelValue::new);
         registerDiscordValue(EmojiValue.class, Emoji.class, EmojiValue::new);
