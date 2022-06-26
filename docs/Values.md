@@ -174,15 +174,16 @@ Value from `__on_discord_slash_command(interaction)` event, used for getting the
 
 Queryable:
 
-| Property            | Type                                       | Description                                                                   |
-|---------------------|--------------------------------------------|-------------------------------------------------------------------------------|
-| `id`                | String                                     | The id of the command                                                         |
-| `command_name`      | String                                     | The name of the slash command                                                 |
-| `channel`           | Channel                                    | The channel this command was executed in.                                     |
-| `user`              | User                                       | The user that executed the command.                                           |
-| `token`             | String                                     | The token used to respond to the interaction (normally not needed)            |
-| `arguments`         | List of slash command options              | The selected options of the command                                           |
-| `arguments_by_name` | Map of slash command options by their name | Returns a map of all options (and sub-options), with the key being their name |
+| Property            | Type                                       | Description                                                                                                            |
+|---------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| `id`                | String                                     | The id of the command                                                                                                  |
+| `command_name`      | String                                     | The name of the slash command                                                                                          |
+| `channel`           | Channel                                    | The channel this command was executed in.                                                                              |
+| `user`              | User                                       | The user that executed the command.                                                                                    |
+| `token`             | String                                     | The token used to respond to the interaction (normally not needed)                                                     |
+| `arguments`         | List of slash command options              | The selected options of the command                                                                                    |
+| `arguments_by_name` | Map of slash command options by their name | Returns a map of all options (and sub-options), with the key being their name                                          |
+| `locale`            | String                                     | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
 
 ## Slash command interaction option
 
@@ -222,22 +223,24 @@ These values have mostly the same things to query.
 
 Queryable:
 
-| Property  | Type    | Description                                                                                                 |
-|-----------|---------|-------------------------------------------------------------------------------------------------------------|
-| `id`      | String  | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter |
-| `channel` | Channel | The channel this interaction was made in.                                                                   |
-| `user`    | User    | The user that used the interaction.                                                                         |
-| `message` | Message | The message this interaction is attached to.                                                                |
+| Property  | Type    | Description                                                                                                            |
+|-----------|---------|------------------------------------------------------------------------------------------------------------------------|
+| `id`      | String  | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter            |
+| `channel` | Channel | The channel this interaction was made in.                                                                              |
+| `user`    | User    | The user that used the interaction.                                                                                    |
+| `message` | Message | The message this interaction is attached to.                                                                           |
+| `locale`  | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
 
 Queryable things exclusive to select menus:
 
-| Property      | Type   | Description                                             |
-|---------------|--------|---------------------------------------------------------|
-| `chosen`      | List   | List the values of the chosen options                   |
-| `options`     | List   | All values of options in the select menu                |
-| `min`         | number | Minimum amount of selected entries for this select menu |
-| `max`         | number | Maximum amount of selected entries for this select menu |
-| `placeholder` | String | Placeholder text of this select menu                    |
+| Property      | Type   | Description                                                                                                            |
+|---------------|--------|------------------------------------------------------------------------------------------------------------------------|
+| `chosen`      | List   | List the values of the chosen options                                                                                  |
+| `options`     | List   | All values of options in the select menu                                                                               |
+| `min`         | number | Minimum amount of selected entries for this select menu                                                                |
+| `max`         | number | Maximum amount of selected entries for this select menu                                                                |
+| `placeholder` | String | Placeholder text of this select menu                                                                                   |
+| `locale`      | String | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
 
 ## Webhook
 

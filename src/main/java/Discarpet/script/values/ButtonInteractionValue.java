@@ -16,6 +16,7 @@ public class ButtonInteractionValue extends InteractionValue<ButtonInteraction> 
             case "channel" -> ChannelValue.of(delegate.getChannel());
             case "user" -> new UserValue(delegate.getUser());
             case "message" -> MessageValue.of(delegate.getMessage());
+            case "locale" -> StringValue.of(delegate.getLocale().getLocaleCode());
             default -> Value.NULL;
         };
     }

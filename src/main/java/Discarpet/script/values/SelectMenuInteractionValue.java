@@ -24,6 +24,7 @@ public class SelectMenuInteractionValue extends InteractionValue<SelectMenuInter
             case "channel" -> ChannelValue.of(delegate.getChannel());
             case "user" -> UserValue.of(delegate.getUser());
             case "message" -> MessageValue.of(delegate.getMessage());
+            case "locale" -> StringValue.of(delegate.getLocale().getLocaleCode());
             default -> Value.NULL;
         };
     }

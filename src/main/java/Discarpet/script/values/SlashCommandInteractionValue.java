@@ -27,6 +27,7 @@ public class SlashCommandInteractionValue extends InteractionValue<SlashCommandI
             case "token" -> StringValue.of(delegate.getToken());
             case "arguments" -> ListValue.wrap(getAllArguments().stream().map(SlashCommandInteractionOptionValue::new));
             case "arguments_by_name" -> getArgumentsByName();
+            case "locale" -> StringValue.of(delegate.getLocale().getLocaleCode());
             default -> Value.NULL;
         };
     }
