@@ -6,16 +6,17 @@ import carpet.script.value.BooleanValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import org.javacord.api.entity.Attachment;
 import org.javacord.api.entity.message.MessageAttachment;
 
-public class AttachmentValue extends DiscordValue<MessageAttachment> {
-    public AttachmentValue(MessageAttachment attachment) {
+public class AttachmentValue extends DiscordValue<Attachment> {
+    public AttachmentValue(Attachment attachment) {
         super("attachment_value",attachment);
     }
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "message" -> MessageValue.of(delegate.getMessage());
+            case "message" -> delegate instanceof MessageAttachment messageAttachment ? MessageValue.of(messageAttachment.getMessage()) : Value.NULL;
             case "file_name" -> StringValue.of(delegate.getFileName());
             case "size" -> NumericValue.of(delegate.getSize());
             case "url" -> StringValue.of(delegate.getUrl().toString());
