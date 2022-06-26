@@ -20,9 +20,20 @@ Queryable:
 | `id`          | String           | ID of the channel                                                                                     |
 | `mention_tag` | String           | Mention tag for the channel. This can be put inside a message for the channel to be a clickable link. |
 | `server`      | Server           | Server this channel is in, or null if this is a private channel                                       |
-| `type`        | String           | Channel type                                                                                          |
+| `type`        | String           | Channel type (See below)                                                                              |
 | `webhooks`    | List of Webhooks | All webhooks in this channel                                                                          |
 
+Possible `type`s are:
+
+* `server_text_channel`
+* `private_channel`
+* `server_voice_channel`
+* `group_channel`
+* `channel_category`
+* `server_news_channel`
+* `server_store_channel`
+* `server_news_thread`
+* 
 
 ## Emoji
 
