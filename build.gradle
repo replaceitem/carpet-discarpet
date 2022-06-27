@@ -35,9 +35,6 @@ dependencies {
 	include "org.javacord:javacord-core:${project.javacord_version}"
 
 	include "io.vavr:vavr:0.10.1"
-
-	modImplementation "com.vdurmont:emoji-java:5.1.1"
-	include "com.vdurmont:emoji-java:5.1.1"
 	
 	include "com.squareup.okhttp3:okhttp:3.9.1"
 	include "com.squareup.okhttp3:logging-interceptor:3.9.1"
