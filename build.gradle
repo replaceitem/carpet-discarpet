@@ -29,10 +29,14 @@ dependencies {
 	//discord
 
 	modImplementation "org.javacord:javacord-api:${project.javacord_version}"
-	modImplementation "org.javacord:javacord-core:${project.javacord_version}"
+	modImplementation ("org.javacord:javacord-core:${project.javacord_version}") {
+		exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+	}
 
 	include "org.javacord:javacord-api:${project.javacord_version}"
-	include "org.javacord:javacord-core:${project.javacord_version}"
+	include ("org.javacord:javacord-core:${project.javacord_version}") {
+		exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+	}
 
 	include "io.vavr:vavr:0.10.1"
 	
@@ -44,6 +48,7 @@ dependencies {
 	include "com.neovisionaries:nv-websocket-client:2.6"
 	include "com.squareup.okio:okio:1.13.0"
 	include "org.json:json:20170516"
+	
 	
 	// soft dependencies
 	
