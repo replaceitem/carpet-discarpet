@@ -245,6 +245,9 @@ __config() -> {'scope'->'global','bot'->'BOT'};
 
 initialize_commands() -> (
     //remove all commands first
+    for(server~'slash_commands',
+        dc_delete(_);
+    );
 
     server = dc_server_from_id('689483030754099267');
 
@@ -330,6 +333,26 @@ initialize_commands() -> (
                         ]
                     }
                 ]
+            },
+            {
+                'type'->'SUB_COMMAND_GROUP',
+                'name'->'upload',
+                'description'->'Upload something',
+                'options'->[
+                    {
+                        'type'->'SUB_COMMAND',
+                        'name'->'file',
+                        'description'->'Upload file as attachment',
+                        'options'->[
+                            {
+                                'type'->'ATTACHMENT',
+                                'name'->'attachment',
+                                'description'->'Upload a file',
+                                'required'->true
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     },server);
@@ -341,18 +364,26 @@ task('initialize_commands');
 
 
 __on_discord_slash_command(cmd) -> (
+    args = cmd~'arguments_by_name';
+    global_testargs = args;
     //check which command was executed
-    if(cmd~'command':0 == 'ping',
+    if(cmd~'command_name' == 'ping',
         //respond immediately
         task(_(outer(cmd))->dc_respond_interaction(cmd,'RESPOND_IMMEDIATELY','Pong!'));
     , //else
-        //tell discord that its gonna take a bit for the response
-        dc_respond_interaction(cmd,'RESPOND_LATER');
-        //respond after 5 seconds
-        task(_(outer(cmd))->(
-            sleep(5000);
-            dc_respond_interaction(cmd,'RESPOND_FOLLOWUP',cmd~'user' + ' executed ' + cmd~'command_name' + ' with options ' + cmd~'arguments');
-        ));
+        if(args:'upload',
+            task(_(outer(cmd),outer(args))->(
+                dc_respond_interaction(cmd,'RESPOND_IMMEDIATELY','Thank you for ' + args:'attachment'~'value'~'url');
+            ));
+        ,
+            //tell discord that its gonna take a bit for the response
+            dc_respond_interaction(cmd,'RESPOND_LATER');
+            //respond after 5 seconds
+            task(_(outer(cmd))->(
+                sleep(5000);
+                dc_respond_interaction(cmd,'RESPOND_FOLLOWUP',cmd~'user' + ' executed ' + cmd~'command_name' + ' with options ' + cmd~'arguments_by_name' + ' and locale ' + cmd~'locale');
+            ));
+        );
     );
 );
 
@@ -494,6 +525,73 @@ __on_discord_button(int) -> (
 
 __on_discord_select_menu(int) -> (
     task(_(outer(int)) -> dc_respond_interaction(int,'respond_immediately','Selected ' + str(int~'chosen')));
+);
+
+```
+
+## Modals
+
+```py
+__config() -> {'scope'->'global','stay_loaded'->true,'bot'->'BOT'};
+
+global_ch = dc_channel_from_id('759102744761335891');
+
+task(_()->(
+    dc_send_message(global_ch,{
+        'content'->'Click below to open modal',
+        'components'-> [[
+            {
+                'id'->'modal_btn',
+                'component'->'button',
+                'label'->'Open modal'
+            }
+        ]],
+    });
+));
+
+__on_discord_button(int) -> (
+    if(int~'id' == 'modal_btn',
+        task(_(outer(int)) -> (
+            dc_respond_interaction(int,'respond_modal',{
+                'id'->'my_modal',
+                'title'->'MyCustomModal',
+                'components'->[
+                    [{
+                        'component'->'text_input',
+                        'id'->'name_input',
+                        'style'->'short',
+                        'label'->'What\'s your name?',
+                        'min_length'->3,
+                        'max_length'->32,
+                        'required'->true,
+                        'placeholder'->'Put your name here'
+                    }]
+                    ,[{
+                        'component'->'text_input',
+                        'id'->'age_input',
+                        'style'->'short',
+                        'label'->'How old are you?',
+                        'min_length'->1,
+                        'max_length'->3,
+                        'required'->true,
+                        'placeholder'->'Enter a number'
+                    }]
+                    ,[{
+                        'component'->'text_input',
+                        'id'->'introduction_input',
+                        'style'->'paragraph',
+                        'label'->'Introduce yourself',
+                        'required'->false,
+                        'value'->'Hello, I am'
+                    }]
+                ]
+            });
+        ));
+    );
+);
+
+__on_discord_modal(interaction) -> (
+    dc_respond_interaction(interaction, 'respond_immediately', 'Welcome ' + interaction~'input_values_by_id':'name_input' + '!');
 );
 
 ```
