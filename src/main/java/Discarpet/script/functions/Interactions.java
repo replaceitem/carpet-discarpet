@@ -3,6 +3,7 @@ package Discarpet.script.functions;
 import Discarpet.config.Bot;
 import Discarpet.script.parsable.Parser;
 import Discarpet.script.parsable.parsables.MessageContentParsable;
+import Discarpet.script.parsable.parsables.ModalParsable;
 import Discarpet.script.parsable.parsables.SlashCommandBuilderParsable;
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.util.content.InteractionFollowupMessageContentApplier;
@@ -52,6 +53,13 @@ public class Interactions {
         InteractionBase interactionBase = interactionValue.getBase();
         if(responseType.equalsIgnoreCase("RESPOND_LATER")) {
             ValueUtil.awaitFuture(interactionBase.respondLater(),"Error sending 'respond_later' response to interaction");
+            return null;
+        }
+
+        if(responseType.equalsIgnoreCase("RESPOND_MODAL")) {
+            if(response.length == 0) throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + responseType);
+            ModalParsable modalParsable = Parser.parseType(response[0], ModalParsable.class);
+            modalParsable.apply(interactionBase);
             return null;
         }
 

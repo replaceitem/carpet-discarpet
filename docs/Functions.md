@@ -162,7 +162,7 @@ deletes all global slash commands. When a name is specified, deletes only the sl
 Note that this function halts the current thread in order to ensure that the slash commands got removed,
 so creating a slash command immediately after wouldn't conflict with this.
 
-### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)`
+### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)` `dc_respond_interaction(interaction,type,modal)`
 
 > **Warning**
 > This function is blocking, use it in a task to avoid freezing your game.
@@ -179,10 +179,12 @@ and just tells discord that the interaction was received and an answer will come
 You will then need to send a RESPOND_FOLLOWUP response within 15 minutes.
 
 * `'RESPOND_IMMEDIATELY'` This sends an immediate response which has to come within 3 seconds.
-The `message` needs to be specified for this.
+The `message` needs to be specified as the third parameter for this.
 
 * `'RESPOND_FOLLOWUP'` This is used for sending a followup response within 15 minutes after the `RESPOND_LATER` response has been sent.
-The `message` needs to be specified for this.
+The `message` needs to be specified as the third parameter for this.
+
+* `'RESPOND_MODAL'` Opens a modal for the user. Requires a [Modal](/docs/Parsable.md#Modal) as the third parameter.
 
 The `message` parameter the same as the [Message content](/docs/Parsable.md#Message-content) parameter in `dc_send_message`
 

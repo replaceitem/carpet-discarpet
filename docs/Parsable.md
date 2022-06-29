@@ -52,12 +52,12 @@ Can also be parsed directly from a list `[r,g,b]`, or a number (`0xRRGGBB`)
 
 ### Component
 
-Can be either a [Button](#Button) or a [Select menu](#Select menu).
-In both cases, the values from those parsables must be included.
+Can be either a [Button](#Button), a [Select menu](#Select menu) or a [Text input](#Text-input).
+In all cases, the values from the corresponding parsables must be included.
 
-| Value       | Type   | Description                       |
-|-------------|--------|-----------------------------------|
-| `component` | String | Must be `button` or `select_menu` |
+| Value       | Type   | Description                                     |
+|-------------|--------|-------------------------------------------------|
+| `component` | String | Must be `button`, `select_menu` or `text_input` |
 
 ### Embed author
 
@@ -111,22 +111,30 @@ Can also be parsed directly from a number, or a string `'now'`, which will parse
 
 Can also be parsed directly from a string (In which case only a `content` is present).
 
-| Value              | Type                                                        | Description                                                                                          |
-|--------------------|-------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| `content`          | String                                                      | Message content as a string, same thing as specifying just a string instead of a map                 |
-| `attachments`      | List of [Attachments](#Attachment) (optional)               | A list of all the attachments on this message                                                        |
-| `embeds`           | List of [Embeds](#Embed) (optional)                         | A list of all the embeds on this message                                                             |
-| `components`       | List of List of [Message components](#Component) (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components |
-| `allowed_mentions` | [Allowed mentions](#Allowed-mentions) (optional)            | Allowed mentions of this message                                                                     |
-| `reply_to`         | [Message](/docs/Values.md#Message) (optional)               | Message this message is replying to                                                                  |
-| `nonce`            | String (optional)                                           | Nonce of the message                                                                                 |
-| `tts`              | boolean (optional)                                          | Whether this message is a text-to-speech message                                                     |
+| Value              | Type                                                        | Description                                                                                                                          |
+|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `content`          | String                                                      | Message content as a string, same thing as specifying just a string instead of a map                                                 |
+| `attachments`      | List of [Attachments](#Attachment) (optional)               | A list of all the attachments on this message                                                                                        |
+| `embeds`           | List of [Embeds](#Embed) (optional)                         | A list of all the embeds on this message                                                                                             |
+| `components`       | List of List of [Message components](#Component) (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components (Text inputs are not supported) |
+| `allowed_mentions` | [Allowed mentions](#Allowed-mentions) (optional)            | Allowed mentions of this message                                                                                                     |
+| `reply_to`         | [Message](/docs/Values.md#Message) (optional)               | Message this message is replying to                                                                                                  |
+| `nonce`            | String (optional)                                           | Nonce of the message                                                                                                                 |
+| `tts`              | boolean (optional)                                          | Whether this message is a text-to-speech message                                                                                     |
+
+### Modal
+
+| Value              | Type                                             | Description                                                                                                                                      |
+|--------------------|--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`               | String                                           | Custom id for this modal. Used to identify when submitted                                                                                        |
+| `title`            | String                                           | Title of the modal popup                                                                                                                         |
+| `components`       | List of List of [Message components](#Component) | Each item in this list is one row of message components, and each sub-list (row) contains Components (Currently only [Text input](#Text-input)s) |
 
 ### Select menu option
 
 | Value            | Type                             | Description                                |
 |------------------|----------------------------------|--------------------------------------------|
-| `value`          | String                           | The internal value of this option.         |
+| `value`          | String                           | The internal value of this option          |
 | `label`          | String                           | The text shown on the option               |
 | `emoji`          | String or Emoji value (optional) | The emoji shown on the option              |
 | `description`    | String (optional)                | A description for this option              |
@@ -178,7 +186,18 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 | `options`     | List of [Slash command options](#Slash-command-option) (optional)               | Sub-options to this sub-command/group. This is only for `sub_command` or `sub_command_group`.                                                                         |
 | `choices`     | List of [Slash command option choices](#Slash-command-option-choice) (optional) | Autocompletable choices for this command option                                                                                                                       |
 
+### Text input
 
+| Value         | Type               | Description                                                                                                                      |
+|---------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| `id`          | String             | The id of the text input                                                                                                         |
+| `style`       | String             | The [style](https://discord.com/developers/docs/interactions/message-components#text-inputs-text-input-styles) of the text input |
+| `label`       | String             | The label of the text input                                                                                                      |
+| `min_length`  | number (optional)  | The minimum length of the text in the text input                                                                                 |
+| `max_length`  | number (optional)  | The maximum length of the text in the text input                                                                                 |
+| `required`    | boolean (optional) | Whether this text input is required                                                                                              |
+| `value`       | String (optional)  | The pre-filled value for the text input                                                                                          |
+| `placeholder` | String (optional)  | The placeholder text shown if the text input is empty                                                                            |
 
 ### Webhook message profile
 
