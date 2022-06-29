@@ -188,17 +188,33 @@ Queryable:
 | `nonce`            | String              | The nonce of this message                                                                                                                                                           |
 | `attachments`      | List of Attachments | A list of attachments on this message                                                                                                                                               |
 
+## Modal interaction
+
+`dc_modal_interaction`
+
+Value from `__on_discord_modal(interaction)` event, used for getting the modal interaction details, and then responding to it with `dc_respond_interaction()`
+
+Queryable:
+
+| Property             | Type                                 | Description                                                                                                                                             |
+|----------------------|--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                 | String                               | Custom id of the modal, as specified when creating it                                                                                                   |
+| `channel`            | Channel                              | The channel this interaction was made in.                                                                                                               |
+| `user`               | User                                 | The user that used the interaction.                                                                                                                     |
+| `locale`             | String                               | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US)                                  |
+| `input_values_by_id` | Map of string keys and string values | A map where the keys are the ids of the component, and the value the values entered into them. Useful for querying the values of components by their id |
+
 ## Attachment
 
 `dc_attachment`
 
-An attachment from a message
+An attachment from a message or slash command
 
 Queryable:
 
 | Property     | Type           | Description                                                                                                        |
 |--------------|----------------|--------------------------------------------------------------------------------------------------------------------|
-| `message`    | Message        | The message of this attachment                                                                                     |
+| `message`    | Message        | The message of this attachment, or null if this is not a message attachment                                        |
 | `file_name`  | String         | File name of the attachment                                                                                        |
 | `size`       | number         | The size as the number of bytes of the attached file                                                               |
 | `url`        | String         | The URL of this file                                                                                               |
@@ -287,19 +303,20 @@ Queryable:
 
 `dc_slash_command_interaction`
 
-Value from `__on_discord_slash_command(interaction)` event, used for getting the command that was executed, and then replying to it with `dc_respond_slash_command()`
+Value from `__on_discord_slash_command(interaction)` event, used for getting the command that was executed, and then replying to it with `dc_respond_interaction()`
 
 Queryable:
 
-| Property            | Type                                       | Description                                                                   |
-|---------------------|--------------------------------------------|-------------------------------------------------------------------------------|
-| `id`                | String                                     | The id of the command                                                         |
-| `command_name`      | String                                     | The name of the slash command                                                 |
-| `channel`           | Channel                                    | The channel this command was executed in.                                     |
-| `user`              | User                                       | The user that executed the command.                                           |
-| `token`             | String                                     | The token used to respond to the interaction (normally not needed)            |
-| `arguments`         | List of slash command options              | The selected options of the command                                           |
-| `arguments_by_name` | Map of slash command options by their name | Returns a map of all options (and sub-options), with the key being their name |
+| Property            | Type                                       | Description                                                                                                            |
+|---------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| `id`                | String                                     | The id of the command                                                                                                  |
+| `command_name`      | String                                     | The name of the slash command                                                                                          |
+| `channel`           | Channel                                    | The channel this command was executed in.                                                                              |
+| `user`              | User                                       | The user that executed the command.                                                                                    |
+| `token`             | String                                     | The token used to respond to the interaction (normally not needed)                                                     |
+| `arguments`         | List of slash command options              | The selected options of the command                                                                                    |
+| `arguments_by_name` | Map of slash command options by their name | Returns a map of all options (and sub-options), with the key being their name                                          |
+| `locale`            | String                                     | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
 
 ## Slash command interaction option
 
@@ -333,28 +350,30 @@ Represents a slash command on a server
 
 `dc_button_interaction`, `dc_select_menu_interaction`
 
-Value from `__on_discord_button(interaction)` and `__on_discord_select_menu(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_slash_command()`
+Value from `__on_discord_button(interaction)` and `__on_discord_select_menu(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
 
 These values have mostly the same things to query.
 
 Queryable:
 
-| Property  | Type    | Description                                                                                                 |
-|-----------|---------|-------------------------------------------------------------------------------------------------------------|
-| `id`      | String  | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter |
-| `channel` | Channel | The channel this interaction was made in.                                                                   |
-| `user`    | User    | The user that used the interaction.                                                                         |
-| `message` | Message | The message this interaction is attached to.                                                                |
+| Property  | Type    | Description                                                                                                            |
+|-----------|---------|------------------------------------------------------------------------------------------------------------------------|
+| `id`      | String  | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter            |
+| `channel` | Channel | The channel this interaction was made in.                                                                              |
+| `user`    | User    | The user that used the interaction.                                                                                    |
+| `message` | Message | The message this interaction is attached to.                                                                           |
+| `locale`  | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
 
 Queryable things exclusive to select menus:
 
-| Property      | Type   | Description                                             |
-|---------------|--------|---------------------------------------------------------|
-| `chosen`      | List   | List the values of the chosen options                   |
-| `options`     | List   | All values of options in the select menu                |
-| `min`         | number | Minimum amount of selected entries for this select menu |
-| `max`         | number | Maximum amount of selected entries for this select menu |
-| `placeholder` | String | Placeholder text of this select menu                    |
+| Property      | Type   | Description                                                                                                            |
+|---------------|--------|------------------------------------------------------------------------------------------------------------------------|
+| `chosen`      | List   | List the values of the chosen options                                                                                  |
+| `options`     | List   | All values of options in the select menu                                                                               |
+| `min`         | number | Minimum amount of selected entries for this select menu                                                                |
+| `max`         | number | Maximum amount of selected entries for this select menu                                                                |
+| `placeholder` | String | Placeholder text of this select menu                                                                                   |
+| `locale`      | String | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
 
 ## Webhook
 
@@ -424,12 +443,12 @@ Can also be parsed directly from a list `[r,g,b]`, or a number (`0xRRGGBB`)
 
 ### Component
 
-Can be either a [Button](#Button) or a [Select menu](#Select menu).
-In both cases, the values from those parsables must be included.
+Can be either a [Button](#Button), a [Select menu](#Select menu) or a [Text input](#Text-input).
+In all cases, the values from the corresponding parsables must be included.
 
-| Value       | Type   | Description                       |
-|-------------|--------|-----------------------------------|
-| `component` | String | Must be `button` or `select_menu` |
+| Value       | Type   | Description                                     |
+|-------------|--------|-------------------------------------------------|
+| `component` | String | Must be `button`, `select_menu` or `text_input` |
 
 ### Embed author
 
@@ -483,22 +502,30 @@ Can also be parsed directly from a number, or a string `'now'`, which will parse
 
 Can also be parsed directly from a string (In which case only a `content` is present).
 
-| Value              | Type                                                        | Description                                                                                          |
-|--------------------|-------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| `content`          | String                                                      | Message content as a string, same thing as specifying just a string instead of a map                 |
-| `attachments`      | List of [Attachments](#Attachment) (optional)               | A list of all the attachments on this message                                                        |
-| `embeds`           | List of [Embeds](#Embed) (optional)                         | A list of all the embeds on this message                                                             |
-| `components`       | List of List of [Message components](#Component) (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components |
-| `allowed_mentions` | [Allowed mentions](#Allowed-mentions) (optional)            | Allowed mentions of this message                                                                     |
-| `reply_to`         | [Message](/docs/Values.md#Message) (optional)               | Message this message is replying to                                                                  |
-| `nonce`            | String (optional)                                           | Nonce of the message                                                                                 |
-| `tts`              | boolean (optional)                                          | Whether this message is a text-to-speech message                                                     |
+| Value              | Type                                                        | Description                                                                                                                          |
+|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `content`          | String                                                      | Message content as a string, same thing as specifying just a string instead of a map                                                 |
+| `attachments`      | List of [Attachments](#Attachment) (optional)               | A list of all the attachments on this message                                                                                        |
+| `embeds`           | List of [Embeds](#Embed) (optional)                         | A list of all the embeds on this message                                                                                             |
+| `components`       | List of List of [Message components](#Component) (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components (Text inputs are not supported) |
+| `allowed_mentions` | [Allowed mentions](#Allowed-mentions) (optional)            | Allowed mentions of this message                                                                                                     |
+| `reply_to`         | [Message](/docs/Values.md#Message) (optional)               | Message this message is replying to                                                                                                  |
+| `nonce`            | String (optional)                                           | Nonce of the message                                                                                                                 |
+| `tts`              | boolean (optional)                                          | Whether this message is a text-to-speech message                                                                                     |
+
+### Modal
+
+| Value              | Type                                             | Description                                                                                                                                      |
+|--------------------|--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`               | String                                           | Custom id for this modal. Used to identify when submitted                                                                                        |
+| `title`            | String                                           | Title of the modal popup                                                                                                                         |
+| `components`       | List of List of [Message components](#Component) | Each item in this list is one row of message components, and each sub-list (row) contains Components (Currently only [Text input](#Text-input)s) |
 
 ### Select menu option
 
 | Value            | Type                             | Description                                |
 |------------------|----------------------------------|--------------------------------------------|
-| `value`          | String                           | The internal value of this option.         |
+| `value`          | String                           | The internal value of this option          |
 | `label`          | String                           | The text shown on the option               |
 | `emoji`          | String or Emoji value (optional) | The emoji shown on the option              |
 | `description`    | String (optional)                | A description for this option              |
@@ -541,16 +568,27 @@ All paths of the command tree have to have either just a sub command, or a sub c
 This means that the length of the command chains (without the other options that aren't subcommands) has to be equal for all subcommands.
 See: https://canary.discord.com/developers/docs/interactions/application-commands#subcommands-and-subcommand-groups
 
-| Value         | Type                                                                            | Description                                                                                                                                                       |
-|---------------|---------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `type`        | String                                                                          | The type of slash command option. Can be `sub_command`,`sub_command_group`, `string`, `integer`, `boolean`, `user`, `channel`, `role`, `mentionable` and `number` |
-| `name`        | String                                                                          | The name of this option                                                                                                                                           |
-| `description` | String                                                                          | The description shown for this command option                                                                                                                     |
-| `required`    | boolean (optional, defaults to false)                                           | Whether this option is required to be specified                                                                                                                   |
-| `options`     | List of [Slash command options](#Slash-command-option) (optional)               | Sub-options to this sub-command/group. This is only for `sub_command` or `sub_command_group`.                                                                     |
-| `choices`     | List of [Slash command option choices](#Slash-command-option-choice) (optional) | Autocompletable choices for this command option                                                                                                                   |
+| Value         | Type                                                                            | Description                                                                                                                                                           |
+|---------------|---------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `type`        | String                                                                          | The type of [slash command option](https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-option-type). |
+| `name`        | String                                                                          | The name of this option                                                                                                                                               |
+| `description` | String                                                                          | The description shown for this command option                                                                                                                         |
+| `required`    | boolean (optional, defaults to false)                                           | Whether this option is required to be specified                                                                                                                       |
+| `options`     | List of [Slash command options](#Slash-command-option) (optional)               | Sub-options to this sub-command/group. This is only for `sub_command` or `sub_command_group`.                                                                         |
+| `choices`     | List of [Slash command option choices](#Slash-command-option-choice) (optional) | Autocompletable choices for this command option                                                                                                                       |
 
+### Text input
 
+| Value         | Type               | Description                                                                                                                      |
+|---------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| `id`          | String             | The id of the text input                                                                                                         |
+| `style`       | String             | The [style](https://discord.com/developers/docs/interactions/message-components#text-inputs-text-input-styles) of the text input |
+| `label`       | String             | The label of the text input                                                                                                      |
+| `min_length`  | number (optional)  | The minimum length of the text in the text input                                                                                 |
+| `max_length`  | number (optional)  | The maximum length of the text in the text input                                                                                 |
+| `required`    | boolean (optional) | Whether this text input is required                                                                                              |
+| `value`       | String (optional)  | The pre-filled value for the text input                                                                                          |
+| `placeholder` | String (optional)  | The placeholder text shown if the text input is empty                                                                            |
 
 ### Webhook message profile
 
@@ -682,27 +720,28 @@ Changes the status of the bot. Can be `online`,`idle`,`dnd`(Do not disturb),`inv
 
 Gets the nickname, or name if no nickname is present, from the [`user`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#user) in the [`server`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#server).
 
-### `dc_set_nickname(user,server,name)`
+### `dc_set_nickname(user,server,name,reason?)`
 
 > **Warning**
 > This function is blocking, use it in a task to avoid freezing your game.
 
 Sets the nickname of the `user` on the `server`.#
 Returns `true` if successful, false otherwise.
+If provided, `reason` will be shown in the audit log of your server.
 
-### `dc_add_role(user, role, reason)`
-
-> **Warning**
-> This function is blocking, use it in a task to avoid freezing your game.
-
-Adds a `role` to a `user`. `reason` will be shown in the audit log of your server.
-
-### `dc_remove_role(user, role, reason)`
+### `dc_add_role(user, role, reason?)`
 
 > **Warning**
 > This function is blocking, use it in a task to avoid freezing your game.
 
-Removes a `role` to a `user`. `reason` will be shown in the audit log of your server.
+Adds a `role` to a `user`. If provided, `reason` will be shown in the audit log of your server.
+
+### `dc_remove_role(user, role, reason?)`
+
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
+
+Removes a `role` to a `user`. If provided, `reason` will be shown in the audit log of your server.
 
 ### `dc_get_user_roles(user, server)`
 
@@ -711,6 +750,12 @@ Returns a list of roles the `user` has in the `server`.
 ### `dc_get_user_color(user, server)`
 
 Returns the hex color of the top role of the `user` in the `server`. If the user has no role with a color, returns null.
+
+### `dc_timeout(user, server, timestamp?, reason?)`
+
+With only `user` and `server` specified, returns the timestamp when the users' timeout will expire, or null if no timeout is active.
+When a `timestamp` is specified, timeouts the `user` until the given `timestamp`.
+If provided, `reason` will be shown in the audit log of your server.
 
 ## Interactions
 
@@ -743,7 +788,7 @@ deletes all global slash commands. When a name is specified, deletes only the sl
 Note that this function halts the current thread in order to ensure that the slash commands got removed,
 so creating a slash command immediately after wouldn't conflict with this.
 
-### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)`
+### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)` `dc_respond_interaction(interaction,type,modal)`
 
 > **Warning**
 > This function is blocking, use it in a task to avoid freezing your game.
@@ -760,16 +805,16 @@ and just tells discord that the interaction was received and an answer will come
 You will then need to send a RESPOND_FOLLOWUP response within 15 minutes.
 
 * `'RESPOND_IMMEDIATELY'` This sends an immediate response which has to come within 3 seconds.
-The `message` needs to be specified for this.
+The `message` needs to be specified as the third parameter for this.
 
 * `'RESPOND_FOLLOWUP'` This is used for sending a followup response within 15 minutes after the `RESPOND_LATER` response has been sent.
-The `message` needs to be specified for this.
+The `message` needs to be specified as the third parameter for this.
+
+* `'RESPOND_MODAL'` Opens a modal for the user. Requires a [Modal](/docs/Parsable.md#Modal) as the third parameter.
 
 The `message` parameter the same as the [Message content](/docs/Parsable.md#Message-content) parameter in `dc_send_message`
 
-This function returns `null` if the response could not be sent,
-otherwise `true`.
-Only if using `RESPOND_FOLLOWUP`,
+This function returns `null`, except if using `RESPOND_FOLLOWUP`,
 this will return a message value with the sent message.
 
 ## Values from IDs
@@ -892,15 +937,15 @@ Triggers when a player executes a command
 
 Executes when a message is sent in a channel the bot has access to.
 
-`message` -> [Message](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#message): The message that was sent
+`message` -> [Message](/docs/Values.md#message): The message that was sent
 
 ## `__on_discord_reaction(reaction,user,added)`
 
 Executes when a user reacts to a message with some emoji
 
-`reaction` -> [Reaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#reaction): The reaction that was made containing the emoji
+`reaction` -> [Reaction](/docs/Values.md#reaction): The reaction that was made containing the emoji
 
-`user` -> [User](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#user): The user who reacted
+`user` -> [User](/docs/Values.md#user): The user who reacted
 
 `added` -> boolean, `true` if the reaction was added, `false` if the reaction was removed
 
@@ -908,19 +953,25 @@ Executes when a user reacts to a message with some emoji
 
 Executes when a user runs a slash command
 
-`interaction` -> [Slash command interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Slash-command-interaction): The slash command interaction containing everything about the command that was executed
+`interaction` -> [Slash command interaction](/docs/Values.md#Slash-command-interaction): The slash command interaction containing everything about the command that was executed
 
 ## `__on_discord_button(interaction)`
 
 Executes when a user presses a button component on a message
 
-`interaction` -> [Button interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Button-and-Select-menu-interaction): The button interaction containing everything about the button that was pressed
+`interaction` -> [Button interaction](/docs/Values.md#Button-and-Select-menu-interaction): The button interaction containing everything about the button that was pressed
 
 ## `__on_discord_select_menu(interaction)`
 
 Executes when a user uses a select menu component on a message
 
-`interaction` -> [Select menu interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Button-and-Select-menu-interaction): The select menu interaction containing everything about the select menu that was used# Example scripts
+`interaction` -> [Select menu interaction](/docs/Values.md#Button-and-Select-menu-interaction): The select menu interaction containing everything about the select menu that was used
+
+## `__on_discord_modal(interaction)`
+
+Executes when a user submits a modal
+
+`interaction` -> [Modal interaction](/docs/Values.md#Modal-interaction): The modal interaction containing everything about the submitted modal data# Example scripts
 
 ## Replying to messages
 
@@ -1167,6 +1218,9 @@ __config() -> {'scope'->'global','bot'->'BOT'};
 
 initialize_commands() -> (
     //remove all commands first
+    for(server~'slash_commands',
+        dc_delete(_);
+    );
 
     server = dc_server_from_id('689483030754099267');
 
@@ -1252,6 +1306,26 @@ initialize_commands() -> (
                         ]
                     }
                 ]
+            },
+            {
+                'type'->'SUB_COMMAND_GROUP',
+                'name'->'upload',
+                'description'->'Upload something',
+                'options'->[
+                    {
+                        'type'->'SUB_COMMAND',
+                        'name'->'file',
+                        'description'->'Upload file as attachment',
+                        'options'->[
+                            {
+                                'type'->'ATTACHMENT',
+                                'name'->'attachment',
+                                'description'->'Upload a file',
+                                'required'->true
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     },server);
@@ -1263,18 +1337,26 @@ task('initialize_commands');
 
 
 __on_discord_slash_command(cmd) -> (
+    args = cmd~'arguments_by_name';
+    global_testargs = args;
     //check which command was executed
-    if(cmd~'command':0 == 'ping',
+    if(cmd~'command_name' == 'ping',
         //respond immediately
         task(_(outer(cmd))->dc_respond_interaction(cmd,'RESPOND_IMMEDIATELY','Pong!'));
     , //else
-        //tell discord that its gonna take a bit for the response
-        dc_respond_interaction(cmd,'RESPOND_LATER');
-        //respond after 5 seconds
-        task(_(outer(cmd))->(
-            sleep(5000);
-            dc_respond_interaction(cmd,'RESPOND_FOLLOWUP',cmd~'user' + ' executed ' + cmd~'command_name' + ' with options ' + cmd~'arguments');
-        ));
+        if(args:'upload',
+            task(_(outer(cmd),outer(args))->(
+                dc_respond_interaction(cmd,'RESPOND_IMMEDIATELY','Thank you for ' + args:'attachment'~'value'~'url');
+            ));
+        ,
+            //tell discord that its gonna take a bit for the response
+            dc_respond_interaction(cmd,'RESPOND_LATER');
+            //respond after 5 seconds
+            task(_(outer(cmd))->(
+                sleep(5000);
+                dc_respond_interaction(cmd,'RESPOND_FOLLOWUP',cmd~'user' + ' executed ' + cmd~'command_name' + ' with options ' + cmd~'arguments_by_name' + ' and locale ' + cmd~'locale');
+            ));
+        );
     );
 );
 
@@ -1416,6 +1498,73 @@ __on_discord_button(int) -> (
 
 __on_discord_select_menu(int) -> (
     task(_(outer(int)) -> dc_respond_interaction(int,'respond_immediately','Selected ' + str(int~'chosen')));
+);
+
+```
+
+## Modals
+
+```py
+__config() -> {'scope'->'global','stay_loaded'->true,'bot'->'BOT'};
+
+global_ch = dc_channel_from_id('759102744761335891');
+
+task(_()->(
+    dc_send_message(global_ch,{
+        'content'->'Click below to open modal',
+        'components'-> [[
+            {
+                'id'->'modal_btn',
+                'component'->'button',
+                'label'->'Open modal'
+            }
+        ]],
+    });
+));
+
+__on_discord_button(int) -> (
+    if(int~'id' == 'modal_btn',
+        task(_(outer(int)) -> (
+            dc_respond_interaction(int,'respond_modal',{
+                'id'->'my_modal',
+                'title'->'MyCustomModal',
+                'components'->[
+                    [{
+                        'component'->'text_input',
+                        'id'->'name_input',
+                        'style'->'short',
+                        'label'->'What\'s your name?',
+                        'min_length'->3,
+                        'max_length'->32,
+                        'required'->true,
+                        'placeholder'->'Put your name here'
+                    }]
+                    ,[{
+                        'component'->'text_input',
+                        'id'->'age_input',
+                        'style'->'short',
+                        'label'->'How old are you?',
+                        'min_length'->1,
+                        'max_length'->3,
+                        'required'->true,
+                        'placeholder'->'Enter a number'
+                    }]
+                    ,[{
+                        'component'->'text_input',
+                        'id'->'introduction_input',
+                        'style'->'paragraph',
+                        'label'->'Introduce yourself',
+                        'required'->false,
+                        'value'->'Hello, I am'
+                    }]
+                ]
+            });
+        ));
+    );
+);
+
+__on_discord_modal(interaction) -> (
+    dc_respond_interaction(interaction, 'respond_immediately', 'Welcome ' + interaction~'input_values_by_id':'name_input' + '!');
 );
 
 ```
