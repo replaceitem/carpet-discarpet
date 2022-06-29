@@ -8,6 +8,6 @@ import java.util.function.Predicate;
 
 @Mixin(CarpetEventServer.CallbackList.class)
 public interface CallbackListAccessor {
-    @Invoker
+    @Invoker(remap = false)
     void callRemoveCallsIf(Predicate<CarpetEventServer.Callback> when);
 }

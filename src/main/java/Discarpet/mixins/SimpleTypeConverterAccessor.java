@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(SimpleTypeConverter.class)
 public interface SimpleTypeConverterAccessor {
-    @Invoker
+    @Invoker(remap = false)
     static <R> SimpleTypeConverter<Value, R> callGet(Class<R> outputType) {
         throw new UnsupportedOperationException();
     }
