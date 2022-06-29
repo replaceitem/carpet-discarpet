@@ -1,5 +1,5 @@
 package Discarpet.script.values.common;
 
 public interface Deletable {
-    boolean delete();
+    boolean delete(String reason);
 }

@@ -28,7 +28,7 @@ public class MessageValue extends DiscordValue<Message> implements Deletable {
     }
 
     @Override
-    public boolean delete() {
-        return ValueUtil.awaitFutureBoolean(delegate.delete(), "Failed to delete " + this.getTypeString());
+    public boolean delete(String reason) {
+        return ValueUtil.awaitFutureBoolean(delegate.delete(reason), "Failed to delete " + this.getTypeString());
     }
 }

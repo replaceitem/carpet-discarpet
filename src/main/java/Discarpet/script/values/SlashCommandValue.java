@@ -27,7 +27,7 @@ public class SlashCommandValue extends DiscordValue<SlashCommand> implements Del
     }
 
     @Override
-    public boolean delete() {
+    public boolean delete(String reason) {
         return ValueUtil.awaitFutureBoolean(delegate.isGlobalApplicationCommand() ? delegate.deleteGlobal() : delegate.deleteForServer(delegate.getServer().orElseThrow()), "Failed to delete " + this.getTypeString());
     }
 }

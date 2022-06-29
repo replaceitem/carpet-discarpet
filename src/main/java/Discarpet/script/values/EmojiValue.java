@@ -27,8 +27,8 @@ public class EmojiValue extends DiscordValue<Emoji> implements Deletable, Renama
     }
 
     @Override
-    public boolean delete() {
-        return delegate instanceof KnownCustomEmoji knownCustomEmoji && ValueUtil.awaitFutureBoolean(knownCustomEmoji.delete(), "Failed to delete " + this.getTypeString());
+    public boolean delete(String reason) {
+        return delegate instanceof KnownCustomEmoji knownCustomEmoji && ValueUtil.awaitFutureBoolean(knownCustomEmoji.delete(reason), "Failed to delete " + this.getTypeString());
     }
 
     @Override

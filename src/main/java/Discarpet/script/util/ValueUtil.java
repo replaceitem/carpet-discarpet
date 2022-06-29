@@ -9,6 +9,7 @@ import carpet.script.value.Value;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.core.entity.emoji.UnicodeEmojiImpl;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -64,5 +65,16 @@ public class ValueUtil {
     
     public static Emoji emojiFromValue(Value value) {
         return value==null? null : (value instanceof EmojiValue emojiValue ? emojiValue.getInternal() : UnicodeEmojiImpl.fromString(value.getString()));
+    }
+    
+    @Nullable
+    public static <T> T optionalArg(T[] array, int index) {
+        if(array == null) return null;
+        return array.length > index ? array[index] : null;
+    }
+
+    @Nullable
+    public static <T> T optionalArg(T[] array) {
+        return optionalArg(array, 0);
     }
 }

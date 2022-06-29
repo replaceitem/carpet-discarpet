@@ -34,7 +34,7 @@ public class RoleValue extends DiscordValue<Role> implements Deletable, Renamabl
     }
 
     @Override
-    public boolean delete() {
+    public boolean delete(String reason) {
         return ValueUtil.awaitFutureBoolean(delegate.delete(), "Failed to delete " + this.getTypeString());
     }
 
