@@ -71,6 +71,22 @@ Queryable:
 | `nonce`            | String              | The nonce of this message                                                                                                                                                           |
 | `attachments`      | List of Attachments | A list of attachments on this message                                                                                                                                               |
 
+## Modal interaction
+
+`dc_modal_interaction`
+
+Value from `__on_discord_modal(interaction)` event, used for getting the modal interaction details, and then responding to it with `dc_respond_interaction()`
+
+Queryable:
+
+| Property             | Type                                 | Description                                                                                                                                             |
+|----------------------|--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                 | String                               | Custom id of the modal, as specified when creating it                                                                                                   |
+| `channel`            | Channel                              | The channel this interaction was made in.                                                                                                               |
+| `user`               | User                                 | The user that used the interaction.                                                                                                                     |
+| `locale`             | String                               | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US)                                  |
+| `input_values_by_id` | Map of string keys and string values | A map where the keys are the ids of the component, and the value the values entered into them. Useful for querying the values of components by their id |
+
 ## Attachment
 
 `dc_attachment`
@@ -170,7 +186,7 @@ Queryable:
 
 `dc_slash_command_interaction`
 
-Value from `__on_discord_slash_command(interaction)` event, used for getting the command that was executed, and then replying to it with `dc_respond_slash_command()`
+Value from `__on_discord_slash_command(interaction)` event, used for getting the command that was executed, and then replying to it with `dc_respond_interaction()`
 
 Queryable:
 
@@ -217,7 +233,7 @@ Represents a slash command on a server
 
 `dc_button_interaction`, `dc_select_menu_interaction`
 
-Value from `__on_discord_button(interaction)` and `__on_discord_select_menu(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_slash_command()`
+Value from `__on_discord_button(interaction)` and `__on_discord_select_menu(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
 
 These values have mostly the same things to query.
 

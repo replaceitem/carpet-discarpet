@@ -31,15 +31,15 @@ Triggers when a player executes a command
 
 Executes when a message is sent in a channel the bot has access to.
 
-`message` -> [Message](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#message): The message that was sent
+`message` -> [Message](/docs/Values.md#message): The message that was sent
 
 ## `__on_discord_reaction(reaction,user,added)`
 
 Executes when a user reacts to a message with some emoji
 
-`reaction` -> [Reaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#reaction): The reaction that was made containing the emoji
+`reaction` -> [Reaction](/docs/Values.md#reaction): The reaction that was made containing the emoji
 
-`user` -> [User](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#user): The user who reacted
+`user` -> [User](/docs/Values.md#user): The user who reacted
 
 `added` -> boolean, `true` if the reaction was added, `false` if the reaction was removed
 
@@ -47,16 +47,22 @@ Executes when a user reacts to a message with some emoji
 
 Executes when a user runs a slash command
 
-`interaction` -> [Slash command interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Slash-command-interaction): The slash command interaction containing everything about the command that was executed
+`interaction` -> [Slash command interaction](/docs/Values.md#Slash-command-interaction): The slash command interaction containing everything about the command that was executed
 
 ## `__on_discord_button(interaction)`
 
 Executes when a user presses a button component on a message
 
-`interaction` -> [Button interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Button-and-Select-menu-interaction): The button interaction containing everything about the button that was pressed
+`interaction` -> [Button interaction](/docs/Values.md#Button-and-Select-menu-interaction): The button interaction containing everything about the button that was pressed
 
 ## `__on_discord_select_menu(interaction)`
 
 Executes when a user uses a select menu component on a message
 
-`interaction` -> [Select menu interaction](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#Button-and-Select-menu-interaction): The select menu interaction containing everything about the select menu that was used
+`interaction` -> [Select menu interaction](/docs/Values.md#Button-and-Select-menu-interaction): The select menu interaction containing everything about the select menu that was used
+
+## `__on_discord_modal(interaction)`
+
+Executes when a user submits a modal
+
+`interaction` -> [Modal interaction](/docs/Values.md#Modal-interaction): The modal interaction containing everything about the submitted modal data

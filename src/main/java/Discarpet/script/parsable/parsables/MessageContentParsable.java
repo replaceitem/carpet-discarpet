@@ -37,7 +37,7 @@ public class MessageContentParsable implements Applicable<ContentApplier>, Direc
         for (EmbedBuilder embed : embeds) {
             contentApplier.addEmbed(embed);
         }
-        List<ActionRow> actionRows = components.stream().map(ActionRow::of).collect(Collectors.toList());
+        List<ActionRow> actionRows = components.stream().map(ActionRow::of).toList();
         for (ActionRow actionRow : actionRows) {
             contentApplier.addComponent(actionRow);
         }

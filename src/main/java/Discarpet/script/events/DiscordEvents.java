@@ -1,31 +1,29 @@
 package Discarpet.script.events;
 
 import Discarpet.Discarpet;
+import Discarpet.config.Bot;
 import Discarpet.mixins.CallbackListAccessor;
 import Discarpet.script.values.ButtonInteractionValue;
+import Discarpet.script.values.MessageValue;
+import Discarpet.script.values.ModalInteractionValue;
+import Discarpet.script.values.ReactionValue;
 import Discarpet.script.values.SelectMenuInteractionValue;
 import Discarpet.script.values.SlashCommandInteractionValue;
 import Discarpet.script.values.UserValue;
-import Discarpet.script.values.MessageValue;
-import Discarpet.script.values.ReactionValue;
-import Discarpet.config.Bot;
 import carpet.CarpetServer;
+import carpet.script.CarpetEventServer.Event;
 import carpet.script.value.BooleanValue;
-import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.world.World;
-import carpet.script.CarpetEventServer.Event;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.Reaction;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.interaction.ButtonInteraction;
+import org.javacord.api.interaction.ModalInteraction;
 import org.javacord.api.interaction.SelectMenuInteraction;
 import org.javacord.api.interaction.SlashCommandInteraction;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -99,6 +97,17 @@ public class DiscordEvents extends Event {
         public void onDiscordSelectMenu(Bot bot, SelectMenuInteraction selectMenuInteraction) {
             callHandlerInBotApps(bot,
                     () -> List.of(new SelectMenuInteractionValue(selectMenuInteraction)), 
+                    DEFAULT_SOURCE_SUPPLIER
+            );
+        }
+    };
+
+    public void onDiscordModal(Bot bot, ModalInteraction modalInteraction) {}
+    
+    public static DiscordEvents DISCORD_MODAL = new DiscordEvents("discord_modal", 1, false) {
+        public void onDiscordModal(Bot bot, ModalInteraction modalInteraction) {
+            callHandlerInBotApps(bot,
+                    () -> List.of(new ModalInteractionValue(modalInteraction)),
                     DEFAULT_SOURCE_SUPPLIER
             );
         }

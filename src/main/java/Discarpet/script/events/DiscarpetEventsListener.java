@@ -6,15 +6,18 @@ import net.minecraft.server.ServerTask;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.Reaction;
 import org.javacord.api.event.interaction.MessageComponentCreateEvent;
+import org.javacord.api.event.interaction.ModalSubmitEvent;
 import org.javacord.api.event.interaction.SlashCommandCreateEvent;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.event.message.reaction.ReactionAddEvent;
 import org.javacord.api.event.message.reaction.ReactionRemoveEvent;
 import org.javacord.api.interaction.ButtonInteraction;
 import org.javacord.api.interaction.MessageComponentInteraction;
+import org.javacord.api.interaction.ModalInteraction;
 import org.javacord.api.interaction.SelectMenuInteraction;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.listener.interaction.MessageComponentCreateListener;
+import org.javacord.api.listener.interaction.ModalSubmitListener;
 import org.javacord.api.listener.interaction.SlashCommandCreateListener;
 import org.javacord.api.listener.message.MessageCreateListener;
 import org.javacord.api.listener.message.reaction.ReactionAddListener;
@@ -22,7 +25,7 @@ import org.javacord.api.listener.message.reaction.ReactionRemoveListener;
 
 import java.util.Optional;
 
-public class DiscarpetEventsListener implements MessageCreateListener, ReactionAddListener, ReactionRemoveListener, SlashCommandCreateListener, MessageComponentCreateListener {
+public class DiscarpetEventsListener implements MessageCreateListener, ReactionAddListener, ReactionRemoveListener, SlashCommandCreateListener, MessageComponentCreateListener, ModalSubmitListener {
     
     protected final Bot bot;
     
@@ -31,40 +34,40 @@ public class DiscarpetEventsListener implements MessageCreateListener, ReactionA
     }
 
     @Override
-    public void onMessageCreate(MessageCreateEvent messageCreateEvent) {
-        final Message message = messageCreateEvent.getMessage();
+    public void onMessageCreate(MessageCreateEvent event) {
+        final Message message = event.getMessage();
         callEventOnGameThread(() -> DiscordEvents.DISCORD_MESSAGE.onDiscordMessage(bot,message));
     }
 
     @Override
-    public void onReactionAdd(ReactionAddEvent reactionAddEvent) {
-        Optional<Reaction> optionalReaction = reactionAddEvent.getReaction();
+    public void onReactionAdd(ReactionAddEvent event) {
+        Optional<Reaction> optionalReaction = event.getReaction();
         if(optionalReaction.isPresent()) {
             Reaction reaction = optionalReaction.get();
-            reactionAddEvent.requestUser().thenAccept(user -> 
+            event.requestUser().thenAccept(user -> 
                     callEventOnGameThread(() -> DiscordEvents.DISCORD_REACTION.onDiscordReaction(bot, reaction, user, true)));
         }
     }
 
     @Override
-    public void onReactionRemove(ReactionRemoveEvent reactionRemoveEvent) {
-        Optional<Reaction> optionalReaction = reactionRemoveEvent.getReaction();
+    public void onReactionRemove(ReactionRemoveEvent event) {
+        Optional<Reaction> optionalReaction = event.getReaction();
         if(optionalReaction.isPresent()) {
             Reaction reaction = optionalReaction.get();
-            reactionRemoveEvent.requestUser().thenAccept(user -> 
+            event.requestUser().thenAccept(user -> 
                     callEventOnGameThread(() -> DiscordEvents.DISCORD_REACTION.onDiscordReaction(bot, reaction, user, false)));
         }
     }
 
     @Override
-    public void onSlashCommandCreate(SlashCommandCreateEvent slashCommandCreateEvent) {
-        final SlashCommandInteraction slashCommandInteraction = slashCommandCreateEvent.getSlashCommandInteraction();
+    public void onSlashCommandCreate(SlashCommandCreateEvent event) {
+        final SlashCommandInteraction slashCommandInteraction = event.getSlashCommandInteraction();
         callEventOnGameThread(() -> DiscordEvents.DISCORD_SLASH_COMMAND.onDiscordSlashCommand(bot, slashCommandInteraction));
     }
 
     @Override
-    public void onComponentCreate(MessageComponentCreateEvent messageComponentCreateEvent) {
-        MessageComponentInteraction messageComponentInteraction = messageComponentCreateEvent.getMessageComponentInteraction();
+    public void onComponentCreate(MessageComponentCreateEvent event) {
+        MessageComponentInteraction messageComponentInteraction = event.getMessageComponentInteraction();
 
         if(messageComponentInteraction.asButtonInteraction().isPresent()) {
             final ButtonInteraction buttonInteraction = messageComponentInteraction.asButtonInteraction().get();
@@ -73,6 +76,12 @@ public class DiscarpetEventsListener implements MessageCreateListener, ReactionA
             final SelectMenuInteraction selectMenuInteraction = messageComponentInteraction.asSelectMenuInteraction().get();
             callEventOnGameThread(() -> DiscordEvents.DISCORD_SELECT_MENU.onDiscordSelectMenu(bot, selectMenuInteraction));
         }
+    }
+
+    @Override
+    public void onModalSubmit(ModalSubmitEvent event) {
+        final ModalInteraction modalInteraction = event.getModalInteraction();
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_MODAL.onDiscordModal(bot, modalInteraction));
     }
 
     private static void callEventOnGameThread(Runnable runnable) {
