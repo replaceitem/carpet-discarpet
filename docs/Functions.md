@@ -101,27 +101,28 @@ Changes the status of the bot. Can be `online`,`idle`,`dnd`(Do not disturb),`inv
 
 Gets the nickname, or name if no nickname is present, from the [`user`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#user) in the [`server`](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Values.md#server).
 
-### `dc_set_nickname(user,server,name)`
+### `dc_set_nickname(user,server,name,reason?)`
 
 > **Warning**
 > This function is blocking, use it in a task to avoid freezing your game.
 
 Sets the nickname of the `user` on the `server`.#
 Returns `true` if successful, false otherwise.
+If provided, `reason` will be shown in the audit log of your server.
 
-### `dc_add_role(user, role, reason)`
-
-> **Warning**
-> This function is blocking, use it in a task to avoid freezing your game.
-
-Adds a `role` to a `user`. `reason` will be shown in the audit log of your server.
-
-### `dc_remove_role(user, role, reason)`
+### `dc_add_role(user, role, reason?)`
 
 > **Warning**
 > This function is blocking, use it in a task to avoid freezing your game.
 
-Removes a `role` to a `user`. `reason` will be shown in the audit log of your server.
+Adds a `role` to a `user`. If provided, `reason` will be shown in the audit log of your server.
+
+### `dc_remove_role(user, role, reason?)`
+
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
+
+Removes a `role` to a `user`. If provided, `reason` will be shown in the audit log of your server.
 
 ### `dc_get_user_roles(user, server)`
 
