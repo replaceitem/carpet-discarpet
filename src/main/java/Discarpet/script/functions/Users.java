@@ -2,11 +2,15 @@ package Discarpet.script.functions;
 
 import Discarpet.script.values.RoleValue;
 import carpet.script.annotation.ScarpetFunction;
+import carpet.script.value.BooleanValue;
 import carpet.script.value.ListValue;
+import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
 import org.javacord.api.entity.permission.Role;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
+
+import java.time.Instant;
 
 import static Discarpet.script.util.ValueUtil.*;
 
@@ -40,5 +44,15 @@ public class Users {
     @ScarpetFunction
     public Value dc_get_user_color(User user, Server server) {
         return colorToValue(unpackOptional(user.getRoleColor(server)));
+    }
+
+    @ScarpetFunction(maxParams = 4)
+    public Value dc_timeout(User user, Server server, Value... values) {
+        Value timestampValue = optionalArg(values, 0);
+        if(timestampValue == null) return NumericValue.of(user.getActiveTimeout(server).map(Instant::toEpochMilli).orElse(null));
+        long timestamp = NumericValue.asNumber(timestampValue).getLong();
+        Value reasonValue = optionalArg(values, 1);
+        String reason = reasonValue == null ? null : reasonValue.getString();
+        return BooleanValue.of(awaitFutureBoolean(user.timeout(server, Instant.ofEpochMilli(timestamp), reason), "Could not timeout user"));
     }
 }
