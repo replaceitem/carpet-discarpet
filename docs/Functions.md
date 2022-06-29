@@ -189,9 +189,7 @@ The `message` needs to be specified as the third parameter for this.
 
 The `message` parameter the same as the [Message content](/docs/Parsable.md#Message-content) parameter in `dc_send_message`
 
-This function returns `null` if the response could not be sent,
-otherwise `true`.
-Only if using `RESPOND_FOLLOWUP`,
+This function returns `null`, except if using `RESPOND_FOLLOWUP`,
 this will return a message value with the sent message.
 
 ## Values from IDs
