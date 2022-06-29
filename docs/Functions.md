@@ -132,6 +132,12 @@ Returns a list of roles the `user` has in the `server`.
 
 Returns the hex color of the top role of the `user` in the `server`. If the user has no role with a color, returns null.
 
+### `dc_timeout(user, server, timestamp?, reason?)`
+
+With only `user` and `server` specified, returns the timestamp when the users' timeout will expire, or null if no timeout is active.
+When a `timestamp` is specified, timeouts the `user` until the given `timestamp`.
+If provided, `reason` will be shown in the audit log of your server.
+
 ## Interactions
 
 ### `dc_create_slash_command(commandBuilder, server?)`
