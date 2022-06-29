@@ -25,23 +25,31 @@ public abstract class DiscordValue<T> extends Value {
     public abstract Value getProperty(String property);
 
     @SuppressWarnings("unchecked")
-    public static <V> Value of(V object) {
+    public static Value of(Object object) {
         if(object == null) return Value.NULL;
-        OutputConverter<V> outputConverter = null;
+        Class<Object> toClass = (Class<Object>) findOutputConvertibleInterface(object.getClass());
+        if(toClass == null) throw new InternalExpressionException("Could not find an interface for an output converter for DiscordValue.of() and type " + object.getClass());
+        OutputConverter<Object> converter = getOutputConverter(toClass);
+        if(converter == null) throw new InternalExpressionException("Could not find a suitable output converter for DiscordValue.of() and type " + object.getClass());
+        return converter.convert(object).evalValue(null);
+    }
+
+    private static <V> OutputConverter<V> getOutputConverter(Class<V> inputClass) {
         try {
-            outputConverter = (OutputConverter<V>) OutputConverter.get(object.getClass());
-        } catch (NullPointerException ignored) {}
-        if(outputConverter == null) {
-            Class<?>[] interfaces = object.getClass().getInterfaces();
-            for (Class<?> interfaceClass : interfaces) {
-                try {
-                    outputConverter = (OutputConverter<V>) OutputConverter.get(interfaceClass);
-                } catch (NullPointerException ignored) {}
-                if(outputConverter != null) break;
-            }
+            return OutputConverter.get(inputClass);
+        } catch (NullPointerException npe) {
+            return null;
         }
-        if(outputConverter == null) throw new InternalExpressionException("Could not find a suitable output converter for DiscordValue.of()");
-        return outputConverter.convert(object).evalValue(null);
+    }
+    
+    private static Class<?> findOutputConvertibleInterface(Class<?> inputClass) {
+        if(getOutputConverter(inputClass) != null) return inputClass;
+        Class<?>[] interfaces = inputClass.getInterfaces();
+        for (Class<?> interfaceClass : interfaces) {
+            Class<?> convertibleInterface = findOutputConvertibleInterface(interfaceClass);
+            if(convertibleInterface != null) return convertibleInterface;
+        }
+        return null;
     }
     
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
