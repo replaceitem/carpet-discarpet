@@ -8,7 +8,7 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
 
-import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
@@ -24,7 +24,7 @@ public class Bot {
 		return api;
 	}
 
-	public Bot(String id, String token, HashSet<Intent> intents, ServerCommandSource source) {
+	public Bot(String id, String token, Set<Intent> intents, ServerCommandSource source) {
 		this.id = id;
 		try {
 			DiscordApiBuilder apiBuilder = new DiscordApiBuilder();
@@ -34,11 +34,9 @@ public class Bot {
 			cf.orTimeout(10, TimeUnit.SECONDS);
 			api = cf.get();
 
-			String msg;
-			if(intents.size() == 0) {
-				msg = "Bot " + id + " sucessfully logged in";
-			} else {
-				msg = "Bot " + id + " sucessfully logged in with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(","));
+			String msg = "Bot " + id + " sucessfully logged in";
+			if(intents.size() != 0) {
+				msg += " with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(","));
 			}
 			if(source != null) source.sendFeedback(Text.literal(msg),false);
 			LOGGER.info(msg);

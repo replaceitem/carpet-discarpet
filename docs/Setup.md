@@ -18,8 +18,7 @@ The file should look like this by default:
     {
       "bot_id": "Your bot ID",
       "bot_token": "Your bot token",
-      "member_intent": false,
-      "presence_intent": false
+      "intents": []
     }
   ],
   "disable_reconnect_logs": false
@@ -30,7 +29,7 @@ To add your bot to the game, copy and paste your Bot token from the Developer po
 The `"bot_id"` is used to identify your bot in scarpet later. You should just give the bot a name, so you can identify it.
 This doesn't need to be what you called it in the developer portal,
 it's just an arbitrary name.
-The `member_intent` and `presence_intent` can be set to `true` if these intents are needed by your bots.
+In the `intents` list, you can add additional intents for your bot.
 For more info, see the section about [intents](#Intents).
 
 Now your config should look something like this:
@@ -41,8 +40,7 @@ Now your config should look something like this:
     {
       "bot_id": "coolbot",
       "bot_token": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",
-      "member_intent": false,
-      "presence_intent": false
+      "intents": []
     }
   ],
   "disable_reconnect_logs": false
@@ -76,15 +74,21 @@ To have multiple bots running on your server, just add them to the config file l
   "bots": [
     {
       "bot_id": "bot1",
-      "bot_token": "token1"
+      "bot_token": "token1",
+      "intents": []
     },
     {
       "bot_id": "bot2",
-      "bot_token": "token2"
+      "bot_token": "token2",
+      "intents": [
+        "GUILD_PRESENCES",
+        "GUILD_MEMBERS"
+      ]
     },
     {
       "bot_id": "third_bot",
-      "bot_token": "token for third bot"
+      "bot_token": "token for third bot",
+      "intents": []
     }
   ],
   "disable_reconnect_logs": false
@@ -101,9 +105,14 @@ the bot from the config will be applied.
 
 ## Intents
 
-In the config file, you can enable two kinds of intents for your bot.
-You should leave them as `false`, unless you use functions that require your bot to have this permission.
-In that case, you also need to enable the permissions in the Discord developer portal (Bot/Privileged Gateway Intents).
+In the config file, you can enable privileged intents for your bot.
+By default, all non-privileged intents are enabled.
+The only privileged intents that are disabled by default are `GUILD_PRESENCES` and `GUILD_MEMBERS`.
+
+If you add these intents to the `intents` list in your bot config,
+you will also need to enable them in the [Discord developer portal](https://discord.com/developers/applications)
+under Applications -> [Your bot] -> Bot -> Privileged Gateway Intents.
+
 
 ## Disabling log messages
 

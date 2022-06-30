@@ -40,6 +40,9 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Discarpet implements CarpetExtension, ModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger("Discarpet");
@@ -124,12 +127,13 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		});
 		discordBots.clear();
 
-		for (BotConfig s : configManager.getConfig().BOTS) {
-			if(s == null) continue;
-			HashSet<Intent> intents = new HashSet<>();
-			if(s.PRESENCE_INTENT) intents.add(Intent.GUILD_PRESENCES);
-			if(s.MEMBER_INTENT) intents.add(Intent.GUILD_MEMBERS);
-			Bot bot = new Bot(s.BOT_ID,s.BOT_TOKEN,intents,source);
+		for (BotConfig botConfig : configManager.getConfig().BOTS) {
+			if(botConfig == null) continue;
+			Set<Intent> intents = botConfig.INTENTS.stream().map(s -> {
+				try { return Intent.valueOf(s.toUpperCase()); } 
+				catch (IllegalArgumentException e) { return null; }
+			}).filter(Objects::nonNull).collect(Collectors.toSet());
+			Bot bot = new Bot(botConfig.BOT_ID,botConfig.BOT_TOKEN,intents,source);
 			if(bot.api != null) discordBots.put(bot.id, bot);
 		}
 	}
