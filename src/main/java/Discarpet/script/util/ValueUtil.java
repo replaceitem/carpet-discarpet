@@ -64,7 +64,7 @@ public class ValueUtil {
     }
     
     public static Emoji emojiFromValue(Value value) {
-        return value==null? null : (value instanceof EmojiValue emojiValue ? emojiValue.getInternal() : UnicodeEmojiImpl.fromString(value.getString()));
+        return value==null? null : (value instanceof EmojiValue emojiValue ? emojiValue.getDelegate() : UnicodeEmojiImpl.fromString(value.getString()));
     }
     
     @Nullable

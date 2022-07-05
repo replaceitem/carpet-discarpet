@@ -3,13 +3,15 @@ package Discarpet.script.events;
 import Discarpet.Discarpet;
 import Discarpet.config.Bot;
 import Discarpet.mixins.CallbackListAccessor;
-import Discarpet.script.values.ButtonInteractionValue;
+import Discarpet.script.values.interaction.ButtonInteractionValue;
 import Discarpet.script.values.MessageValue;
-import Discarpet.script.values.ModalInteractionValue;
+import Discarpet.script.values.interaction.MessageContextMenuInteractionValue;
+import Discarpet.script.values.interaction.ModalInteractionValue;
 import Discarpet.script.values.ReactionValue;
-import Discarpet.script.values.SelectMenuInteractionValue;
-import Discarpet.script.values.SlashCommandInteractionValue;
+import Discarpet.script.values.interaction.SelectMenuInteractionValue;
+import Discarpet.script.values.interaction.SlashCommandInteractionValue;
 import Discarpet.script.values.UserValue;
+import Discarpet.script.values.interaction.UserContextMenuInteractionValue;
 import carpet.CarpetServer;
 import carpet.script.CarpetEventServer.Event;
 import carpet.script.value.BooleanValue;
@@ -20,9 +22,11 @@ import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.Reaction;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.interaction.ButtonInteraction;
+import org.javacord.api.interaction.MessageContextMenuInteraction;
 import org.javacord.api.interaction.ModalInteraction;
 import org.javacord.api.interaction.SelectMenuInteraction;
 import org.javacord.api.interaction.SlashCommandInteraction;
+import org.javacord.api.interaction.UserContextMenuInteraction;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -108,6 +112,28 @@ public class DiscordEvents extends Event {
         public void onDiscordModal(Bot bot, ModalInteraction modalInteraction) {
             callHandlerInBotApps(bot,
                     () -> List.of(new ModalInteractionValue(modalInteraction)),
+                    DEFAULT_SOURCE_SUPPLIER
+            );
+        }
+    };
+
+    public void onDiscordMessageContextMenu(Bot bot, MessageContextMenuInteraction messageContextMenuInteraction) {}
+
+    public static DiscordEvents DISCORD_MESSAGE_CONTEXT_MENU = new DiscordEvents("discord_message_context_menu", 1, false) {
+        public void onDiscordMessageContextMenu(Bot bot, MessageContextMenuInteraction messageContextMenuInteraction) {
+            callHandlerInBotApps(bot,
+                    () -> List.of(new MessageContextMenuInteractionValue(messageContextMenuInteraction)),
+                    DEFAULT_SOURCE_SUPPLIER
+            );
+        }
+    };
+
+    public void onDiscordUserContextMenu(Bot bot, UserContextMenuInteraction userContextMenuInteraction) {}
+
+    public static DiscordEvents DISCORD_USER_CONTEXT_MENU = new DiscordEvents("discord_user_context_menu", 1, false) {
+        public void onDiscordUserContextMenu(Bot bot, UserContextMenuInteraction userContextMenuInteraction) {
+            callHandlerInBotApps(bot,
+                    () -> List.of(new UserContextMenuInteractionValue(userContextMenuInteraction)),
                     DEFAULT_SOURCE_SUPPLIER
             );
         }

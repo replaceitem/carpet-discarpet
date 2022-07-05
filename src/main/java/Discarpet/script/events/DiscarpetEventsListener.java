@@ -6,26 +6,32 @@ import net.minecraft.server.ServerTask;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.Reaction;
 import org.javacord.api.event.interaction.MessageComponentCreateEvent;
+import org.javacord.api.event.interaction.MessageContextMenuCommandEvent;
 import org.javacord.api.event.interaction.ModalSubmitEvent;
 import org.javacord.api.event.interaction.SlashCommandCreateEvent;
+import org.javacord.api.event.interaction.UserContextMenuCommandEvent;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.event.message.reaction.ReactionAddEvent;
 import org.javacord.api.event.message.reaction.ReactionRemoveEvent;
 import org.javacord.api.interaction.ButtonInteraction;
 import org.javacord.api.interaction.MessageComponentInteraction;
+import org.javacord.api.interaction.MessageContextMenuInteraction;
 import org.javacord.api.interaction.ModalInteraction;
 import org.javacord.api.interaction.SelectMenuInteraction;
 import org.javacord.api.interaction.SlashCommandInteraction;
+import org.javacord.api.interaction.UserContextMenuInteraction;
 import org.javacord.api.listener.interaction.MessageComponentCreateListener;
+import org.javacord.api.listener.interaction.MessageContextMenuCommandListener;
 import org.javacord.api.listener.interaction.ModalSubmitListener;
 import org.javacord.api.listener.interaction.SlashCommandCreateListener;
+import org.javacord.api.listener.interaction.UserContextMenuCommandListener;
 import org.javacord.api.listener.message.MessageCreateListener;
 import org.javacord.api.listener.message.reaction.ReactionAddListener;
 import org.javacord.api.listener.message.reaction.ReactionRemoveListener;
 
 import java.util.Optional;
 
-public class DiscarpetEventsListener implements MessageCreateListener, ReactionAddListener, ReactionRemoveListener, SlashCommandCreateListener, MessageComponentCreateListener, ModalSubmitListener {
+public class DiscarpetEventsListener implements MessageCreateListener, ReactionAddListener, ReactionRemoveListener, SlashCommandCreateListener, MessageComponentCreateListener, ModalSubmitListener, MessageContextMenuCommandListener, UserContextMenuCommandListener {
     
     protected final Bot bot;
     
@@ -82,6 +88,18 @@ public class DiscarpetEventsListener implements MessageCreateListener, ReactionA
     public void onModalSubmit(ModalSubmitEvent event) {
         final ModalInteraction modalInteraction = event.getModalInteraction();
         callEventOnGameThread(() -> DiscordEvents.DISCORD_MODAL.onDiscordModal(bot, modalInteraction));
+    }
+
+    @Override
+    public void onMessageContextMenuCommand(MessageContextMenuCommandEvent event) {
+        final MessageContextMenuInteraction messageContextMenuInteraction = event.getMessageContextMenuInteraction();
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_MESSAGE_CONTEXT_MENU.onDiscordMessageContextMenu(bot, messageContextMenuInteraction));
+    }
+
+    @Override
+    public void onUserContextMenuCommand(UserContextMenuCommandEvent event) {
+        final UserContextMenuInteraction userContextMenuInteraction = event.getUserContextMenuInteraction();
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_USER_CONTEXT_MENU.onDiscordUserContextMenu(bot, userContextMenuInteraction));
     }
 
     private static void callEventOnGameThread(Runnable runnable) {

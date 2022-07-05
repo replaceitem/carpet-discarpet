@@ -1,6 +1,10 @@
-package Discarpet.script.values;
+package Discarpet.script.values.interaction;
 
 import Discarpet.script.util.ValueUtil;
+import Discarpet.script.values.AttachmentValue;
+import Discarpet.script.values.ChannelValue;
+import Discarpet.script.values.RoleValue;
+import Discarpet.script.values.UserValue;
 import Discarpet.script.values.common.DiscordValue;
 import carpet.script.value.BooleanValue;
 import carpet.script.value.ListValue;
@@ -21,7 +25,7 @@ public class SlashCommandInteractionOptionValue extends DiscordValue<SlashComman
             case "value" -> getValue();
             case "options" -> ListValue.wrap(delegate.getOptions().stream().map(SlashCommandInteractionOptionValue::new));
            
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
     

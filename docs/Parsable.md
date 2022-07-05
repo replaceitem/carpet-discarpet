@@ -3,6 +3,7 @@
 Many discord entities don't have their own value, as they can be represented with scarpet maps, lists, and other values.
 
 ### Allowed mentions
+`allowed_mentions`
 
 Note that all of the options default to false, meaning that as soon as the allowed mentions are specified, all mentions are disabled by default.
 
@@ -15,6 +16,7 @@ Note that all of the options default to false, meaning that as soon as the allow
 | `users`            | List of User ids (String)             | Users that should be mentioned                   |
 
 ### Attachment
+`attachment`
 
 An attachment can be created in different ways.
 From a File, a URL or from a string which will be the raw bytes of the file.
@@ -29,6 +31,7 @@ From a File, a URL or from a string which will be the raw bytes of the file.
 | `spoiler` | boolean (optional, defaults to false)                                                     | Whether this attachment is a spoiler         |
 
 ### Button
+`button`
 
 | Value       | Type                                                    | Description                                                                    |
 |-------------|---------------------------------------------------------|--------------------------------------------------------------------------------|
@@ -41,6 +44,7 @@ From a File, a URL or from a string which will be the raw bytes of the file.
 | `url`       | String (optional, only required for `url` style)        | The URL opened when clicking the button. This is only used for the `url` style |
 
 ### Color
+`color`
 
 Can also be parsed directly from a list `[r,g,b]`, or a number (`0xRRGGBB`)
 
@@ -51,6 +55,7 @@ Can also be parsed directly from a list `[r,g,b]`, or a number (`0xRRGGBB`)
 | `b`   | number | Blue component  |
 
 ### Component
+`component`
 
 Can be either a [Button](#Button), a [Select menu](#Select menu) or a [Text input](#Text-input).
 In all cases, the values from the corresponding parsables must be included.
@@ -60,6 +65,7 @@ In all cases, the values from the corresponding parsables must be included.
 | `component` | String | Must be `button`, `select_menu` or `text_input` |
 
 ### Embed author
+`embed_author`
 
 Can also be parsed directly from a [User](/docs/Values.md#User) value, or a string (which will only set `name`).
 
@@ -70,6 +76,7 @@ Can also be parsed directly from a [User](/docs/Values.md#User) value, or a stri
 | `icon` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/Image of the icon/avatar shown next to the author name |
 
 ### Embed field
+`embed_field`
 
 | Value    | Type               | Description                            |
 |----------|--------------------|----------------------------------------|
@@ -78,6 +85,7 @@ Can also be parsed directly from a [User](/docs/Values.md#User) value, or a stri
 | `inline` | boolean (optional) | Whether this field is inline or not    |
 
 ### Embed footer
+`embed_footer`
 
 | Value  | Type                                                                                                | Description                                          |
 |--------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------|
@@ -85,6 +93,7 @@ Can also be parsed directly from a [User](/docs/Values.md#User) value, or a stri
 | `icon` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image of the icon next to the text |
 
 ### Embed
+`embed`
 
 | Value         | Type                                                                                                | Description                                                             |
 |---------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
@@ -99,15 +108,8 @@ Can also be parsed directly from a [User](/docs/Values.md#User) value, or a stri
 | `thumbnail`   | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image which will be shown as a thumbnail in the embed |
 | `timestamp`   | [Timestamp](#Timestamp) (optional)                                                                  | The timestamp of the embed, which will be shown at the bottom           |
 
-### Timestamp
-
-Can also be parsed directly from a number, or a string `'now'`, which will parse to the current instant.
-
-| Value          | Type   | Description                       |
-|----------------|--------|-----------------------------------|
-| `epoch_millis` | number | Milliseconds since the epoch time |
-
 ### Message content
+`message_content`
 
 Can also be parsed directly from a string (In which case only a `content` is present).
 
@@ -122,7 +124,15 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `nonce`            | String (optional)                                           | Nonce of the message                                                                                                                 |
 | `tts`              | boolean (optional)                                          | Whether this message is a text-to-speech message                                                                                     |
 
+### Message context menu builder
+`message_context_menu_builder`
+
+| Value         | Type   | Description      |
+|---------------|--------|------------------|
+| `name`        | String | The command name |
+
 ### Modal
+`modal`
 
 | Value              | Type                                             | Description                                                                                                                                      |
 |--------------------|--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -131,6 +141,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `components`       | List of List of [Message components](#Component) | Each item in this list is one row of message components, and each sub-list (row) contains Components (Currently only [Text input](#Text-input)s) |
 
 ### Select menu option
+`select_menu_option`
 
 | Value            | Type                             | Description                                |
 |------------------|----------------------------------|--------------------------------------------|
@@ -141,6 +152,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `default_option` | boolean (optional)               | Whether this is selected by default or not |
 
 ### Select menu
+`select_menu`
 
 | Value         | Type                                               | Description                                                 |
 |---------------|----------------------------------------------------|-------------------------------------------------------------|
@@ -152,6 +164,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `placeholder` | String (optional)                                  | The text displayed when nothing is selected yet             |
 
 ### Slash command builder
+`slash_command_builder`
 
 | Value         | Type                          | Description                    |
 |---------------|-------------------------------|--------------------------------|
@@ -160,6 +173,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `options`     | List of slash command options | The sub-options of the command |
 
 ### Slash command option choice
+`slash_command_option_choice`
 
 | Value   | Type   | Description                                                                    |
 |---------|--------|--------------------------------------------------------------------------------|
@@ -167,6 +181,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `value` | String | The value that will be received in the slash command event as the option value |
 
 ### Slash command option
+`slash_command_option`
 
 There are two things this can do, depending on the `type`.
 Either add subcommand literals, or parameters to the command. 
@@ -187,6 +202,7 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 | `choices`     | List of [Slash command option choices](#Slash-command-option-choice) (optional) | Autocompletable choices for this command option                                                                                                                       |
 
 ### Text input
+`text_input`
 
 | Value         | Type               | Description                                                                                                                      |
 |---------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -199,7 +215,24 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 | `value`       | String (optional)  | The pre-filled value for the text input                                                                                          |
 | `placeholder` | String (optional)  | The placeholder text shown if the text input is empty                                                                            |
 
+### Timestamp
+`timestamp`
+
+Can also be parsed directly from a number, or a string `'now'`, which will parse to the current instant.
+
+| Value          | Type   | Description                       |
+|----------------|--------|-----------------------------------|
+| `epoch_millis` | number | Milliseconds since the epoch time |
+
+### User context menu builder
+`user_context_menu_builder`
+
+| Value         | Type   | Description      |
+|---------------|--------|------------------|
+| `name`        | String | The command name |
+
 ### Webhook message profile
+`webhook_message_profile`
 
 Used when updating the webhook profile along with sending a message
 
@@ -209,6 +242,7 @@ Used when updating the webhook profile along with sending a message
 | `avatar` | String (optional) | A URL to the avatar shown on the webhook |
 
 ### Webhook profile
+`webhook_profile`
 
 Used when creating a webhook
 
@@ -219,6 +253,7 @@ Used when creating a webhook
 | `reason` | String (optional)                                                                                   | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |
 
 ### Webhook profile updater
+`webhook_profile_updater`
 
 Used when updating a webhook profile
 

@@ -1,6 +1,7 @@
 package Discarpet.script.values;
 
 import Discarpet.script.util.ValueUtil;
+import Discarpet.script.values.command.SlashCommandValue;
 import Discarpet.script.values.common.DiscordValue;
 import Discarpet.script.values.common.Renamable;
 import carpet.script.value.ListValue;
@@ -21,8 +22,8 @@ public class ServerValue extends DiscordValue<Server> implements Renamable {
             case "channels" -> ListValue.wrap(delegate.getChannels().stream().map(ChannelValue::new));
             case "roles" -> ListValue.wrap(delegate.getRoles().stream().map(RoleValue::new));
             case "webhooks" -> ListValue.wrap(delegate.getWebhooks().join().stream().map(WebhookValue::of));
-            case "slash_commands" -> ListValue.wrap(delegate.getSlashCommands().join().stream().map(SlashCommandValue::new));
-            default -> Value.NULL;
+            case "slash_commands" -> ListValue.wrap(delegate.getSlashCommands().join().stream().map(SlashCommandValue::of));
+            default -> super.getProperty(property);
         };
     }
 

@@ -5,6 +5,43 @@ This page lists all of them and which values can be queried from it.
 Querying happens just like with scarpets entity values: `channel~'value'`.
 All Discarpet values have a type name (which you get from `type()`) with the prefix `dc_`.
 
+## Attachment
+
+`dc_attachment`
+
+An attachment from a message or slash command
+
+Queryable:
+
+| Property     | Type           | Description                                                                                                        |
+|--------------|----------------|--------------------------------------------------------------------------------------------------------------------|
+| `message`    | Message        | The message of this attachment, or null if this is not a message attachment                                        |
+| `file_name`  | String         | File name of the attachment                                                                                        |
+| `size`       | number         | The size as the number of bytes of the attached file                                                               |
+| `url`        | String         | The URL of this file                                                                                               |
+| `proxy_url`  | String         | The proxy URL of this file                                                                                         |
+| `is_image`   | boolean        | Whether this file is an image or not                                                                               |
+| `width`      | number or null | The width of the attached image, or null if not an image                                                           |
+| `height`     | number or null | The height of the attached image, or null if not an image                                                          |
+| `is_spoiler` | boolean        | Whether this file is marked as a spoiler                                                                           |
+| `download`   | String         | Downloads the file's bytes as a string. Be careful with this one, big files can block the game for quite some time |
+
+## Button interaction
+
+`dc_button_interaction`
+
+Value from `__on_discord_button(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
+
+Queryable:
+
+| Property  | Type    | Description                                                                                                            |
+|-----------|---------|------------------------------------------------------------------------------------------------------------------------|
+| `id`      | String  | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter            |
+| `channel` | Channel | The channel this interaction was made in.                                                                              |
+| `user`    | User    | The user that used the interaction.                                                                                    |
+| `message` | Message | The message this interaction is attached to.                                                                           |
+| `locale`  | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+
 ## Channel
 
 `dc_channel`
@@ -33,7 +70,6 @@ Possible `type`s are:
 * `server_news_channel`
 * `server_store_channel`
 * `server_news_thread`
-* 
 
 ## Emoji
 
@@ -50,6 +86,34 @@ Queryable:
 | `is_animated` | boolean | True if the emojis is animated, false if not                                           |
 | `is_unicode`  | boolean | True if the emoji is a unicode emoji, false otherwise                                  |
 | `is_custom`   | boolean | True if the emoji is a custom one, otherwise false                                     |
+
+## Message context menu interaction
+
+`dc_message_context_menu_interaction`
+
+| Property       | Type    | Description                                                                                                            |
+|----------------|---------|------------------------------------------------------------------------------------------------------------------------|
+| `id`           | String  | The id of the interaction                                                                                              |
+| `channel`      | Channel | The channel this command was executed in.                                                                              |
+| `user`         | User    | The user that executed the command.                                                                                    |
+| `token`        | String  | The token used to respond to the interaction (normally not needed)                                                     |
+| `server`       | Server  | The server this interaction was made in                                                                                |
+| `locale`       | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| `command_id`   | String  | The id of the application command                                                                                      |
+| `command_name` | String  | The name of the application command                                                                                    |
+| `target`       | Message | The message the context menu interaction was used on                                                                   |
+
+## Message context menu
+
+`dc_message_context_menu`
+
+| Property             | Type            | Description                                                                                                                                                                     |
+|----------------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                 | String          | Id of the command                                                                                                                                                               |
+| `name`               | String          | Name of the command                                                                                                                                                             |
+| `description`        | String          | Description of the command                                                                                                                                                      |
+| `server`             | Server          | The server this application command is in, or null if it's a global application command                                                                                         |
+
 
 ## Message
 
@@ -87,27 +151,6 @@ Queryable:
 | `locale`             | String                               | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US)                                  |
 | `input_values_by_id` | Map of string keys and string values | A map where the keys are the ids of the component, and the value the values entered into them. Useful for querying the values of components by their id |
 
-## Attachment
-
-`dc_attachment`
-
-An attachment from a message or slash command
-
-Queryable:
-
-| Property     | Type           | Description                                                                                                        |
-|--------------|----------------|--------------------------------------------------------------------------------------------------------------------|
-| `message`    | Message        | The message of this attachment, or null if this is not a message attachment                                        |
-| `file_name`  | String         | File name of the attachment                                                                                        |
-| `size`       | number         | The size as the number of bytes of the attached file                                                               |
-| `url`        | String         | The URL of this file                                                                                               |
-| `proxy_url`  | String         | The proxy URL of this file                                                                                         |
-| `is_image`   | boolean        | Whether this file is an image or not                                                                               |
-| `width`      | number or null | The width of the attached image, or null if not an image                                                           |
-| `height`     | number or null | The height of the attached image, or null if not an image                                                          |
-| `is_spoiler` | boolean        | Whether this file is marked as a spoiler                                                                           |
-| `download`   | String         | Downloads the file's bytes as a string. Be careful with this one, big files can block the game for quite some time |
-
 ## Reaction
 
 `dc_reaction`
@@ -121,43 +164,6 @@ Queryable:
 | `emoji`   | Emoji   | The emoji of this reaction               |
 | `count`   | Number  | Amount of reactions with this emoji      |
 | `message` | Message | The message this reaction is attached to |
-
-## Server
-
-`dc_server`
-
-A Discord server
-
-Queryable:
-
-| Property         | Type                   | Description                                                |
-|------------------|------------------------|------------------------------------------------------------|
-| `name`           | String                 | The name of the server                                     |
-| `id`             | String                 | The ID of the server                                       |
-| `users`          | List of Users          | All users in this server (this requires the member Intent) |
-| `channels`       | List of Channels       | All channels in this server                                |
-| `roles`          | List of Roles          | All roles in this server                                   |
-| `webhooks`       | List of Webhooks       | All webhooks in this server                                |
-| `slash_commands` | List of Slash commands | All slash commands in this server                          |
-
-## User
-
-`dc_user`
-
-A discord user. Can be from a real discord account or a bot
-
-Queryable:
-
-| Property             | Type    | Description                                                                                                      |
-|----------------------|---------|------------------------------------------------------------------------------------------------------------------|
-| `name`               | String  | The name of the user (Does not include nicknames, use `dc_get_display_name` for that)                            |
-| `mention_tag`        | String  | The mention tag to mention a user in a message                                                                   |
-| `discriminated_name` | String  | The name of the user with its discriminator. e.g. `replaceitem#9118`                                             |
-| `id`                 | String  | ID of the user                                                                                                   |
-| `avatar`             | String  | URL of the users profile picture                                                                                 |
-| `is_bot`             | boolean | True if the user is a bot, false if it is a regular user                                                         |
-| `is_self`            | boolean | True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself        |
-| `private_channel`    | Channel | The private messages channel with the user. Note that this may block, if the private channel was not yet opened. |
 
 ## Role
 
@@ -181,25 +187,45 @@ Queryable:
 | `managed`              | boolean       | Whether this role is managed by an integration or not            |
 | `mentionable`          | boolean       | Whether this role is mentionable or not                          |
 
+## Select menu interaction
 
-## Slash command interaction
+`dc_select_menu_interaction`
 
-`dc_slash_command_interaction`
-
-Value from `__on_discord_slash_command(interaction)` event, used for getting the command that was executed, and then replying to it with `dc_respond_interaction()`
+Value from `__on_discord_select_menu(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
 
 Queryable:
 
-| Property            | Type                                       | Description                                                                                                            |
-|---------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| `id`                | String                                     | The id of the command                                                                                                  |
-| `command_name`      | String                                     | The name of the slash command                                                                                          |
-| `channel`           | Channel                                    | The channel this command was executed in.                                                                              |
-| `user`              | User                                       | The user that executed the command.                                                                                    |
-| `token`             | String                                     | The token used to respond to the interaction (normally not needed)                                                     |
-| `arguments`         | List of slash command options              | The selected options of the command                                                                                    |
-| `arguments_by_name` | Map of slash command options by their name | Returns a map of all options (and sub-options), with the key being their name                                          |
-| `locale`            | String                                     | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| Property      | Type    | Description                                                                                                            |
+|---------------|---------|------------------------------------------------------------------------------------------------------------------------|
+| `id`          | String  | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter            |
+| `channel`     | Channel | The channel this interaction was made in.                                                                              |
+| `user`        | User    | The user that used the interaction.                                                                                    |
+| `message`     | Message | The message this interaction is attached to.                                                                           |
+| `locale`      | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| `chosen`      | List    | List the values of the chosen options                                                                                  |
+| `options`     | List    | All values of options in the select menu                                                                               |
+| `min`         | number  | Minimum amount of selected entries for this select menu                                                                |
+| `max`         | number  | Maximum amount of selected entries for this select menu                                                                |
+| `placeholder` | String  | Placeholder text of this select menu                                                                                   |
+| `locale`      | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+
+## Server
+
+`dc_server`
+
+A Discord server
+
+Queryable:
+
+| Property         | Type                   | Description                                                |
+|------------------|------------------------|------------------------------------------------------------|
+| `name`           | String                 | The name of the server                                     |
+| `id`             | String                 | The ID of the server                                       |
+| `users`          | List of Users          | All users in this server (this requires the member Intent) |
+| `channels`       | List of Channels       | All channels in this server                                |
+| `roles`          | List of Roles          | All roles in this server                                   |
+| `webhooks`       | List of Webhooks       | All webhooks in this server                                |
+| `slash_commands` | List of Slash commands | All slash commands in this server                          |
 
 ## Slash command interaction option
 
@@ -214,6 +240,27 @@ Represents the user-chosen options of a slash command execution.
 | `value`                  | ? (depends on the slash command option type) | The value chosen by the user                            |
 | `options`                | List of slash command interaction options    | The sub-options of this option                          |
 
+## Slash command interaction
+
+`dc_slash_command_interaction`
+
+Value from `__on_discord_slash_command(interaction)` event, used for getting the command that was executed, and then replying to it with `dc_respond_interaction()`
+
+Queryable:
+
+| Property            | Type                                       | Description                                                                                                            |
+|---------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| `id`                | String                                     | The id of the interaction                                                                                              |
+| `channel`           | Channel                                    | The channel this command was executed in.                                                                              |
+| `user`              | User                                       | The user that executed the command.                                                                                    |
+| `token`             | String                                     | The token used to respond to the interaction (normally not needed)                                                     |
+| `server`            | Server                                     | The server this interaction was made in                                                                                |
+| `locale`            | String                                     | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| `command_id`        | String                                     | The id of the application command                                                                                      |
+| `command_name`      | String                                     | The name of the application command                                                                                    |
+| `arguments`         | List of slash command options              | The selected options of the command                                                                                    |
+| `arguments_by_name` | Map of slash command options by their name | Returns a map of all options (and sub-options), with the key being their name                                          |
+
 ## Slash command
 
 `dc_slash_command`
@@ -225,38 +272,54 @@ Represents a slash command on a server
 | `id`                 | String          | Id of the command                                                                                                                                                               |
 | `name`               | String          | Name of the command                                                                                                                                                             |
 | `description`        | String          | Description of the command                                                                                                                                                      |
-| `server`             | Server          | The server this slash command is in, or null if it's a global slash command                                                                                                     |
+| `server`             | Server          | The server this application command is in, or null if it's a global application command                                                                                         |
 | `options`            | List of Strings | The names of the slash command options (didn't bother adding a slash command option value, since nobody gonna use it anyway, but if you need it, make an issue and i'll add it) |
-| `creation_timestamp` | number          | The timestamp of the command                                                                                                                                                    |
 
-## Button and Select menu interaction
+## User context menu interaction
 
-`dc_button_interaction`, `dc_select_menu_interaction`
+`dc_user_context_menu_interaction`
 
-Value from `__on_discord_button(interaction)` and `__on_discord_select_menu(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
+| Property       | Type    | Description                                                                                                            |
+|----------------|---------|------------------------------------------------------------------------------------------------------------------------|
+| `id`           | String  | The id of the interaction                                                                                              |
+| `channel`      | Channel | The channel this command was executed in.                                                                              |
+| `user`         | User    | The user that executed the command.                                                                                    |
+| `token`        | String  | The token used to respond to the interaction (normally not needed)                                                     |
+| `server`       | Server  | The server this interaction was made in                                                                                |
+| `locale`       | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| `command_id`   | String  | The id of the application command                                                                                      |
+| `command_name` | String  | The name of the application command                                                                                    |
+| `target`       | User    | The user the context menu interaction was used on                                                                      |
 
-These values have mostly the same things to query.
+## User context menu
+
+`dc_user_context_menu`
+
+| Property             | Type            | Description                                                                                                                                                                     |
+|----------------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                 | String          | Id of the command                                                                                                                                                               |
+| `name`               | String          | Name of the command                                                                                                                                                             |
+| `description`        | String          | Description of the command                                                                                                                                                      |
+| `server`             | Server          | The server this application command is in, or null if it's a global application command                                                                                         |
+
+## User
+
+`dc_user`
+
+A discord user. Can be from a real discord account or a bot
 
 Queryable:
 
-| Property  | Type    | Description                                                                                                            |
-|-----------|---------|------------------------------------------------------------------------------------------------------------------------|
-| `id`      | String  | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter            |
-| `channel` | Channel | The channel this interaction was made in.                                                                              |
-| `user`    | User    | The user that used the interaction.                                                                                    |
-| `message` | Message | The message this interaction is attached to.                                                                           |
-| `locale`  | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
-
-Queryable things exclusive to select menus:
-
-| Property      | Type   | Description                                                                                                            |
-|---------------|--------|------------------------------------------------------------------------------------------------------------------------|
-| `chosen`      | List   | List the values of the chosen options                                                                                  |
-| `options`     | List   | All values of options in the select menu                                                                               |
-| `min`         | number | Minimum amount of selected entries for this select menu                                                                |
-| `max`         | number | Maximum amount of selected entries for this select menu                                                                |
-| `placeholder` | String | Placeholder text of this select menu                                                                                   |
-| `locale`      | String | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| Property             | Type    | Description                                                                                                      |
+|----------------------|---------|------------------------------------------------------------------------------------------------------------------|
+| `name`               | String  | The name of the user (Does not include nicknames, use `dc_get_display_name` for that)                            |
+| `mention_tag`        | String  | The mention tag to mention a user in a message                                                                   |
+| `discriminated_name` | String  | The name of the user with its discriminator. e.g. `replaceitem#9118`                                             |
+| `id`                 | String  | ID of the user                                                                                                   |
+| `avatar`             | String  | URL of the users profile picture                                                                                 |
+| `is_bot`             | boolean | True if the user is a bot, false if it is a regular user                                                         |
+| `is_self`            | boolean | True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself        |
+| `private_channel`    | Channel | The private messages channel with the user. Note that this may block, if the private channel was not yet opened. |
 
 ## Webhook
 

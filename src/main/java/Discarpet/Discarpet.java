@@ -74,7 +74,8 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	@Override
 	public void onGameStarted() {
 		Registration.registerValueCasters();
-		Registration.registerDiscordValue();
+		Registration.registerDiscordValues();
+		Registration.registerMisc();
 		Registration.registerFunctions();
 		Registration.registerParsables();
 	}

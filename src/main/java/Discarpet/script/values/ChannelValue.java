@@ -26,7 +26,7 @@ public class ChannelValue extends MessageableValue<Channel> implements Renamable
             case "mention_tag" -> StringValue.of(delegate instanceof Mentionable mentionableChannel ? mentionableChannel.getMentionTag() : null);
             case "server" -> new ServerValue(delegate instanceof ServerChannel serverChannel ? serverChannel.getServer() : null);
             case "webhooks" -> delegate instanceof ServerTextChannel serverTextChannel ? ListValue.wrap(serverTextChannel.getWebhooks().join().stream().map(WebhookValue::of)) : Value.NULL;
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
 

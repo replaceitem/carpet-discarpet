@@ -1,6 +1,8 @@
-package Discarpet.script.values;
+package Discarpet.script.values.interaction;
 
-import Discarpet.script.values.common.InteractionValue;
+import Discarpet.script.values.ChannelValue;
+import Discarpet.script.values.MessageValue;
+import Discarpet.script.values.UserValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import org.javacord.api.interaction.ButtonInteraction;
@@ -17,7 +19,7 @@ public class ButtonInteractionValue extends InteractionValue<ButtonInteraction> 
             case "user" -> new UserValue(delegate.getUser());
             case "message" -> MessageValue.of(delegate.getMessage());
             case "locale" -> StringValue.of(delegate.getLocale().getLocaleCode());
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
 }

@@ -4,55 +4,73 @@ import Discarpet.config.Bot;
 import Discarpet.script.parsable.Parser;
 import Discarpet.script.parsable.parsables.MessageContentParsable;
 import Discarpet.script.parsable.parsables.ModalParsable;
-import Discarpet.script.parsable.parsables.SlashCommandBuilderParsable;
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.util.content.InteractionFollowupMessageContentApplier;
 import Discarpet.script.util.content.InteractionImmediateResponseContentApplier;
-import Discarpet.script.values.common.InteractionValue;
 import Discarpet.script.values.ServerValue;
-import Discarpet.script.values.SlashCommandValue;
+import Discarpet.script.values.common.DiscordValue;
+import Discarpet.script.values.interaction.InteractionValue;
 import carpet.script.Context;
 import carpet.script.annotation.ScarpetFunction;
 import carpet.script.exception.InternalExpressionException;
-import carpet.script.value.ListValue;
 import carpet.script.value.Value;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.server.Server;
+import org.javacord.api.interaction.ApplicationCommand;
+import org.javacord.api.interaction.ApplicationCommandBuilder;
 import org.javacord.api.interaction.InteractionBase;
-import org.javacord.api.interaction.SlashCommand;
+import org.javacord.api.interaction.MessageContextMenuBuilder;
 import org.javacord.api.interaction.SlashCommandBuilder;
+import org.javacord.api.interaction.UserContextMenuBuilder;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static Discarpet.Discarpet.getBotInContext;
+import static Discarpet.script.util.ValueUtil.awaitFuture;
+import static Discarpet.script.util.ValueUtil.awaitFutureBoolean;
 
 @SuppressWarnings("unused")
 public class Interactions {
     @ScarpetFunction
-    public boolean dc_create_slash_command(Context context, Value command, Value server) {
-        SlashCommandBuilder slashCommandBuilder = Parser.parseType(command, SlashCommandBuilderParsable.class).construct();
-        CompletableFuture<SlashCommand> cf;
-        if(server.isNull()) {
-            Bot bot = getBotInContext(context, "dc_create_slash_command");
-            cf = slashCommandBuilder.createGlobal(bot.getApi());
-        } else  if (server instanceof ServerValue serverValue){
-            cf = slashCommandBuilder.createForServer(serverValue.getInternal());
-        } else throw new InternalExpressionException("Expected a server or null");
-        return ValueUtil.awaitFutureBoolean(cf, "Error creating slash command");        
+    public Value dc_create_slash_command(Context context, Value command, Value server) {
+        context.host.issueDeprecation("dc_create_slash_command");
+        return dc_create_application_command(context, "slash", command, server instanceof ServerValue serverValue ? serverValue.getDelegate() : null);
+    }
+    
+    @ScarpetFunction(maxParams = 3)
+    public Value dc_create_application_command(Context context, String type, Value command, Server... optionalServer) {
+        Class<? extends ApplicationCommandBuilder<?,?,?>> commandType = switch (type) {
+            case "slash_command" -> SlashCommandBuilder.class;
+            case "user_context_menu" -> UserContextMenuBuilder.class;
+            case "message_context_menu" -> MessageContextMenuBuilder.class;
+            default -> throw new InternalExpressionException("Invalid application command type");
+        };
+        ApplicationCommandBuilder<?, ?, ?> applicationCommandBuilder = Parser.parseType(command, commandType);
+        Server server = ValueUtil.optionalArg(optionalServer);
+        CompletableFuture<? extends ApplicationCommand> cf;
+        if(server == null) {
+            Bot bot = getBotInContext(context, "dc_create_application_command");
+            cf = applicationCommandBuilder.createGlobal(bot.getApi());
+        } else {
+            cf = applicationCommandBuilder.createForServer(server);
+        }
+        return DiscordValue.of(awaitFuture(cf, "Error creating application command"));        
     }
 
     @ScarpetFunction
-    public ListValue dc_get_global_slash_commands(Context context) {
-        Bot bot = getBotInContext(context,"dc_delete_slash_command");
+    public List<ApplicationCommand> dc_get_global_application_commands(Context context) {
+        Bot bot = getBotInContext(context,"dc_get_global_application_commands");
         DiscordApi api = bot.getApi();
-        return ListValue.wrap(api.getGlobalSlashCommands().join().stream().map(SlashCommandValue::new));
+        return awaitFuture(api.getGlobalApplicationCommands(), "Could not get global application commands");
     }
     
     @ScarpetFunction(maxParams = 3)
     public Message dc_respond_interaction(InteractionValue<?> interactionValue, String responseType, Value... response) {
         InteractionBase interactionBase = interactionValue.getBase();
         if(responseType.equalsIgnoreCase("RESPOND_LATER")) {
-            ValueUtil.awaitFuture(interactionBase.respondLater(),"Error sending 'respond_later' response to interaction");
+            awaitFuture(interactionBase.respondLater(),"Error sending 'respond_later' response to interaction");
             return null;
         }
 
@@ -69,12 +87,12 @@ public class Interactions {
             if(responseType.equalsIgnoreCase("RESPOND_IMMEDIATELY")) {
                 InteractionImmediateResponseContentApplier contentApplier = new InteractionImmediateResponseContentApplier(interactionBase.createImmediateResponder());
                 messageContentParsable.apply(contentApplier);
-                ValueUtil.awaitFuture(contentApplier.get().respond(),"Error sending 'respond_immediately' response to interaction");
+                awaitFuture(contentApplier.get().respond(),"Error sending 'respond_immediately' response to interaction");
                 return null;
             } else {
                 InteractionFollowupMessageContentApplier contentApplier = new InteractionFollowupMessageContentApplier(interactionBase.createFollowupMessageBuilder());
                 messageContentParsable.apply(contentApplier);
-                return ValueUtil.awaitFuture(contentApplier.get().send(),"Error sending 'respond_followup' response to interaction");
+                return awaitFuture(contentApplier.get().send(),"Error sending 'respond_followup' response to interaction");
             }
         } else throw new InternalExpressionException("invalid response type for 'dc_respond_interaction', expected RESPOND_LATER, RESPOND_IMMEDIATELY or RESPOND_FOLLOWUP");
     }

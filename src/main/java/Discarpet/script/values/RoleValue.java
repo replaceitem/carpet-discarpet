@@ -29,7 +29,7 @@ public class RoleValue extends DiscordValue<Role> implements Deletable, Renamabl
             case "is_everyone_value" -> BooleanValue.of(delegate.isEveryoneRole());
             case "managed" -> BooleanValue.of(delegate.isManaged());
             case "mentionable" -> BooleanValue.of(delegate.isMentionable());
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
 

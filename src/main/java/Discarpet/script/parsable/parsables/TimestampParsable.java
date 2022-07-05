@@ -8,8 +8,8 @@ import carpet.script.value.Value;
 
 import java.time.Instant;
 
-@ParsableClass(name = "instant")
-public class InstantParsable implements ParsableConstructor<Instant>, DirectParsable {
+@ParsableClass(name = "timestamp")
+public class TimestampParsable implements ParsableConstructor<Instant>, DirectParsable {
     
     Long epoch_millis;
     
