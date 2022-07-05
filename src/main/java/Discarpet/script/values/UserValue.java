@@ -22,7 +22,7 @@ public class UserValue extends MessageableValue<User> {
             case "is_bot" -> BooleanValue.of(delegate.isBot());
             case "is_self" -> BooleanValue.of(delegate.isYourself());
             case "private_channel" -> ChannelValue.of(ValueUtil.awaitFuture(delegate.openPrivateChannel(),"Error opening private channel with user"));
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
 }

@@ -1,6 +1,5 @@
-package Discarpet.script.values;
+package Discarpet.script.values.interaction;
 
-import Discarpet.script.values.common.InteractionValue;
 import carpet.script.value.ListValue;
 import carpet.script.value.MapValue;
 import carpet.script.value.StringValue;
@@ -13,22 +12,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SlashCommandInteractionValue extends InteractionValue<SlashCommandInteraction> {
-    public SlashCommandInteractionValue(SlashCommandInteraction slashCommandInteraction) {
-        super("slash_command_interaction",slashCommandInteraction);
+public class SlashCommandInteractionValue extends ApplicationCommandInteractionValue<SlashCommandInteraction> {
+    public SlashCommandInteractionValue(SlashCommandInteraction applicationCommandInteraction) {
+        super("slash_command_interaction", applicationCommandInteraction);
     }
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "id" -> StringValue.of(delegate.getCommandIdAsString());
-            case "command_name" -> StringValue.of(delegate.getCommandName());
-            case "channel" -> ChannelValue.of(delegate.getChannel());
-            case "user" -> UserValue.of(delegate.getUser());
-            case "token" -> StringValue.of(delegate.getToken());
             case "arguments" -> ListValue.wrap(getAllArguments().stream().map(SlashCommandInteractionOptionValue::new));
             case "arguments_by_name" -> getArgumentsByName();
-            case "locale" -> StringValue.of(delegate.getLocale().getLocaleCode());
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
     

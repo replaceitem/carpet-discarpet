@@ -1,6 +1,7 @@
-package Discarpet.script.values;
+package Discarpet.script.values.interaction;
 
-import Discarpet.script.values.common.InteractionValue;
+import Discarpet.script.values.ChannelValue;
+import Discarpet.script.values.UserValue;
 import carpet.script.value.MapValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
@@ -25,7 +26,7 @@ public class ModalInteractionValue extends InteractionValue<ModalInteraction> {
             case "user" -> new UserValue(delegate.getUser());
             case "locale" -> StringValue.of(delegate.getLocale().getLocaleCode());
             case "input_values_by_id" -> getInputValuesById();
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
     

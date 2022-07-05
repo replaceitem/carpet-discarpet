@@ -1,17 +1,16 @@
-package Discarpet.script.values;
+package Discarpet.script.values.command;
 
 import Discarpet.script.util.ValueUtil;
+import Discarpet.script.values.ServerValue;
 import Discarpet.script.values.common.Deletable;
 import Discarpet.script.values.common.DiscordValue;
-import carpet.script.value.ListValue;
-import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
-import org.javacord.api.interaction.SlashCommand;
+import org.javacord.api.interaction.ApplicationCommand;
 
-public class SlashCommandValue extends DiscordValue<SlashCommand> implements Deletable {
-    public SlashCommandValue(SlashCommand slashCommand) {
-        super("slash_command",slashCommand);
+public abstract class ApplicationCommandValue<T extends ApplicationCommand> extends DiscordValue<T> implements Deletable {
+    public ApplicationCommandValue(String typeName, T applicationCommand) {
+        super(typeName,applicationCommand);
     }
 
     public Value getProperty(String property) {
@@ -20,9 +19,7 @@ public class SlashCommandValue extends DiscordValue<SlashCommand> implements Del
             case "name" -> StringValue.of(delegate.getName());
             case "description" -> StringValue.of(delegate.getDescription());
             case "server" -> ServerValue.of(delegate.getServer());
-            case "options" -> ListValue.wrap(delegate.getOptions().stream().map(slashCommandOption -> StringValue.of(slashCommandOption.getName())));
-            case "creation_timestamp" -> NumericValue.of(delegate.getCreationTimestamp().toEpochMilli());
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
 

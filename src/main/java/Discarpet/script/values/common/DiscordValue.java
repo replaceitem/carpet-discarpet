@@ -18,11 +18,13 @@ public abstract class DiscordValue<T> extends Value {
         this.typeName = "dc_" + typeName;
     }
     
-    public T getInternal() {
+    public T getDelegate() {
         return delegate;
     }
     
-    public abstract Value getProperty(String property);
+    public Value getProperty(String property) {
+        return NULL;
+    }
 
     @SuppressWarnings("unchecked")
     public static Value of(Object object) {

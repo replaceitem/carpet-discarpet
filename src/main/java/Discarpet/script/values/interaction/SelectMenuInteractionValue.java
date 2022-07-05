@@ -1,7 +1,9 @@
-package Discarpet.script.values;
+package Discarpet.script.values.interaction;
 
 import Discarpet.script.util.ValueUtil;
-import Discarpet.script.values.common.InteractionValue;
+import Discarpet.script.values.ChannelValue;
+import Discarpet.script.values.MessageValue;
+import Discarpet.script.values.UserValue;
 import carpet.script.value.ListValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
@@ -25,7 +27,7 @@ public class SelectMenuInteractionValue extends InteractionValue<SelectMenuInter
             case "user" -> UserValue.of(delegate.getUser());
             case "message" -> MessageValue.of(delegate.getMessage());
             case "locale" -> StringValue.of(delegate.getLocale().getLocaleCode());
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
 }

@@ -1,4 +1,4 @@
-package Discarpet.script.parsable.parsables;
+package Discarpet.script.parsable.common;
 
 import Discarpet.script.parsable.ParsableClass;
 import Discarpet.script.parsable.Redirector;

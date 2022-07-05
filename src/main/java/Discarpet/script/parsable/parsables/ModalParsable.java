@@ -10,7 +10,7 @@ import org.javacord.api.interaction.InteractionBase;
 
 import java.util.List;
 
-@ParsableClass(name = "embed")
+@ParsableClass(name = "modal")
 public class ModalParsable implements Applicable<InteractionBase> {
     
     String id;

@@ -21,7 +21,7 @@ public class WebhookValue extends MessageableValue<Webhook> implements Deletable
             case "type" -> StringValue.of(delegate.getType().toString());
             case "token" -> StringValue.of(delegate instanceof IncomingWebhook incomingWebhook ? incomingWebhook.getToken() : null);
             case "url" -> StringValue.of(delegate instanceof IncomingWebhook incomingWebhook ? incomingWebhook.getUrl().getPath() : null);
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
 

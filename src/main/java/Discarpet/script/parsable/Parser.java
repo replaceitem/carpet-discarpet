@@ -1,5 +1,6 @@
 package Discarpet.script.parsable;
 
+import Discarpet.Discarpet;
 import Discarpet.mixins.SimpleTypeConverterAccessor;
 import Discarpet.script.util.MapValueUtil;
 import carpet.script.annotation.SimpleTypeConverter;
@@ -40,7 +41,9 @@ public class Parser {
     private static final Map<Class<?>,Class<?>> parsableClasses = new HashMap<>();
     
     public static void registerParsable(Class<?> parsableClass) {
-        parsableClasses.put(getResultClassFromGeneric(parsableClass), parsableClass);
+        Class<?> resultClass = getResultClassFromGeneric(parsableClass);
+        if(resultClass == null) Discarpet.LOGGER.error("Error finding the result class for '" + getClassName(parsableClass) + "' class");
+        parsableClasses.put(resultClass, parsableClass);
     }
     
     private static boolean hasRegisteredParser(Class<?> resultClass) {

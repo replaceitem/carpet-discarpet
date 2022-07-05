@@ -15,7 +15,7 @@ public class ReactionValue extends DiscordValue<Reaction> {
             case "emoji" -> new EmojiValue(delegate.getEmoji());
             case "count" -> NumericValue.of(delegate.getCount());
             case "message" -> new MessageValue(delegate.getMessage());
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
 }

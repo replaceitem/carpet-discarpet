@@ -22,7 +22,7 @@ public class EmojiValue extends DiscordValue<Emoji> implements Deletable, Renama
             case "is_animated" -> BooleanValue.of(delegate.isAnimated());
             case "is_unicode" -> BooleanValue.of(delegate.isUnicodeEmoji());
             case "is_custom" -> BooleanValue.of(delegate.isCustomEmoji());
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
 

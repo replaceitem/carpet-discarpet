@@ -23,7 +23,7 @@ public class MessageValue extends DiscordValue<Message> implements Deletable {
             case "server" -> ServerValue.of(delegate.getServer());
             case "nonce" -> ValueUtil.ofOptionalString(delegate.getNonce());
             case "attachments" -> ListValue.wrap(delegate.getAttachments().stream().map(AttachmentValue::new));
-            default -> Value.NULL;
+            default -> super.getProperty(property);
         };
     }
 
