@@ -67,7 +67,7 @@ In all cases, the values from the corresponding parsables must be included.
 ### Embed author
 `embed_author`
 
-Can also be parsed directly from a [User](/docs/Values.md#User) value, or a string (which will only set `name`).
+Can also be parsed directly from a [User](/docs/values.md#User) value, or a string (which will only set `name`).
 
 | Value  | Type                                                                                                | Description                                                              |
 |--------|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
@@ -120,7 +120,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `embeds`           | List of [Embeds](#Embed) (optional)                         | A list of all the embeds on this message                                                                                             |
 | `components`       | List of List of [Message components](#Component) (optional) | Each item in this list is one row of message components, and each sub-list (row) contains Components (Text inputs are not supported) |
 | `allowed_mentions` | [Allowed mentions](#Allowed-mentions) (optional)            | Allowed mentions of this message                                                                                                     |
-| `reply_to`         | [Message](/docs/Values.md#Message) (optional)               | Message this message is replying to                                                                                                  |
+| `reply_to`         | [Message](/docs/values.md#Message) (optional)               | Message this message is replying to                                                                                                  |
 | `nonce`            | String (optional)                                           | Nonce of the message                                                                                                                 |
 | `tts`              | boolean (optional)                                          | Whether this message is a text-to-speech message                                                                                     |
 | `ephemeral`        | boolean (optional)                                          | (only for interactions) When true, this message will only be visible to the user who invoked the interaction                         |

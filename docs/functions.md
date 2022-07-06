@@ -12,7 +12,7 @@ Below is a list of all functions and how they work.
 
 This functions sends a message in a specific Discord channel, to a private message channel or a webhook.
 `target` can be a Channel, User or Webhook value.
-The `content` is a parsable [Message content](/docs/Parsable.md#Message-content). But if you just want text, it can be a regular string.
+The `content` is a parsable [Message content](/docs/parsable.md#Message-content). But if you just want text, it can be a regular string.
 
 This example shows how you can send a message and add reactions to it as soon as it was sent
 
@@ -36,9 +36,9 @@ Returns true if successful, otherwise false.
 
 ### `dc_react(message,emoji)`
 
-React to a [`Message`](/docs/Values.md#message) with an `emoji`.
+React to a [`Message`](/docs/values.md#message) with an `emoji`.
 The `emoji` can be a unicode emoji (as a string) or an
-[`emoji`](/docs/Values.md#emoji) value.
+[`emoji`](/docs/values.md#emoji) value.
 
 ## Channels
 
@@ -55,14 +55,14 @@ to the specified `text`. Remember to give the bot permission to do that.
 > **Warning**
 > This function is blocking, use it in a task to avoid freezing your game.
 
-Creates a new Webhook in the specified `channel` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
+Creates a new Webhook in the specified `channel` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/parsable.md#Webhook-profile).
 
 ### `dc_update_webhook(webhook, webhookProfile)`
 
 > **Warning**
 > This function is blocking, use it in a task to avoid freezing your game.
 
-Updates the `webhook` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/Parsable.md#Webhook-profile).
+Updates the `webhook` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/parsable.md#Webhook-profile).
 
 ### `dc_send_webhook(webhook, content, webhookProfile)`
 
@@ -153,13 +153,13 @@ Depending on the `type`, this function expects different parsables:
 * `user_context_menu` -> User context menu parsable
 * `message_context_menu` -> User context menu parsable
 
-Function for creating slash commands for the bot using the [Slash command builder parsable](/docs/Parsable.md#Slash-command-builder).
+Function for creating slash commands for the bot using the [Slash command builder parsable](/docs/parsable.md#Slash-command-builder).
 When specifying a `server`, the slash command will only be for that particular server.
 If `server` is `null`, the slash command will be global, meaning they work in all servers the bot is in.
 *NOTE:* GLOBAL slash commands can take up to 1 hour to update, so for testing,
 you should only use server slash commands, which are created immediately.
 
-Additionally, you can specify additional [Slash command options](/docs/Parsable.md#Slash-command-option) to your command.
+Additionally, you can specify additional [Slash command options](/docs/parsable.md#Slash-command-option) to your command.
 Options are supplied in a list, with each option being a map that specifies some parameters.
 
 Returns an application command value.
@@ -208,9 +208,9 @@ The `message` needs to be specified as the third parameter for this.
 * `'RESPOND_FOLLOWUP'` This is used for sending a followup response within 15 minutes after the `RESPOND_LATER` response has been sent.
 The `message` needs to be specified as the third parameter for this.
 
-* `'RESPOND_MODAL'` Opens a modal for the user. Requires a [Modal](/docs/Parsable.md#Modal) as the third parameter.
+* `'RESPOND_MODAL'` Opens a modal for the user. Requires a [Modal](/docs/parsable.md#Modal) as the third parameter.
 
-The `message` parameter the same as the [Message content](/docs/Parsable.md#Message-content) parameter in `dc_send_message`
+The `message` parameter the same as the [Message content](/docs/parsable.md#Message-content) parameter in `dc_send_message`
 
 This function returns `null`, except if using `RESPOND_FOLLOWUP`,
 this will return a message value with the sent message.
