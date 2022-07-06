@@ -78,7 +78,7 @@ public abstract class DiscordValue<T> extends Value {
 
     @Override
     public String getString() {
-        return getTypeString();
+        return delegate.toString();
     }
 
     @Override
