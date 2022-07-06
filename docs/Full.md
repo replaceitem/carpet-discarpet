@@ -18,8 +18,7 @@ The file should look like this by default:
     {
       "bot_id": "Your bot ID",
       "bot_token": "Your bot token",
-      "member_intent": false,
-      "presence_intent": false
+      "intents": []
     }
   ],
   "disable_reconnect_logs": false
@@ -30,7 +29,7 @@ To add your bot to the game, copy and paste your Bot token from the Developer po
 The `"bot_id"` is used to identify your bot in scarpet later. You should just give the bot a name, so you can identify it.
 This doesn't need to be what you called it in the developer portal,
 it's just an arbitrary name.
-The `member_intent` and `presence_intent` can be set to `true` if these intents are needed by your bots.
+In the `intents` list, you can add additional intents for your bot.
 For more info, see the section about [intents](#Intents).
 
 Now your config should look something like this:
@@ -41,8 +40,7 @@ Now your config should look something like this:
     {
       "bot_id": "coolbot",
       "bot_token": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",
-      "member_intent": false,
-      "presence_intent": false
+      "intents": []
     }
   ],
   "disable_reconnect_logs": false
@@ -76,15 +74,21 @@ To have multiple bots running on your server, just add them to the config file l
   "bots": [
     {
       "bot_id": "bot1",
-      "bot_token": "token1"
+      "bot_token": "token1",
+      "intents": []
     },
     {
       "bot_id": "bot2",
-      "bot_token": "token2"
+      "bot_token": "token2",
+      "intents": [
+        "GUILD_PRESENCES",
+        "GUILD_MEMBERS"
+      ]
     },
     {
       "bot_id": "third_bot",
-      "bot_token": "token for third bot"
+      "bot_token": "token for third bot",
+      "intents": []
     }
   ],
   "disable_reconnect_logs": false
@@ -101,9 +105,14 @@ the bot from the config will be applied.
 
 ## Intents
 
-In the config file, you can enable two kinds of intents for your bot.
-You should leave them as `false`, unless you use functions that require your bot to have this permission.
-In that case, you also need to enable the permissions in the Discord developer portal (Bot/Privileged Gateway Intents).
+In the config file, you can enable privileged intents for your bot.
+By default, all non-privileged intents are enabled.
+The only privileged intents that are disabled by default are `GUILD_PRESENCES` and `GUILD_MEMBERS`.
+
+If you add these intents to the `intents` list in your bot config,
+you will also need to enable them in the [Discord developer portal](https://discord.com/developers/applications)
+under Applications -> [Your bot] -> Bot -> Privileged Gateway Intents.
+
 
 ## Disabling log messages
 
@@ -120,6 +129,43 @@ Discarpet adds various new value types to scarpet, that wrap a Discord value.
 This page lists all of them and which values can be queried from it.
 Querying happens just like with scarpets entity values: `channel~'value'`.
 All Discarpet values have a type name (which you get from `type()`) with the prefix `dc_`.
+
+## Attachment
+
+`dc_attachment`
+
+An attachment from a message or slash command
+
+Queryable:
+
+| Property     | Type           | Description                                                                                                        |
+|--------------|----------------|--------------------------------------------------------------------------------------------------------------------|
+| `message`    | Message        | The message of this attachment, or null if this is not a message attachment                                        |
+| `file_name`  | String         | File name of the attachment                                                                                        |
+| `size`       | number         | The size as the number of bytes of the attached file                                                               |
+| `url`        | String         | The URL of this file                                                                                               |
+| `proxy_url`  | String         | The proxy URL of this file                                                                                         |
+| `is_image`   | boolean        | Whether this file is an image or not                                                                               |
+| `width`      | number or null | The width of the attached image, or null if not an image                                                           |
+| `height`     | number or null | The height of the attached image, or null if not an image                                                          |
+| `is_spoiler` | boolean        | Whether this file is marked as a spoiler                                                                           |
+| `download`   | String         | Downloads the file's bytes as a string. Be careful with this one, big files can block the game for quite some time |
+
+## Button interaction
+
+`dc_button_interaction`
+
+Value from `__on_discord_button(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
+
+Queryable:
+
+| Property  | Type    | Description                                                                                                            |
+|-----------|---------|------------------------------------------------------------------------------------------------------------------------|
+| `id`      | String  | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter            |
+| `channel` | Channel | The channel this interaction was made in.                                                                              |
+| `user`    | User    | The user that used the interaction.                                                                                    |
+| `message` | Message | The message this interaction is attached to.                                                                           |
+| `locale`  | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
 
 ## Channel
 
@@ -149,7 +195,6 @@ Possible `type`s are:
 * `server_news_channel`
 * `server_store_channel`
 * `server_news_thread`
-* 
 
 ## Emoji
 
@@ -166,6 +211,34 @@ Queryable:
 | `is_animated` | boolean | True if the emojis is animated, false if not                                           |
 | `is_unicode`  | boolean | True if the emoji is a unicode emoji, false otherwise                                  |
 | `is_custom`   | boolean | True if the emoji is a custom one, otherwise false                                     |
+
+## Message context menu interaction
+
+`dc_message_context_menu_interaction`
+
+| Property       | Type    | Description                                                                                                            |
+|----------------|---------|------------------------------------------------------------------------------------------------------------------------|
+| `id`           | String  | The id of the interaction                                                                                              |
+| `channel`      | Channel | The channel this command was executed in.                                                                              |
+| `user`         | User    | The user that executed the command.                                                                                    |
+| `token`        | String  | The token used to respond to the interaction (normally not needed)                                                     |
+| `server`       | Server  | The server this interaction was made in                                                                                |
+| `locale`       | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| `command_id`   | String  | The id of the application command                                                                                      |
+| `command_name` | String  | The name of the application command                                                                                    |
+| `target`       | Message | The message the context menu interaction was used on                                                                   |
+
+## Message context menu
+
+`dc_message_context_menu`
+
+| Property             | Type            | Description                                                                                                                                                                     |
+|----------------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                 | String          | Id of the command                                                                                                                                                               |
+| `name`               | String          | Name of the command                                                                                                                                                             |
+| `description`        | String          | Description of the command                                                                                                                                                      |
+| `server`             | Server          | The server this application command is in, or null if it's a global application command                                                                                         |
+
 
 ## Message
 
@@ -203,27 +276,6 @@ Queryable:
 | `locale`             | String                               | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US)                                  |
 | `input_values_by_id` | Map of string keys and string values | A map where the keys are the ids of the component, and the value the values entered into them. Useful for querying the values of components by their id |
 
-## Attachment
-
-`dc_attachment`
-
-An attachment from a message or slash command
-
-Queryable:
-
-| Property     | Type           | Description                                                                                                        |
-|--------------|----------------|--------------------------------------------------------------------------------------------------------------------|
-| `message`    | Message        | The message of this attachment, or null if this is not a message attachment                                        |
-| `file_name`  | String         | File name of the attachment                                                                                        |
-| `size`       | number         | The size as the number of bytes of the attached file                                                               |
-| `url`        | String         | The URL of this file                                                                                               |
-| `proxy_url`  | String         | The proxy URL of this file                                                                                         |
-| `is_image`   | boolean        | Whether this file is an image or not                                                                               |
-| `width`      | number or null | The width of the attached image, or null if not an image                                                           |
-| `height`     | number or null | The height of the attached image, or null if not an image                                                          |
-| `is_spoiler` | boolean        | Whether this file is marked as a spoiler                                                                           |
-| `download`   | String         | Downloads the file's bytes as a string. Be careful with this one, big files can block the game for quite some time |
-
 ## Reaction
 
 `dc_reaction`
@@ -237,43 +289,6 @@ Queryable:
 | `emoji`   | Emoji   | The emoji of this reaction               |
 | `count`   | Number  | Amount of reactions with this emoji      |
 | `message` | Message | The message this reaction is attached to |
-
-## Server
-
-`dc_server`
-
-A Discord server
-
-Queryable:
-
-| Property         | Type                   | Description                                                |
-|------------------|------------------------|------------------------------------------------------------|
-| `name`           | String                 | The name of the server                                     |
-| `id`             | String                 | The ID of the server                                       |
-| `users`          | List of Users          | All users in this server (this requires the member Intent) |
-| `channels`       | List of Channels       | All channels in this server                                |
-| `roles`          | List of Roles          | All roles in this server                                   |
-| `webhooks`       | List of Webhooks       | All webhooks in this server                                |
-| `slash_commands` | List of Slash commands | All slash commands in this server                          |
-
-## User
-
-`dc_user`
-
-A discord user. Can be from a real discord account or a bot
-
-Queryable:
-
-| Property             | Type    | Description                                                                                                      |
-|----------------------|---------|------------------------------------------------------------------------------------------------------------------|
-| `name`               | String  | The name of the user (Does not include nicknames, use `dc_get_display_name` for that)                            |
-| `mention_tag`        | String  | The mention tag to mention a user in a message                                                                   |
-| `discriminated_name` | String  | The name of the user with its discriminator. e.g. `replaceitem#9118`                                             |
-| `id`                 | String  | ID of the user                                                                                                   |
-| `avatar`             | String  | URL of the users profile picture                                                                                 |
-| `is_bot`             | boolean | True if the user is a bot, false if it is a regular user                                                         |
-| `is_self`            | boolean | True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself        |
-| `private_channel`    | Channel | The private messages channel with the user. Note that this may block, if the private channel was not yet opened. |
 
 ## Role
 
@@ -297,25 +312,45 @@ Queryable:
 | `managed`              | boolean       | Whether this role is managed by an integration or not            |
 | `mentionable`          | boolean       | Whether this role is mentionable or not                          |
 
+## Select menu interaction
 
-## Slash command interaction
+`dc_select_menu_interaction`
 
-`dc_slash_command_interaction`
-
-Value from `__on_discord_slash_command(interaction)` event, used for getting the command that was executed, and then replying to it with `dc_respond_interaction()`
+Value from `__on_discord_select_menu(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
 
 Queryable:
 
-| Property            | Type                                       | Description                                                                                                            |
-|---------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| `id`                | String                                     | The id of the command                                                                                                  |
-| `command_name`      | String                                     | The name of the slash command                                                                                          |
-| `channel`           | Channel                                    | The channel this command was executed in.                                                                              |
-| `user`              | User                                       | The user that executed the command.                                                                                    |
-| `token`             | String                                     | The token used to respond to the interaction (normally not needed)                                                     |
-| `arguments`         | List of slash command options              | The selected options of the command                                                                                    |
-| `arguments_by_name` | Map of slash command options by their name | Returns a map of all options (and sub-options), with the key being their name                                          |
-| `locale`            | String                                     | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| Property      | Type    | Description                                                                                                            |
+|---------------|---------|------------------------------------------------------------------------------------------------------------------------|
+| `id`          | String  | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter            |
+| `channel`     | Channel | The channel this interaction was made in.                                                                              |
+| `user`        | User    | The user that used the interaction.                                                                                    |
+| `message`     | Message | The message this interaction is attached to.                                                                           |
+| `locale`      | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| `chosen`      | List    | List the values of the chosen options                                                                                  |
+| `options`     | List    | All values of options in the select menu                                                                               |
+| `min`         | number  | Minimum amount of selected entries for this select menu                                                                |
+| `max`         | number  | Maximum amount of selected entries for this select menu                                                                |
+| `placeholder` | String  | Placeholder text of this select menu                                                                                   |
+| `locale`      | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+
+## Server
+
+`dc_server`
+
+A Discord server
+
+Queryable:
+
+| Property         | Type                   | Description                                                |
+|------------------|------------------------|------------------------------------------------------------|
+| `name`           | String                 | The name of the server                                     |
+| `id`             | String                 | The ID of the server                                       |
+| `users`          | List of Users          | All users in this server (this requires the member Intent) |
+| `channels`       | List of Channels       | All channels in this server                                |
+| `roles`          | List of Roles          | All roles in this server                                   |
+| `webhooks`       | List of Webhooks       | All webhooks in this server                                |
+| `slash_commands` | List of Slash commands | All slash commands in this server                          |
 
 ## Slash command interaction option
 
@@ -330,6 +365,27 @@ Represents the user-chosen options of a slash command execution.
 | `value`                  | ? (depends on the slash command option type) | The value chosen by the user                            |
 | `options`                | List of slash command interaction options    | The sub-options of this option                          |
 
+## Slash command interaction
+
+`dc_slash_command_interaction`
+
+Value from `__on_discord_slash_command(interaction)` event, used for getting the command that was executed, and then replying to it with `dc_respond_interaction()`
+
+Queryable:
+
+| Property            | Type                                       | Description                                                                                                            |
+|---------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| `id`                | String                                     | The id of the interaction                                                                                              |
+| `channel`           | Channel                                    | The channel this command was executed in.                                                                              |
+| `user`              | User                                       | The user that executed the command.                                                                                    |
+| `token`             | String                                     | The token used to respond to the interaction (normally not needed)                                                     |
+| `server`            | Server                                     | The server this interaction was made in                                                                                |
+| `locale`            | String                                     | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| `command_id`        | String                                     | The id of the application command                                                                                      |
+| `command_name`      | String                                     | The name of the application command                                                                                    |
+| `arguments`         | List of slash command options              | The selected options of the command                                                                                    |
+| `arguments_by_name` | Map of slash command options by their name | Returns a map of all options (and sub-options), with the key being their name                                          |
+
 ## Slash command
 
 `dc_slash_command`
@@ -341,38 +397,54 @@ Represents a slash command on a server
 | `id`                 | String          | Id of the command                                                                                                                                                               |
 | `name`               | String          | Name of the command                                                                                                                                                             |
 | `description`        | String          | Description of the command                                                                                                                                                      |
-| `server`             | Server          | The server this slash command is in, or null if it's a global slash command                                                                                                     |
+| `server`             | Server          | The server this application command is in, or null if it's a global application command                                                                                         |
 | `options`            | List of Strings | The names of the slash command options (didn't bother adding a slash command option value, since nobody gonna use it anyway, but if you need it, make an issue and i'll add it) |
-| `creation_timestamp` | number          | The timestamp of the command                                                                                                                                                    |
 
-## Button and Select menu interaction
+## User context menu interaction
 
-`dc_button_interaction`, `dc_select_menu_interaction`
+`dc_user_context_menu_interaction`
 
-Value from `__on_discord_button(interaction)` and `__on_discord_select_menu(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
+| Property       | Type    | Description                                                                                                            |
+|----------------|---------|------------------------------------------------------------------------------------------------------------------------|
+| `id`           | String  | The id of the interaction                                                                                              |
+| `channel`      | Channel | The channel this command was executed in.                                                                              |
+| `user`         | User    | The user that executed the command.                                                                                    |
+| `token`        | String  | The token used to respond to the interaction (normally not needed)                                                     |
+| `server`       | Server  | The server this interaction was made in                                                                                |
+| `locale`       | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| `command_id`   | String  | The id of the application command                                                                                      |
+| `command_name` | String  | The name of the application command                                                                                    |
+| `target`       | User    | The user the context menu interaction was used on                                                                      |
 
-These values have mostly the same things to query.
+## User context menu
+
+`dc_user_context_menu`
+
+| Property             | Type            | Description                                                                                                                                                                     |
+|----------------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`                 | String          | Id of the command                                                                                                                                                               |
+| `name`               | String          | Name of the command                                                                                                                                                             |
+| `description`        | String          | Description of the command                                                                                                                                                      |
+| `server`             | Server          | The server this application command is in, or null if it's a global application command                                                                                         |
+
+## User
+
+`dc_user`
+
+A discord user. Can be from a real discord account or a bot
 
 Queryable:
 
-| Property  | Type    | Description                                                                                                            |
-|-----------|---------|------------------------------------------------------------------------------------------------------------------------|
-| `id`      | String  | Id of the button or select menu, which was specified by the user in the `dc_send_message` message parameter            |
-| `channel` | Channel | The channel this interaction was made in.                                                                              |
-| `user`    | User    | The user that used the interaction.                                                                                    |
-| `message` | Message | The message this interaction is attached to.                                                                           |
-| `locale`  | String  | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
-
-Queryable things exclusive to select menus:
-
-| Property      | Type   | Description                                                                                                            |
-|---------------|--------|------------------------------------------------------------------------------------------------------------------------|
-| `chosen`      | List   | List the values of the chosen options                                                                                  |
-| `options`     | List   | All values of options in the select menu                                                                               |
-| `min`         | number | Minimum amount of selected entries for this select menu                                                                |
-| `max`         | number | Maximum amount of selected entries for this select menu                                                                |
-| `placeholder` | String | Placeholder text of this select menu                                                                                   |
-| `locale`      | String | The [locale](https://discord.com/developers/docs/reference#locales) of the user executing the interaction (e.g. en-US) |
+| Property             | Type    | Description                                                                                                      |
+|----------------------|---------|------------------------------------------------------------------------------------------------------------------|
+| `name`               | String  | The name of the user (Does not include nicknames, use `dc_get_display_name` for that)                            |
+| `mention_tag`        | String  | The mention tag to mention a user in a message                                                                   |
+| `discriminated_name` | String  | The name of the user with its discriminator. e.g. `replaceitem#9118`                                             |
+| `id`                 | String  | ID of the user                                                                                                   |
+| `avatar`             | String  | URL of the users profile picture                                                                                 |
+| `is_bot`             | boolean | True if the user is a bot, false if it is a regular user                                                         |
+| `is_self`            | boolean | True if the user is the currently logged in bot account itself. Useful to prevent bots replying to itself        |
+| `private_channel`    | Channel | The private messages channel with the user. Note that this may block, if the private channel was not yet opened. |
 
 ## Webhook
 
@@ -393,6 +465,7 @@ Queryable:
 Many discord entities don't have their own value, as they can be represented with scarpet maps, lists, and other values.
 
 ### Allowed mentions
+`allowed_mentions`
 
 Note that all of the options default to false, meaning that as soon as the allowed mentions are specified, all mentions are disabled by default.
 
@@ -405,6 +478,7 @@ Note that all of the options default to false, meaning that as soon as the allow
 | `users`            | List of User ids (String)             | Users that should be mentioned                   |
 
 ### Attachment
+`attachment`
 
 An attachment can be created in different ways.
 From a File, a URL or from a string which will be the raw bytes of the file.
@@ -419,6 +493,7 @@ From a File, a URL or from a string which will be the raw bytes of the file.
 | `spoiler` | boolean (optional, defaults to false)                                                     | Whether this attachment is a spoiler         |
 
 ### Button
+`button`
 
 | Value       | Type                                                    | Description                                                                    |
 |-------------|---------------------------------------------------------|--------------------------------------------------------------------------------|
@@ -431,6 +506,7 @@ From a File, a URL or from a string which will be the raw bytes of the file.
 | `url`       | String (optional, only required for `url` style)        | The URL opened when clicking the button. This is only used for the `url` style |
 
 ### Color
+`color`
 
 Can also be parsed directly from a list `[r,g,b]`, or a number (`0xRRGGBB`)
 
@@ -441,6 +517,7 @@ Can also be parsed directly from a list `[r,g,b]`, or a number (`0xRRGGBB`)
 | `b`   | number | Blue component  |
 
 ### Component
+`component`
 
 Can be either a [Button](#Button), a [Select menu](#Select menu) or a [Text input](#Text-input).
 In all cases, the values from the corresponding parsables must be included.
@@ -450,6 +527,7 @@ In all cases, the values from the corresponding parsables must be included.
 | `component` | String | Must be `button`, `select_menu` or `text_input` |
 
 ### Embed author
+`embed_author`
 
 Can also be parsed directly from a [User](/docs/Values.md#User) value, or a string (which will only set `name`).
 
@@ -460,6 +538,7 @@ Can also be parsed directly from a [User](/docs/Values.md#User) value, or a stri
 | `icon` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/Image of the icon/avatar shown next to the author name |
 
 ### Embed field
+`embed_field`
 
 | Value    | Type               | Description                            |
 |----------|--------------------|----------------------------------------|
@@ -468,6 +547,7 @@ Can also be parsed directly from a [User](/docs/Values.md#User) value, or a stri
 | `inline` | boolean (optional) | Whether this field is inline or not    |
 
 ### Embed footer
+`embed_footer`
 
 | Value  | Type                                                                                                | Description                                          |
 |--------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------|
@@ -475,6 +555,7 @@ Can also be parsed directly from a [User](/docs/Values.md#User) value, or a stri
 | `icon` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image of the icon next to the text |
 
 ### Embed
+`embed`
 
 | Value         | Type                                                                                                | Description                                                             |
 |---------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
@@ -489,15 +570,8 @@ Can also be parsed directly from a [User](/docs/Values.md#User) value, or a stri
 | `thumbnail`   | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | The URL/File path/image which will be shown as a thumbnail in the embed |
 | `timestamp`   | [Timestamp](#Timestamp) (optional)                                                                  | The timestamp of the embed, which will be shown at the bottom           |
 
-### Timestamp
-
-Can also be parsed directly from a number, or a string `'now'`, which will parse to the current instant.
-
-| Value          | Type   | Description                       |
-|----------------|--------|-----------------------------------|
-| `epoch_millis` | number | Milliseconds since the epoch time |
-
 ### Message content
+`message_content`
 
 Can also be parsed directly from a string (In which case only a `content` is present).
 
@@ -511,8 +585,18 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `reply_to`         | [Message](/docs/Values.md#Message) (optional)               | Message this message is replying to                                                                                                  |
 | `nonce`            | String (optional)                                           | Nonce of the message                                                                                                                 |
 | `tts`              | boolean (optional)                                          | Whether this message is a text-to-speech message                                                                                     |
+| `ephemeral`        | boolean (optional)                                          | (only for interactions) When true, this message will only be visible to the user who invoked the interaction                         |
+| `suppress_embeds`  | boolean (optional)                                          | (only for interactions) When true, embeds will not be included                                                                       |
+
+### Message context menu builder
+`message_context_menu_builder`
+
+| Value         | Type   | Description      |
+|---------------|--------|------------------|
+| `name`        | String | The command name |
 
 ### Modal
+`modal`
 
 | Value              | Type                                             | Description                                                                                                                                      |
 |--------------------|--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -521,6 +605,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `components`       | List of List of [Message components](#Component) | Each item in this list is one row of message components, and each sub-list (row) contains Components (Currently only [Text input](#Text-input)s) |
 
 ### Select menu option
+`select_menu_option`
 
 | Value            | Type                             | Description                                |
 |------------------|----------------------------------|--------------------------------------------|
@@ -531,6 +616,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `default_option` | boolean (optional)               | Whether this is selected by default or not |
 
 ### Select menu
+`select_menu`
 
 | Value         | Type                                               | Description                                                 |
 |---------------|----------------------------------------------------|-------------------------------------------------------------|
@@ -542,6 +628,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `placeholder` | String (optional)                                  | The text displayed when nothing is selected yet             |
 
 ### Slash command builder
+`slash_command_builder`
 
 | Value         | Type                          | Description                    |
 |---------------|-------------------------------|--------------------------------|
@@ -550,6 +637,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `options`     | List of slash command options | The sub-options of the command |
 
 ### Slash command option choice
+`slash_command_option_choice`
 
 | Value   | Type   | Description                                                                    |
 |---------|--------|--------------------------------------------------------------------------------|
@@ -557,6 +645,7 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `value` | String | The value that will be received in the slash command event as the option value |
 
 ### Slash command option
+`slash_command_option`
 
 There are two things this can do, depending on the `type`.
 Either add subcommand literals, or parameters to the command. 
@@ -577,6 +666,7 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 | `choices`     | List of [Slash command option choices](#Slash-command-option-choice) (optional) | Autocompletable choices for this command option                                                                                                                       |
 
 ### Text input
+`text_input`
 
 | Value         | Type               | Description                                                                                                                      |
 |---------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -589,7 +679,24 @@ See: https://canary.discord.com/developers/docs/interactions/application-command
 | `value`       | String (optional)  | The pre-filled value for the text input                                                                                          |
 | `placeholder` | String (optional)  | The placeholder text shown if the text input is empty                                                                            |
 
+### Timestamp
+`timestamp`
+
+Can also be parsed directly from a number, or a string `'now'`, which will parse to the current instant.
+
+| Value          | Type   | Description                       |
+|----------------|--------|-----------------------------------|
+| `epoch_millis` | number | Milliseconds since the epoch time |
+
+### User context menu builder
+`user_context_menu_builder`
+
+| Value         | Type   | Description      |
+|---------------|--------|------------------|
+| `name`        | String | The command name |
+
 ### Webhook message profile
+`webhook_message_profile`
 
 Used when updating the webhook profile along with sending a message
 
@@ -599,6 +706,7 @@ Used when updating the webhook profile along with sending a message
 | `avatar` | String (optional) | A URL to the avatar shown on the webhook |
 
 ### Webhook profile
+`webhook_profile`
 
 Used when creating a webhook
 
@@ -609,6 +717,7 @@ Used when creating a webhook
 | `reason` | String (optional)                                                                                   | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |
 
 ### Webhook profile updater
+`webhook_profile_updater`
 
 Used when updating a webhook profile
 
@@ -761,10 +870,15 @@ If provided, `reason` will be shown in the audit log of your server.
 
 ## Interactions
 
-### `dc_create_slash_command(commandBuilder, server?)`
+### `dc_create_application_command(type,commandBuilder, server?)`
 
 > **Warning**
 > This function is blocking, use it in a task to avoid freezing your game.
+
+Depending on the `type`, this function expects different parsables:
+* `slash_command` -> Slash command parsable
+* `user_context_menu` -> User context menu parsable
+* `message_context_menu` -> User context menu parsable
 
 Function for creating slash commands for the bot using the [Slash command builder parsable](/docs/Parsable.md#Slash-command-builder).
 When specifying a `server`, the slash command will only be for that particular server.
@@ -774,6 +888,8 @@ you should only use server slash commands, which are created immediately.
 
 Additionally, you can specify additional [Slash command options](/docs/Parsable.md#Slash-command-option) to your command.
 Options are supplied in a list, with each option being a map that specifies some parameters.
+
+Returns an application command value.
 
 For full examples of commands, see [Examples](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Examples.md#Slash-commands)
 
@@ -789,6 +905,13 @@ deletes all global slash commands. When a name is specified, deletes only the sl
 
 Note that this function halts the current thread in order to ensure that the slash commands got removed,
 so creating a slash command immediately after wouldn't conflict with this.
+
+### `dc_get_global_application_commands()`
+
+> **Warning**
+> This function is blocking, use it in a task to avoid freezing your game.
+
+Returns all global application commands of the bot
 
 ### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)` `dc_respond_interaction(interaction,type,modal)`
 
