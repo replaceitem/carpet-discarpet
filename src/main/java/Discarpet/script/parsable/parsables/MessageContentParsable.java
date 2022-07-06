@@ -8,11 +8,13 @@ import Discarpet.script.util.content.ContentApplier;
 import carpet.script.value.MapValue;
 import carpet.script.value.Value;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.message.MessageFlag;
 import org.javacord.api.entity.message.component.ActionRow;
 import org.javacord.api.entity.message.component.LowLevelComponent;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.message.mention.AllowedMentions;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,10 @@ public class MessageContentParsable implements Applicable<ContentApplier>, Direc
     @Optional Message reply_to;
     @Optional String nonce;
     @Optional Boolean tts = false;
+    
+    // message flags
+    @Optional Boolean ephemeral = false;
+    @Optional Boolean suppress_embeds = false;
     
     @Override
     public void apply(ContentApplier contentApplier) {
@@ -45,6 +51,11 @@ public class MessageContentParsable implements Applicable<ContentApplier>, Direc
         if(reply_to != null) contentApplier.replyTo(reply_to);
         contentApplier.setNonce(nonce);
         contentApplier.setTts(tts);
+
+        EnumSet<MessageFlag> messageFlags = EnumSet.noneOf(MessageFlag.class);
+        if(ephemeral) messageFlags.add(MessageFlag.EPHEMERAL);
+        if(suppress_embeds) messageFlags.add(MessageFlag.SUPPRESS_EMBEDS);
+        contentApplier.setFlags(messageFlags);
     }
 
     @Override

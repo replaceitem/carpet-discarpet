@@ -1,6 +1,7 @@
 package Discarpet.script.util.content;
 
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.message.MessageFlag;
 import org.javacord.api.entity.message.component.HighLevelComponent;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.message.mention.AllowedMentions;
@@ -8,6 +9,7 @@ import org.javacord.api.entity.message.mention.AllowedMentions;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
+import java.util.EnumSet;
 
 /**
  * Class to wrap different javacord classes for building messages for different purposes, but do the same thing.
@@ -30,4 +32,6 @@ public interface ContentApplier {
     void replyTo(Message message);
     void setNonce(String nonce);
     void setTts(boolean tts);
+    
+    void setFlags(EnumSet<MessageFlag> flags);
 }
