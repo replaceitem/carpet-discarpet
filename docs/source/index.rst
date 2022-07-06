@@ -1,3 +1,0 @@
-# Readthedocs test
-
-Hello world?
