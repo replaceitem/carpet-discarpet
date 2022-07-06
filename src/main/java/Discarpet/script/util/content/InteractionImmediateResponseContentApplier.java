@@ -2,6 +2,7 @@ package Discarpet.script.util.content;
 
 import carpet.script.exception.InternalExpressionException;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.message.MessageFlag;
 import org.javacord.api.entity.message.component.HighLevelComponent;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.message.mention.AllowedMentions;
@@ -10,6 +11,7 @@ import org.javacord.api.interaction.callback.InteractionImmediateResponseBuilder
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
+import java.util.EnumSet;
 
 public class InteractionImmediateResponseContentApplier implements ContentApplier {
 
@@ -86,5 +88,10 @@ public class InteractionImmediateResponseContentApplier implements ContentApplie
     @Override
     public void setTts(boolean tts) {
         builder.setTts(tts);
+    }
+
+    @Override
+    public void setFlags(EnumSet<MessageFlag> flags) {
+        builder.setFlags(flags);
     }
 }

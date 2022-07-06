@@ -123,6 +123,8 @@ Can also be parsed directly from a string (In which case only a `content` is pre
 | `reply_to`         | [Message](/docs/Values.md#Message) (optional)               | Message this message is replying to                                                                                                  |
 | `nonce`            | String (optional)                                           | Nonce of the message                                                                                                                 |
 | `tts`              | boolean (optional)                                          | Whether this message is a text-to-speech message                                                                                     |
+| `ephemeral`        | boolean (optional)                                          | (only for interactions) When true, this message will only be visible to the user who invoked the interaction                         |
+| `suppress_embeds`  | boolean (optional)                                          | (only for interactions) When true, embeds will not be included                                                                       |
 
 ### Message context menu builder
 `message_context_menu_builder`

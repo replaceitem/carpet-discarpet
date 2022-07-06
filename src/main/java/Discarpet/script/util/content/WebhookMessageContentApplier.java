@@ -2,6 +2,7 @@ package Discarpet.script.util.content;
 
 import carpet.script.exception.InternalExpressionException;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.message.MessageFlag;
 import org.javacord.api.entity.message.WebhookMessageBuilder;
 import org.javacord.api.entity.message.component.HighLevelComponent;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
@@ -10,13 +11,14 @@ import org.javacord.api.entity.message.mention.AllowedMentions;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
+import java.util.EnumSet;
 
 public class WebhookMessageContentApplier implements ContentApplier {
 
     private final WebhookMessageBuilder builder;
     
     private static void throwNotSupported(String what) {
-        throw new InternalExpressionException("'" + what + "' is not supported for webhooks");
+        throw new InternalExpressionException("'" + what + "' is not supported for webhook message content");
     }
 
     public WebhookMessageContentApplier(WebhookMessageBuilder builder) {
@@ -94,5 +96,10 @@ public class WebhookMessageContentApplier implements ContentApplier {
     @Override
     public void setTts(boolean tts) {
         builder.setTts(tts);
+    }
+
+    @Override
+    public void setFlags(EnumSet<MessageFlag> flags) {
+        throwNotSupported("flags");
     }
 }
