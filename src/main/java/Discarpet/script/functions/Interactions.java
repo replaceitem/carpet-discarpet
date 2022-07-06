@@ -29,14 +29,13 @@ import java.util.concurrent.CompletableFuture;
 
 import static Discarpet.Discarpet.getBotInContext;
 import static Discarpet.script.util.ValueUtil.awaitFuture;
-import static Discarpet.script.util.ValueUtil.awaitFutureBoolean;
 
 @SuppressWarnings("unused")
 public class Interactions {
     @ScarpetFunction
     public Value dc_create_slash_command(Context context, Value command, Value server) {
         context.host.issueDeprecation("dc_create_slash_command");
-        return dc_create_application_command(context, "slash", command, server instanceof ServerValue serverValue ? serverValue.getDelegate() : null);
+        return dc_create_application_command(context, "slash_command", command, server instanceof ServerValue serverValue ? serverValue.getDelegate() : null);
     }
     
     @ScarpetFunction(maxParams = 3)
