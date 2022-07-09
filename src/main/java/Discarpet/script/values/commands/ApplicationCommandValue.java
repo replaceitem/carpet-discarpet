@@ -1,4 +1,4 @@
-package Discarpet.script.values.command;
+package Discarpet.script.values.commands;
 
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.values.ServerValue;

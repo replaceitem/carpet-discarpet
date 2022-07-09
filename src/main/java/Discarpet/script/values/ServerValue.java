@@ -1,7 +1,7 @@
 package Discarpet.script.values;
 
 import Discarpet.script.util.ValueUtil;
-import Discarpet.script.values.command.SlashCommandValue;
+import Discarpet.script.values.commands.SlashCommandValue;
 import Discarpet.script.values.common.DiscordValue;
 import Discarpet.script.values.common.Renamable;
 import carpet.script.value.ListValue;
