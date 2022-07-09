@@ -1,4 +1,4 @@
-package Discarpet.script.parsable.parsables;
+package Discarpet.script.parsable.parsables.components;
 
 import Discarpet.script.parsable.Applicable;
 import Discarpet.script.parsable.ParsableClass;

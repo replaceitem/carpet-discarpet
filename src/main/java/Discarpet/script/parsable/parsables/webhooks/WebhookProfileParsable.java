@@ -1,4 +1,4 @@
-package Discarpet.script.parsable.parsables;
+package Discarpet.script.parsable.parsables.webhooks;
 
 import Discarpet.Discarpet;
 import Discarpet.script.parsable.Applicable;
@@ -7,41 +7,41 @@ import Discarpet.script.parsable.ParsableClass;
 import Discarpet.script.util.ScarpetGraphicsDependency;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.Value;
-import org.javacord.api.entity.webhook.WebhookUpdater;
+import org.javacord.api.entity.webhook.WebhookBuilder;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-@ParsableClass(name = "webhook_profile_updater")
-public class WebhookProfileUpdaterParsable implements Applicable<WebhookUpdater> {
+@ParsableClass(name = "webhook_profile")
+public class WebhookProfileParsable implements Applicable<WebhookBuilder> {
     
-    @Optional String name;
+    String name;
     @Optional Value avatar;
     @Optional String reason;
 
     @Override
-    public void apply(WebhookUpdater webhookUpdater) {
-        webhookUpdater.setName(name);
-        setAvatar(webhookUpdater);
-        webhookUpdater.setAuditLogReason(reason);
+    public void apply(WebhookBuilder webhookBuilder) {
+        webhookBuilder.setName(name);
+        setAvatar(webhookBuilder);
+        webhookBuilder.setAuditLogReason(reason);
     }
 
-    private void setAvatar(WebhookUpdater webhookUpdater) {
+    private void setAvatar(WebhookBuilder webhookBuilder) {
         if(Discarpet.isScarpetGraphicsInstalled() && ScarpetGraphicsDependency.isPixelAccessible(avatar)) {
             BufferedImage bufferedImage = ScarpetGraphicsDependency.getImageFromValue(avatar);
-            webhookUpdater.setAvatar(bufferedImage);
+            webhookBuilder.setAvatar(bufferedImage);
             return;
         }
         String iconString = avatar.getString();
         File file = new File(iconString);
         if(file.exists()) {
-            webhookUpdater.setAvatar(file);
+            webhookBuilder.setAvatar(file);
             return;
         }
         try {
-            webhookUpdater.setAvatar(new URL(iconString));
+            webhookBuilder.setAvatar(new URL(iconString));
         } catch (MalformedURLException e) {
             throw new InternalExpressionException("Invalid URL/File provided for 'avatar'");
         }
