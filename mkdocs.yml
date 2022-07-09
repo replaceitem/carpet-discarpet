@@ -1,6 +1,7 @@
 site_name: Discarpet Docs
 repo_url: https://github.com/replaceitem/carpet-discarpet/
 repo_name: replaceitem/carpet-discarpet
+site_url: https://replaceitem.github.io/carpet-discarpet/
 site_description: Discarpet documentation
 site_author: replaceitem
 theme:
@@ -9,6 +10,8 @@ theme:
   favicon: assets/logo.png
   icon:
     repo: fontawesome/brands/github
+  features:
+    - toc.integrate
   palette:
     - scheme: default
       toggle:

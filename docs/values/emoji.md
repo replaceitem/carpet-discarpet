@@ -2,7 +2,7 @@
 
 This value stores an Emoji, which could be a normal unicode emoji, or a custom emoji from a Discord server.
 
-Queryable:
+#### Queryable:
 
 | Property      | Type    | Description                                                                            |
 |---------------|---------|----------------------------------------------------------------------------------------|
