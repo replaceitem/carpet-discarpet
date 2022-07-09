@@ -1,6 +1,6 @@
 `embed_author`
 
-Can also be parsed directly from a [User](/docs/values.md#User) value, or a string (which will only set `name`).
+Can also be parsed directly from a [User](../../../values/user) value, or a string (which will only set `name`).
 
 | Value  | Type                                                                                                | Description                                                              |
 |--------|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|

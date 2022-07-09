@@ -2,17 +2,17 @@
 
 A channel value represents a Discord server channel, DM channel, server thread or channel category.
 
-### Queryable:
+#### Queryable:
 
-| Property      | Type             | Description                                                                                           |
-|---------------|------------------|-------------------------------------------------------------------------------------------------------|
-| `name`        | String           | The name of the Discord channel                                                                       |
-| `topic`       | String           | The topic of the channel (See `dc_set_channel_topic`)                                                 |
-| `id`          | String           | ID of the channel                                                                                     |
-| `mention_tag` | String           | Mention tag for the channel. This can be put inside a message for the channel to be a clickable link. |
-| `server`      | Server           | Server this channel is in, or null if this is a private channel                                       |
-| `type`        | String           | [Channel type](#Channel-types)                                                                        |
-| `webhooks`    | List of Webhooks | All webhooks in this channel                                                                          |
+| Property      | Type                           | Description                                                                                           |
+|---------------|--------------------------------|-------------------------------------------------------------------------------------------------------|
+| `name`        | String                         | The name of the Discord channel                                                                       |
+| `topic`       | String                         | The topic of the channel (See `dc_set_channel_topic`)                                                 |
+| `id`          | String                         | ID of the channel                                                                                     |
+| `mention_tag` | String                         | Mention tag for the channel. This can be put inside a message for the channel to be a clickable link. |
+| `server`      | [Server](../server)            | Server this channel is in, or null if this is a private channel                                       |
+| `type`        | String                         | [Channel type](#channel-types)                                                                        |
+| `webhooks`    | List of [Webhooks](../webhook) | All webhooks in this channel                                                                          |
 
 #### Channel types
 
