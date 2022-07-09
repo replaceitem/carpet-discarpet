@@ -3,7 +3,7 @@ package Discarpet.script.functions;
 import Discarpet.config.Bot;
 import Discarpet.script.parsable.Parser;
 import Discarpet.script.parsable.parsables.MessageContentParsable;
-import Discarpet.script.parsable.parsables.ModalParsable;
+import Discarpet.script.parsable.parsables.components.ModalParsable;
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.util.content.InteractionFollowupMessageContentApplier;
 import Discarpet.script.util.content.InteractionImmediateResponseContentApplier;

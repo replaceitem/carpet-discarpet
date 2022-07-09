@@ -1,4 +1,4 @@
-package Discarpet.script.parsable.parsables;
+package Discarpet.script.parsable.parsables.webhooks;
 
 import Discarpet.script.parsable.Applicable;
 import Discarpet.script.parsable.Optional;

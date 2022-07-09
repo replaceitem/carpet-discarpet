@@ -69,6 +69,33 @@ nav:
       - Message context menu interaction: 'values/interactions/message-context-menu-interaction.md'
       - User context menu interaction: 'values/interactions/user-context-menu-interaction.md'
     
-  - Parsable values: 'parsable.md'
+  - Parsable values:
+    - Message content: 'parsables/message-content.md'
+    - Attachment: 'parsables/attachment.md'
+    - Color: 'parsables/color.md'
+    - Timestamp: 'parsables/timestamp.md'
+    - Allowed mentions: 'parsables/allowed-mentions.md'
+    - Embeds:
+      - Embed: 'parsables/embeds/embed.md'
+      - Embed author: 'parsables/embeds/embed-author.md'
+      - Embed field: 'parsables/embeds/embed-field.md'
+      - Embed footer: 'parsables/embeds/embed-footer.md'
+    - Webhooks:
+      - Webhook profile: 'parsables/webhooks/webhook-profile.md'
+      - Webhook profile updater: 'parsables/webhooks/webhook-profile-updater.md'
+      - Webhook message profile: 'parsables/webhooks/webhook-message-profile.md'
+    - Commands:
+      - Slash command builder: 'parsables/commands/slash-command-builder.md'
+      - Slash command option: 'parsables/commands/slash-command-option.md'
+      - Slash command option choice: 'parsables/commands/slash-command-option-choice.md'
+      - User context menu builder: 'parsables/commands/user-context-menu-builder.md'
+      - Message context menu builder: 'parsables/commands/message-context-menu-builder.md'
+    - Components:
+      - Component: 'parsables/components/component.md'
+      - Button: 'parsables/components/button.md'
+      - Select menu: 'parsables/components/select-menu.md'
+      - Select menu option: 'parsables/components/select-menu-option.md'
+      - Text input: 'parsables/components/text-input.md'
+      - Modal: 'parsables/components/modal.md'
   - Events: 'events.md'
   - Examples: 'examples.md'
