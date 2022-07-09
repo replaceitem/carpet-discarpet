@@ -1,4 +1,4 @@
-package Discarpet.script.values.interaction;
+package Discarpet.script.values.interactions;
 
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.values.ChannelValue;

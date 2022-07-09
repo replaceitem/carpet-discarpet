@@ -1,4 +1,4 @@
-package Discarpet.script.values.command;
+package Discarpet.script.values.commands;
 
 import carpet.script.value.ListValue;
 import carpet.script.value.StringValue;

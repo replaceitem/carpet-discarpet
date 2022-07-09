@@ -23,11 +23,14 @@ extra_css:
   - stylesheets/extra.css
 markdown_extensions:
   - toc:
-      permalink: true
+      permalink: "#"
   - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
 extra:
   social:
     - icon: fontawesome/brands/discord
@@ -43,7 +46,29 @@ nav:
   - Home: 'index.md'
   - Getting started: 'setup.md'
   - Functions: 'functions.md'
-  - Values: 'values.md'
+  - Values:
+    - Message: 'values/message.md'
+    - Channel: 'values/channel.md'
+    - Server: 'values/server.md'
+    - User: 'values/user.md'
+    - Role: 'values/role.md'
+    - Attachment: 'values/attachment.md'
+    - Reaction: 'values/reaction.md'
+    - Emoji: 'values/emoji.md'
+    - Webhook: 'values/webhook.md'
+    - Application commands:
+      - Slash command: 'values/commands/slash-command.md'
+      - Message context menu: 'values/commands/message-context-menu.md'
+      - User context menu: 'values/commands/user-context-menu.md'
+    - Interactions:
+      - Slash command interaction: 'values/interactions/slash-command-interaction.md'
+      - Slash command interaction option: 'values/interactions/slash-command-interaction-option.md'
+      - Button interaction: 'values/interactions/button-interaction.md'
+      - Select menu interaction: 'values/interactions/select-menu-interaction.md'
+      - Modal interaction: 'values/interactions/modal-interaction.md'
+      - Message context menu interaction: 'values/interactions/message-context-menu-interaction.md'
+      - User context menu interaction: 'values/interactions/user-context-menu-interaction.md'
+    
   - Parsable values: 'parsable.md'
   - Events: 'events.md'
   - Examples: 'examples.md'

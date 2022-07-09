@@ -9,7 +9,7 @@ import Discarpet.script.util.content.InteractionFollowupMessageContentApplier;
 import Discarpet.script.util.content.InteractionImmediateResponseContentApplier;
 import Discarpet.script.values.ServerValue;
 import Discarpet.script.values.common.DiscordValue;
-import Discarpet.script.values.interaction.InteractionValue;
+import Discarpet.script.values.interactions.InteractionValue;
 import carpet.script.Context;
 import carpet.script.annotation.ScarpetFunction;
 import carpet.script.exception.InternalExpressionException;

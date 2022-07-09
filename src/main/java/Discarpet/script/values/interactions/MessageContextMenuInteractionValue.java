@@ -1,4 +1,4 @@
-package Discarpet.script.values.interaction;
+package Discarpet.script.values.interactions;
 
 import Discarpet.script.values.UserValue;
 import carpet.script.value.Value;
