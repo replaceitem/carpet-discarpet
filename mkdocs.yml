@@ -27,6 +27,7 @@ extra_css:
 markdown_extensions:
   - toc:
       permalink: "#"
+      toc_depth: 2
   - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
@@ -34,6 +35,11 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
 extra:
   social:
     - icon: fontawesome/brands/discord
@@ -48,7 +54,37 @@ extra:
 nav:
   - Home: 'index.md'
   - Getting started: 'setup.md'
-  - Functions: 'functions.md'
+
+  - Functions:
+    - dc_send_message: 'functions/send-message.md'
+    - dc_react: 'functions/react.md'
+    - dc_delete: 'functions/delete.md'
+    - dc_set_name: 'functions/set-name.md'
+    - Value from id functions: 'functions/value-from-id.md'
+    - dc_set_channel_topic: 'functions/set-channel-topic.md'
+    - Bot functions:
+      - dc_get_bot_user: 'functions/bot/get-bot-user.md'
+      - dc_set_activity: 'functions/bot/set-activity.md'
+      - dc_set_status: 'functions/bot/set-status.md'
+    - User functions:
+      - dc_get_display_name: 'functions/users/get-display-name.md'
+      - dc_set_nickname: 'functions/users/set-nickname.md'
+      - dc_timeout: 'functions/users/timeout.md'
+    - Role functions:
+      - dc_add_role: 'functions/roles/add-role.md'
+      - dc_remove_role: 'functions/roles/remove-role.md'
+      - dc_get_user_roles: 'functions/roles/get-user-roles.md'
+      - dc_get_user-color: 'functions/roles/get-user-color.md'
+    - Interaction functions:
+      - dc_create_application_command: 'functions/interactions/create-application-command.md'
+      - dc_get_global_application_commands: 'functions/interactions/get-global-application-commands.md'
+      - dc_respond_interaction: 'functions/interactions/respond-interaction.md'
+    - Webhook functions:
+      - dc_create_webhook: 'functions/webhooks/create-webhook.md'
+      - dc_delete_webhook: 'functions/webhooks/delete-webhook.md'
+      - dc_send_webhook: 'functions/webhooks/send-webhook.md'
+      - dc_update_webhook: 'functions/webhooks/update-webhook.md'
+
   - Values:
     - Message: 'values/message.md'
     - Channel: 'values/channel.md'
@@ -100,5 +136,6 @@ nav:
       - Select menu option: 'parsables/components/select-menu-option.md'
       - Text input: 'parsables/components/text-input.md'
       - Modal: 'parsables/components/modal.md'
+
   - Events: 'events.md'
   - Examples: 'examples.md'
