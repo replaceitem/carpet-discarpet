@@ -2,4 +2,4 @@
 
 {% include 'warning-blocking.md' %}
 
-Updates the [`webhook`](../../values/webhook) with the specified [`webhook_profile_updater`](../../parsables/webhooks/webhook-profile-updater).
+Updates the [`webhook`](/values/webhook.md) with the specified [`webhook_profile_updater`](/parsables/webhooks/webhook-profile-updater.md).

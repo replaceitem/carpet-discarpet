@@ -2,5 +2,5 @@
 
 {% include 'warning-blocking.md' %}
 
-This function sets the description of the [`channel`](../values/channel)
+This function sets the description of the [`channel`](/values/channel.md)
 to the specified `text`.

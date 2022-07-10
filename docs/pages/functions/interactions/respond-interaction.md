@@ -1,4 +1,6 @@
-### `dc_respond_interaction(interaction,type)` `dc_respond_interaction(interaction,type,message)` `dc_respond_interaction(interaction,type,modal)`
+### `dc_respond_interaction(interaction,type)`
+### `dc_respond_interaction(interaction,type,message)`
+### `dc_respond_interaction(interaction,type,modal)`
 
 {% include 'warning-blocking.md' %}
 
@@ -20,9 +22,9 @@ The `type` can be one of
 * `'RESPOND_FOLLOWUP'` This is used for sending a followup response within 15 minutes after the `RESPOND_LATER` response has been sent.
   The `message` needs to be specified as the third parameter for this.
 
-* `'RESPOND_MODAL'` Opens a modal for the user. Requires a [Modal](../../parsables/components/modal) as the third parameter.
+* `'RESPOND_MODAL'` Opens a modal for the user. Requires a [Modal](/parsables/components/modal.md) as the third parameter.
 
-The `message` parameter the same as the [Message content](../../parsables/message-content) parameter in `dc_send_message`
+The `message` parameter the same as the [Message content](/parsables/message-content.md) parameter in `dc_send_message`
 
 This function returns `null`, except if using `RESPOND_FOLLOWUP`,
-a [message value](../../values/message) with the sent message will be returned.
+a [message value](/values/message.md) with the sent message will be returned.

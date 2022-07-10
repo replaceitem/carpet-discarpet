@@ -2,6 +2,6 @@
 
 {% include 'warning-blocking.md' %}
 
-Adds a [`role`](../../values/role) to a [`user`](../../values/user).
+Adds a [`role`](/values/role.md) to a [`user`](/values/user.md).
 
 If provided, `reason` will be shown in the audit log of your server.

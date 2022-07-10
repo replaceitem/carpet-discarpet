@@ -6,11 +6,11 @@ This functions sends a message in a specific Discord channel, to a private messa
 
 The `target` can be one of
 
-* [Channel](../values/channel)
-* [User](../values/user)
-* [Webhook](../values/webhook)
+* [Channel](/values/channel.md)
+* [User](/values/user.md)
+* [Webhook](/values/webhook.md)
 
-The `content` is a parsable [Message content](../parsables/message-content), but if you just want text, it can be a regular string.
+The `content` is a parsable [Message content](/parsables/message-content.md), but if you just want text, it can be a regular string.
 
 This example shows how you can send a message and add reactions to it as soon as it was sent
 
