@@ -60,8 +60,8 @@ nav:
     - dc_react: 'functions/react.md'
     - dc_delete: 'functions/delete.md'
     - dc_set_name: 'functions/set-name.md'
-    - Value from id functions: 'functions/value-from-id.md'
     - dc_set_channel_topic: 'functions/set-channel-topic.md'
+    - Value from id functions: 'functions/value-from-id.md'
     - Bot functions:
       - dc_get_bot_user: 'functions/bot/get-bot-user.md'
       - dc_set_activity: 'functions/bot/set-activity.md'
