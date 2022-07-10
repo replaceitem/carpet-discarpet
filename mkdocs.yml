@@ -1,6 +1,7 @@
 site_name: Discarpet Docs
 repo_url: https://github.com/replaceitem/carpet-discarpet/
 repo_name: replaceitem/carpet-discarpet
+docs_dir: docs/pages
 site_url: https://replaceitem.github.io/carpet-discarpet/
 site_description: Discarpet documentation
 site_author: replaceitem
@@ -40,6 +41,11 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.tilde
+plugins:
+  - abs-to-rel
+  - search
+  - macros:
+      include_dir: docs/include
 extra:
   social:
     - icon: fontawesome/brands/discord
