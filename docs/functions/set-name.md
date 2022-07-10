@@ -8,8 +8,8 @@ Returns true or false, depending on whether the operation was successful.
 
 This works for:
 
-* Channel
-* Emoji
-* Role
-* Server
-* Webhook
+* Changing the [Channel](../../values/channel) name
+* Renaming an [Emoji](../../values/emoji)
+* Changing a [Role](../../values/role) name
+* Renaming a [Server](../../values/server)
+* Changing the name of a [Webhook](../../values/webhook)

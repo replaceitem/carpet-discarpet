@@ -3,4 +3,4 @@
 > **Warning**
 > This function is blocking, use it in a task to avoid freezing your game.
 
-Deletes the `webhook`.
+Deletes the [`webhook`](../../../values/webhook).

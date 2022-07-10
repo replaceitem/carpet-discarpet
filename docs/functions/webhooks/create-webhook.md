@@ -3,4 +3,4 @@
 > **Warning**
 > This function is blocking, use it in a task to avoid freezing your game.
 
-Creates a new Webhook in the specified `channel` with the specified options in `webhookProfile` as a [webhook profile parsable](/docs/parsable.md#Webhook-profile).
+Creates a new Webhook in the specified [`channel`](../../../values/channel) with the specified options in `webhookProfile` as a [webhook profile parsable](../../../parsables/webhooks/webhook-profile).
