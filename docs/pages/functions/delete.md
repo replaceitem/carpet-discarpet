@@ -7,10 +7,10 @@ Returns true or false, depending on whether the deletion was successful.
 
 This works for:
 
-* [Emoji](/../values/emoji)
-* [Message](../values/message)
-* [Role](../values/role)
-* [Webhook](../values/webhook)
-* [Slash command](../values/commands/slash-command)
-* [User context menu](../values/commands/user-context-menu)
-* [Message context menu](../values/commands/message-context-menu)
+* [Emoji](/values/emoji.md)
+* [Message](/values/message.md)
+* [Role](/values/role.md)
+* [Webhook](/values/webhook.md)
+* [Slash command](/values/commands/slash-command.md)
+* [User context menu](/values/commands/user-context-menu.md)
+* [Message context menu](/values/commands/message-context-menu.md)
