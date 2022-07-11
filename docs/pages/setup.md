@@ -27,7 +27,7 @@ The `"bot_id"` is used to identify your bot in scarpet later. You should just gi
 This doesn't need to be what you called it in the developer portal,
 it's just an arbitrary name.
 In the `intents` list, you can add additional intents for your bot.
-For more info, see the section about [intents](#Intents).
+For more info, see the section about [intents](#intents).
 
 Now your config should look something like this:
 
@@ -94,10 +94,10 @@ To have multiple bots running on your server, just add them to the config file l
 
 Keep in mind that each script can only have one bot.
 Each script will only receive events from that one specified bot,
-and when getting [values from ids](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#Values-from-ids),
+and when getting [values from ids](/functions/value-from-id.md),
 the value will have the context of the bot of the script. That would mean that if you pass a message value from an event to another script,
 and add a reaction there, the user of the reaction will still be from the script where the event happened.
-Only if you query [values from ids](https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Functions.md#Values-from-ids),
+Only if you query [values from ids](/functions/value-from-id.md),
 the bot from the config will be applied.
 
 ## Intents
