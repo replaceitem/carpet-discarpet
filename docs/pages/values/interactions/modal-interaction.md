@@ -1,6 +1,6 @@
 `dc_modal_interaction`
 
-Value from `__on_discord_modal(interaction)` event, used for getting the modal interaction details, and then responding to it with `dc_respond_interaction()`
+Value from [`__on_discord_modal`](/events/discord-modal.md) event, used for getting the modal interaction details, and then responding to it with `dc_respond_interaction()`
 
 #### Queryable:
 

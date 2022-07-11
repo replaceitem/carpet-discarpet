@@ -1,6 +1,6 @@
 `dc_reaction`
 
-A reaction on a message. Main use is in `__on_discord_reaction` event
+A reaction on a message. Main use is in [`__on_discord_reaction`](/events/discord-reaction.md) event
 
 #### Queryable:
 
