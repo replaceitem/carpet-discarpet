@@ -142,6 +142,13 @@ nav:
       - Select menu option: 'parsables/components/select-menu-option.md'
       - Text input: 'parsables/components/text-input.md'
       - Modal: 'parsables/components/modal.md'
-
-  - Events: 'events.md'
+  - Events:
+    - __on_system_message: 'events/system-message.md'
+    - __on_command_executed: 'events/command-executed.md'
+    - __on_discord_message: 'events/discord-message.md'
+    - __on_discord_reaction: 'events/discord-reaction.md'
+    - __on_discord_slash_command: 'events/discord-slash-command.md'
+    - __on_discord_button: 'events/discord-button.md'
+    - __on_discord_select_menu: 'events/discord-select-menu.md'
+    - __on_discord_modal: 'events/discord-modal.md'
   - Examples: 'examples.md'

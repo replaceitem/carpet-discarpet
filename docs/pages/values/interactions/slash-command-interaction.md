@@ -1,6 +1,6 @@
 `dc_slash_command_interaction`
 
-Value from `__on_discord_slash_command(interaction)` event, used for getting the command that was executed, and then replying to it with `dc_respond_interaction()`
+Value from [`__on_discord_slash_command`](/events/discord-slash-command.md) event, used for getting the command that was executed, and then replying to it with `dc_respond_interaction()`
 
 #### Queryable:
 

@@ -1,6 +1,6 @@
 `dc_select_menu_interaction`
 
-Value from `__on_discord_select_menu(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
+Value from [`__on_discord_select_menu`](/events/discord-select-menu.md) event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
 
 #### Queryable:
 

@@ -1,6 +1,6 @@
 `dc_button_interaction`
 
-Value from `__on_discord_button(interaction)` event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
+Value from [`__on_discord_button`](/events/discord-button.md) event, used for getting the message interaction details, and then responding to it with `dc_respond_interaction()`
 
 #### Queryable:
 

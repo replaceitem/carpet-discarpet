@@ -1,6 +1,6 @@
 `dc_message`
 
-A Discord message which has been sent. Main use is in `__on_discord_message` event
+A Discord message which has been sent. Main use is in [`__on_discord_message`](/events/discord-message.md) event
 
 #### Queryable:
 
