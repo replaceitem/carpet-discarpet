@@ -151,4 +151,5 @@ nav:
     - __on_discord_button: 'events/discord-button.md'
     - __on_discord_select_menu: 'events/discord-select-menu.md'
     - __on_discord_modal: 'events/discord-modal.md'
-  - Examples: 'examples.md'
+  - Example scripts:
+    - Activity: 'examples/activity.md'
