@@ -55,7 +55,7 @@ public class MessageContentParsable implements Applicable<ContentApplier>, Direc
         EnumSet<MessageFlag> messageFlags = EnumSet.noneOf(MessageFlag.class);
         if(ephemeral) messageFlags.add(MessageFlag.EPHEMERAL);
         if(suppress_embeds) messageFlags.add(MessageFlag.SUPPRESS_EMBEDS);
-        contentApplier.setFlags(messageFlags);
+        if(!messageFlags.isEmpty()) contentApplier.setFlags(messageFlags);
     }
 
     @Override
