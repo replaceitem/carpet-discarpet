@@ -1,6 +1,9 @@
 `allowed_mentions`
 
-Note that all of the options default to false, meaning that as soon as the allowed mentions are specified, all mentions are disabled by default.
+!!! note
+    All of the options default to false,
+    meaning that as soon as the allowed mentions are specified in the [message content](/parsables/message-content.md),
+    all mentions are disabled by default.
 
 | Value              | Type                                  | Description                                      |
 |--------------------|---------------------------------------|--------------------------------------------------|
