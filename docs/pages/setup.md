@@ -1,6 +1,3 @@
-# Setting up Bots
-
-
 ## Logging in
 
 First, you need a Discord bot account.

@@ -60,6 +60,7 @@ extra:
 nav:
   - Home: 'index.md'
   - Getting started: 'setup.md'
+  - How it works: 'how-it-works.md'
 
   - Functions:
     - dc_send_message: 'functions/send-message.md'
