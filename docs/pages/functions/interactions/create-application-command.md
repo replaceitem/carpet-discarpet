@@ -18,4 +18,4 @@ If `server` is not provided, the slash command will be global, meaning they work
 
 Returns an application command value.
 
-For a full examples of commands, see [the slash command example](/../examples/slash-commands.md)
+For a full examples of commands, see [the slash command example](/examples/slash-commands.md)
