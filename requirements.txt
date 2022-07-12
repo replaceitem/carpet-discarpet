@@ -1,3 +1,2 @@
 mkdocs-abs-rel-plugin
 mkdocs-macros-plugin
-mkdocs-linkcheck
