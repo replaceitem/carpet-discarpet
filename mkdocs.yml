@@ -5,6 +5,7 @@ docs_dir: docs/pages
 site_url: https://replaceitem.github.io/carpet-discarpet/
 site_description: Discarpet documentation
 site_author: replaceitem
+strict: true
 theme:
   name: material
   logo: assets/logo.png
