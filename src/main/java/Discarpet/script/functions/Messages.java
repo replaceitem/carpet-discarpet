@@ -2,7 +2,7 @@ package Discarpet.script.functions;
 
 import Discarpet.script.parsable.Parser;
 import Discarpet.script.parsable.parsables.MessageContentParsable;
-import Discarpet.script.parsable.parsables.WebhookMessageProfileParsable;
+import Discarpet.script.parsable.parsables.webhooks.WebhookMessageProfileParsable;
 import Discarpet.script.util.ValueUtil;
 import Discarpet.script.util.content.MessageContentApplier;
 import Discarpet.script.util.content.WebhookMessageContentApplier;
