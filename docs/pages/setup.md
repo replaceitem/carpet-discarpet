@@ -9,7 +9,7 @@ When you installed Discarpet and start your server, it should create a `discarpe
 
 The file should look like this by default:
 
-```json
+```json title="discarpet.json"
 {
   "bots": [
     {
@@ -23,7 +23,7 @@ The file should look like this by default:
 ```
 
 To add your bot to the game, copy and paste your Bot token from the Developer portal into the `"Your Bot Token"` field.
-The `"bot_id"` is used to identify your bot in scarpet later. You should just give the bot a name, so you can identify it.
+The `"bot_id"` is an arbitrary name used to identify your bot in scarpet later.
 This doesn't need to be what you called it in the developer portal,
 it's just an arbitrary name.
 In the `intents` list, you can add additional intents for your bot.
@@ -31,7 +31,7 @@ For more info, see the section about [intents](#intents).
 
 Now your config should look something like this:
 
-```json
+```json title="discarpet.json"
 {
   "bots": [
     {
@@ -54,19 +54,24 @@ will take you directly to the webpage where you can add the bot to any discord s
 
 Now it's time to create your bot scarpet script!
 
+If you have never used scarpet before,
+it's recommended to first [get familiar with the scarpet language](https://github.com/gnembon/fabric-carpet/wiki/Scarpet).
+
 Since Discarpet supports multiple bots at the same time, you need to specify which bot you want to use in your script.
 This is done by specifying a `'bot'` to the config line, like this:
 
-`__config()->{'bot'->'bot_id'}`
+```sc title="my_script.sc"
+__config()->{'bot'->'bot_id'}
+```
 
 The `'bot_id'` is the id you specified in the config.
-Without a valid bot specified, no discarpet functions will work and will all throw an error.
+Without a valid bot specified, most discarpet functions will not work and will throw an error.
 
 ## Multiple bots
 
 To have multiple bots running on your server, just add them to the config file like this:
 
-```json
+```json title="discarpet.json"
 {
   "bots": [
     {
