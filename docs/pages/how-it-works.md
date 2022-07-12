@@ -22,7 +22,7 @@ The internal type name is listed at the top of each values' documentation page.
 ### Getting values by their id
 
 Many discord entities have an id.
-You can use the [Value from id](/functions/value-from-id.md) function to create values from their id.
+You can use the [Value from id](/functions/value-from-ids.md) function to create values from their id.
 
 ## Discarpet parsables
 
