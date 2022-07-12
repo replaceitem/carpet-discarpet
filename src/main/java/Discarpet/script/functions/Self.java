@@ -3,6 +3,7 @@ package Discarpet.script.functions;
 import Discarpet.config.Bot;
 import carpet.script.Context;
 import carpet.script.annotation.ScarpetFunction;
+import carpet.script.exception.InternalExpressionException;
 import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.entity.user.UserStatus;
@@ -34,7 +35,7 @@ public class Self {
     }
 
     @ScarpetFunction
-    public boolean dc_set_status(Context ctx, String status) {
+    public void dc_set_status(Context ctx, String status) {
         Bot bot = getBotInContext(ctx,"dc_set_status");
         UserStatus userStatus = null;
 
@@ -44,8 +45,7 @@ public class Self {
                 break;
             }
         }
-        if (userStatus == null) return false;
+        if (userStatus == null) throw new InternalExpressionException("Invalid status");
         bot.api.updateStatus(userStatus);
-        return false;
     }
 }

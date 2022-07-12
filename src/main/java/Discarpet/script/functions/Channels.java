@@ -1,8 +1,8 @@
 package Discarpet.script.functions;
 
 import Discarpet.script.parsable.Parser;
-import Discarpet.script.parsable.parsables.WebhookProfileParsable;
-import Discarpet.script.parsable.parsables.WebhookProfileUpdaterParsable;
+import Discarpet.script.parsable.parsables.webhooks.WebhookProfileParsable;
+import Discarpet.script.parsable.parsables.webhooks.WebhookProfileUpdaterParsable;
 import Discarpet.script.util.ValueUtil;
 import carpet.script.annotation.ScarpetFunction;
 import carpet.script.value.Value;
