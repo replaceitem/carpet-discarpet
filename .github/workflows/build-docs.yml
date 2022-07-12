@@ -2,7 +2,7 @@ name: Publish mkdocs via GitHub Pages
 on:
   push:
     branches:
-      - new-docs
+      - master
 
 jobs:
   build:
