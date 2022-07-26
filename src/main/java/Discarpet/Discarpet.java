@@ -97,24 +97,25 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	}
 
 	public static void loadConfig(ServerCommandSource source) {
-		if(configManager.loadAndUpdate()) {
+		boolean newlyCreatedConfig = configManager.loadAndUpdate();
+		if(newlyCreatedConfig) {
 			Discarpet.LOGGER.info("No Discarpet configuration file found, creating one. Edit config/discarpet.json to add your bots");
-		} else {
-			if(configManager.getConfig().DISABLE_RECONNECT_LOGS) {
-				// hackfix, if you know a better solution, feel free to open a PR
-				String loggerName = "org.javacord.core.util.gateway.DiscordWebSocketAdapter";
-				LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-				Configuration configuration = ctx.getConfiguration();
-				Filter websocketClosedFilter = new StringMatchFilter.Builder().setMatchString("Websocket closed with reason 'Discord commanded a reconnect (Received opcode 7)' and code COMMANDED_RECONNECT (4999) by client!").setOnMatch(Filter.Result.DENY).setOnMismatch(Filter.Result.NEUTRAL).build();
-				Filter reconnect1sFilter = new StringMatchFilter.Builder().setMatchString("Trying to reconnect/resume in 1 seconds!").setOnMatch(Filter.Result.DENY).setOnMismatch(Filter.Result.NEUTRAL).build();
-				Filter compositeFilter = CompositeFilter.createFilters(new Filter[]{websocketClosedFilter, reconnect1sFilter});
-				configuration.addLoggerFilter((org.apache.logging.log4j.core.Logger) LogManager.getLogger(loggerName),compositeFilter);
-				LoggerConfig loggerConfig = LoggerConfig.createLogger(false, Level.INFO, loggerName, "true", new AppenderRef[0], null,configuration, compositeFilter);
-				configuration.addLogger(loggerName, loggerConfig);
-				ctx.updateLoggers();
-			}
-			loadBots(source);
+			return;
 		}
+		if(configManager.getConfig().DISABLE_RECONNECT_LOGS) {
+			// hackfix, if you know a better solution, feel free to open a PR
+			String loggerName = "org.javacord.core.util.gateway.DiscordWebSocketAdapter";
+			LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+			Configuration configuration = ctx.getConfiguration();
+			Filter websocketClosedFilter = new StringMatchFilter.Builder().setMatchString("Websocket closed with reason 'Discord commanded a reconnect (Received opcode 7)' and code COMMANDED_RECONNECT (4999) by client!").setOnMatch(Filter.Result.DENY).setOnMismatch(Filter.Result.NEUTRAL).build();
+			Filter reconnect1sFilter = new StringMatchFilter.Builder().setMatchString("Trying to reconnect/resume in 1 seconds!").setOnMatch(Filter.Result.DENY).setOnMismatch(Filter.Result.NEUTRAL).build();
+			Filter compositeFilter = CompositeFilter.createFilters(new Filter[]{websocketClosedFilter, reconnect1sFilter});
+			configuration.addLoggerFilter((org.apache.logging.log4j.core.Logger) LogManager.getLogger(loggerName),compositeFilter);
+			LoggerConfig loggerConfig = LoggerConfig.createLogger(false, Level.INFO, loggerName, "true", new AppenderRef[0], null,configuration, compositeFilter);
+			configuration.addLogger(loggerName, loggerConfig);
+			ctx.updateLoggers();
+		}
+		loadBots(source);
 	}
 
 	public static void loadBots(ServerCommandSource source) {

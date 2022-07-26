@@ -2,19 +2,17 @@ package Discarpet.config;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Config {
     @SerializedName("bots")
-    public ArrayList<BotConfig> BOTS;
+    public List<BotConfig> BOTS;
     @SerializedName("disable_reconnect_logs")
-    public boolean DISABLE_RECONNECT_LOGS;
-
-    public static Config getDefault() {
-        Config config = new Config();
-        config.BOTS = new ArrayList<>();
-        config.BOTS.add(BotConfig.getTutorialConfig());
-        config.DISABLE_RECONNECT_LOGS = false;
-        return config;
+    public Boolean DISABLE_RECONNECT_LOGS;
+    
+    public void fillDefaults() {
+        if(BOTS == null) BOTS = List.of(new BotConfig());
+        if(DISABLE_RECONNECT_LOGS == null) DISABLE_RECONNECT_LOGS = false; 
+        BOTS.forEach(BotConfig::fillDefaults);
     }
 }

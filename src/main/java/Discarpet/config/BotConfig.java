@@ -2,6 +2,7 @@ package Discarpet.config;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BotConfig {
@@ -11,12 +12,10 @@ public class BotConfig {
     public String BOT_TOKEN;
     @SerializedName("intents")
     public List<String> INTENTS;
-    
-    public static BotConfig getTutorialConfig() {
-        BotConfig botConfig = new BotConfig();
-        botConfig.BOT_ID = "Your bot ID";
-        botConfig.BOT_TOKEN = "Your bot token";
-        botConfig.INTENTS = List.of();
-        return botConfig;
+
+    public void fillDefaults() {
+        if(BOT_ID == null) BOT_ID = "Your bot ID";
+        if(BOT_TOKEN == null) BOT_TOKEN = "Your bot token";
+        if(INTENTS == null) INTENTS = List.of();
     }
 }

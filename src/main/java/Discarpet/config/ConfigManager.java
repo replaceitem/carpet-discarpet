@@ -1,5 +1,6 @@
 package Discarpet.config;
 
+import Discarpet.Discarpet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -21,6 +22,7 @@ public class ConfigManager {
     
     public boolean loadAndUpdate() {
         boolean newlyCreated = this.load();
+        this.config.fillDefaults();
         this.save();
         return newlyCreated;
     }
@@ -35,21 +37,18 @@ public class ConfigManager {
             config = GSON.fromJson(reader, Config.class);
             return false;
         } catch (IOException e) {
-            config = Config.getDefault();
+            config = new Config();
             return true;
         }
     }
     
     public void save() {
-        String jsonConfig = GSON.toJson(config);
-        FileWriter writer;
-        try {
-            writer = new FileWriter(configFile);
+        String jsonConfig = GSON.toJson(config);        
+        try (FileWriter writer = new FileWriter(configFile)) {
             writer.write(jsonConfig);
             writer.flush();
-            writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Discarpet.LOGGER.error("Could not save config", e);
         }
     }
 }
