@@ -103,6 +103,7 @@ public class DiscarpetEventsListener implements MessageCreateListener, ReactionA
     }
 
     private static void callEventOnGameThread(Runnable runnable) {
+        if(CarpetServer.minecraft_server == null) return;
         ServerTask serverTask = new ServerTask(Integer.MIN_VALUE, runnable);
         CarpetServer.minecraft_server.send(serverTask);
     }
