@@ -3,7 +3,7 @@ This script sends chat messages in minecraft to the configured
 channel to the minecraft chat.
 
 ```sc title="chat.sc"
-__config() -> {'scope'->'global','bot'->'BOT','stay_loaded'->false};
+__config() -> {'scope'->'global','bot'->'BOT'};
 
 global_chat = dc_channel_from_id('789877643070799902');
 
