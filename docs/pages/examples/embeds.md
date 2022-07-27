@@ -3,7 +3,7 @@ Sends a message with a demo embed that looks like this:
 ![Demo embed](/assets/demo_embed.png)
 
 ```sc title="embeds.sc"
-__config() -> {'scope'->'global','bot'->'BOT','stay_loaded'->false};
+__config() -> {'scope'->'global','bot'->'BOT'};
 
 embed = {
     'title'->'SuperCoolEmbed',

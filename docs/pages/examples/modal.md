@@ -1,7 +1,7 @@
 Demonstrates how to show and respond to a modal
 
 ```sc title="modal.sc"
-__config() -> {'scope'->'global','stay_loaded'->true,'bot'->'BOT'};
+__config() -> {'scope'->'global','bot'->'BOT'};
 
 global_ch = dc_channel_from_id('759102744761335891');
 
