@@ -24,7 +24,7 @@ public class WebhookProfileUpdaterParsable implements Applicable<WebhookUpdater>
     @Override
     public void apply(WebhookUpdater webhookUpdater) {
         webhookUpdater.setName(name);
-        setAvatar(webhookUpdater);
+        if(avatar != null) setAvatar(webhookUpdater);
         webhookUpdater.setAuditLogReason(reason);
     }
 
