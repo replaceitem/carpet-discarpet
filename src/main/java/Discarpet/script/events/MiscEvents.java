@@ -3,6 +3,7 @@ package Discarpet.script.events;
 import carpet.CarpetServer;
 import carpet.script.CarpetEventServer.Event;
 import carpet.script.value.EntityValue;
+import carpet.script.value.FormattedTextValue;
 import carpet.script.value.StringValue;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -31,15 +32,12 @@ public class MiscEvents extends Event {
     }
 
 
-    public void onSystemMessage(Text text) {}
+    public void onSystemMessage(Text message) {}
 
     public static MiscEvents SYSTEM_MESSAGE = new MiscEvents("system_message", 2, false) {
-        public void onSystemMessage(Text text) {
-            this.handler.call(() -> {
-                String message = text.getString();
-                String type = (text.getContent() instanceof TranslatableTextContent translatableTextContent) ? translatableTextContent.getKey() : null;
-                return Arrays.asList(StringValue.of(message), StringValue.of(type));
-            }, DEFAULT_SOURCE_SUPPLIER);
+        public void onSystemMessage(Text message) {
+            String type = (message.getContent() instanceof TranslatableTextContent translatableTextContent) ? translatableTextContent.getKey() : null;
+            this.handler.call(() -> Arrays.asList(FormattedTextValue.of(message), StringValue.of(type)), DEFAULT_SOURCE_SUPPLIER);
         }
     };
 
