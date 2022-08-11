@@ -9,7 +9,13 @@ repositories {
 		url 'https://masa.dy.fi/maven'
 	}
 	mavenCentral()
-	maven { url 'https://jitpack.io' }
+	maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+		content {
+			includeGroup "maven.modrinth"
+		}
+	}
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -53,11 +59,11 @@ dependencies {
 	
 	// soft dependencies
 	
-	modCompileOnly('com.github.replaceitem:scarpet-graphics:v0.1.2') {
+	modCompileOnly('maven.modrinth:scarpet-graphics:0.1.2') {
 		exclude (group: "org.jogamp.gluegen")
 		exclude (group: "org.jogamp.jogl")
 	}
-	modRuntimeOnly('com.github.replaceitem:scarpet-graphics:v0.1.2') {
+	modRuntimeOnly('maven.modrinth:scarpet-graphics:0.1.2') {
 		exclude (group: "org.jogamp.gluegen")
 		exclude (group: "org.jogamp.jogl")
 	}
