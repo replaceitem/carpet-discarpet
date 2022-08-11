@@ -59,11 +59,11 @@ dependencies {
 	
 	// soft dependencies
 	
-	modCompileOnly('maven.modrinth:scarpet-graphics:0.1.2') {
+	modCompileOnly('maven.modrinth:scarpet-graphics:0.1.4') {
 		exclude (group: "org.jogamp.gluegen")
 		exclude (group: "org.jogamp.jogl")
 	}
-	modRuntimeOnly('maven.modrinth:scarpet-graphics:0.1.2') {
+	modRuntimeOnly('maven.modrinth:scarpet-graphics:0.1.4') {
 		exclude (group: "org.jogamp.gluegen")
 		exclude (group: "org.jogamp.jogl")
 	}
