@@ -33,8 +33,8 @@ dependencies {
 
 	//discord
 
-	modImplementation "org.javacord:javacord-api:${project.javacord_version}"
-	modImplementation ("org.javacord:javacord-core:${project.javacord_version}") {
+	api "org.javacord:javacord-api:${project.javacord_version}"
+	api ("org.javacord:javacord-core:${project.javacord_version}") {
 		exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
 	}
 
