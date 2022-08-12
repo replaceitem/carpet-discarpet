@@ -14,8 +14,8 @@ import java.util.Locale;
 
 @ParsableClass(name = "slash_command_option")
 public class SlashCommandOptionParsable implements ParsableConstructor<SlashCommandOption> {
-    
-    String type;
+
+    SlashCommandOptionType type;
     String name;
     String description;
     @Optional Boolean required = false;
@@ -26,9 +26,7 @@ public class SlashCommandOptionParsable implements ParsableConstructor<SlashComm
     @Override
     public SlashCommandOption construct() {
         SlashCommandOptionBuilder slashCommandOptionBuilder = new SlashCommandOptionBuilder();
-        SlashCommandOptionType slashCommandOptionType = SlashCommandOptionType.valueOf(type.toUpperCase(Locale.ROOT));
-        if(slashCommandOptionType == SlashCommandOptionType.UNKNOWN) throw new InternalExpressionException("Invalid slash command option type: " + type);
-        slashCommandOptionBuilder.setType(slashCommandOptionType);
+        slashCommandOptionBuilder.setType(type);
         slashCommandOptionBuilder.setName(name);
         slashCommandOptionBuilder.setDescription(description);
         slashCommandOptionBuilder.setRequired(required);

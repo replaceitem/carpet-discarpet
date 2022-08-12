@@ -15,9 +15,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * This Parser is used to simplify the way parsable values are parsed from scarpet {@link MapValue}s to java classes.
@@ -63,6 +65,10 @@ public class Parser {
                 return (T) value;
             }
             throw new InternalExpressionException("Expected a " + resultClass.getName() + " value, but got a " + value.getTypeString());
+        }
+        
+        if(resultClass.isEnum()) {
+            return parseEnum(value, resultClass, name);
         }
 
         SimpleTypeConverter<Value, T> typeConverter = SimpleTypeConverterAccessor.callGet(resultClass);
@@ -158,6 +164,19 @@ public class Parser {
             return clazz.getDeclaredConstructor(new Class[]{}).newInstance();
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new InternalExpressionException("Could not parse " + name + ": " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static <E> E parseEnum(Value value, Class<E> resultClass, String name) {
+        Class<Enum> enumResultClass = (Class<Enum>) resultClass;
+        String enumValue = value.getString();
+        try {
+            return (E) Enum.valueOf(enumResultClass, enumValue.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            E[] enumConstants = resultClass.getEnumConstants();
+            String options = Arrays.stream(enumConstants).map(Object::toString).collect(Collectors.joining(", ")).toLowerCase();
+            throw new InternalExpressionException("'" + enumValue + "' is an invalid value for '" + name + "', has to be one of [" + options + "]");
         }
     }
     

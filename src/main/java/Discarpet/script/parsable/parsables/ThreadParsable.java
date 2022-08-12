@@ -16,7 +16,7 @@ public class ThreadParsable implements ParsableConstructor<ServerThreadChannelBu
     String name;
     @Optional Message message;
     @Optional Channel channel;
-    @Optional String channel_type;
+    @Optional ChannelType channel_type;
     @Optional Boolean invitable;
     @Optional Integer auto_archive_duration;
     @Optional Integer slow_mode_delay;
@@ -32,7 +32,7 @@ public class ThreadParsable implements ParsableConstructor<ServerThreadChannelBu
             if(channel == null) throw new InternalExpressionException("Either 'message' or 'channel' needs to be given");
             if(!(channel instanceof ServerTextChannel serverTextChannel)) throw new InternalExpressionException("'channel' needs to be a server text channel, but is a " + channel.getType().toString());
             if(channel_type == null) throw new InternalExpressionException("'channel_type' needs to be provided when creating a thread from a channel");
-            serverThreadChannelBuilder = new ServerThreadChannelBuilder(serverTextChannel, ChannelType.valueOf(channel_type.toUpperCase()), name);
+            serverThreadChannelBuilder = new ServerThreadChannelBuilder(serverTextChannel, channel_type, name);
         }
         
         serverThreadChannelBuilder.setInvitableFlag(invitable);
