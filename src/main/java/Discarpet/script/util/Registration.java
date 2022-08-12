@@ -10,6 +10,7 @@ import Discarpet.script.functions.ValueFromId;
 import Discarpet.script.parsable.Parser;
 import Discarpet.script.parsable.parsables.AllowedMentionsParsable;
 import Discarpet.script.parsable.parsables.AttachmentParsable;
+import Discarpet.script.parsable.parsables.ThreadParsable;
 import Discarpet.script.parsable.parsables.components.ButtonParsable;
 import Discarpet.script.parsable.parsables.ColorParsable;
 import Discarpet.script.parsable.parsables.components.ComponentParsable;
@@ -140,6 +141,7 @@ public class Registration {
         Parser.registerParsable(SlashCommandOptionParsable.class);
         Parser.registerParsable(SlashCommandBuilderParsable.class);
         Parser.registerParsable(TextInputParsable.class);
+        Parser.registerParsable(ThreadParsable.class);
         Parser.registerParsable(TimestampParsable.class);
         Parser.registerParsable(UserContextMenuBuilderParsable.class);
         Parser.registerParsable(WebhookMessageProfileParsable.class);
