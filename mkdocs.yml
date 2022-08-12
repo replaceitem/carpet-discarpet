@@ -69,6 +69,7 @@ nav:
     - dc_delete: 'functions/delete.md'
     - dc_set_name: 'functions/set-name.md'
     - dc_set_channel_topic: 'functions/set-channel-topic.md'
+    - dc_create_thread: 'functions/create-thread.md'
     - Value from id functions: 'functions/value-from-id.md'
     - Bot functions:
       - dc_get_bot_user: 'functions/bot/get-bot-user.md'
@@ -122,6 +123,7 @@ nav:
     - Color: 'parsables/color.md'
     - Timestamp: 'parsables/timestamp.md'
     - Allowed mentions: 'parsables/allowed-mentions.md'
+    - Thread: 'parsables/thread.md'
     - Embeds:
       - Embed: 'parsables/embeds/embed.md'
       - Embed author: 'parsables/embeds/embed-author.md'
