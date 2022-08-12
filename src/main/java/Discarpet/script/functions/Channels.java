@@ -8,9 +8,13 @@ import carpet.script.annotation.ScarpetFunction;
 import carpet.script.value.Value;
 import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.channel.ServerTextChannel;
+import org.javacord.api.entity.channel.ServerThreadChannel;
+import org.javacord.api.entity.channel.ServerThreadChannelBuilder;
 import org.javacord.api.entity.webhook.Webhook;
 import org.javacord.api.entity.webhook.WebhookBuilder;
 import org.javacord.api.entity.webhook.WebhookUpdater;
+
+import java.util.concurrent.CompletableFuture;
 
 @SuppressWarnings("unused")
 public class Channels {
@@ -34,5 +38,12 @@ public class Channels {
 		WebhookUpdater updater = webhook.createUpdater();
 		Parser.parseType(webhookBuilder, WebhookProfileUpdaterParsable.class).apply(updater);
 		return ValueUtil.awaitFuture(updater.update(),"Error updating webhook");
+	}
+	
+	@ScarpetFunction
+	public Channel dc_create_thread(Value thread) {
+		CompletableFuture<ServerThreadChannel> serverThreadChannelCompletableFuture = Parser.parseType(thread, ServerThreadChannelBuilder.class).create();
+		return ValueUtil.awaitFuture(serverThreadChannelCompletableFuture, "Error creating thread channel");
+
 	}
 }
