@@ -11,7 +11,7 @@ import org.javacord.api.entity.message.component.TextInputStyle;
 public class TextInputParsable implements ParsableConstructor<TextInput> {
     
     String id;
-    String style;
+    TextInputStyle style;
     String label;
     @Optional Integer min_length;
     @Optional Integer max_length;
@@ -21,11 +21,7 @@ public class TextInputParsable implements ParsableConstructor<TextInput> {
     
     @Override
     public TextInput construct() {
-        TextInputBuilder textInputBuilder = new TextInputBuilder(
-                TextInputStyle.valueOf(style.toUpperCase()),
-                id,
-                label
-        );
+        TextInputBuilder textInputBuilder = new TextInputBuilder(style, id, label);
         textInputBuilder.setMinimumLength(min_length);
         textInputBuilder.setMaximumLength(max_length);
         textInputBuilder.setRequired(required);
