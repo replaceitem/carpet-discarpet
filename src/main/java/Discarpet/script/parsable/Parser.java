@@ -80,7 +80,11 @@ public class Parser {
                     throw new InternalExpressionException("Could not parse " + name + ", since there was no registered parser");
                 }
                 ParsableConstructor<T> parsable = (ParsableConstructor<T>) parseParsableType(value, parsableClass, name);
-                return parsable.construct();
+                try {
+                    return parsable.construct();
+                } catch (Exception e) {
+                    throw new InternalExpressionException("Could not parse " + name + ": " + e.getMessage());
+                }
             } else if(Redirector.class.isAssignableFrom(parsableClass)) {
                 return (T) parseParsableType(value, parsableClass, name);
             }
