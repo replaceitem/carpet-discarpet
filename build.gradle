@@ -61,6 +61,10 @@ dependencies {
 	
 	modCompileOnly 'maven.modrinth:scarpet-graphics:0.1.4'
 	runtimeOnly 'maven.modrinth:scarpet-graphics:0.1.4'
+
+
+	// FabricTailor (custom player skins)
+	modCompileOnly 'maven.modrinth:fabrictailor:1.8.4'
 }
 
 processResources {

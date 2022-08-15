@@ -6,6 +6,7 @@ import Discarpet.config.BotConfig;
 import Discarpet.config.ConfigManager;
 import Discarpet.script.events.DiscordEvents;
 import Discarpet.script.events.MiscEvents;
+import Discarpet.script.functions.FabricTailorSkins;
 import Discarpet.script.util.Registration;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
@@ -67,6 +68,11 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		loadConfig(null);
 		
 		CarpetServer.manageExtension(this);
+
+		if (FabricLoader.getInstance().isModLoaded("fabrictailor")) {
+			FabricTailorSkins.init();
+		}
+
 		Discarpet.LOGGER.info("Discarpet loaded");
 	}
 
