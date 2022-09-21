@@ -1,5 +1,7 @@
 # Discarpet
 
+[![Discord](https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/etTDQAVSgt)
+
 ## A Carpet extension for discord bot functionality
 
 ![Discarpet](https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png)
@@ -14,6 +16,6 @@ This allows you to code Discord bots that run within Minecraft, and interact wit
 
 # [Download](https://modrinth.com/mod/discarpet/versions)
 
-If you need help, message me on Discord (replaceitem#9118) or ping me in the [Carpet mod Discord](https://discord.gg/gn99m4QRY4)
+If you need help, you can join my [Discord server](https://discord.gg/etTDQAVSgt) or ping me in the [Carpet mod Discord](https://discord.gg/gn99m4QRY4)
 
 ## [Documentation](https://replaceitem.github.io/carpet-discarpet/)
