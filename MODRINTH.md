@@ -1,6 +1,6 @@
 # Discarpet
 
-[<img alt="Available on Modrinth" height="64" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2.8.0/assets/cozy/available/modrinth_vector.svg">](https://modrinth.com/mod/discarpet)
+[<img alt="See me on GitHub" height="64" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2.8.0/assets/cozy/social/github-singular_vector.svg">](https://github.com/replaceitem)
 [<img alt="Read the Documentation" height="64" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2.8.0/assets/cozy/documentation/ghpages_vector.svg">](https://replaceitem.github.io/carpet-discarpet/)
 [<img alt="Chat on Discord" height="64" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2.8.0/assets/cozy/social/discord-singular_vector.svg">](https://discord.gg/etTDQAVSgt)
 
