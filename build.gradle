@@ -97,7 +97,7 @@ modrinth {
 	loaders = ["fabric"]
 	dependencies = []
 	changelog = rootProject.file("changelog.md").text
-	syncBodyFrom = rootProject.file("README.md").text
+	syncBodyFrom = rootProject.file("MODRINTH.md").text
 }
 
 // configure the maven publication
