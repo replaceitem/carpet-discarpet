@@ -26,3 +26,5 @@ bin/
 # fabric
 
 run/
+/changelog.md
+/site/
