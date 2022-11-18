@@ -5,8 +5,7 @@
 ### Welcome to the Discarpet documentation
 
 !!! help "Need help?"
-    Feel free to message me on Discord: `replaceitem#9118`
-    or ping me in the [Carpet mod Discord](https://discord.gg/gn99m4QRY4)
+    Join [my Discord](https://discord.gg/etTDQAVSgt)
 
 [:octicons-download-24: Download from Modrinth](https://modrinth.com/mod/discarpet){ .md-button .md-button--primary style="width: 100%" }
 

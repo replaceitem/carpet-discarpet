@@ -51,8 +51,8 @@ plugins:
 extra:
   social:
     - icon: fontawesome/brands/discord
-      link: https://discord.gg/gn99m4QRY4
-      name: Carpet mod discord
+      link: https://discord.gg/etTDQAVSgt
+      name: My discord server
     - icon: fontawesome/solid/download
       link: https://modrinth.com/mod/discarpet
       name: Download on Modrinth
