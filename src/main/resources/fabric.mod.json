@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-    	"Discarpet.Discarpet"
+      "net.replaceitem.discarpet.Discarpet"
     ]
   },
   "mixins": [
