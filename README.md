@@ -9,10 +9,10 @@
 
 ![Discarpet](https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png)
 
-This is an extension for [fabric-carpet](https://github.com/gnembon/fabric-carpet)
+This is an extension for [fabric-carpet](https://modrinth.com/mod/carpet)
 that adds parts of the Discord bot API as
 [scarpet](https://github.com/gnembon/fabric-carpet/wiki/Scarpet) functions.
 
 This allows you to code Discord bots that run within Minecraft, and interact with the Minecraft world.
 
-**Requires [Carpet mod](https://github.com/gnembon/fabric-carpet/releases)**
+**Requires [Carpet mod](https://modrinth.com/mod/carpet)**
