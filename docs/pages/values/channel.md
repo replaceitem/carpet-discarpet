@@ -13,6 +13,7 @@ A channel value represents a Discord server channel, DM channel, server thread o
 | `server`      | [Server](/values/server.md)            | Server this channel is in, or null if this is a private channel                                       |
 | `type`        | String                                 | [Channel type](#channel-types)                                                                        |
 | `webhooks`    | List of [Webhooks](/values/webhook.md) | All webhooks in this channel                                                                          |
+| `nsfw`        | boolean                                | Whether the channel is marked as "Not safe for work"                                                  |
 
 #### Channel types
 

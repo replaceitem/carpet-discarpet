@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.values;
 
+import carpet.script.value.BooleanValue;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.common.MessageableValue;
 import net.replaceitem.discarpet.script.values.common.Renamable;
@@ -8,9 +9,7 @@ import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import org.javacord.api.entity.Mentionable;
 import org.javacord.api.entity.Nameable;
-import org.javacord.api.entity.channel.Channel;
-import org.javacord.api.entity.channel.ServerChannel;
-import org.javacord.api.entity.channel.ServerTextChannel;
+import org.javacord.api.entity.channel.*;
 
 public class ChannelValue extends MessageableValue<Channel> implements Renamable {
     public ChannelValue(Channel channel) {
@@ -26,6 +25,11 @@ public class ChannelValue extends MessageableValue<Channel> implements Renamable
             case "mention_tag" -> StringValue.of(delegate instanceof Mentionable mentionableChannel ? mentionableChannel.getMentionTag() : null);
             case "server" -> new ServerValue(delegate instanceof ServerChannel serverChannel ? serverChannel.getServer() : null);
             case "webhooks" -> delegate instanceof ServerTextChannel serverTextChannel ? ListValue.wrap(serverTextChannel.getWebhooks().join().stream().map(WebhookValue::of)) : Value.NULL;
+            case "nsfw" -> BooleanValue.of(
+                    delegate instanceof ServerTextChannel serverTextChannel && serverTextChannel.isNsfw()
+                    || delegate instanceof ServerVoiceChannel serverVoiceChannel && serverVoiceChannel.isNsfw()
+                    || delegate instanceof ChannelCategory channelCategory && channelCategory.isNsfw()
+            );
             default -> super.getProperty(property);
         };
     }
