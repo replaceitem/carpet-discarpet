@@ -86,6 +86,7 @@ jar {
 	}
 }
 
+import com.modrinth.minotaur.dependencies.ModDependency
 
 modrinth {
 	token = System.getenv("MODRINTH_TOKEN")
@@ -95,7 +96,10 @@ modrinth {
 	uploadFile = remapJar
 	gameVersions = ["1.19.3"]
 	loaders = ["fabric"]
-	dependencies = []
+	dependencies = [
+			// carpet
+			new ModDependency("TQTTVgYE" ,"required")
+	]
 	changelog = rootProject.file("changelog.md").text
 	syncBodyFrom = rootProject.file("MODRINTH.md").text
 }
