@@ -89,7 +89,7 @@ public class Parser {
                 try {
                     return parsable.construct();
                 } catch (Exception e) {
-                    throw new InternalExpressionException("Could not parse " + name + ": " + e.getMessage());
+                    throw new InternalExpressionException("Could not parse " + name + ":\n" + e.getMessage());
                 }
             } else if(Redirector.class.isAssignableFrom(parsableClass)) {
                 return (T) parseParsableType(value, parsableClass, name);
@@ -141,7 +141,7 @@ public class Parser {
             }
             return parsedObject;
         } catch (Exception e) {
-            throw new InternalExpressionException("Could not parse '" + name + "' as '" + getClassName(parsableClass) + "': " + e.getMessage());
+            throw new InternalExpressionException("Could not parse '" + name + "' as '" + getClassName(parsableClass) + "':\n" + e.getMessage());
         }
     }
     
@@ -163,7 +163,7 @@ public class Parser {
         try {
             return clazz.getDeclaredConstructor(new Class[]{}).newInstance();
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new InternalExpressionException("Could not parse " + name + ": " + e.getMessage());
+            throw new InternalExpressionException("Could not parse " + name + ":\n" + e.getMessage());
         }
     }
 
@@ -208,7 +208,7 @@ public class Parser {
                 field.set(parsedValue, object);
             }
         } catch (IllegalAccessException e) {
-            throw new InternalExpressionException("Could not assign field '" + name + "': " + e.getMessage());
+            throw new InternalExpressionException("Could not assign field '" + name + "':\n" + e.getMessage());
         }
     }
     
@@ -220,7 +220,7 @@ public class Parser {
                 T element = parseType(value, generic, generic.getSimpleName());
                 parsedList.add(element);
             } catch (Exception e) {
-                throw new InternalExpressionException("Could not parse value in '" + name + "' list with index " + i + ": " + e.getMessage());
+                throw new InternalExpressionException("Could not parse value in '" + name + "' list with index " + i + ":\n" + e.getMessage());
             }
         }
         return parsedList;
@@ -235,7 +235,7 @@ public class Parser {
                 List<T> element = parseList(listValue.getItems(), generic, name);
                 parsedList.add(element);
             } catch (Exception e) {
-                throw new InternalExpressionException("Could not parse value in '" + name + "' list with index " + i + ": " + e.getMessage());
+                throw new InternalExpressionException("Could not parse value in '" + name + "' list with index " + i + ":\n" + e.getMessage());
             }
         }
         return parsedList;

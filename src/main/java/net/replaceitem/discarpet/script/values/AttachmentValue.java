@@ -25,7 +25,7 @@ public class AttachmentValue extends DiscordValue<Attachment> {
             case "width" -> ValueUtil.ofOptionalNumber(delegate.getWidth());
             case "height" -> ValueUtil.ofOptionalNumber(delegate.getHeight());
             case "is_spoiler" -> BooleanValue.of(delegate.isSpoiler());
-            case "download" -> StringValue.of(new String(delegate.downloadAsByteArray().join()));
+            case "download" -> StringValue.of(new String(delegate.asByteArray().join()));
             default -> super.getProperty(property);
         };
     }
