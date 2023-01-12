@@ -25,7 +25,10 @@ import org.javacord.api.interaction.MessageContextMenuBuilder;
 import org.javacord.api.interaction.SlashCommandBuilder;
 import org.javacord.api.interaction.UserContextMenuBuilder;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import static net.replaceitem.discarpet.script.util.ValueUtil.awaitFuture;
@@ -62,7 +65,9 @@ public class Interactions {
     public List<ApplicationCommand> dc_get_global_application_commands(Context context) {
         Bot bot = Discarpet.getBotInContext(context,"dc_get_global_application_commands");
         DiscordApi api = bot.getApi();
-        return awaitFuture(api.getGlobalApplicationCommands(), "Could not get global application commands");
+        Set<ApplicationCommand> applicationCommands = awaitFuture(api.getGlobalApplicationCommands(), "Could not get global application commands");
+        if(applicationCommands == null) return new ArrayList<>();
+        return new ArrayList<>(applicationCommands);
     }
     
     @ScarpetFunction(maxParams = 3)
