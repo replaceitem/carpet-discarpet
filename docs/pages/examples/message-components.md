@@ -41,13 +41,12 @@ task(_()->(
                  }
             ],
             [
-
                 {
-                    'component'->'select_menu',
+                    'component'->'select_menu_string',
                     'id'->'select1',
                     'placeholder'->'Select at least 2 items here',
                     'min'->2,
-                    'max'->5,
+                    'max'->3,
                     'options'->[
                         {
                             'value'->'pizza',
@@ -80,6 +79,14 @@ task(_()->(
                             'emoji'->'🥕'
                         }
                     ]
+                }
+            ],
+            [
+                {
+                    'component'->'select_menu_user',
+                    'id'->'select2',
+                    'placeholder'->'Pick a user',
+                    'options'->[]
                 }
             ]
         ]
