@@ -105,7 +105,6 @@ modrinth {
 	} catch(FileNotFoundException ignored) {
 		changelog = ""
 	}
-	rootProject.file
 	syncBodyFrom = rootProject.file("MODRINTH.md").text
 }
 
