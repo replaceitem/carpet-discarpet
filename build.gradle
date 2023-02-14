@@ -100,7 +100,12 @@ modrinth {
 			// carpet
 			new ModDependency("TQTTVgYE" ,"required")
 	]
-	changelog = rootProject.file("changelog.md").text
+	try {
+		changelog = rootProject.file("changelogs.md").text
+	} catch(FileNotFoundException ignored) {
+		changelog = ""
+	}
+	rootProject.file
 	syncBodyFrom = rootProject.file("MODRINTH.md").text
 }
 
