@@ -20,3 +20,4 @@ Value from [`__on_discord_select_menu`](/events/discord-select-menu.md) event, u
 | `max`                | number                                          | Maximum amount of selected entries for this select menu                                                                |
 | `placeholder`        | String                                          | Placeholder text of this select menu                                                                                   |
 | `message`            | [Message](/values/message.md)                   | The message this interaction is attached to.                                                                           |
+| `component_type`     | String                                          | The type of the component for distinguishing between the different types of select menus                               |

@@ -21,10 +21,7 @@ public class ModalInteractionValue extends InteractionValue<ModalInteraction> {
     
     public Value getProperty(String property) {
         return switch (property) {
-            case "id" -> StringValue.of(delegate.getCustomId());
-            case "channel" -> ChannelValue.of(delegate.getChannel());
-            case "user" -> new UserValue(delegate.getUser());
-            case "locale" -> StringValue.of(delegate.getLocale().getLocaleCode());
+            case "custom_id" -> StringValue.of(delegate.getCustomId());
             case "input_values_by_id" -> getInputValuesById();
             default -> super.getProperty(property);
         };
