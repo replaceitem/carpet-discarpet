@@ -44,7 +44,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Discarpet implements CarpetExtension, ModInitializer {
-	public static final Logger LOGGER = LogManager.getLogger("net/replaceitem/discarpet");
+	public static final Logger LOGGER = LogManager.getLogger("Discarpet");
 	protected static ConfigManager configManager;
 
 	public static Map<String, Bot> discordBots = new HashMap<>();
