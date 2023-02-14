@@ -15,7 +15,7 @@ public abstract class DiscordValue<T> extends Value {
     
     protected DiscordValue(String typeName, T delegate) {
         this.delegate = delegate;
-        this.typeName = "dc_" + typeName;
+        this.typeName = typeName;
     }
     
     public T getDelegate() {
@@ -68,7 +68,7 @@ public abstract class DiscordValue<T> extends Value {
     
     @Override
     public String getTypeString() {
-        return typeName;
+        return "dc_" + typeName;
     }
 
     @Override
