@@ -101,7 +101,7 @@ modrinth {
 			new ModDependency("TQTTVgYE" ,"required")
 	]
 	try {
-		changelog = rootProject.file("changelogs.md").text
+		changelog = rootProject.file("changelog.md").text
 	} catch(FileNotFoundException ignored) {
 		changelog = ""
 	}
