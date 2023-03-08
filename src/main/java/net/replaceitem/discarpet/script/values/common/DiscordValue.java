@@ -33,7 +33,7 @@ public abstract class DiscordValue<T> extends Value {
         if(toClass == null) throw new InternalExpressionException("Could not find an interface for an output converter for DiscordValue.of() and type " + object.getClass());
         OutputConverter<Object> converter = getOutputConverter(toClass);
         if(converter == null) throw new InternalExpressionException("Could not find a suitable output converter for DiscordValue.of() and type " + object.getClass());
-        return converter.convert(object).evalValue(null);
+        return converter.convert(object);
     }
 
     private static <V> OutputConverter<V> getOutputConverter(Class<V> inputClass) {
