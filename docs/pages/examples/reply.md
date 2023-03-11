@@ -1,5 +1,8 @@
 Directly replies to all messages with a text of `Ping`
 
+!!! warning "Requires privileged intents"
+    To use this example script, your bot will require the `MESSAGE_CONTENT` intent. You can add these inside `discarpet.json` as described in [Getting started](/setup.md#intents).
+
 ```sc title="reply.sc"
 __config() -> {'scope'->'global','bot'->'BOT'};
 
