@@ -110,9 +110,10 @@ the bot from the config will be applied.
 In the config file, you can enable privileged intents for your bot.
 By default, all non-privileged intents are enabled.
 The only privileged intents that are disabled by default are:
- - MESSAGE_CONTENT
- - GUILD_MEMBERS
- - GUILD_PRESENCES
+
+- MESSAGE_CONTENT
+- GUILD_MEMBERS
+- GUILD_PRESENCES
 
 If you add these intents to the `intents` list in your bot config,
 you will also need to enable them in the [Discord developer portal](https://discord.com/developers/applications)
