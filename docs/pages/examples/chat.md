@@ -2,7 +2,8 @@ This script sends chat messages in minecraft to the configured
 `global_chat` channel, and messages in that
 channel to the minecraft chat.
 
-{% include 'warning-script-permissions.md' %}
+!!! warning "Requires privileged intents"
+    To use this example script, your bot will require the `MESSAGE_CONTENT` intent. You can add these inside `discarpet.json` as described in [Getting started](/setup.md#intents).
 
 ```sc title="chat.sc"
 __config() -> {'scope'->'global','bot'->'BOT'};
