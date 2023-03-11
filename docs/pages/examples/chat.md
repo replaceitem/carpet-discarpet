@@ -2,6 +2,8 @@ This script sends chat messages in minecraft to the configured
 `global_chat` channel, and messages in that
 channel to the minecraft chat.
 
+{% include 'warning-script-permissions.md' %}
+
 ```sc title="chat.sc"
 __config() -> {'scope'->'global','bot'->'BOT'};
 
