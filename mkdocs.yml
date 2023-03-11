@@ -1,5 +1,6 @@
 site_name: Discarpet Docs
-repo_url: https://github.com/replaceitem/carpet-discarpet/
+repo_url: https://github.com/replaceitem/carpet-discarpet
+edit_uri: blob/master/docs/pages
 repo_name: replaceitem/carpet-discarpet
 docs_dir: docs/pages
 site_url: https://replaceitem.github.io/carpet-discarpet/
