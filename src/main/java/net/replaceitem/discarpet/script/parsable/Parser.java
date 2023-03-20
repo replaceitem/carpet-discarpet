@@ -73,7 +73,7 @@ public class Parser {
 
         SimpleTypeConverter<Value, T> typeConverter = SimpleTypeConverterAccessor.callGet(resultClass);
         if(typeConverter != null) {
-            return typeConverter.convert(value);
+            return typeConverter.convert(value, null);
         }
 
         T primitive = tryParsePrimitive(value, resultClass, name);
@@ -196,9 +196,9 @@ public class Parser {
                     if(generic instanceof ParameterizedType parameterizedType && parameterizedType.getRawType() == List.class) {
                         Type actualGenericType = getActualGenericType(parameterizedType);
                         if(actualGenericType == null) throw new InternalExpressionException("No type argument on list");
-                        if(!(actualGenericType instanceof Class clazz)) throw new InternalExpressionException("Invalid type argument on list: " + actualGenericType);
+                        if(!(actualGenericType instanceof Class<?> clazz)) throw new InternalExpressionException("Invalid type argument on list: " + actualGenericType);
                         object = parse2DList(listValue.getItems(), clazz,name);
-                    } else if(generic instanceof Class clazz) {
+                    } else if(generic instanceof Class<?> clazz) {
                         object = parseList(listValue.getItems(), clazz, name);
                     } else throw new InternalExpressionException("Invalid type parameter provided for field " + name);
                 } else {
@@ -247,7 +247,7 @@ public class Parser {
         if(genericInterfaces.length == 0) return null;
         Type genericInterface = genericInterfaces[0];
         Type actualGenericType = getActualGenericType(genericInterface);
-        if(actualGenericType instanceof Class genericClass) return genericClass;
+        if(actualGenericType instanceof Class<?> genericClass) return genericClass;
         return null;
     }
     
