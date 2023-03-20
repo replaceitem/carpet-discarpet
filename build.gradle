@@ -51,7 +51,7 @@ dependencies {
 	
 	include 'org.jetbrains.kotlin:kotlin-stdlib:1.4.10'
 	
-	include "com.fasterxml.jackson.core:jackson-databind:2.12.6"
+	include 'com.fasterxml.jackson.core:jackson-databind:2.12.7.1'
 	include "com.fasterxml.jackson.core:jackson-annotations:2.12.6"
 	include "com.fasterxml.jackson.core:jackson-core:2.12.6"
 	
@@ -94,7 +94,7 @@ modrinth {
 	versionNumber = project.mod_version
 	versionType = "release"
 	uploadFile = remapJar
-	gameVersions = ["1.19.3"]
+	gameVersions = ["1.19.4"]
 	loaders = ["fabric"]
 	dependencies = [
 			// carpet
