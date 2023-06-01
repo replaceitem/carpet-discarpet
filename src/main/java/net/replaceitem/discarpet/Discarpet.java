@@ -1,12 +1,5 @@
 package net.replaceitem.discarpet;
 
-import net.replaceitem.discarpet.commands.DiscarpetCommand;
-import net.replaceitem.discarpet.config.Bot;
-import net.replaceitem.discarpet.config.BotConfig;
-import net.replaceitem.discarpet.config.ConfigManager;
-import net.replaceitem.discarpet.script.events.DiscordEvents;
-import net.replaceitem.discarpet.script.events.MiscEvents;
-import net.replaceitem.discarpet.script.util.Registration;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
 import carpet.script.CarpetScriptHost;
@@ -21,6 +14,13 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
+import net.replaceitem.discarpet.commands.DiscarpetCommand;
+import net.replaceitem.discarpet.config.Bot;
+import net.replaceitem.discarpet.config.BotConfig;
+import net.replaceitem.discarpet.config.ConfigManager;
+import net.replaceitem.discarpet.script.events.DiscordEvents;
+import net.replaceitem.discarpet.script.events.MiscEvents;
+import net.replaceitem.discarpet.script.util.Registration;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -156,11 +156,9 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	public static Bot getBotInHost(ScriptHost h) {
 		if(h == null) return null;
-		if(((CarpetScriptHost) h).appConfig == null) return null;
 		Value botKeyValue = ((CarpetScriptHost) h).appConfig.get(StringValue.of("bot"));
 		if (botKeyValue == null) return null;
 		String key = botKeyValue.getString();
-		if (key == null) return null;
 		return discordBots.get(key);
 	}
 
