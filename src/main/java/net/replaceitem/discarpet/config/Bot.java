@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.config;
 
+import net.minecraft.text.MutableText;
 import net.replaceitem.discarpet.script.events.DiscarpetEventsListener;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -33,12 +34,15 @@ public class Bot {
 			CompletableFuture<DiscordApi> cf = apiBuilder.login();
 			cf.orTimeout(10, TimeUnit.SECONDS);
 			api = cf.get();
-
+			
 			String msg = "Bot " + id + " sucessfully logged in";
 			if(intents.size() != 0) {
 				msg += " with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(","));
 			}
-			if(source != null) source.sendFeedback(Text.literal(msg),false);
+
+			MutableText text = Text.literal(msg);
+
+			if(source != null) source.sendFeedback(() -> text,false);
 			LOGGER.info(msg);
 			
 			api.getListeners().keySet().forEach(globallyAttachableListener -> api.removeListener(globallyAttachableListener));
@@ -46,7 +50,7 @@ public class Bot {
 		} catch (CompletionException | InterruptedException | ExecutionException ce) {
 			String error = "Could not login bot " + id;
 			LOGGER.warn(error,ce);
-			if(source != null) source.sendFeedback(Text.literal(error).formatted(Formatting.RED),false);
+			if(source != null) source.sendFeedback(() -> Text.literal(error).formatted(Formatting.RED),false);
 			if(api != null) api.disconnect();
 			api = null;
 		}
