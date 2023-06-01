@@ -32,7 +32,7 @@ public class DiscarpetCommand {
                 MutableText text = Text.literal("Discarpet version " + version).formatted(Formatting.BLUE);
                 text.append("\nFor help, see the ");
                 text.append(Text.literal("documentation").setStyle(Style.EMPTY
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,"https://github.com/replaceitem/carpet-discarpet/blob/master/docs/Full.md"))
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,"https://replaceitem.github.io/carpet-discarpet/"))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,Text.literal("Click to get to the Discarpet documentation")))
                         .withFormatting(Formatting.UNDERLINE)
                         .withColor(Formatting.DARK_BLUE)));
