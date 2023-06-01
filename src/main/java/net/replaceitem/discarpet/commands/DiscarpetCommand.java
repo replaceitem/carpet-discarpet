@@ -14,6 +14,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.replaceitem.discarpet.config.Bot;
 
 import java.util.Set;
 
@@ -56,7 +57,11 @@ public class DiscarpetCommand {
         ).then(literal("getInvite").then(CommandManager.argument("id", StringArgumentType.string()).suggests(BOTS).executes(commandContext->{
             commandContext.getSource().sendFeedback(() -> {
                 String id = StringArgumentType.getString(commandContext,"id");
-                String invite = Discarpet.discordBots.get(id).getInvite();
+                Bot bot = Discarpet.discordBots.get(id);
+                if(bot == null) {
+                    return Text.literal("Invalid bot: " + id);
+                }
+                String invite = bot.getInvite();
                 return Text.literal("Click here to get the invite link for the bot")
                         .styled((style) -> style.withColor(Formatting.BLUE)
                                 .withFormatting(Formatting.UNDERLINE)
