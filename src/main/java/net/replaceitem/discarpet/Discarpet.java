@@ -14,6 +14,9 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.replaceitem.discarpet.commands.DiscarpetCommand;
 import net.replaceitem.discarpet.config.Bot;
 import net.replaceitem.discarpet.config.BotConfig;
@@ -41,6 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class Discarpet implements CarpetExtension, ModInitializer {
@@ -118,12 +122,9 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	}
 
 	public static void loadBots(ServerCommandSource source) {
-		if(source != null && !source.isExecutedByPlayer()) source = null;
-		
 		discordBots.forEach((s, bot) -> {
 			if(bot != null) {
-				if(bot.api != null) bot.api.disconnect();
-				bot.api = null;
+				bot.disconnect();
 			}
 		});
 		discordBots.clear();
@@ -134,8 +135,27 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 				try { return Intent.valueOf(s.toUpperCase()); } 
 				catch (IllegalArgumentException e) { return null; }
 			}).filter(Objects::nonNull).collect(Collectors.toSet());
-			Bot bot = new Bot(botConfig.BOT_ID,botConfig.BOT_TOKEN,intents,source);
-			if(bot.api != null) discordBots.put(bot.id, bot);
+
+			String botId = botConfig.BOT_ID;
+
+			CompletableFuture<Bot> botCompletableFuture = Bot.create(botId, botConfig.BOT_TOKEN, intents);
+			botCompletableFuture.exceptionally(throwable -> {
+				String error = "Could not login bot " + botId;
+				LOGGER.warn(error,throwable);
+				if(source != null) source.sendFeedback(() -> Text.literal(error).formatted(Formatting.RED),false);
+				return null;
+			});
+			botCompletableFuture.thenAccept(bot -> {
+				if(bot == null) return;
+				discordBots.put(bot.getId(), bot);
+				String msg = "Bot " + botId + " sucessfully logged in";
+				if(intents.size() != 0) {
+					msg += " with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(","));
+				}
+				MutableText text = Text.literal(msg).styled(style -> style.withColor(Formatting.GREEN));
+				if(source != null) source.sendFeedback(() -> text,false);
+				LOGGER.info(msg);
+			});
 		}
 	}
 

@@ -43,13 +43,9 @@ public class DiscarpetCommand {
             executes(commandContext->{
                 commandContext.getSource().sendFeedback(() -> {
                     Set<String> botIDs = Discarpet.discordBots.keySet();
-                    final MutableText t;
-                    if(botIDs.size()==0) {
-                        t = Text.literal("There are no bots active:\n").formatted(Formatting.RED);
-                    } else {
-                        t = Text.literal("There are " + botIDs.size() + " bots active\n").formatted(Formatting.GREEN);
-                    }
-                    botIDs.forEach(id-> t.append(Text.literal(id + "\n").formatted(Formatting.BLUE)));
+                    if(botIDs.size() == 0) return Text.literal("There are no bots active").formatted(Formatting.RED);
+                    final MutableText t = Text.literal("There are " + botIDs.size() + " bots active").formatted(Formatting.GREEN);
+                    botIDs.forEach(id -> t.append(Text.literal("\n" + id).formatted(Formatting.BLUE)));
                     return t;
                 },true);
                 return Discarpet.discordBots.size();
@@ -71,6 +67,7 @@ public class DiscarpetCommand {
             },false);
             return 1;
         }))).then(literal("reload").executes(commandContext->{
+                commandContext.getSource().sendFeedback(() -> Text.literal("Reloading..."), false);
                 Discarpet.loadConfig(commandContext.getSource());
                 return 1;
             }))
