@@ -29,7 +29,7 @@ public class Self {
             }
         }
         if (activityType == null) return false;
-        bot.api.updateActivity(activityType, text);
+        bot.getApi().updateActivity(activityType, text);
         return true;
     }
 
@@ -45,6 +45,6 @@ public class Self {
             }
         }
         if (userStatus == null) throw new InternalExpressionException("Invalid status");
-        bot.api.updateStatus(userStatus);
+        bot.getApi().updateStatus(userStatus);
     }
 }
