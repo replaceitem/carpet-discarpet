@@ -94,17 +94,12 @@ modrinth {
 	versionNumber = project.mod_version
 	versionType = "release"
 	uploadFile = remapJar
-	gameVersions = ["1.19.4"]
 	loaders = ["fabric"]
 	dependencies = [
 			// carpet
 			new ModDependency("TQTTVgYE" ,"required")
 	]
-	try {
-		changelog = rootProject.file("changelog.md").text
-	} catch(FileNotFoundException ignored) {
-		changelog = ""
-	}
+	changelog = rootProject.file("changelog.md").text
 	syncBodyFrom = rootProject.file("MODRINTH.md").text
 }
 
