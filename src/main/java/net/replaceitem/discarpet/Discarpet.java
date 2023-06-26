@@ -55,9 +55,6 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		DiscordEvents.noop();
-		MiscEvents.noop();
-
 		try {
 			Path configDir = FabricLoader.getInstance().getConfigDir().normalize();
 			Files.createDirectories(configDir);
@@ -76,6 +73,8 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void onGameStarted() {
+		DiscordEvents.noop();
+		MiscEvents.noop();
 		Registration.registerValueCasters();
 		Registration.registerDiscordValues();
 		Registration.registerMisc();
