@@ -11,7 +11,12 @@ import org.javacord.api.entity.message.MessageAttachment;
 
 public class AttachmentValue extends DiscordValue<Attachment> {
     public AttachmentValue(Attachment attachment) {
-        super("attachment_value",attachment);
+        super(attachment);
+    }
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "attachment_value";
     }
 
     public Value getProperty(String property) {

@@ -1,7 +1,5 @@
 package net.replaceitem.discarpet.script.values.interactions;
 
-import net.replaceitem.discarpet.script.values.ChannelValue;
-import net.replaceitem.discarpet.script.values.UserValue;
 import carpet.script.value.MapValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
@@ -16,9 +14,15 @@ import java.util.Map;
 
 public class ModalInteractionValue extends InteractionValue<ModalInteraction> {
     public ModalInteractionValue(ModalInteraction modalInteraction) {
-        super("modal_interaction",modalInteraction);
+        super(modalInteraction);
     }
-    
+
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "modal_interaction";
+    }
+
     public Value getProperty(String property) {
         return switch (property) {
             case "custom_id" -> StringValue.of(delegate.getCustomId());

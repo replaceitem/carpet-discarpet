@@ -11,7 +11,12 @@ import org.javacord.api.entity.webhook.Webhook;
 
 public class WebhookValue extends MessageableValue<Webhook> implements Deletable, Renamable {
     public WebhookValue(Webhook webhook) {
-        super("webhook",webhook);
+        super(webhook);
+    }
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "webhook";
     }
 
     public Value getProperty(String property) {

@@ -13,9 +13,14 @@ import org.javacord.api.entity.permission.Role;
 
 public class RoleValue extends DiscordValue<Role> implements Deletable, Renamable {
     public RoleValue(Role role) {
-        super("role",role);
+        super(role);
     }
-    
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "role";
+    }
+
     public Value getProperty(String property) {
         return switch (property) {
             case "name" -> StringValue.of(delegate.getName());

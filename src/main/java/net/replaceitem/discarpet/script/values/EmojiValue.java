@@ -12,7 +12,12 @@ import org.javacord.api.entity.emoji.KnownCustomEmoji;
 
 public class EmojiValue extends DiscordValue<Emoji> implements Deletable, Renamable {
     public EmojiValue(Emoji emoji) {
-        super("emoji",emoji);
+        super(emoji);
+    }
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "emoji";
     }
 
     public Value getProperty(String property) {

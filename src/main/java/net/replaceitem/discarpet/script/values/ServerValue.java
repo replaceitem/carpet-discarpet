@@ -11,7 +11,12 @@ import org.javacord.api.entity.server.Server;
 
 public class ServerValue extends DiscordValue<Server> implements Renamable {
     public ServerValue(Server server) {
-        super("server",server);
+        super(server);
+    }
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "server";
     }
 
     public Value getProperty(String property) {

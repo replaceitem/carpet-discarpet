@@ -9,8 +9,8 @@ import carpet.script.value.Value;
 import org.javacord.api.interaction.ApplicationCommand;
 
 public abstract class ApplicationCommandValue<T extends ApplicationCommand> extends DiscordValue<T> implements Deletable {
-    public ApplicationCommandValue(String typeName, T applicationCommand) {
-        super(typeName,applicationCommand);
+    public ApplicationCommandValue(T applicationCommand) {
+        super(applicationCommand);
     }
 
     public Value getProperty(String property) {

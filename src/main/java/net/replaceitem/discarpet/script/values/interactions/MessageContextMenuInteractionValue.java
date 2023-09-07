@@ -6,7 +6,13 @@ import org.javacord.api.interaction.MessageContextMenuInteraction;
 
 public class MessageContextMenuInteractionValue extends ApplicationCommandInteractionValue<MessageContextMenuInteraction> {
     public MessageContextMenuInteractionValue(MessageContextMenuInteraction messageContextMenuInteraction) {
-        super("message_context_menu_interaction", messageContextMenuInteraction);
+        super(messageContextMenuInteraction);
+    }
+
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "message_context_menu_interaction";
     }
 
     public Value getProperty(String property) {
