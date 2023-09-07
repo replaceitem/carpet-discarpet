@@ -25,6 +25,6 @@ public abstract class ApplicationCommandValue<T extends ApplicationCommand> exte
 
     @Override
     public boolean delete(String reason) {
-        return ValueUtil.awaitFutureBoolean(delegate.isGlobalApplicationCommand() ? delegate.deleteGlobal() : delegate.deleteForServer(delegate.getServer().orElseThrow()), "Failed to delete " + this.getTypeString());
+        return ValueUtil.awaitFutureBoolean(delegate.delete(), "Failed to delete " + this.getTypeString());
     }
 }
