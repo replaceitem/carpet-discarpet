@@ -10,4 +10,8 @@ public abstract class MessageableValue<T> extends DiscordValue<T> {
     public Messageable getMessageable() {
         return this.delegate instanceof Messageable messageable ? messageable : null;
     }
+    
+    public boolean isMessageable() {
+        return this.delegate instanceof Messageable;
+    }
 }
