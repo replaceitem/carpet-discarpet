@@ -10,8 +10,8 @@ import carpet.script.value.Value;
 import org.javacord.api.interaction.InteractionBase;
 
 public abstract class InteractionValue<T extends InteractionBase> extends DiscordValue<T> {
-    public InteractionValue(String typeName, T value) {
-        super(typeName, value);
+    public InteractionValue(T value) {
+        super(value);
     }
 
     public Value getProperty(String property) {

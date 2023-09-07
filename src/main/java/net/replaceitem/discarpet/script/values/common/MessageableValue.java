@@ -3,8 +3,8 @@ package net.replaceitem.discarpet.script.values.common;
 import org.javacord.api.entity.message.Messageable;
 
 public abstract class MessageableValue<T> extends DiscordValue<T> {
-    public MessageableValue(String typeName, T value) {
-        super(typeName, value);
+    public MessageableValue(T value) {
+        super(value);
     }
     
     public Messageable getMessageable() {
