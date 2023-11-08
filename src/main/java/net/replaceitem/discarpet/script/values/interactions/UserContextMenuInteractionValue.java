@@ -6,7 +6,13 @@ import org.javacord.api.interaction.UserContextMenuInteraction;
 
 public class UserContextMenuInteractionValue extends ApplicationCommandInteractionValue<UserContextMenuInteraction> {
     public UserContextMenuInteractionValue(UserContextMenuInteraction userContextMenuInteraction) {
-        super("user_context_menu_interaction", userContextMenuInteraction);
+        super(userContextMenuInteraction);
+    }
+
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "user_context_menu_interaction";
     }
 
     public Value getProperty(String property) {

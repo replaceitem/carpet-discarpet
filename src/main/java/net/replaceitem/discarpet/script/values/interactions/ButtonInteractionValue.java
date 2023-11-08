@@ -7,7 +7,12 @@ import org.javacord.api.interaction.ButtonInteraction;
 
 public class ButtonInteractionValue extends InteractionValue<ButtonInteraction> {
     public ButtonInteractionValue(ButtonInteraction buttonInteraction) {
-        super("button_interaction",buttonInteraction);
+        super(buttonInteraction);
+    }
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "button_interaction";
     }
 
     public Value getProperty(String property) {

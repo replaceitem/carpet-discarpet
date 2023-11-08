@@ -9,7 +9,12 @@ import org.javacord.api.entity.user.User;
 
 public class UserValue extends MessageableValue<User> {
     public UserValue(User user) {
-        super("user",user);
+        super(user);
+    }
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "user";
     }
 
     public Value getProperty(String property) {

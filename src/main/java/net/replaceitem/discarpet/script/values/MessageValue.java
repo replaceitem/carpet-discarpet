@@ -13,7 +13,12 @@ import java.time.Instant;
 
 public class MessageValue extends DiscordValue<Message> implements Deletable {
     public MessageValue(Message message) {
-        super("message",message);
+        super(message);
+    }
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "message";
     }
 
     public Value getProperty(String property) {

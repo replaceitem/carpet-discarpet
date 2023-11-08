@@ -6,6 +6,7 @@ import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -13,9 +14,8 @@ public abstract class DiscordValue<T> extends Value {
     
     protected final T delegate;
     
-    protected DiscordValue(String typeName, T delegate) {
+    protected DiscordValue(T delegate) {
         this.delegate = delegate;
-        this.typeName = typeName;
     }
     
     public T getDelegate() {
@@ -60,15 +60,17 @@ public abstract class DiscordValue<T> extends Value {
     }
 
     @Override
+    @NotNull
     public Value in(Value value1) {
         return this.getProperty(value1.getString());
     }
 
-    private final String typeName; 
-    
+    protected abstract String getDiscordTypeString();
+
     @Override
+    @NotNull
     public String getTypeString() {
-        return "dc_" + typeName;
+        return "dc_" + this.getDiscordTypeString();
     }
 
     @Override
@@ -77,6 +79,7 @@ public abstract class DiscordValue<T> extends Value {
     }
 
     @Override
+    @NotNull
     public String getString() {
         return delegate.toString();
     }
@@ -87,6 +90,7 @@ public abstract class DiscordValue<T> extends Value {
     }
 
     @Override
+    @NotNull
     public NbtElement toTag(boolean force) {
         return NbtString.of(getString());
     }

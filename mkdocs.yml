@@ -11,7 +11,6 @@ theme:
   name: material
   logo: assets/logo.png
   favicon: assets/logo.png
-  custom_dir: docs/overrides
   icon:
     repo: fontawesome/brands/github
   features:
@@ -150,7 +149,6 @@ nav:
       - Modal: 'parsables/components/modal.md'
   - Events:
     - __on_system_message: 'events/system-message.md'
-    - __on_command_executed: 'events/command-executed.md'
     - __on_discord_message: 'events/discord-message.md'
     - __on_discord_reaction: 'events/discord-reaction.md'
     - __on_discord_slash_command: 'events/discord-slash-command.md'

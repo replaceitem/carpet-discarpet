@@ -38,18 +38,15 @@ public class ValueUtil {
     }
 
     public static <T> T unpackOptional(Optional<T> optional) {
-        if(optional.isEmpty()) return null;
-        return optional.get();
+        return optional.orElse(null);
     }
     
     public static Value ofOptionalString(Optional<String> optionalString) {
-        if(optionalString.isEmpty()) return Value.NULL;
-        return StringValue.of(optionalString.get());
+        return optionalString.map(StringValue::of).orElse(Value.NULL);
     }
 
     public static Value ofOptionalNumber(Optional<Integer> optionalInteger) {
-        if(optionalInteger.isEmpty()) return Value.NULL;
-        return NumericValue.of(optionalInteger.get());
+        return optionalInteger.map(NumericValue::of).orElse(Value.NULL);
     }
 
     public static Value ofOptionalBoolean(Optional<Boolean> optionalBoolean) {

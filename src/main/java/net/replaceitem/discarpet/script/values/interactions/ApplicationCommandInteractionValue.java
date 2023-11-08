@@ -5,8 +5,8 @@ import carpet.script.value.Value;
 import org.javacord.api.interaction.ApplicationCommandInteraction;
 
 public abstract class ApplicationCommandInteractionValue<T extends ApplicationCommandInteraction> extends InteractionValue<T> {
-    public ApplicationCommandInteractionValue(String typeName, T applicationCommandInteraction) {
-        super(typeName, applicationCommandInteraction);
+    public ApplicationCommandInteractionValue(T applicationCommandInteraction) {
+        super(applicationCommandInteraction);
     }
 
     public Value getProperty(String property) {

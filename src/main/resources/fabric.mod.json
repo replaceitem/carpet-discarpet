@@ -9,11 +9,12 @@
     "replaceitem"
   ],
   "contact": {
-    "homepage": "https://github.com/replaceitem",
+    "homepage": "https://replaceitem.github.io/carpet-discarpet/",
+    "issues": "https://github.com/replaceitem/carpet-discarpet/issues",
     "sources": "https://github.com/replaceitem/carpet-discarpet"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/discarpet/icon.png",
 
   "environment": "*",
@@ -27,7 +28,7 @@
   ],
 
   "depends": {
-    "minecraft": "1.20.x",
+    "minecraft": ">=1.20",
     "fabricloader": ">=0.14.6",
     "carpet": ">=1.4.108",
     "java": ">=17"
