@@ -15,7 +15,12 @@ import org.javacord.api.interaction.SlashCommandInteractionOption;
 
 public class SlashCommandInteractionOptionValue extends DiscordValue<SlashCommandInteractionOption> {
     public SlashCommandInteractionOptionValue(SlashCommandInteractionOption slashCommandInteractionOption) {
-        super("slash_command_interaction_option",slashCommandInteractionOption);
+        super(slashCommandInteractionOption);
+    }
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "slash_command_interaction_option";
     }
 
     public Value getProperty(String property) {

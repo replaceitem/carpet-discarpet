@@ -26,11 +26,10 @@ public class Messages {
     public Message dc_send_message(Value target, Value messageContent) {
         MessageBuilder messageBuilder = new MessageBuilder();
         Parser.parseType(messageContent, MessageContentParsable.class).apply(new MessageContentApplier(messageBuilder));
-        if(target instanceof MessageableValue messageableValue && messageableValue.getMessageable() != null) {
-            Messageable messageable = messageableValue.getMessageable();
-            CompletableFuture<Message> cf = messageBuilder.send(messageable);
-            return ValueUtil.awaitFuture(cf,"Error sending message");
-        } else throw new InternalExpressionException("'dc_send_message' expected a text channel, user or incoming webhook as the first parameter");
+        if(!(target instanceof MessageableValue<?> messageableValue) || !messageableValue.isMessageable()) throw new InternalExpressionException("'dc_send_message' expected a messageable channel, user or incoming webhook as the first parameter");
+        Messageable messageable = messageableValue.getMessageable();
+        CompletableFuture<Message> cf = messageBuilder.send(messageable);
+        return ValueUtil.awaitFuture(cf,"Error sending message");
     }
     
     @ScarpetFunction

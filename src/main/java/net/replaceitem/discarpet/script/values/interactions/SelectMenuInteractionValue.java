@@ -16,7 +16,13 @@ import java.util.Locale;
 
 public class SelectMenuInteractionValue extends InteractionValue<SelectMenuInteraction> {
     public SelectMenuInteractionValue(SelectMenuInteraction selectMenuInteraction) {
-        super("select_menu_interaction",selectMenuInteraction);
+        super(selectMenuInteraction);
+    }
+
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "select_menu_interaction";
     }
 
     public Value getProperty(String property) {

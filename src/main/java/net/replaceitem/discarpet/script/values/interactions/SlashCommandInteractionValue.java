@@ -14,7 +14,12 @@ import java.util.Map;
 
 public class SlashCommandInteractionValue extends ApplicationCommandInteractionValue<SlashCommandInteraction> {
     public SlashCommandInteractionValue(SlashCommandInteraction applicationCommandInteraction) {
-        super("slash_command_interaction", applicationCommandInteraction);
+        super(applicationCommandInteraction);
+    }
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "slash_command_interaction";
     }
 
     public Value getProperty(String property) {

@@ -13,9 +13,14 @@ import org.javacord.api.entity.channel.*;
 
 public class ChannelValue extends MessageableValue<Channel> implements Renamable {
     public ChannelValue(Channel channel) {
-        super("channel",channel);
+        super(channel);
     }
-    
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "channel";
+    }
+
     public Value getProperty(String property) {
         return switch (property) {
             case "name" -> StringValue.of(delegate instanceof Nameable nameableChannel ? nameableChannel.getName() : null);

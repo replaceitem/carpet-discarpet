@@ -158,7 +158,7 @@ public class Registration {
     
     public static void registerMisc() {
         // allows to return lists of values or other objects with a registered output converter
-        OutputConverter.registerToValue(List.class, Registration::listOutputConverter);
+        OutputConverter.register(List.class, Registration::listOutputConverter);
     }
 
     private static Value listOutputConverter(List<?> list) {
@@ -168,6 +168,6 @@ public class Registration {
     public static <T> void registerDiscordValue(Class<? extends DiscordValue<T>> valueClass, Class<T> internalClass, Function<T, Value> constructor) {
         String typeName = constructor.apply(null).getTypeString();
         SimpleTypeConverter.registerType(valueClass, internalClass, DiscordValue::getDelegate, typeName);
-        OutputConverter.registerToValue(internalClass, constructor);
+        OutputConverter.register(internalClass, constructor);
     }
 }

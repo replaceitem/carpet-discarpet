@@ -32,6 +32,7 @@ public class MessageContentParsable implements Applicable<ContentApplier>, Direc
     // message flags
     @Optional Boolean ephemeral = false;
     @Optional Boolean suppress_embeds = false;
+    @Optional Boolean suppress_notifications = false;
     
     @Override
     public void apply(ContentApplier contentApplier) {
@@ -54,6 +55,7 @@ public class MessageContentParsable implements Applicable<ContentApplier>, Direc
         EnumSet<MessageFlag> messageFlags = EnumSet.noneOf(MessageFlag.class);
         if(ephemeral) messageFlags.add(MessageFlag.EPHEMERAL);
         if(suppress_embeds) messageFlags.add(MessageFlag.SUPPRESS_EMBEDS);
+        if(suppress_notifications) messageFlags.add(MessageFlag.SUPPRESS_NOTIFICATIONS);
         if(!messageFlags.isEmpty()) contentApplier.setFlags(messageFlags);
     }
 

@@ -9,8 +9,8 @@ import carpet.script.value.Value;
 import org.javacord.api.interaction.ApplicationCommand;
 
 public abstract class ApplicationCommandValue<T extends ApplicationCommand> extends DiscordValue<T> implements Deletable {
-    public ApplicationCommandValue(String typeName, T applicationCommand) {
-        super(typeName,applicationCommand);
+    public ApplicationCommandValue(T applicationCommand) {
+        super(applicationCommand);
     }
 
     public Value getProperty(String property) {
@@ -25,6 +25,6 @@ public abstract class ApplicationCommandValue<T extends ApplicationCommand> exte
 
     @Override
     public boolean delete(String reason) {
-        return ValueUtil.awaitFutureBoolean(delegate.isGlobalApplicationCommand() ? delegate.deleteGlobal() : delegate.deleteForServer(delegate.getServer().orElseThrow()), "Failed to delete " + this.getTypeString());
+        return ValueUtil.awaitFutureBoolean(delegate.delete(), "Failed to delete " + this.getTypeString());
     }
 }

@@ -7,7 +7,12 @@ import org.javacord.api.entity.message.Reaction;
 
 public class ReactionValue extends DiscordValue<Reaction> {
     public ReactionValue(Reaction reaction) {
-        super("reaction",reaction);
+        super(reaction);
+    }
+
+    @Override
+    protected String getDiscordTypeString() {
+        return "reaction";
     }
 
     public Value getProperty(String property) {
