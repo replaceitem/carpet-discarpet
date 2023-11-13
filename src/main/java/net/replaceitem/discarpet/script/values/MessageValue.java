@@ -7,6 +7,7 @@ import net.replaceitem.discarpet.script.values.common.DiscordValue;
 import carpet.script.value.ListValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import org.javacord.api.entity.DiscordEntity;
 import org.javacord.api.entity.message.Message;
 
 import java.time.Instant;
@@ -32,6 +33,7 @@ public class MessageValue extends DiscordValue<Message> implements Deletable {
             case "server" -> ServerValue.of(delegate.getServer());
             case "nonce" -> ValueUtil.ofOptionalString(delegate.getNonce());
             case "attachments" -> ListValue.wrap(delegate.getAttachments().stream().map(AttachmentValue::new));
+            case "sticker_ids" -> ListValue.wrap(delegate.getStickerItems().stream().map(DiscordEntity::getIdAsString).map(StringValue::of));
             case "referenced_message" -> MessageValue.of(delegate.getReferencedMessage());
             case "type" -> StringValue.of(delegate.getType().name());
             case "link" -> StringValue.of(delegate.getLink().toString());
