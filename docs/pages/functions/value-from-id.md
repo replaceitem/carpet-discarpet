@@ -11,8 +11,13 @@ specified server id, or `null` if the server was not found.
 ### `dc_emoji_from_id(id)`
 
 Returns an [Emoji](/values/emoji.md) value from the
-specified emoji id in a `server`.
+specified emoji id.
 This is only for custom emojis, since standard emojis are specified from the unicode emoji.
+
+### `dc_sticker_from_id(id)`
+
+Returns a [Sticker](/values/sticker.md) value from the
+specified sticker id.
 
 ### `dc_role_from_id(id)`
 
