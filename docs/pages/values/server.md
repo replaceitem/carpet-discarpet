@@ -13,3 +13,5 @@ A Discord server
 | `roles`          | List of [Roles](/values/role.md)                            | All roles in this server                                   |
 | `webhooks`       | List of [Webhooks](/values/webhook.md)                      | All webhooks in this server                                |
 | `slash_commands` | List of [Slash commands](/values/commands/slash-command.md) | All slash commands in this server                          |
+| `emojis`         | List of [Emojis](/values/emoji.md)                          | Emojis in this server                                      |
+| `sticker`        | List of [Stickers](/values/sticker.md)                      | Stickers in this server                                    |
