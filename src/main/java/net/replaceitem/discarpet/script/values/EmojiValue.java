@@ -7,6 +7,7 @@ import net.replaceitem.discarpet.script.values.common.Renamable;
 import carpet.script.value.BooleanValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import org.javacord.api.entity.DiscordEntity;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.emoji.KnownCustomEmoji;
 
@@ -20,8 +21,10 @@ public class EmojiValue extends DiscordValue<Emoji> implements Deletable, Renama
         return "emoji";
     }
 
+    @Override
     public Value getProperty(String property) {
         return switch (property) {
+            case "id" -> ValueUtil.ofOptionalString(delegate.asCustomEmoji().map(DiscordEntity::getIdAsString));
             case "mention_tag" -> StringValue.of(delegate.getMentionTag());
             case "unicode" -> ValueUtil.ofOptionalString(delegate.asUnicodeEmoji());
             case "is_animated" -> BooleanValue.of(delegate.isAnimated());
