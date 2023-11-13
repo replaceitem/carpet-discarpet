@@ -45,7 +45,7 @@ public class ValueUtil {
         return optionalString.map(StringValue::of).orElse(Value.NULL);
     }
 
-    public static Value ofOptionalNumber(Optional<Integer> optionalInteger) {
+    public static Value ofOptionalNumber(Optional<? extends Number> optionalInteger) {
         return optionalInteger.map(NumericValue::of).orElse(Value.NULL);
     }
 
