@@ -5,6 +5,7 @@ import org.javacord.api.entity.message.MessageFlag;
 import org.javacord.api.entity.message.component.HighLevelComponent;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.message.mention.AllowedMentions;
+import org.javacord.api.entity.sticker.Sticker;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -26,6 +27,9 @@ public interface ContentApplier {
     void addEmbed(EmbedBuilder embed);
 
     void addComponent(HighLevelComponent highLevelComponent);
+
+    void addSticker(long stickerId);
+    void addSticker(Sticker sticker);
     
     void setAllowedMentions(AllowedMentions allowedMentions);
     

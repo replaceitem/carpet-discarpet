@@ -6,6 +6,7 @@ import org.javacord.api.entity.message.MessageFlag;
 import org.javacord.api.entity.message.component.HighLevelComponent;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.message.mention.AllowedMentions;
+import org.javacord.api.entity.sticker.Sticker;
 import org.javacord.api.interaction.callback.InteractionImmediateResponseBuilder;
 
 import java.awt.image.BufferedImage;
@@ -65,6 +66,16 @@ public class InteractionImmediateResponseContentApplier implements ContentApplie
     @Override
     public void addComponent(HighLevelComponent highLevelComponent) {
         builder.addComponents(highLevelComponent);
+    }
+
+    @Override
+    public void addSticker(long stickerId) {
+        throwNotSupported("stickers");
+    }
+
+    @Override
+    public void addSticker(Sticker sticker) {
+        throwNotSupported("stickers");
     }
 
     @Override
