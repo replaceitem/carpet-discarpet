@@ -104,6 +104,7 @@ nav:
     - Attachment: 'values/attachment.md'
     - Reaction: 'values/reaction.md'
     - Emoji: 'values/emoji.md'
+    - Sticker: 'values/sticker.md'
     - Webhook: 'values/webhook.md'
     - Application commands:
       - Slash command: 'values/commands/slash-command.md'
