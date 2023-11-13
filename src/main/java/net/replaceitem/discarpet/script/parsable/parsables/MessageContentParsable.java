@@ -1,12 +1,14 @@
 package net.replaceitem.discarpet.script.parsable.parsables;
 
+import carpet.script.exception.InternalExpressionException;
+import carpet.script.value.MapValue;
+import carpet.script.value.Value;
 import net.replaceitem.discarpet.script.parsable.Applicable;
 import net.replaceitem.discarpet.script.parsable.DirectParsable;
 import net.replaceitem.discarpet.script.parsable.Optional;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.util.content.ContentApplier;
-import carpet.script.value.MapValue;
-import carpet.script.value.Value;
+import net.replaceitem.discarpet.script.values.StickerValue;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageFlag;
 import org.javacord.api.entity.message.component.ActionRow;
@@ -22,6 +24,7 @@ public class MessageContentParsable implements Applicable<ContentApplier>, Direc
     
     String content;
     @Optional List<AttachmentParsable> attachments = List.of();
+    @Optional List<Value> stickers = List.of();
     @Optional List<EmbedBuilder> embeds = List.of();
     @Optional List<List<LowLevelComponent>> components = List.of();
     @Optional AllowedMentions allowed_mentions;
@@ -39,6 +42,19 @@ public class MessageContentParsable implements Applicable<ContentApplier>, Direc
         contentApplier.setContent(content);
         for (AttachmentParsable attachment : attachments) {
             attachment.apply(contentApplier);
+        }
+        for (Value sticker : stickers) {
+            if(sticker instanceof StickerValue stickerValue) {
+                contentApplier.addSticker(stickerValue.getDelegate());
+            } else {
+                String stickerId = sticker.getString();
+                try {
+                    long id = Long.parseLong(stickerId);
+                    contentApplier.addSticker(id);
+                } catch (NumberFormatException e) {
+                    throw new InternalExpressionException("'stickers' must be a list of sticker values or sticker ids");
+                }
+            }
         }
         for (EmbedBuilder embed : embeds) {
             contentApplier.addEmbed(embed);

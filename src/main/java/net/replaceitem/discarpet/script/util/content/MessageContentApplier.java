@@ -7,6 +7,7 @@ import org.javacord.api.entity.message.MessageFlag;
 import org.javacord.api.entity.message.component.HighLevelComponent;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.message.mention.AllowedMentions;
+import org.javacord.api.entity.sticker.Sticker;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -74,6 +75,16 @@ public class MessageContentApplier implements ContentApplier {
     @Override
     public void addComponent(HighLevelComponent highLevelComponent) {
         builder.addComponents(highLevelComponent);
+    }
+
+    @Override
+    public void addSticker(long stickerId) {
+        builder.addSticker(stickerId);
+    }
+
+    @Override
+    public void addSticker(Sticker sticker) {
+        builder.addSticker(sticker);
     }
 
     @Override
