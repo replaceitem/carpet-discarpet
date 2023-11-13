@@ -28,6 +28,8 @@ public class ServerValue extends DiscordValue<Server> implements Renamable {
             case "roles" -> ListValue.wrap(delegate.getRoles().stream().map(RoleValue::new));
             case "webhooks" -> ListValue.wrap(delegate.getWebhooks().join().stream().map(WebhookValue::of));
             case "slash_commands" -> ListValue.wrap(delegate.getSlashCommands().join().stream().map(SlashCommandValue::of));
+            case "emojis" -> ListValue.wrap(delegate.getCustomEmojis().stream().map(EmojiValue::of));
+            case "stickers" -> ListValue.wrap(delegate.getStickers().stream().map(StickerValue::of));
             default -> super.getProperty(property);
         };
     }
