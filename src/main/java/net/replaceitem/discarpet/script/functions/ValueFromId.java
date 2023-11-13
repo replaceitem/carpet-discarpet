@@ -10,6 +10,7 @@ import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.permission.Role;
 import org.javacord.api.entity.server.Server;
+import org.javacord.api.entity.sticker.Sticker;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.entity.webhook.Webhook;
 
@@ -32,6 +33,12 @@ public class ValueFromId {
 	public Emoji dc_emoji_from_id(Context ctx, String emojiId) {
 		Bot bot = Discarpet.getBotInContext(ctx,"dc_emoji_from_id");
         return bot.getApi().getCustomEmojiById(emojiId).orElse(null);
+	}
+
+	@ScarpetFunction
+	public Sticker dc_sticker_from_id(Context ctx, String stickerId) {
+		Bot bot = Discarpet.getBotInContext(ctx,"dc_sticker_from_id");
+		return bot.getApi().getStickerById(stickerId).orElse(null);
 	}
 
     @ScarpetFunction
