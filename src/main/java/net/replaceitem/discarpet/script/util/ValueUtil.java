@@ -8,8 +8,8 @@ import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.core.entity.emoji.UnicodeEmojiImpl;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
