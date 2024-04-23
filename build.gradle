@@ -104,5 +104,5 @@ modrinth {
 	} catch(FileNotFoundException ignored) { // github actions would fail otherwise
 		changelog = ""
 	}
-	syncBodyFrom = rootProject.file("MODRINTH.md").text
+	syncBodyFrom = rootProject.file("README.md").text
 }
