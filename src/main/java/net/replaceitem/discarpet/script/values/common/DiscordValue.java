@@ -1,11 +1,12 @@
 package net.replaceitem.discarpet.script.values.common;
 
-import net.replaceitem.discarpet.script.util.ValueUtil;
 import carpet.script.annotation.OutputConverter;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.replaceitem.discarpet.script.util.ValueUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -33,7 +34,7 @@ public abstract class DiscordValue<T> extends Value {
         if(toClass == null) throw new InternalExpressionException("Could not find an interface for an output converter for DiscordValue.of() and type " + object.getClass());
         OutputConverter<Object> converter = getOutputConverter(toClass);
         if(converter == null) throw new InternalExpressionException("Could not find a suitable output converter for DiscordValue.of() and type " + object.getClass());
-        return converter.convert(object);
+        return converter.convert(object, null);
     }
 
     private static <V> OutputConverter<V> getOutputConverter(Class<V> inputClass) {
@@ -91,7 +92,7 @@ public abstract class DiscordValue<T> extends Value {
 
     @Override
     @NotNull
-    public NbtElement toTag(boolean force) {
+    public NbtElement toTag(boolean force, DynamicRegistryManager regs) {
         return NbtString.of(getString());
     }
 }
