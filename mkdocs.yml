@@ -78,6 +78,7 @@ nav:
       - dc_set_status: 'functions/bot/set-status.md'
     - User functions:
       - dc_get_display_name: 'functions/users/get-display-name.md'
+      - dc_get_user_color: 'functions/users/get-user-color.md'
       - dc_set_nickname: 'functions/users/set-nickname.md'
       - dc_timeout: 'functions/users/timeout.md'
     - Role functions:
