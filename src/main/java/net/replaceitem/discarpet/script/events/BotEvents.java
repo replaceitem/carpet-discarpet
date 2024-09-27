@@ -28,12 +28,9 @@ public class BotEvents extends CarpetEventServer.Event {
     }
     
     private void callHandlerInBotApps(Bot triggerBot, Supplier<List<Value>> argumentSupplier) {
-        callHandlerInBotApps(triggerBot, argumentSupplier, DEFAULT_SOURCE_SUPPLIER);
-    }
-    private void callHandlerInBotApps(Bot triggerBot, Supplier<List<Value>> argumentSupplier, Supplier<ServerCommandSource> cmdSourceSupplier) {
         if(CarpetServer.minecraft_server != null && !CarpetServer.minecraft_server.isRunning()) return; //prevent errors when event triggers while stopping server
         ((CallbackListAccessor) handler).callRemoveCallsIf(callback -> !triggerBot.equals(Discarpet.getBotInHost(CarpetServer.scriptServer.getAppHostByName(callback.host))));
-        handler.call(argumentSupplier,cmdSourceSupplier);
+        handler.call(argumentSupplier,DEFAULT_SOURCE_SUPPLIER);
     }
 
     private static final Supplier<ServerCommandSource> DEFAULT_SOURCE_SUPPLIER = () -> {
@@ -69,15 +66,6 @@ public class BotEvents extends CarpetEventServer.Event {
 
         public void run(Bot bot, A a, B b, C c) {
             runBotEvent(bot, a, b, c);
-        }
-    }
-    public static class Args4<A,B,C,D> extends BotEvents {
-        public Args4(String name) {
-            super(name, 4, false);
-        }
-
-        public void run(Bot bot, A a, B b, C c, D d) {
-            runBotEvent(bot, a, b, c, d);
         }
     }
 }

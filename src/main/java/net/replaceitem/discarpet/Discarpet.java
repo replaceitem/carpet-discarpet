@@ -83,11 +83,6 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	}
 
 	@Override
-	public void onServerLoaded(MinecraftServer server) {
-		
-	}
-
-	@Override
 	public void onServerClosed(MinecraftServer server) {
 		LOGGER.info("Disconnecting all Discord bots");
 		discordBots.forEach((s, bot) -> bot.getApi().disconnect());
@@ -148,7 +143,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 				if(bot == null) return;
 				discordBots.put(bot.getId(), bot);
 				String msg = "Bot " + botId + " sucessfully logged in";
-				if(intents.size() != 0) {
+				if(!intents.isEmpty()) {
 					msg += " with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(","));
 				}
 				MutableText text = Text.literal(msg).styled(style -> style.withColor(Formatting.GREEN));
