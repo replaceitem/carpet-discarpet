@@ -50,11 +50,6 @@ public abstract class DiscordValue<T> extends Value {
     }
 
     @Override
-    public boolean isNull() {
-        return false;
-    }
-
-    @Override
     @NotNull
     public String getString() {
         return delegate.toString();
