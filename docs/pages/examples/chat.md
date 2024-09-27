@@ -3,7 +3,9 @@ This script sends chat messages in minecraft to the configured
 channel to the minecraft chat.
 
 !!! warning "Requires privileged intents"
-    To use this example script, your bot will require the `MESSAGE_CONTENT` intent. You can add these inside `discarpet.json` as described in [Getting started](/setup.md#intents).
+    To use this example script, your bot will require the [`MESSAGE_CONTENT` intent](/setup.md#intents).
+
+![Demo chat](/assets/demo_chat.png)
 
 ```sc title="chat.sc"
 __config() -> {

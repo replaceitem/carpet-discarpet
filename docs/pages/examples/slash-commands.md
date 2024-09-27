@@ -1,6 +1,6 @@
 Adds some demo slash commands.
 
-Remember to set your own server id!
+Remember to set your own server ID!
 
 ```sc title="slash_commands.sc"
 __config() -> {
@@ -105,7 +105,7 @@ initialize_commands() -> (
                     {
                         'type' -> 'SUB_COMMAND',
                         'name' -> 'file',
-                        'description'->'Upload file as attachment',
+                        'description' -> 'Upload file as attachment',
                         'options'->[
                             {
                                 'type' -> 'ATTACHMENT',

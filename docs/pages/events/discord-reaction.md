@@ -1,4 +1,4 @@
-### `__on_discord_reaction(reaction,user,added)`
+### `__on_discord_reaction(reaction, user, added)`
 
 Executes when a user reacts to a message with some emoji
 

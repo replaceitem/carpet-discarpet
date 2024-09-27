@@ -1,10 +1,10 @@
-### `dc_send_message(target,content)`
+### `dc_send_message(target, content)`
 
 {% include 'warning-blocking.md' %}
 
-This functions sends a message in a specific Discord channel, to a private message channel or a webhook.
+Sends a message to the target.
 
-The `target` can be one of
+The `target` can be one of:
 
 * [Channel](/values/channel.md)
 * [User](/values/user.md)
@@ -15,9 +15,10 @@ The `content` is a parsable [Message content](/parsables/message-content.md), bu
 This example shows how you can send a message and add reactions to it as soon as it was sent
 
 ```py
-task(_()->(
-    message = dc_send_message(dc_channel_from_id('YOUR CHANNEL ID'),'Test message');
-    dc_react(message,'🟥');
-    dc_react(message,'🟩');
+task(_() -> (
+    channel = dc_channel_from_id('YOUR CHANNEL ID');
+    message = dc_send_message(channel, 'Test message');
+    dc_react(message, '🟥');
+    dc_react(message, '🟩');
 ));
 ```

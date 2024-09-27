@@ -1,4 +1,4 @@
-### `__on_system_message(text,type)`
+### `__on_system_message(text, type)`
 
 Event that execute on system messages, for example to be used to redirect system messages to a discord chat.
 

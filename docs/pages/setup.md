@@ -22,7 +22,7 @@ The file should look like this by default:
 }
 ```
 
-To add your bot to the game, copy and paste your Bot token from the Developer portal into the `"bot_token"` field.
+To add your bot to the config, copy and paste your bot token from the Developer Portal into the `"bot_token"` field.
 
 The `"bot_id"` is an arbitrary name used to identify your bot in scarpet later.
 This doesn't need to be what you called it in the developer portal,
@@ -67,7 +67,7 @@ __config()->{'bot'->'bot_id'}
 ```
 
 The `'bot_id'` is the id you specified in the config.
-Without a valid bot specified, most discarpet functions will not work and will throw an error.
+Without a valid bot specified, most Discarpet functions will not work and will throw an error.
 
 ## Multiple bots
 

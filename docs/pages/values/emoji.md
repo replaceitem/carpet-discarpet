@@ -6,7 +6,7 @@ This value stores an Emoji, which could be a normal unicode emoji, or a custom e
 
 | Property      | Type    | Description                                                                               |
 |---------------|---------|-------------------------------------------------------------------------------------------|
-| `id`          | Number  | The id of this emoji (if it is a custom emoji)                                            |
+| `id`          | Number  | The ID of this emoji (if it is a custom emoji)                                            |
 | `mention_tag` | String  | The mention tag for the emoji. This can be used to put into messages to contain the emoji |
 | `unicode`     | String  | The emoji as a unicode character.<br>Returns `null` if it's a custom emoji                |
 | `is_animated` | Boolean | Whether if the emoji is animated                                                          |

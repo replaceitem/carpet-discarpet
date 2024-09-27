@@ -1,5 +1,6 @@
-Sends all system messages to a log channel,
-and sends a message when a player executes a command.
+Sends all system messages and triggered commands to a log channel
+
+![Demo log](/assets/demo_log.png)
 
 ```sc title="log.sc"
 __config() -> {

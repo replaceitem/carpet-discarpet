@@ -1,5 +1,8 @@
 Logs the opening of containers and tnt placement to a log channel
 
+![Demo grief log](/assets/demo_grief_log.png)
+
+
 ```sc title="grief_log.sc"
 __config() -> {
     'scope' -> 'global',

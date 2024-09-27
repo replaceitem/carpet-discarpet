@@ -1,7 +1,9 @@
-Directly replies to all messages with a text of `Ping`
+Directly replies to all messages that starts with "Ping"
 
 !!! warning "Requires privileged intents"
-    To use this example script, your bot will require the `MESSAGE_CONTENT` intent. You can add these inside `discarpet.json` as described in [Getting started](/setup.md#intents).
+    To use this example script, your bot will require the [`MESSAGE_CONTENT` intent](/setup.md#intents).
+
+![Demo reply](/assets/demo_reply.png)
 
 ```sc title="reply.sc"
 __config() -> {
@@ -14,7 +16,7 @@ __on_discord_message(message) -> (
     if (message~'user'~'is_self', return());
 
     // if content is Ping, proceed to Pong!
-    if (message~'content' == 'Ping',
+    if (message~'content'~'^Ping',
         task(_(outer(message)) -> (
             dc_send_message(message~'channel', {
                 'content' -> str('Pong! %s', message~'user'~'mention_tag'),
