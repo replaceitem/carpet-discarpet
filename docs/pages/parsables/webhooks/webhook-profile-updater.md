@@ -2,8 +2,8 @@
 
 Used when updating a webhook profile
 
-| Value    | Type                                                                                                | Description                                                                     |
-|----------|-----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| `name`   | String (optional)                                                                                   | The username of the webhook                                                     |
-| `avatar` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | A URL/File path/image to the avatar shown on the webhook                        |
-| `reason` | String (optional)                                                                                   | Reason shown in Audit log, only for `dc_create_webhook` and `dc_update_webhook` |
+| Value    | Type                                                                                                   | Description                                                                              |
+|----------|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| `name`   | String<br>(optional)                                                                                   | The username of the webhook                                                              |
+| `avatar` | String or Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics)<br>(optional) | The image URL (or image file) used for the webhook's avatar                              |
+| `reason` | String<br>(optional)                                                                                   | The reason shown in audit log.<br>(Only for `dc_create_webhook` and `dc_update_webhook`) |

@@ -8,10 +8,10 @@ It also introduces parsables as a way to define more complex things like embeds,
 Each value has things that can be queried from them.
 This works similar to scarpets' entity value.
 For example, in scarpet you can get an entities health using `entity~'health'`.
-Discarpet work the same. For example, you can get the channel a message is
+
+Discarpet works the same. For example, you can get the channel a message is
 in using `message~'channel'`.
-The values that can be queried from a value
-are always listed in a values' documentation page under `Queryable:`.
+The values that can be queried from a value are listed in their documentation page.
 
 ### Type names
 
@@ -34,12 +34,12 @@ Those fields and their types are listed in the documentation of each parsable.
 
 As an example, a value from a parsable with these fields
 
-| Value    | Type                                  | Description                             |
-|----------|---------------------------------------|-----------------------------------------|
-| `name`   | String                                | Some name                               |
-| `id`     | String                                | The id                                  |
-| `length` | number                                | Number example field                    |
-| `hidden` | boolean (optional, defaults to false) | Whether this example parsable is hidden |
+| Value    | Type                                     | Description                             |
+|----------|------------------------------------------|-----------------------------------------|
+| `name`   | String                                   | Some name                               |
+| `id`     | String                                   | The id                                  |
+| `length` | Number                                   | Number example field                    |
+| `hidden` | Boolean<br>(optional, defaults to false) | Whether this example parsable is hidden |
 
 would look like this
 

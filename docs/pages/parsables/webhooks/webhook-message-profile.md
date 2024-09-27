@@ -2,7 +2,7 @@
 
 Used when updating the webhook profile along with sending a message
 
-| Value    | Type              | Description                              |
-|----------|-------------------|------------------------------------------|
-| `name`   | String (optional) | The username of the webhook              |
-| `avatar` | String (optional) | A URL to the avatar shown on the webhook |
+| Value    | Type                 | Description                                 |
+|----------|----------------------|---------------------------------------------|
+| `name`   | String<br>(optional) | The username of the webhook                 |
+| `avatar` | String<br>(optional) | The image URL used for the webhook's avatar |

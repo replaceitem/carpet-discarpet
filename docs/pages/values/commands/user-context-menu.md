@@ -2,9 +2,9 @@
 
 #### Queryable:
 
-| Property      | Type                        | Description                                                                             |
-|---------------|-----------------------------|-----------------------------------------------------------------------------------------|
-| `id`          | String                      | Id of the command                                                                       |
-| `name`        | String                      | Name of the command                                                                     |
-| `description` | String                      | Description of the command                                                              |
-| `server`      | [Server](/values/server.md) | The server this application command is in, or null if it's a global application command |
+| Property      | Type                        | Description                                                                                        |
+|---------------|-----------------------------|----------------------------------------------------------------------------------------------------|
+| `id`          | String                      | The ID of the command                                                                              |
+| `name`        | String                      | The name of the command                                                                            |
+| `description` | String                      | The description of the command                                                                     |
+| `server`      | [Server](/values/server.md) | The server this application command is in.<br> Returns `null` if it's a global application command |

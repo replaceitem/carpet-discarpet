@@ -8,12 +8,12 @@ A channel value represents a Discord server channel, DM channel, server thread o
 |---------------|----------------------------------------|-------------------------------------------------------------------------------------------------------|
 | `name`        | String                                 | The name of the Discord channel                                                                       |
 | `topic`       | String                                 | The topic of the channel (See `dc_set_channel_topic`)                                                 |
-| `id`          | String                                 | ID of the channel                                                                                     |
-| `mention_tag` | String                                 | Mention tag for the channel. This can be put inside a message for the channel to be a clickable link. |
-| `server`      | [Server](/values/server.md)            | Server this channel is in, or null if this is a private channel                                       |
-| `type`        | String                                 | [Channel type](#channel-types)                                                                        |
-| `webhooks`    | List of [Webhooks](/values/webhook.md) | All webhooks in this channel                                                                          |
-| `nsfw`        | boolean                                | Whether the channel is marked as "Not safe for work"                                                  |
+| `id`          | String                                 | The ID of the channel                                                                                     |
+| `mention_tag` | String                                 | The mention tag for the channel. This can be put inside a message for the channel to be a clickable link. |
+| `server`      | [Server](/values/server.md)            | The server this channel is in, or `null` if this is a private channel                                 |
+| `type`        | String                                 | The [channel type](#channel-types)                                                                        |
+| `webhooks`    | List of [Webhooks](/values/webhook.md) | The webhooks in this channel                                                                          |
+| `nsfw`        | Boolean                                | Whether the channel is marked as "Not safe for work"                                                  |
 
 #### Channel types
 
