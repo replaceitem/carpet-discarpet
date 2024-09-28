@@ -18,11 +18,11 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.replaceitem.discarpet.commands.DiscarpetCommand;
-import net.replaceitem.discarpet.config.Bot;
+import net.replaceitem.discarpet.config.*;
 import net.replaceitem.discarpet.config.BotConfig;
 import net.replaceitem.discarpet.config.ConfigManager;
-import net.replaceitem.discarpet.script.events.DiscordEvents;
 import net.replaceitem.discarpet.script.events.MiscEvents;
+import net.replaceitem.discarpet.script.events.DiscordEvents;
 import net.replaceitem.discarpet.script.util.Registration;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -80,11 +80,6 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		Registration.registerMisc();
 		Registration.registerFunctions();
 		Registration.registerParsables();
-	}
-
-	@Override
-	public void onServerLoaded(MinecraftServer server) {
-		
 	}
 
 	@Override
@@ -148,7 +143,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 				if(bot == null) return;
 				discordBots.put(bot.getId(), bot);
 				String msg = "Bot " + botId + " sucessfully logged in";
-				if(intents.size() != 0) {
+				if(!intents.isEmpty()) {
 					msg += " with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(","));
 				}
 				MutableText text = Text.literal(msg).styled(style -> style.withColor(Formatting.GREEN));

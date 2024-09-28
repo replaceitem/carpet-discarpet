@@ -24,7 +24,7 @@ task(_() -> (
 ));
 
 __on_discord_button(int) -> (
-    if (int~'id' == 'modal_btn',
+    if (int~'custom_id' == 'modal_btn',
         task(_(outer(int)) -> (
             dc_respond_interaction(int, 'respond_modal', {
                 'id' -> 'my_modal',

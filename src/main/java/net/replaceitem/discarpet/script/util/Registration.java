@@ -38,6 +38,7 @@ import org.javacord.api.entity.webhook.Webhook;
 import org.javacord.api.interaction.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class Registration {
@@ -116,10 +117,16 @@ public class Registration {
     public static void registerMisc() {
         // allows to return lists of values or other objects with a registered output converter
         OutputConverter.register(List.class, Registration::listOutputConverter);
+        OutputConverter.register(Optional.class, Registration::optionalOutputConverter);
+    }
+    
+    private static Value listOutputConverter(List<?> list) {
+        return ListValue.wrap(list.stream().map(o -> (o instanceof Value) ? (Value) o : ValueConversions.toValue(o)));
     }
 
-    private static Value listOutputConverter(List<?> list) {
-        return ListValue.wrap(list.stream().map(o -> (o instanceof Value) ? (Value) o : DiscordValue.of(o)));
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    private static Value optionalOutputConverter(Optional<?> optional) {
+        return ValueConversions.toValue(optional.orElse(null));
     }
 
     public static <T> void registerDiscordValue(Class<? extends DiscordValue<T>> valueClass, Class<T> internalClass, Function<T, Value> constructor) {
