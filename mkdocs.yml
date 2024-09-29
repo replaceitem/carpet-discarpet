@@ -14,6 +14,9 @@ theme:
   icon:
     repo: fontawesome/brands/github
   features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
     - toc.integrate
     - content.code.copy
   palette:
@@ -97,6 +100,19 @@ nav:
       - dc_send_webhook: 'functions/webhooks/send-webhook.md'
       - dc_update_webhook: 'functions/webhooks/update-webhook.md'
 
+  - Events:
+    - __on_system_message: 'events/system-message.md'
+    - __on_discord_message: 'events/discord-message.md'
+    - __on_discord_message_edit: 'events/discord-message-edit.md'
+    - __on discord_message_delete: 'events/discord-message-delete.md'
+    - __on_discord_reaction: 'events/discord-reaction.md'
+    - __on_discord_server_member_join: 'events/discord-server-member-join.md'
+    - __on_discord_server_member_leave: 'events/discord-server-member-leave.md'
+    - __on_discord_slash_command: 'events/discord-slash-command.md'
+    - __on_discord_button: 'events/discord-button.md'
+    - __on_discord_select_menu: 'events/discord-select-menu.md'
+    - __on_discord_modal: 'events/discord-modal.md'
+
   - Values:
     - Message: 'values/message.md'
     - Channel: 'values/channel.md'
@@ -121,7 +137,7 @@ nav:
       - Message context menu interaction: 'values/interactions/message-context-menu-interaction.md'
       - User context menu interaction: 'values/interactions/user-context-menu-interaction.md'
     
-  - Parsable values:
+  - Parsables:
     - Message content: 'parsables/message-content.md'
     - Attachment: 'parsables/attachment.md'
     - Color: 'parsables/color.md'
@@ -150,14 +166,7 @@ nav:
       - Select menu option: 'parsables/components/select-menu-option.md'
       - Text input: 'parsables/components/text-input.md'
       - Modal: 'parsables/components/modal.md'
-  - Events:
-    - __on_system_message: 'events/system-message.md'
-    - __on_discord_message: 'events/discord-message.md'
-    - __on_discord_reaction: 'events/discord-reaction.md'
-    - __on_discord_slash_command: 'events/discord-slash-command.md'
-    - __on_discord_button: 'events/discord-button.md'
-    - __on_discord_select_menu: 'events/discord-select-menu.md'
-    - __on_discord_modal: 'events/discord-modal.md'
+
   - Example scripts:
     - Chat: 'examples/chat.md'
     - Activity: 'examples/activity.md'

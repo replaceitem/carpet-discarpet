@@ -1,6 +1,10 @@
 ---
+hide:
+  - navigation
+  - toc
 icon: material/home
 ---
+
 
 # Discarpet documentation
 
