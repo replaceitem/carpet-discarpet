@@ -9,12 +9,13 @@ site_author: replaceitem
 strict: true
 theme:
   name: material
-  logo: assets/logo.png
+  logo: assets/icon.svg
   favicon: assets/logo.png
   icon:
     repo: fontawesome/brands/github
   features:
     - toc.integrate
+    - content.code.copy
   palette:
     - scheme: default
       toggle:
@@ -52,11 +53,11 @@ extra:
   social:
     - icon: fontawesome/brands/discord
       link: https://discord.gg/etTDQAVSgt
-      name: My discord server
-    - icon: fontawesome/solid/download
+      name: Join the Discord
+    - icon: simple/modrinth
       link: https://modrinth.com/mod/discarpet
       name: Download on Modrinth
-    - icon: fontawesome/brands/github
+    - icon: simple/github
       link: https://github.com/replaceitem/carpet-discarpet
       name: GitHub
 nav:

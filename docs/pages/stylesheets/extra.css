@@ -1,3 +1,14 @@
 :root > * {
-  --md-primary-fg-color:        #5865F2;
+  --md-primary-fg-color: #5865F2;
 }
+
+.md-header {
+  background: url("../assets/header_bg.png");
+  background-position: bottom right;
+}
+
+.md-content img {
+  border-radius: 3px;
+}
+
+.
