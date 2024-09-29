@@ -12,8 +12,8 @@ task(_() -> (
     message = dc_send_message(global_channel, 'React with 🟩 to accept or 🟥 to deny');
     global_msg_id = message~'id';
 
-    dc_react(message, '🟥');
     dc_react(message, '🟩');
+    dc_react(message, '🟥');
 ));
 
 __on_discord_reaction(reaction, user, added) -> (

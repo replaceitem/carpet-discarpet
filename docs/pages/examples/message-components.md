@@ -1,6 +1,6 @@
 Sends a message with various buttons and a select menu, that respond on input.
 
-![Demo components](/assets/demo_components.png)
+![Demo components](/assets/examples/components.png)
 
 For more info, [check the documentation](/parsables/components/component.md).
 

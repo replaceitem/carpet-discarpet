@@ -1,11 +1,11 @@
-This script sends chat messages in minecraft to the configured
-`global_chat` channel, and messages in that
-channel to the minecraft chat.
+This script bridges chat messages in Minecraft to the configured
+`global_channel` channel, and bridges messages in that
+channel to the server chat.
 
 !!! warning "Requires privileged intents"
-    To use this example script, your bot will require the [`MESSAGE_CONTENT` intent](/setup.md#intents).
+    To use this example script, your bot will require the [MESSAGE_CONTENT intent](/setup.md#intents).
 
-![Demo chat](/assets/demo_chat.png)
+![Demo chat](/assets/examples/chat.png)
 
 ```sc title="chat.sc"
 __config() -> {
@@ -13,11 +13,11 @@ __config() -> {
     'bot' -> 'mybot'
 };
 
-global_chat = dc_channel_from_id('789877643070799902');
+global_channel = dc_channel_from_id('789877643070799902');
 
 __on_discord_message(message) -> (
     // limit to chat channel only
-    if (message~'channel'~'id' != global_chat~'id', return());
+    if (message~'channel'~'id' != global_channel~'id', return());
 
     user = message~'user';
 
@@ -43,11 +43,11 @@ __on_discord_message(message) -> (
 
 __on_system_message(text,type) -> (
     // don't send admin command messages
-    if (type~'chat.type.admin' == null, 
+    if (type != 'chat.type.admin', 
         // allow for pings from inside Minecraft
-        msg = parse_mentions(text, global_chat~'server');
+        msg = parse_mentions(text, global_channel~'server');
         // send to Discord
-        task(_(outer(msg)) -> dc_send_message(global_chat, msg)); 
+        task(_(outer(msg)) -> dc_send_message(global_channel, msg)); 
     );
 );
 

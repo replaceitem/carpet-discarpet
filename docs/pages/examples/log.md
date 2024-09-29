@@ -1,6 +1,6 @@
 Sends all system messages and triggered commands to a log channel
 
-![Demo log](/assets/demo_log.png)
+![Demo log](/assets/examples/log.png)
 
 ```sc title="log.sc"
 __config() -> {

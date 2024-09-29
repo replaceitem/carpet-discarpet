@@ -1,6 +1,6 @@
 Demonstrates how to show and respond to a modal
 
-![Demo modal](/assets/demo_modal.png)
+![Demo modal](/assets/examples/modal.png)
 
 ```sc title="modal.sc"
 __config() -> {

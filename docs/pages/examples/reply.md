@@ -1,9 +1,9 @@
 Directly replies to all messages that starts with "Ping"
 
 !!! warning "Requires privileged intents"
-    To use this example script, your bot will require the [`MESSAGE_CONTENT` intent](/setup.md#intents).
+    To use this example script, your bot will require the [MESSAGE_CONTENT intent](/setup.md#intents).
 
-![Demo reply](/assets/demo_reply.png)
+![Demo reply](/assets/examples/reply.png)
 
 ```sc title="reply.sc"
 __config() -> {

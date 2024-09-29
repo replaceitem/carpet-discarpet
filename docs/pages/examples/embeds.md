@@ -1,6 +1,6 @@
 Sends a message with a detailed embed
 
-![Demo embed](/assets/demo_embed.png)
+![Demo embed](/assets/examples/embed.png)
 
 For more info, [check the documentation](/parsables/embeds/embed.md).
 
