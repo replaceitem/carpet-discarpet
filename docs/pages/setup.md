@@ -1,13 +1,39 @@
-## Logging in
+---
+icon: octicons/rocket-16
+---
 
-First, you need a Discord bot account.
-You can create one at the [Discord Developer Portal](https://discord.com/developers/applications).
-If you aren't sure how to do that, look up a tutorial for that.
+## Setting up a bot
 
-When you installed Discarpet and start your server, it should create a `discarpet.json` file in the config folder of the server.
-(Yes, this mod is made for servers, I never tried using it in singleplayer, it may work, it may not).
+### Discord setup
 
-The file should look like this by default:
+Firstly, you'll need to have a Discord bot account to use. If you already know how to do this, you can go to the [next section](#minecraft-setup).
+<br>If you don't, here's some quick steps:
+
+1. Go to the [Discord Developer Portal](https://discord.com/developers/applications), and click on the button "Add Application" at the top right. A prompt should pop up.
+2. Put anything in the name prompt, click on the checkbox, then click on "Create".
+   <br>(Whatever you put on as the name doesn't matter, as that is not used for the bot's username. It'll come up later, don't worry.)
+3. After creating an application, you should be on its settings page. Navigate to the "Bot" tab from the sidebar.
+   From there, you may change your bot's username & profile picture.
+4. Generate your bot's token by clicking "Reset Token". It may ask you for authorization.
+   Then, paste your token somewhere safe temporarily (like in a Notepad window).
+   Do not share it with other people (unless if you absolutely trust them), as they'll have access to the bot.
+5. Then, navigate to the "OAuth2" tab. Get the client ID, and append it to this URL at the end:
+   <br>`https://discord.com/oauth2/authorize?scope=bot&client_id=`
+   <br>Then, open your URL in your browser. It should prompt you what server to add the bot.
+6. Select the server where you want to add the bot to, then click on "Authorize".
+
+If things didn't go wrong, you've got a Discord bot into your server! Very nice!
+
+Now, let's set things up in Minecraft.
+
+### Minecraft setup
+
+!!! note
+    Singleplayer usage is not officially supported. It may, or may not work.
+
+We'll assume you have a brand new server setup. You'll need to install [Carpet](https://modrinth.com/mod/carpet) and [Discarpet](https://modrinth.com/mod/discarpet) in your mods folder.
+
+When you start your server, it should create a `discarpet.json` file in the config folder. The file should look like this by default:
 
 ```json title="discarpet.json"
 {
@@ -22,7 +48,7 @@ The file should look like this by default:
 }
 ```
 
-To add your bot to the config, copy and paste your bot token from the Developer Portal into the `"bot_token"` field.
+To add your bot to the config, paste your bot's token into the `"bot_token"` field.
 
 The `"bot_id"` is an arbitrary name used to identify your bot in scarpet later.
 This doesn't need to be what you called it in the developer portal,
@@ -37,7 +63,7 @@ Now your config should look something like this:
 {
   "bots": [
     {
-      "bot_id": "coolbot",
+      "bot_id": "mybot",
       "bot_token": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",
       "intents": []
     }
@@ -63,7 +89,9 @@ Since Discarpet supports multiple bots at the same time, you need to specify whi
 This is done by specifying a `'bot'` to the config line, like this:
 
 ```sc title="my_script.sc"
-__config()->{'bot'->'bot_id'}
+__config() -> {
+    'bot' -> 'mybot'
+};
 ```
 
 The `'bot_id'` is the id you specified in the config.
@@ -71,27 +99,27 @@ Without a valid bot specified, most Discarpet functions will not work and will t
 
 ## Multiple bots
 
-To have multiple bots running on your server, just add them to the config file like this:
+To have multiple bots running on your server, you can add more into the `"bots"` list in the config file like this:
 
 ```json title="discarpet.json"
 {
   "bots": [
     {
-      "bot_id": "bot1",
-      "bot_token": "token1",
+      "bot_id": "mybot",
+      "bot_token": "token",
       "intents": []
     },
     {
-      "bot_id": "bot2",
-      "bot_token": "token2",
+      "bot_id": "mybot2",
+      "bot_token": "token 2",
       "intents": [
         "GUILD_PRESENCES",
         "GUILD_MEMBERS"
       ]
     },
     {
-      "bot_id": "third_bot",
-      "bot_token": "token for third bot",
+      "bot_id": "mybot3",
+      "bot_token": "token 3",
       "intents": []
     }
   ],
@@ -99,10 +127,12 @@ To have multiple bots running on your server, just add them to the config file l
 }
 ```
 
-Keep in mind that each script can only have one bot.
+Keep in mind that each script can only use one bot.
 Each script will only receive events from that one specified bot,
 and when getting [values from IDs](/functions/value-from-id.md),
-the value will have the context of the bot of the script. That would mean that if you pass a message value from an event to another script,
+the value will have the context of the bot of the script.
+
+That would mean that if you pass a message value from an event to another script,
 and add a reaction there, the user of the reaction will still be from the script where the event happened.
 Only if you query [values from IDs](/functions/value-from-id.md),
 the bot from the config will be applied.
@@ -118,8 +148,8 @@ The only privileged intents that are disabled by default are:
 - GUILD_PRESENCES
 
 If you add these intents to the `"intents"` list in your bot config,
-you will also need to enable them in the [Discord Developer Portal](https://discord.com/developers/applications)
-under Applications -> [Your bot] -> Bot -> Privileged Gateway Intents.
+you will also need to enable them in Discord as well. You can enable them in the [Discord Developer Portal](https://discord.com/developers/applications)
+under your application's "Bots" tab.
 
 
 ## Disabling log messages

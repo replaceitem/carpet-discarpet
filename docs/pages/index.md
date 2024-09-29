@@ -1,14 +1,20 @@
+---
+icon: material/home
+---
+
 # Discarpet documentation
 
 ![Discarpet logo](/assets/logo.png){ align=right width=128px }
 
-### Welcome to the Discarpet documentation
+This is an extension for [Carpet](https://modrinth.com/mod/carpet)
+that adds parts of Discord's bot API into [scarpet](https://github.com/gnembon/fabric-carpet/wiki/Scarpet),
+allowing you to script Discord bots that run within and interact with Minecraft.
 
-!!! help "Need help?"
-    Join [my Discord](https://discord.gg/etTDQAVSgt)
+If you need any help, you can join my [Discord server](https://discord.gg/etTDQAVSgt)
+and ask in the #discarpet channel.
 
-[:octicons-download-24: Download from Modrinth](https://modrinth.com/mod/discarpet){ .md-button .md-button--primary style="width: 100%" }
+[:octicons-rocket-16: Getting started](/setup.md){ .md-button .md-button--primary style="width: 100%" }
 
-[:octicons-rocket-24: Getting started](/setup.md){ .md-button style="width: 100%" }
+[:octicons-question-16: How it works](/how-it-works.md){ .md-button .md-button--primary style="width: 100%" }
 
-[:material-help: How it works](/how-it-works.md){ .md-button style="width: 100%" }
+[:octicons-download-16: Download from Modrinth](https://modrinth.com/mod/discarpet){ .md-button style="width: 100%" }
