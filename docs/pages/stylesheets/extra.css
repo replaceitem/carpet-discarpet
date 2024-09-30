@@ -1,10 +1,20 @@
-:root > * {
+/* for both light & dark mode */
+[data-md-color-scheme] {
   --md-primary-fg-color: #5865F2;
+}
+
+/* for dark mode */
+[data-md-color-scheme=slate] {
+  --md-code-bg-color: hsl(225deg 16.88% 8.8%);
 }
 
 .md-header, .md-tabs, .md-nav__title {
   background-image: url("../assets/header_bg.png");
   background-position: bottom right;
+}
+
+.md-tabs__item--active {
+  background: var(--md-default-bg-color);
 }
 
 .md-header {
