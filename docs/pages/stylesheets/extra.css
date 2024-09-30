@@ -2,13 +2,23 @@
   --md-primary-fg-color: #5865F2;
 }
 
-.md-header {
-  background: url("../assets/header_bg.png");
+.md-header, .md-tabs, .md-nav__title {
+  background-image: url("../assets/header_bg.png");
   background-position: bottom right;
+}
+
+.md-header {
+  box-shadow: inset 0 -2px var(--md-primary-fg-color);
+}
+
+.md-tabs__item {
+  height: 2rem;
+}
+
+.md-tabs__link {
+  margin-top: 0.6rem;
 }
 
 .md-content img {
   border-radius: 3px;
 }
-
-.
