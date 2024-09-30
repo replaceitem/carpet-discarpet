@@ -1,3 +1,4 @@
 mkdocs-material
 mkdocs-abs-rel-plugin
 mkdocs-macros-plugin
+mkdocs-replace-markdown

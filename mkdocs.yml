@@ -52,6 +52,12 @@ plugins:
   - search
   - macros:
       include_dir: docs/include
+  - replace_markdown:
+      patterns:
+        - param_arrow:
+            url: 'events/'
+            oldvalue: '->'
+            newvalue: ':material-arrow-right:'
 extra:
   social:
     - icon: fontawesome/brands/discord
