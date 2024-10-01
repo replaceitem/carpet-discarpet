@@ -11,7 +11,9 @@ __config() -> {
     'bot' -> 'mybot'
 };
 
-dc_send_message(dc_channel_from_id('759102744761335891'), {
+channel = dc_channel_from_id('1234567891011121314');
+
+dc_send_message(channel, {
     'content' -> '',
     'attachments' -> [
         {

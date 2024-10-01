@@ -9,7 +9,7 @@ __config() -> {
     'bot' -> 'mybot'
 };
 
-global_log = dc_channel_from_id('789877625497190440');
+global_log = dc_channel_from_id('1234567891011121314');
 
 __on_player_interacts_with_block(player, hand, block, face, hitvec) -> (
     // warn when player opens chest/barrel/shulkerbox

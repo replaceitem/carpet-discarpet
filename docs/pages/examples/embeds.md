@@ -1,8 +1,8 @@
 Sends a message with a detailed embed
 
-![Demo embed](/assets/examples/embed.png)
-
 For more info, [check the documentation](/parsables/embeds/embed.md).
+
+![Demo embed](/assets/examples/embed.png)
 
 ```sc title="embeds.sc"
 __config() -> {
@@ -49,7 +49,9 @@ embed = {
     'timestamp' -> convert_date(2022, 12, 1, 20, 51, 20)
 };
 
-dc_send_message(dc_channel_from_id('759102744761335891'), {
+channel = dc_channel_from_id('1234567891011121314');
+
+dc_send_message(channel, {
     'content' -> '',
     'embeds' -> [embed]
 });

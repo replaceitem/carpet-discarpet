@@ -167,7 +167,7 @@ nav:
       - User context menu builder: 'parsables/commands/user-context-menu-builder.md'
       - Message context menu builder: 'parsables/commands/message-context-menu-builder.md'
     - Components:
-      - Component: 'parsables/components/component.md'
+      - Base component: 'parsables/components/component.md'
       - Button: 'parsables/components/button.md'
       - Select menu: 'parsables/components/select-menu.md'
       - Select menu option: 'parsables/components/select-menu-option.md'

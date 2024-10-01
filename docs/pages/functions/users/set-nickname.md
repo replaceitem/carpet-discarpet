@@ -1,4 +1,4 @@
-### `dc_set_nickname(user,server,name,reason?)`
+### `dc_set_nickname(user, server, name, reason?)`
 
 {% include 'warning-blocking.md' %}
 

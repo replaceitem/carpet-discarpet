@@ -1,4 +1,4 @@
-Demonstrates how to show and respond to a modal
+Demonstrates how to make and respond to a modal.
 
 ![Demo modal](/assets/examples/modal.png)
 
@@ -13,13 +13,13 @@ global_channel = dc_channel_from_id('759102744761335891');
 task(_() -> (
     dc_send_message(global_channel, {
         'content' -> 'Click below to open modal',
-        'components' -> [[
-            {
+        'components' -> [
+            [{
                 'id' -> 'modal_btn',
                 'component' -> 'button',
                 'label' -> 'Open modal'
-            }
-        ]]
+            }]
+        ]
     });
 ));
 
@@ -28,7 +28,7 @@ __on_discord_button(int) -> (
         task(_(outer(int)) -> (
             dc_respond_interaction(int, 'respond_modal', {
                 'id' -> 'my_modal',
-                'title' -> 'MyCustomModal',
+                'title' -> 'A Custom Modal',
                 'components' -> [
                     [{
                         'component' -> 'text_input',

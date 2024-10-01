@@ -12,7 +12,7 @@ The `target` can be one of:
 
 The `content` is a parsable [Message content](/parsables/message-content.md), but if you just want text, it can be a regular string.
 
-This example shows how you can send a message and add reactions to it as soon as it was sent
+This example shows how you can send a message and add reactions to it as soon as it was sent:
 
 ```py
 task(_() -> (

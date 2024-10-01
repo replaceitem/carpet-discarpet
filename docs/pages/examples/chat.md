@@ -13,7 +13,7 @@ __config() -> {
     'bot' -> 'mybot'
 };
 
-global_channel = dc_channel_from_id('789877643070799902');
+global_channel = dc_channel_from_id('1234567891011121314');
 
 __on_discord_message(message) -> (
     // limit to chat channel only

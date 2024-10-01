@@ -1,0 +1,1 @@
+Used for getting its interaction details, and then responding with `dc_respond_interaction()`.
