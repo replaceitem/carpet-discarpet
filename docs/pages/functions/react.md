@@ -1,5 +1,10 @@
 ### `dc_react(message, emoji)`
 
-Reacts to the [Message](/values/message.md) provided with the emoji.
+Reacts to a message with an emoji.
 
-The `emoji` can be a unicode emoji (as a string) or an [Emoji value](/values/emoji.md).
+- `message` {->} [Message](/values/message.md)
+  {:} The message to react to.
+- `emoji` {->}
+  [Emoji value](/values/emoji.md),
+  String
+  {:} The emoji to use for the reaction. Can be a unicode emoji (e.g. 🎮️).

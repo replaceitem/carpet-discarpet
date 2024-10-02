@@ -2,4 +2,7 @@
 
 {% include 'warning-blocking.md' %}
 
-Deletes the [`webhook`](/values/webhook.md).
+Deletes a webhook.
+
+- `webhook` {->} [Webhook](/values/webhook.md)
+  {:} The webhook to delete.

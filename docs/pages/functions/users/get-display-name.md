@@ -1,5 +1,8 @@
 ### `dc_get_display_name(user, server)`
 
-Gets the [`user`](/values/user.md)'s
-nickname in the [`server`](/values/server.md),
-or username if no nickname is present.
+Gets a user's nickname in a server, or display name if no nickname is present.
+
+- `user` {->} [User](/values/user.md)
+  {:} The user to get the name from.
+- `server` {->} [Server](/values/server.md)
+  {:} The server to get the user's name from.

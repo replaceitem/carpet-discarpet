@@ -19,6 +19,7 @@ theme:
     - navigation.sections
     - navigation.top
     - toc.integrate
+    - content.tooltips
     - content.code.copy
   palette:
     - scheme: default
@@ -56,9 +57,14 @@ plugins:
   - replace_markdown:
       patterns:
         - param_arrow:
-            url: 'events/'
-            oldvalue: '->'
+            oldvalue: '{->}'
             newvalue: ':material-arrow-right:'
+        - param_description:
+            oldvalue: '{:}'
+            newvalue: ':material-tilde:'
+        - param_optional:
+            oldvalue: '{:?}'
+            newvalue: ':fontawesome-solid-question:{ title="Optional parameter" }'
 extra:
   social:
     - icon: fontawesome/brands/discord
@@ -96,7 +102,6 @@ nav:
       - dc_add_role: 'functions/roles/add-role.md'
       - dc_remove_role: 'functions/roles/remove-role.md'
       - dc_get_user_roles: 'functions/roles/get-user-roles.md'
-      - dc_get_user_color: 'functions/roles/get-user-color.md'
     - Interaction functions:
       - dc_create_application_command: 'functions/interactions/create-application-command.md'
       - dc_get_global_application_commands: 'functions/interactions/get-global-application-commands.md'

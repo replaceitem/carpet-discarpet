@@ -2,8 +2,19 @@
 
 {% include 'warning-blocking.md' %}
 
-With only [`user`](/values/user.md) and [`server`](/values/server.md) specified, returns the timestamp when the user's timeout will expire, or `null` if no timeout is active.
+Gets or sets a user's timeout.
 
-When a `timestamp` is specified, timeouts the [`user`](/values/user.md) until the given `timestamp`.
+With only `user` and `server` specified, returns the timestamp when the user's timeout will expire.
 
-If provided, `reason` will be shown in the audit log of your server.
+Returns `null` if no timeout is active.
+
+Returns a Boolean for setting timeout, whether if the operation was successful.
+
+- `user` {->} [User](/values/user.md)
+  {:} The user to get or set the timeout.
+- `server` {->} [Server](/values/server.md)
+  {:} The server to get or set the user's timeout.
+- `timestamp` {:?} {->} Number
+  {:} The timestamp in milleseconds to set the timeout until expiration.
+- `reason` {:?} {->} String
+  {:} The audit log reason.

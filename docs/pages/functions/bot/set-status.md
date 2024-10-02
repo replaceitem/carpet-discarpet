@@ -1,9 +1,14 @@
 ### `dc_set_status(status)`
 
-Changes the status of the bot. Can be one of
+Changes the status of the bot.
 
-* `online`
-* `idle`
-* `dnd` (Do not disturb)
-* `invisible`
-* `offline`
+- `status` {->} String
+  {:} The [status](#statuses) to use.
+
+#### Statuses
+
+* `online` - Online
+* `idle` - Idle
+* `dnd` - Do Not Disturb
+* `invisible` - Invisible
+* `offline` - Offline

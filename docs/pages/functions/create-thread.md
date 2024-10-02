@@ -2,6 +2,9 @@
 
 {% include 'warning-blocking.md' %}
 
-Creates a thread from a message or in a channel.
+Creates a thread.
 
-The `thread` is a [`thread` parsable](/parsables/thread.md).
+Returns the [thread](/values/channel.md) it created.
+
+- `thread` {->} [Thread parsable](/parsables/thread.md)
+  {:} The details to use to create the thread.

@@ -1,12 +1,19 @@
 ### `dc_set_activity(type, text)`
 
-Sets the activity of the bot to the specified `text` and `type`.
+Sets the activity of the bot.
 
-The `type` can be one of:
-
-* `playing` - Playing [text]
-* `streaming` - Streaming [text]
-* `listening` - Listening to [text]
-* `watching` - Watching [text]
+Returns a Boolean, whether if the operation was successful.
 
 Returns `null` if the `type` was invalid.
+
+- `type` {->} String
+  {:} The [type](#activity-types) of activity.
+- `text` {->} String
+  {:} The text of the activity.
+
+#### Activity types
+
+* `PLAYING` - Playing [text]
+* `STREAMING` - Streaming [text]
+* `LISTENING` - Listening to [text]
+* `WATCHING` - Watching [text]

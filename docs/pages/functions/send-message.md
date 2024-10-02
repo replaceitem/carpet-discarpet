@@ -2,19 +2,24 @@
 
 {% include 'warning-blocking.md' %}
 
-Sends a message to the target.
+Sends a message to a target.
 
-The `target` can be one of:
+Returns the [message](/values/message) that was sent.
 
-* [Channel](/values/channel.md)
-* [User](/values/user.md)
-* [Webhook](/values/webhook.md)
+- `target` {->}
+  [Channel](/values/channel.md),
+  [User](/values/user.md),
+  [Webhook](/values/webhook.md)
+  {:} The target to use to send the message.
+- `content` {->}
+  [Message content](/parsables/message-content.md),
+  String
+  {:} The content of the message.
 
-The `content` is a parsable [Message content](/parsables/message-content.md), but if you just want text, it can be a regular string.
-
+<!--
 This example shows how you can send a message and add reactions to it as soon as it was sent:
 
-```py
+```sc
 task(_() -> (
     channel = dc_channel_from_id('YOUR CHANNEL ID');
     message = dc_send_message(channel, 'Test message');
@@ -22,3 +27,4 @@ task(_() -> (
     dc_react(message, '🟩');
 ));
 ```
+-->

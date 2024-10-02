@@ -2,5 +2,11 @@
 
 {% include 'warning-blocking.md' %}
 
-Set the description of the [`channel`](/values/channel.md)
-to the specified `text`.
+Set the description of a channel to the specified text.
+
+Returns a Boolean, whether if the operation was successful.
+
+- `channel` {->} [Channel](/values/channel.md)
+  {:} The channel to set the topic.
+- `text` {->} String
+  {:} The text to set the channel to.
