@@ -1,5 +1,7 @@
 Demonstrates how to make and respond to a modal.
 
+For more info, check out the [Modal parsable](/parsables/components/modal.md).
+
 ![Demo modal](/assets/examples/modal.png)
 
 ```sc title="modal.sc"

@@ -16,28 +16,28 @@ task(_() -> (
     button_components = [
         {
             'component' -> 'button',
-            'id' -> 'btn1',
+            'id' -> 'red_button',
             'style' -> 'red',
             'label' -> 'Red button',
             'emoji' -> '✖️'
         },
         {
             'component' -> 'button',
-            'id' -> 'btn2',
+            'id' -> 'blurple_button',
             'style' -> 'blurple',
             'label' -> 'Blurple button',
             'emoji' -> '🚪'
         },
         {
             'component' -> 'button',
-            'id' -> 'btn3',
+            'id' -> 'green_button',
             'style' -> 'green',
             'label' -> 'Green button',
             'emoji' -> '👑'
         },
         {
             'component' -> 'button',
-            'id' -> 'btn4',
+            'id' -> 'grey_button',
             'style' -> 'grey',
             'label' -> 'Grey button',
             'emoji' -> '📧'
@@ -113,13 +113,17 @@ task(_() -> (
 
 __on_discord_button(interaction) -> (
     task(_(outer(interaction)) -> (
-        dc_respond_interaction(interaction, 'RESPOND_IMMEDIATELY', 'Pressed button ' + interaction~'id');
+        dc_respond_interaction(interaction, 'RESPOND_IMMEDIATELY', str(
+            'Pressed button **%s**', interaction~'custom_id'
+        ));
     ));
 );
 
 __on_discord_select_menu(interaction) -> (
     task(_(outer(interaction)) -> (
-        dc_respond_interaction(interaction, 'RESPOND_IMMEDIATELY', 'Selected ' + str(interaction~'chosen'));
+        dc_respond_interaction(interaction, 'RESPOND_IMMEDIATELY', str(
+            'Selected **%s**', str(interaction~'chosen')
+        ));
     ));
 );
 ```

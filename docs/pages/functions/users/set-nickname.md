@@ -3,5 +3,7 @@
 {% include 'warning-blocking.md' %}
 
 Sets the nickname of the [`user`](/values/user.md) on the [`server`](/values/server.md).
-Returns `true` if successful, false otherwise.
+
+Returns `true` if successful, or `false` if not.
+
 If provided, `reason` will be shown in the audit log of your server.

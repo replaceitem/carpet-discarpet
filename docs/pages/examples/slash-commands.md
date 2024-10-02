@@ -1,9 +1,11 @@
 Adds some slash commands.
 
+![Demo slash commands](/assets/examples/slash_commands.png)
+
 ```sc title="slash_commands.sc"
 __config() -> {
     'scope' -> 'global',
-    'bot' -> 'dcmc'
+    'bot' -> 'mybot'
 };
 
 global_server = dc_server_from_id('1234567891011121314');

@@ -1,6 +1,6 @@
 Sends a message with a detailed embed
 
-For more info, [check the documentation](/parsables/embeds/embed.md).
+For more info, check out the [Embed parsable](/parsables/embeds/embed.md).
 
 ![Demo embed](/assets/examples/embed.png)
 

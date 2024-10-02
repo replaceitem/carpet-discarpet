@@ -1,9 +1,9 @@
 Demonstration of the various ways of sending attachments in a message.
 Remember to adjust the channel id to a channel in your server the bot has access to.
 
-![Demo attachments](/assets/examples/attachments.png)
+For more info, check out the [Attachment parsable](/parsables/attachment.md).
 
-For more info, [check out the documentation](/parsables/attachment.md).
+![Demo attachments](/assets/examples/attachments.png)
 
 ```sc title="attachments.sc"
 __config() -> {

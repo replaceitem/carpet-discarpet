@@ -1,5 +1,4 @@
-Directly replies to all messages that starts with "Ping"
-
+Replies to any message that only contains "Ping".
 !!! warning "Requires privileged intents"
     To use this example script, your bot will require the [MESSAGE_CONTENT intent](/setup.md#intents).
 
@@ -12,11 +11,11 @@ __config() -> {
 };
 
 __on_discord_message(message) -> (
-    // ignore messages by the bot itself
+    // ignore messages from itself
     if (message~'user'~'is_self', return());
 
     // if content is Ping, proceed to Pong!
-    if (message~'content'~'^Ping',
+    if (message~'content' == 'Ping',
         task(_(outer(message)) -> (
             dc_send_message(message~'channel', {
                 'content' -> str('Pong! %s', message~'user'~'mention_tag'),
