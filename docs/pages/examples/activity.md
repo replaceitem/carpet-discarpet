@@ -1,20 +1,45 @@
-This script changes the bots
-activity and status to show the currently online player list.
-When no players are online, the bot will show as idle,
-and show `Playing with nobody` in the activity.
+This script changes the bots activity and status to show how many players are online.
+
+When no players are online, the bot will display that nobody is online, and will show as idle.
+
+![Demo activity](/assets/examples/activity.png)
 
 ```sc title="activity.sc"
-__config() -> {'scope'->'global','bot'->'BOT'};
+__config() -> {
+    'scope' -> 'global',
+    'bot' -> 'mybot'
+};
 
+update_activity() -> (
+    players = length(player('all'));
+
+    // are there players online?
+    if (players, (
+        // if so, let's display amount of players
+        // then set bot's status to online
+
+        // use "player" if only 1 is online, else use plural "players"
+        text = if (players == 1, 'player', 'players');
+
+        dc_set_activity('playing', str('with %s %s', players, text));
+        dc_set_status('online');
+    ), (
+        // if not, display that nobody is online
+        // then set bot's status to idle
+
+        dc_set_activity('playing','with nobody');
+        dc_set_status('idle'); 
+    ))
+);
+
+// display activity on startup
+update_activity();
+
+// update activity on occasion
+// consider Discord's rate limit (only execute every 30 seconds, or 600 ticks)
 __on_tick() -> (
-    if(tick_time()%(20*30) == 0, // Consider discords rate limit (only execute every 30 seconds)
-        if(length(player('all')) != 0, // are players online?
-            dc_set_activity('playing','with ' + join(', ',player('all'))); //display list of players
-            dc_set_status('online'); // status should be online
-        ,
-            dc_set_activity('playing','with nobody'); // alternative text if nobody is online
-            dc_set_status('idle'); // set status to idle
-        );
+    if (tick_time() % (30 * 20) == 0,
+        update_activity();
     );
 );
 ```

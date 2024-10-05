@@ -1,13 +1,19 @@
-### `dc_set_activity(type,text)`
+### `dc_set_activity(type, text)`
 
-Sets the activity of the bot to the specified `text` and `type`.
-The `type` can be one of
+Sets the activity of the bot.
 
-* `playing`
-* `streaming`
-* `listening`
-* `watching`
-* ~~`custom`~~ _(`custom` is not supported for bots from the discord api, so it has no use)_.
+Returns a Boolean, whether if the operation was successful.
 
-The `text` will appear after the text corresponding to the `type` (like *`Listening to [text]`*).
 Returns `null` if the `type` was invalid.
+
+- `type` {->} String
+  {:} The [type](#activity-types) of activity.
+- `text` {->} String
+  {:} The text of the activity.
+
+#### Activity types
+
+* `PLAYING` - Playing [text]
+* `STREAMING` - Streaming [text]
+* `LISTENING` - Listening to [text]
+* `WATCHING` - Watching [text]

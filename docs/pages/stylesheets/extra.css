@@ -1,3 +1,46 @@
-:root > * {
-  --md-primary-fg-color:        #5865F2;
+/* for both light & dark mode */
+[data-md-color-scheme] {
+  --md-primary-fg-color: #5865F2;
+}
+
+/* for dark mode */
+[data-md-color-scheme=slate] {
+  --md-code-bg-color: hsl(225deg 16.88% 8.8%);
+}
+
+.md-header, .md-tabs, .md-nav__title {
+  background-image: url("../assets/header_bg.png");
+  background-position: bottom right;
+}
+
+.md-tabs__item--active {
+  background: var(--md-default-bg-color);
+}
+
+[data-md-color-scheme="default"] .md-tabs__item--active {
+  color: var(--md-default-fg-color);
+}
+
+.md-tabs {
+  box-shadow: 0 -2px var(--md-primary-fg-color);
+}
+
+.md-header--shadow {
+  box-shadow: unset;
+}
+
+.md-tabs__item {
+  height: 2rem;
+}
+
+.md-tabs__link {
+  margin-top: 0.6rem;
+}
+
+.md-content img {
+  border-radius: 3px;
+}
+
+.md-typeset ol li, .md-typeset ul li {
+  margin-bottom: .7em;
 }

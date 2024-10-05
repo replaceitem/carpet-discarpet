@@ -1,21 +1,32 @@
-### `dc_create_application_command(type, commandBuilder, server?)`
+### `dc_create_application_command(type, parsable, server?)`
 
 {% include 'warning-blocking.md' %}
 
-Depending on the `type`, this function expects different parsables:
+Creates a slash command or context menu for the bot.
 
-* `slash_command` -> [Slash command builder parsable](/parsables/commands/slash-command-builder.md)
-* `user_context_menu` -> [User context menu builder parsable](/parsables/commands/user-context-menu-builder.md)
-* `message_context_menu` -> [Message context menu builder parsable](/parsables/commands/message-context-menu-builder.md)
+Returns the application command created.
 
-Function for creating slash commands for the bot.
-When specifying a `server`, the slash command will only be created for that particular server.
-If `server` is not provided, the slash command will be global, meaning they work in all servers the bot is in.
+- `type` {->} String
+  {:} The type of command or menu to create.
+- `parsable` {->}
+  [Slash command builder parsable](/parsables/commands/slash-command-builder.md),
+  [User context menu builder parsable](/parsables/commands/user-context-menu-builder.md),
+  [Message context menu builder parsable](/parsables/commands/message-context-menu-builder.md)
+  {:} The parsable to be used.
+- `server` {:?} {->} [Server](/values/server.md)
+  {:} The server to create the command or menu in.
+  If left empty, makes the command global, meaning they work in all servers the bot is in.
 
-!!! info
-    GLOBAL slash commands can take up to 1 hour to update, so for testing,
-    you should only use server slash commands, which are created immediately.
+For a full examples of commands, see the [Slash command example](/examples/slash-commands.md).
 
-Returns an application command value.
+!!! tip
+    Global slash commands can take up to 1 hour to update.
+    <br>Unless if you really need it, you should only use server slash commands, which are updated immediately.
 
-For a full examples of commands, see [the slash command example](/examples/slash-commands.md)
+#### Command types
+
+Depending on the `type`, this function expects different parsables for `parsable`:
+
+- `slash_command` - Slash command builder parsable
+- `user_context_menu` - User context menu builder parsable
+- `message_context_menu` - Message context menu builder parsable

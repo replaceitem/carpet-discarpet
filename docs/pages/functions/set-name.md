@@ -3,12 +3,15 @@
 {% include 'warning-blocking.md' %}
 
 Renames whatever value provided.
-Returns true or false, depending on whether the operation was successful.
 
-This works for:
+Returns a Boolean, whether if the operation was successful.
 
-* Changing the [Channel](/values/channel.md) name
-* Renaming an [Emoji](/values/emoji.md)
-* Changing a [Role](/values/role.md) name
-* Renaming a [Server](/values/server.md)
-* Changing the name of a [Webhook](/values/webhook.md)
+- `value` {->}
+  [Channel](/values/channel.md), 
+  [Emoji](/values/emoji.md),
+  [Role](/values/role.md),
+  [Server](/values/server.md),
+  [Webhook](/values/webhook.md)
+  {:} The value to rename.
+- `name` {->} String
+  {:} The name to use for the value.

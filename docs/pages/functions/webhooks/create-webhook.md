@@ -1,7 +1,10 @@
-### `dc_create_webhook(channel, webhookProfile)`
+### `dc_create_webhook(channel, profile)`
 
 {% include 'warning-blocking.md' %}
 
-Creates a new Webhook in the specified [`channel`](/values/channel.md)
-with the specified options in `webhookProfile`
-as a [webhook profile parsable](/parsables/webhooks/webhook-profile.md).
+Creates a new webhook in a channel.
+
+- `channel` {->} [Channel](/values/channel.md)
+  {:} The channel to create the webhook in.
+- `profile` {->} [Webhook profile](/parsables/webhooks/webhook-profile.md)
+  {:} The webhook's profile.

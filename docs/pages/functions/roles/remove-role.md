@@ -2,4 +2,11 @@
 
 {% include 'warning-blocking.md' %}
 
-Removes a [`role`](/values/role.md) to a [`user`](/values/user.md). If provided, `reason` will be shown in the audit log of your server.
+Removes a role from a user.
+
+- `user` {->} [User](/values/user.md)
+  {:} The user to remove a role.
+- `role` {->} [Role](/values/role.md)
+  {:} The role to remove.
+- `reason` {:?} {->} String
+  {:} The audit log reason.

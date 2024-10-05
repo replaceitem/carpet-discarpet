@@ -2,6 +2,11 @@
 
 {% include 'warning-blocking.md' %}
 
-Adds a [`role`](/values/role.md) to a [`user`](/values/user.md).
+Adds a role to a user.
 
-If provided, `reason` will be shown in the audit log of your server.
+- `user` {->} [User](/values/user.md)
+  {:} The user to add the role to.
+- `role` {->} [Role](/values/role.md)
+  {:} The role to add.
+- `reason` {:?} {->} String
+  {:} The audit log reason.
