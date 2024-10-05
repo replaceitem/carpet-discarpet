@@ -123,6 +123,8 @@ nav:
     - __on_discord_slash_command: 'events/discord-slash-command.md'
     - __on_discord_button: 'events/discord-button.md'
     - __on_discord_select_menu: 'events/discord-select-menu.md'
+    - __on_discord_user_context_menu: 'events/discord-user-context-menu.md'
+    - __on_discord_message_context_menu: 'events/discord-message-context-menu.md'
     - __on_discord_modal: 'events/discord-modal.md'
 
   - Values:
@@ -141,8 +143,8 @@ nav:
       - Message context menu: 'values/commands/message-context-menu.md'
       - User context menu: 'values/commands/user-context-menu.md'
     - Interactions:
+      - Base interaction: 'values/interactions/interaction.md'
       - Slash command interaction: 'values/interactions/slash-command-interaction.md'
-      - Slash command interaction option: 'values/interactions/slash-command-interaction-option.md'
       - Button interaction: 'values/interactions/button-interaction.md'
       - Select menu interaction: 'values/interactions/select-menu-interaction.md'
       - Modal interaction: 'values/interactions/modal-interaction.md'
