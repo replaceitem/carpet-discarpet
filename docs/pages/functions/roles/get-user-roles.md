@@ -1,6 +1,6 @@
 ### `dc_get_user_roles(user, server)`
 
-Returns a list of roles a user has in a server.
+Gets a list of roles a user has in a server.
 
 - `user` {->} [User](/values/user.md)
   {:} The user to get the roles from.

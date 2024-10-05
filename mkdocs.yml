@@ -16,6 +16,7 @@ theme:
   features:
     - navigation.instant
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
     - navigation.top
     - toc.integrate
@@ -58,10 +59,10 @@ plugins:
       patterns:
         - param_arrow:
             oldvalue: '{->}'
-            newvalue: ':material-arrow-right:'
+            newvalue: ':material-arrow-right:{ style="opacity:40%" }'
         - param_description:
             oldvalue: '{:}'
-            newvalue: ':material-tilde:'
+            newvalue: '<br>:material-tilde:{ style="opacity:40%" }'
         - param_optional:
             oldvalue: '{:?}'
             newvalue: ':fontawesome-solid-question:{ title="Optional parameter" }'
@@ -108,7 +109,6 @@ nav:
       - dc_respond_interaction: 'functions/interactions/respond-interaction.md'
     - Webhook functions:
       - dc_create_webhook: 'functions/webhooks/create-webhook.md'
-      - dc_delete_webhook: 'functions/webhooks/delete-webhook.md'
       - dc_send_webhook: 'functions/webhooks/send-webhook.md'
       - dc_update_webhook: 'functions/webhooks/update-webhook.md'
 

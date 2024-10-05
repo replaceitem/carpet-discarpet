@@ -5,6 +5,6 @@ Reacts to a message with an emoji.
 - `message` {->} [Message](/values/message.md)
   {:} The message to react to.
 - `emoji` {->}
-  [Emoji value](/values/emoji.md),
+  [Emoji](/values/emoji.md),
   String
   {:} The emoji to use for the reaction. Can be a unicode emoji (e.g. 🎮️).

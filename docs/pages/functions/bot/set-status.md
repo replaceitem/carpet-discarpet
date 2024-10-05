@@ -1,6 +1,6 @@
 ### `dc_set_status(status)`
 
-Changes the status of the bot.
+Sets the status of the bot.
 
 - `status` {->} String
   {:} The [status](#statuses) to use.

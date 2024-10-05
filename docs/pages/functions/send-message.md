@@ -4,7 +4,7 @@
 
 Sends a message to a target.
 
-Returns the [message](/values/message) that was sent.
+Returns the [message](/values/message.md) that was sent.
 
 - `target` {->}
   [Channel](/values/channel.md),

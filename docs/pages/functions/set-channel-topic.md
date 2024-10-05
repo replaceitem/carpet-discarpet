@@ -2,7 +2,7 @@
 
 {% include 'warning-blocking.md' %}
 
-Set the description of a channel to the specified text.
+Sets the description of a channel to the specified text.
 
 Returns a Boolean, whether if the operation was successful.
 

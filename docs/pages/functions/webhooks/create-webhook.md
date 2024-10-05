@@ -1,4 +1,4 @@
-### `dc_create_webhook(channel, webhook_profile)`
+### `dc_create_webhook(channel, profile)`
 
 {% include 'warning-blocking.md' %}
 

@@ -15,6 +15,6 @@ Returns a Boolean for setting timeout, whether if the operation was successful.
 - `server` {->} [Server](/values/server.md)
   {:} The server to get or set the user's timeout.
 - `timestamp` {:?} {->} Number
-  {:} The timestamp in milleseconds to set the timeout until expiration.
+  {:} The timestamp in milliseconds to set the timeout until expiration.
 - `reason` {:?} {->} String
   {:} The audit log reason.

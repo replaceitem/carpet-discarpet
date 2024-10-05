@@ -2,7 +2,7 @@
 
 {% include 'warning-blocking.md' %}
 
-Returns a list of all global application commands of the bot. This includes:
+Return a list of all global application commands of the bot. This includes:
 
 - [Slash commands](/values/commands/slash-command.md)
 - [User context menus](/values/commands/user-context-menu.md)
