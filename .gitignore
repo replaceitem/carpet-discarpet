@@ -23,7 +23,11 @@ bin/
 .classpath
 .project
 
+# python / mkdocs
+venv
+.venv
+site
+
 # fabric
 
 run/
-/site/
