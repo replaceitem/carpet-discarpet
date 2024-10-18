@@ -3,7 +3,8 @@
 {% include 'warning-blocking.md' %}
 
 Renames whatever value provided.
-Returns true or false, depending on whether the operation was successful.
+
+Throws an exception on failure
 
 This works for:
 

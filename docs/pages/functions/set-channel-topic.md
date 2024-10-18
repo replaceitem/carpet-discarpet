@@ -4,3 +4,5 @@
 
 This function sets the description of the [`channel`](/values/channel.md)
 to the specified `text`.
+
+Throws an exception on failure

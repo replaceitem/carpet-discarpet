@@ -12,10 +12,8 @@ Function for creating slash commands for the bot.
 When specifying a `server`, the slash command will only be created for that particular server.
 If `server` is not provided, the slash command will be global, meaning they work in all servers the bot is in.
 
-!!! info
-    GLOBAL slash commands can take up to 1 hour to update, so for testing,
-    you should only use server slash commands, which are created immediately.
-
 Returns an application command value.
+
+Throws an exception on failure
 
 For a full examples of commands, see [the slash command example](/examples/slash-commands.md)
