@@ -35,12 +35,6 @@ import static net.replaceitem.discarpet.script.util.ValueUtil.awaitFuture;
 
 @SuppressWarnings("unused")
 public class Interactions {
-    @ScarpetFunction
-    public Value dc_create_slash_command(Context context, Value command, Value server) {
-        context.host.issueDeprecation("dc_create_slash_command");
-        return dc_create_application_command(context, "slash_command", command, server instanceof ServerValue serverValue ? serverValue.getDelegate() : null);
-    }
-    
     @ScarpetFunction(maxParams = 3)
     public Value dc_create_application_command(Context context, String type, Value command, Server... optionalServer) {
         Class<? extends ApplicationCommandBuilder<?,?,?>> commandType = switch (type) {
