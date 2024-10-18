@@ -11,14 +11,14 @@ import static net.replaceitem.discarpet.script.util.ValueUtil.*;
 @SuppressWarnings("unused")
 public class Util {
     @ScarpetFunction(maxParams = 2)
-    public boolean dc_delete(Value value, String... reason) {
+    public void dc_delete(Value value, String... reason) {
         if(!(value instanceof Deletable deletable)) throw new InternalExpressionException(value.getTypeString() + " is not deletable");
-        return deletable.delete(optionalArg(reason));
+        deletable.delete(optionalArg(reason).orElse(null));
     }
 
     @ScarpetFunction
-    public boolean dc_set_name(Value value, String name) {
+    public void dc_set_name(Value value, String name) {
         if(!(value instanceof Renamable renamable)) throw new InternalExpressionException(value.getTypeString() + " is not renamable");
-        return renamable.rename(name);
+        renamable.rename(name);
     }
 }

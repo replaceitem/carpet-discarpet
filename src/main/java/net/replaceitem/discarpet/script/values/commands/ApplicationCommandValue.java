@@ -24,7 +24,7 @@ public abstract class ApplicationCommandValue<T extends ApplicationCommand> exte
     }
 
     @Override
-    public boolean delete(String reason) {
-        return ValueUtil.awaitFutureBoolean(delegate.delete(), "Failed to delete " + this.getTypeString());
+    public void delete(String reason) {
+        ValueUtil.awaitFuture(delegate.delete(), "Failed to delete " + this.getTypeString());
     }
 }

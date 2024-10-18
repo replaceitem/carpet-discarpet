@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.values;
 
+import net.replaceitem.discarpet.script.exception.DiscordThrowables;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.common.Deletable;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
@@ -35,12 +36,14 @@ public class EmojiValue extends DiscordValue<Emoji> implements Deletable, Renama
     }
 
     @Override
-    public boolean delete(String reason) {
-        return delegate instanceof KnownCustomEmoji knownCustomEmoji && ValueUtil.awaitFutureBoolean(knownCustomEmoji.delete(reason), "Failed to delete " + this.getTypeString());
+    public void delete(String reason) {
+        if(!(delegate instanceof KnownCustomEmoji knownCustomEmoji)) throw DiscordThrowables.genericCode(DiscordThrowables.Codes.INVALID_EMOJI);
+        ValueUtil.awaitFuture(knownCustomEmoji.delete(reason), "Failed to delete " + this.getTypeString());
     }
 
     @Override
-    public boolean rename(String name) {
-        return delegate instanceof KnownCustomEmoji knownCustomEmoji && ValueUtil.awaitFutureBoolean(knownCustomEmoji.updateName(name), "Could not rename emoji");
+    public void rename(String name) {
+        if(!(delegate instanceof KnownCustomEmoji knownCustomEmoji)) throw DiscordThrowables.genericCode(DiscordThrowables.Codes.INVALID_EMOJI);
+        ValueUtil.awaitFuture(knownCustomEmoji.updateName(name), "Could not rename emoji");
     }
 }

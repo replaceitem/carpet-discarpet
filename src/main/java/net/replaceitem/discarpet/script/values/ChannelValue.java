@@ -1,6 +1,7 @@
 package net.replaceitem.discarpet.script.values;
 
 import carpet.script.value.BooleanValue;
+import net.replaceitem.discarpet.script.exception.DiscordThrowables;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.common.MessageableValue;
 import net.replaceitem.discarpet.script.values.common.Renamable;
@@ -29,7 +30,7 @@ public class ChannelValue extends MessageableValue<Channel> implements Renamable
             case "id" -> StringValue.of(delegate.getIdAsString());
             case "mention_tag" -> StringValue.of(delegate instanceof Mentionable mentionableChannel ? mentionableChannel.getMentionTag() : null);
             case "server" -> new ServerValue(delegate instanceof ServerChannel serverChannel ? serverChannel.getServer() : null);
-            case "webhooks" -> delegate instanceof ServerTextChannel serverTextChannel ? ListValue.wrap(serverTextChannel.getWebhooks().join().stream().map(WebhookValue::of)) : Value.NULL;
+            case "webhooks" -> delegate instanceof ServerTextChannel serverTextChannel ? ListValue.wrap(ValueUtil.awaitFuture(serverTextChannel.getWebhooks(), "Error getting webhooks from channel").stream().map(WebhookValue::of)) : Value.NULL;
             case "nsfw" -> BooleanValue.of(
                     delegate instanceof ServerTextChannel serverTextChannel && serverTextChannel.isNsfw()
                     || delegate instanceof ServerVoiceChannel serverVoiceChannel && serverVoiceChannel.isNsfw()
@@ -40,7 +41,8 @@ public class ChannelValue extends MessageableValue<Channel> implements Renamable
     }
 
     @Override
-    public boolean rename(String name) {
-        return delegate instanceof ServerChannel serverChannel && ValueUtil.awaitFutureBoolean(serverChannel.updateName(name), "Could not rename channel");
+    public void rename(String name) {
+        if(!(delegate instanceof ServerChannel serverChannel)) throw DiscordThrowables.genericCode(DiscordThrowables.Codes.CANNOT_EXECUTE_ACTION_ON_CHANNEL_TYPE);
+        ValueUtil.awaitFuture(serverChannel.updateName(name), "Could not rename channel");
     }
 }
