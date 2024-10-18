@@ -1,14 +1,13 @@
 package net.replaceitem.discarpet.script.util;
 
-import net.replaceitem.discarpet.Discarpet;
-import net.replaceitem.discarpet.script.values.EmojiValue;
 import carpet.script.value.BooleanValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import net.replaceitem.discarpet.script.values.EmojiValue;
+import net.replaceitem.discarpet.script.exception.DiscordThrowables;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.core.entity.emoji.UnicodeEmojiImpl;
-import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.Optional;
@@ -18,23 +17,12 @@ import java.util.concurrent.CompletableFuture;
 public class ValueUtil {
 
 
-    public static <T> T awaitFuture(CompletableFuture<T> cf, String error) {
+    public static <T> T awaitFuture(CompletableFuture<T> cf, String message) {
         try {
             return cf.get();
         } catch (Exception e) {
-            Discarpet.LOGGER.error(error, e);
-            return null;
+            throw DiscordThrowables.convert(e, message);
         }
-    }
-
-    public static boolean awaitFutureBoolean(CompletableFuture<?> cf, String error) {
-        try {
-            cf.get();
-        } catch (Exception e) {
-            Discarpet.LOGGER.error(error, e);
-            return false;
-        }
-        return true;
     }
 
     public static <T> T unpackOptional(Optional<T> optional) {
@@ -64,14 +52,12 @@ public class ValueUtil {
         return value==null? null : (value instanceof EmojiValue emojiValue ? emojiValue.getDelegate() : UnicodeEmojiImpl.fromString(value.getString()));
     }
     
-    @Nullable
-    public static <T> T optionalArg(T[] array, int index) {
-        if(array == null) return null;
-        return array.length > index ? array[index] : null;
+    public static <T> Optional<T> optionalArg(T[] array, int index) {
+        if(array == null) return Optional.empty();
+        return array.length > index ? Optional.of(array[index]) : Optional.empty();
     }
 
-    @Nullable
-    public static <T> T optionalArg(T[] array) {
+    public static <T> Optional<T> optionalArg(T[] array) {
         return optionalArg(array, 0);
     }
 }

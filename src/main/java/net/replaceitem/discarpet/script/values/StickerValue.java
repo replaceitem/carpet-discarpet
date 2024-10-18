@@ -36,12 +36,12 @@ public class StickerValue extends DiscordValue<Sticker> implements Deletable, Re
     }
 
     @Override
-    public boolean delete(String reason) {
-        return ValueUtil.awaitFutureBoolean(delegate.delete(reason), "Failed to delete " + this.getTypeString());
+    public void delete(String reason) {
+        ValueUtil.awaitFuture(delegate.delete(reason), "Failed to delete " + this.getTypeString());
     }
 
     @Override
-    public boolean rename(String name) {
-        return ValueUtil.awaitFutureBoolean(delegate.updateName(name), "Could not rename sticker");
+    public void rename(String name) {
+        ValueUtil.awaitFuture(delegate.updateName(name), "Could not rename sticker");
     }
 }
