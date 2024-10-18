@@ -28,3 +28,5 @@ The `message` parameter the same as the [Message content](/parsables/message-con
 
 This function returns `null`, except if using `RESPOND_FOLLOWUP`,
 a [message value](/values/message.md) with the sent message will be returned.
+
+Throws an exception on failure

@@ -7,3 +7,7 @@ but in contrast to `dc_send_message(webhook, content)`
 also allows to change the
 [`webhook_message_profile`](/parsables/webhooks/webhook-message-profile.md)
 in one request.
+
+Returns the sent [`message`](/values/message.md)
+
+Throws an exception on failure

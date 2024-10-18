@@ -29,25 +29,33 @@ specified role id, or `null` if the role was not found.
 {% include 'warning-blocking.md' %}
 
 Returns a [User](/values/user.md) value from the
-specified role id, or `null` if the user was not found.
+specified role id
+
+Throws an exception on failure
 
 ### `dc_message_from_id(id, channel)`
 
 {% include 'warning-blocking.md' %}
 
 Returns a [Message](/values/message.md) value from the
-specified message id and channel, or `null` if the message was not found.
+specified message id and channel
+
+Throws an exception on failure
 
 ### `dc_webhook_from_id(id, token)`
 
 {% include 'warning-blocking.md' %}
 
 Returns a [Webhook](/values/webhook.md) value from the
-specified webhook id and token, or `null` if the webhook was not found.
+specified webhook id and token
+
+Throws an exception on failure
 
 ### `dc_webhook_from_url(url)`
 
 {% include 'warning-blocking.md' %}
 
 Returns a [Webhook](/values/webhook.md) value from the
-specified webhook url, or `null` if the webhook was not found.
+specified webhook url
+
+Throws an exception on failure

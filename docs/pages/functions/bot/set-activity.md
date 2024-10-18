@@ -10,4 +10,3 @@ The `type` can be one of
 * ~~`custom`~~ _(`custom` is not supported for bots from the discord api, so it has no use)_.
 
 The `text` will appear after the text corresponding to the `type` (like *`Listening to [text]`*).
-Returns `null` if the `type` was invalid.

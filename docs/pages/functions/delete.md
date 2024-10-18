@@ -3,7 +3,8 @@
 {% include 'warning-blocking.md' %}
 
 Deletes whatever value provided.
-Returns true or false, depending on whether the deletion was successful.
+
+Throws an exception on failure
 
 This works for:
 
