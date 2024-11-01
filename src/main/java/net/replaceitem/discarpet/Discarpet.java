@@ -85,7 +85,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	@Override
 	public void onServerClosed(MinecraftServer server) {
 		LOGGER.info("Disconnecting all Discord bots");
-		discordBots.forEach((s, bot) -> bot.getApi().disconnect());
+		discordBots.forEach((s, bot) -> bot.disconnect());
 	}
 
 	@Override
@@ -116,11 +116,12 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	}
 
 	public static void loadBots(ServerCommandSource source) {
-		discordBots.forEach((s, bot) -> {
-			if(bot != null) {
-				bot.disconnect();
-			}
-		});
+		CompletableFuture.allOf(
+				discordBots.values().stream()
+						.map(bot -> bot == null ? null : bot.disconnect())
+						.filter(Objects::nonNull)
+						.toArray(CompletableFuture[]::new)
+		);
 		discordBots.clear();
 
 		for (BotConfig botConfig : configManager.getConfig().BOTS) {

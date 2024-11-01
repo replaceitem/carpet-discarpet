@@ -45,7 +45,7 @@ public class Bot {
 		return api.createBotInvite();
 	}
 
-	public void disconnect() {
-		this.api.disconnect();
+	public CompletableFuture<Void> disconnect() {
+		return this.api.disconnect();
 	}
 }
