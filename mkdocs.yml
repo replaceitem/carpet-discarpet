@@ -80,7 +80,8 @@ nav:
       - dc_get_display_name: 'functions/users/get-display-name.md'
       - dc_get_user_color: 'functions/users/get-user-color.md'
       - dc_set_nickname: 'functions/users/set-nickname.md'
-      - dc_timeout: 'functions/users/timeout.md'
+      - dc_set_timeout: 'functions/users/set-timeout.md'
+      - dc_get_timeout: 'functions/users/get-timeout.md'
     - Role functions:
       - dc_add_role: 'functions/roles/add-role.md'
       - dc_remove_role: 'functions/roles/remove-role.md'

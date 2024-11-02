@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static net.replaceitem.discarpet.script.util.ValueUtil.*;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
 public class Users {
     @ScarpetFunction
     public String dc_get_display_name(User user, Server server) {
@@ -46,13 +46,13 @@ public class Users {
         return colorToValue(unpackOptional(user.getRoleColor(server)));
     }
 
+    @ScarpetFunction
+    public Value dc_get_timeout(User user, Server server) {
+        return NumericValue.of(user.getActiveTimeout(server).map(Instant::toEpochMilli).orElse(null));
+    }
+    
     @ScarpetFunction(maxParams = 4)
-    public Value dc_timeout(User user, Server server, Value... values) {
-        Optional<Value> timestampValue = optionalArg(values, 0);
-        if(timestampValue.isEmpty()) return NumericValue.of(user.getActiveTimeout(server).map(Instant::toEpochMilli).orElse(null));
-        long timestamp = NumericValue.asNumber(timestampValue.get()).getLong();
-        String reason = optionalArg(values, 1).map(Value::getString).orElse(null);
-        awaitFuture(user.timeout(server, Instant.ofEpochMilli(timestamp), reason), "Could not timeout user");
-        return Value.NULL;
+    public void dc_set_timeout(User user, Server server, long epochMilli, Optional<String> reason) {
+        awaitFuture(user.timeout(server, Instant.ofEpochMilli(epochMilli), reason.orElse(null)), "Could not timeout user");
     }
 }
