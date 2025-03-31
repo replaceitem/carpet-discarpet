@@ -158,6 +158,7 @@ nav:
     - __on_discord_button: 'events/discord-button.md'
     - __on_discord_select_menu: 'events/discord-select-menu.md'
     - __on_discord_modal: 'events/discord-modal.md'
+  - Exceptions: 'exceptions.md'
   - Example scripts:
     - Chat: 'examples/chat.md'
     - Activity: 'examples/activity.md'
