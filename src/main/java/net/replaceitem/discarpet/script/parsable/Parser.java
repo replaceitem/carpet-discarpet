@@ -1,24 +1,20 @@
 package net.replaceitem.discarpet.script.parsable;
 
-import net.replaceitem.discarpet.Discarpet;
-import net.replaceitem.discarpet.mixins.SimpleTypeConverterAccessor;
-import net.replaceitem.discarpet.script.util.MapValueUtil;
 import carpet.script.annotation.SimpleTypeConverter;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.ListValue;
 import carpet.script.value.MapValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
+import net.replaceitem.discarpet.Discarpet;
+import net.replaceitem.discarpet.mixins.SimpleTypeConverterAccessor;
+import net.replaceitem.discarpet.script.util.MapValueUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -64,7 +60,7 @@ public class Parser {
             if(resultClass.isInstance(value)) {
                 return (T) value;
             }
-            throw new InternalExpressionException("Expected a " + resultClass.getName() + " value, but got a " + value.getTypeString());
+            throw new InternalExpressionException("Expected a " + resultClass.getSimpleName() + " value, but got a " + value.getTypeString());
         }
         
         if(resultClass.isEnum()) {
@@ -73,6 +69,9 @@ public class Parser {
 
         SimpleTypeConverter<Value, T> typeConverter = SimpleTypeConverterAccessor.callGet(resultClass);
         if(typeConverter != null) {
+            if(!((SimpleTypeConverterAccessor<Value, T>)(Object) typeConverter).getValueClass().isInstance(value)) {
+                throw new InternalExpressionException("Expected a " + resultClass.getSimpleName() + " value, but got a " + value.getTypeString());
+            }
             return typeConverter.convert(value, null);
         }
 
