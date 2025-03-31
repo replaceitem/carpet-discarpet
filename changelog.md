@@ -38,3 +38,5 @@
   * `__on_discord_server_member_join(server, user)`
   * `__on_discord_server_member_leave(server, user)`
 * Fully removed the deprecated function `dc_create_slash_command`. Use `dc_create_application_command` instead
+* Improved reloading of bots
+* Split `dc_timeout` into `dc_get_timeout` and `dc_set_timeout`
