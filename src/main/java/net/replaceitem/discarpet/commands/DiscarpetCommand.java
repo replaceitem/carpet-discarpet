@@ -30,7 +30,7 @@ public class DiscarpetCommand {
     {
         dispatcher.register(literal("discarpet").requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2)).executes(commandContext->{
             commandContext.getSource().sendFeedback(() -> {
-                String version = FabricLoader.getInstance().getModContainer("discarpet").get().getMetadata().getVersion().getFriendlyString();
+                String version = FabricLoader.getInstance().getModContainer("discarpet").orElseThrow().getMetadata().getVersion().getFriendlyString();
                 MutableText text = Text.literal("Discarpet version " + version).formatted(Formatting.BLUE);
                 text.append("\nFor help, see the ");
                 text.append(Text.literal("documentation").setStyle(Style.EMPTY
