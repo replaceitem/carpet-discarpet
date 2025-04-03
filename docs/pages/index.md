@@ -1,14 +1,13 @@
 ---
 hide:
   - navigation
-  - toc
 icon: material/home
 ---
 
 
 # Discarpet documentation
 
-![Discarpet logo](/assets/logo.png){ align=right width=128px }
+![Discarpet logo](/assets/visual.svg){ align=left .invert-in-light }
 
 This is an extension for [Carpet](https://modrinth.com/mod/carpet)
 that adds parts of Discord's bot API into [scarpet](https://github.com/gnembon/fabric-carpet/wiki/Scarpet),

@@ -15,10 +15,10 @@ theme:
     repo: fontawesome/brands/github
   features:
     - navigation.instant
+    - navigation.instant.progress
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
-    - navigation.top
     - toc.integrate
     - content.tooltips
     - content.code.copy
@@ -51,7 +51,6 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.tilde
 plugins:
-  - abs-to-rel
   - search
   - macros:
       include_dir: docs/include
@@ -66,6 +65,25 @@ plugins:
         - param_optional:
             oldvalue: '{:?}'
             newvalue: ':fontawesome-solid-question:{ title="Optional parameter" }'
+        - section_input:
+            oldvalue: '{input:}'
+            newvalue: ':octicons-download-24: Input parameters'
+        - section_output:
+            oldvalue: '{output:}'
+            newvalue: ':octicons-upload-24: Output values'
+        - section_output_values:
+            oldvalue: '{output values:}'
+            newvalue: 'Return values'
+        - section_output_exceptions:
+            oldvalue: '{output exceptions:}'
+            newvalue: '[Uncaught exceptions](/how-it-works.md/#discarpet-exceptions)'
+        - decor_input:
+            oldvalue: '{=i}'
+            newvalue: ':octicons-download-24:{ title="Input parameter" }'
+        - decor_output:
+            oldvalue: '{=o}'
+            newvalue: ':octicons-upload-24:{ title="Output parameter" }'
+  - abs-to-rel
 extra:
   social:
     - icon: fontawesome/brands/discord
@@ -79,8 +97,23 @@ extra:
       name: GitHub
 nav:
   - Home: 'index.md'
+  # - Changelog: 'changelog.md'
   - Getting started: 'setup.md'
   - How it works: 'how-it-works.md'
+
+  - Example scripts:
+    - Chat: 'examples/chat.md'
+    - Log: 'examples/log.md'
+    - Grief log: 'examples/grief-log.md'
+    - Attachments: 'examples/attachments.md'
+    - Embeds: 'examples/embeds.md'
+    - Reply: 'examples/reply.md'
+    - Reactions: 'examples/reactions.md'
+    - Status and activity: 'examples/activity.md'
+    - Message components: 'examples/message-components.md'
+    - Slash commands: 'examples/slash-commands.md'
+    - Context menus: 'examples/context-menu.md'
+    - Modal: 'examples/modal.md'
 
   - Functions:
     - dc_send_message: 'functions/send-message.md'
@@ -89,7 +122,16 @@ nav:
     - dc_set_name: 'functions/set-name.md'
     - dc_set_channel_topic: 'functions/set-channel-topic.md'
     - dc_create_thread: 'functions/create-thread.md'
-    - Value from ID functions: 'functions/value-from-id.md'
+    - Value functions:
+      - dc_channel_from_id: 'functions/values/channel-from-id.md'
+      - dc_server_from_id: 'functions/values/server-from-id.md'
+      - dc_emoji_from_id: 'functions/values/emoji-from-id.md'
+      - dc_sticker_from_id: 'functions/values/sticker-from-id.md'
+      - dc_role_from_id: 'functions/values/role-from-id.md'
+      - dc_user_from_id: 'functions/values/user-from-id.md'
+      - dc_message_from_id: 'functions/values/message-from-id.md'
+      - dc_webhook_from_id: 'functions/values/webhook-from-id.md'
+      - dc_webhook_from_url: 'functions/values/webhook-from-url.md'
     - Bot functions:
       - dc_get_bot_user: 'functions/bot/get-bot-user.md'
       - dc_set_activity: 'functions/bot/set-activity.md'
@@ -98,7 +140,12 @@ nav:
       - dc_get_display_name: 'functions/users/get-display-name.md'
       - dc_get_user_color: 'functions/users/get-user-color.md'
       - dc_set_nickname: 'functions/users/set-nickname.md'
-      - dc_timeout: 'functions/users/timeout.md'
+      - dc_set_timeout: 'functions/users/set-timeout.md'
+      - dc_get_timeout: 'functions/users/get-timeout.md'
+    - Webhook functions:
+      - dc_create_webhook: 'functions/webhooks/create-webhook.md'
+      - dc_send_webhook: 'functions/webhooks/send-webhook.md'
+      - dc_update_webhook: 'functions/webhooks/update-webhook.md'
     - Role functions:
       - dc_add_role: 'functions/roles/add-role.md'
       - dc_remove_role: 'functions/roles/remove-role.md'
@@ -107,10 +154,6 @@ nav:
       - dc_create_application_command: 'functions/interactions/create-application-command.md'
       - dc_get_global_application_commands: 'functions/interactions/get-global-application-commands.md'
       - dc_respond_interaction: 'functions/interactions/respond-interaction.md'
-    - Webhook functions:
-      - dc_create_webhook: 'functions/webhooks/create-webhook.md'
-      - dc_send_webhook: 'functions/webhooks/send-webhook.md'
-      - dc_update_webhook: 'functions/webhooks/update-webhook.md'
 
   - Events:
     - __on_system_message: 'events/system-message.md'
@@ -129,16 +172,16 @@ nav:
 
   - Values:
     - Message: 'values/message.md'
-    - Channel: 'values/channel.md'
-    - Server: 'values/server.md'
-    - User: 'values/user.md'
-    - Role: 'values/role.md'
     - Attachment: 'values/attachment.md'
-    - Reaction: 'values/reaction.md'
     - Emoji: 'values/emoji.md'
     - Sticker: 'values/sticker.md'
+    - Reaction: 'values/reaction.md'
+    - User: 'values/user.md'
     - Webhook: 'values/webhook.md'
-    - Applications:
+    - Role: 'values/role.md'
+    - Server: 'values/server.md'
+    - Channel: 'values/channel.md'
+    - Application commands:
       - Slash command: 'values/commands/slash-command.md'
       - Message context menu: 'values/commands/message-context-menu.md'
       - User context menu: 'values/commands/user-context-menu.md'
@@ -154,43 +197,30 @@ nav:
   - Parsables:
     - Message content: 'parsables/message-content.md'
     - Attachment: 'parsables/attachment.md'
-    - Color: 'parsables/color.md'
-    - Timestamp: 'parsables/timestamp.md'
     - Allowed mentions: 'parsables/allowed-mentions.md'
+    - Timestamp: 'parsables/timestamp.md'
+    - Color: 'parsables/color.md'
+    - Embed: 'parsables/embed.md'
     - Thread: 'parsables/thread.md'
-    - Embeds:
-      - Embed: 'parsables/embeds/embed.md'
-      - Embed author: 'parsables/embeds/embed-author.md'
-      - Embed field: 'parsables/embeds/embed-field.md'
-      - Embed footer: 'parsables/embeds/embed-footer.md'
+    - Modal: 'parsables/modal.md'
+    # - Embeds:
+    #   - Embed: 'parsables/embeds/embed.md'
+    #   - Embed author: 'parsables/embeds/embed-author.md'
+    #   - Embed field: 'parsables/embeds/embed-field.md'
+    #   - Embed footer: 'parsables/embeds/embed-footer.md'
     - Webhooks:
       - Webhook profile: 'parsables/webhooks/webhook-profile.md'
       - Webhook profile updater: 'parsables/webhooks/webhook-profile-updater.md'
       - Webhook message profile: 'parsables/webhooks/webhook-message-profile.md'
-    - Applications:
+    - Application commands:
       - Slash command builder: 'parsables/commands/slash-command-builder.md'
-      - Slash command option: 'parsables/commands/slash-command-option.md'
-      - Slash command option choice: 'parsables/commands/slash-command-option-choice.md'
+    #  - Slash command option: 'parsables/commands/slash-command-option.md'
+    #  - Slash command option choice: 'parsables/commands/slash-command-option-choice.md'
       - User context menu builder: 'parsables/commands/user-context-menu-builder.md'
       - Message context menu builder: 'parsables/commands/message-context-menu-builder.md'
     - Components:
       - Base component: 'parsables/components/component.md'
-      - Button: 'parsables/components/button.md'
-      - Text input: 'parsables/components/text-input.md'
-      - Select menu: 'parsables/components/select-menu.md'
-      - Select menu option: 'parsables/components/select-menu-option.md'
-      - Modal: 'parsables/components/modal.md'
-
-  - Example scripts:
-    - Chat: 'examples/chat.md'
-    - Log: 'examples/log.md'
-    - Grief log: 'examples/grief-log.md'
-    - Attachments: 'examples/attachments.md'
-    - Embeds: 'examples/embeds.md'
-    - Reply: 'examples/reply.md'
-    - Reactions: 'examples/reactions.md'
-    - Status and activity: 'examples/activity.md'
-    - Message components: 'examples/message-components.md'
-    - Slash commands: 'examples/slash-commands.md'
-    - Context menus: 'examples/context-menu.md'
-    - Modal: 'examples/modal.md'
+      - Button component: 'parsables/components/button.md'
+      - Select menu component: 'parsables/components/select-menu.md'
+    #  - Select menu component option: 'parsables/components/select-menu-option.md'
+      - Text input component: 'parsables/components/text-input.md'

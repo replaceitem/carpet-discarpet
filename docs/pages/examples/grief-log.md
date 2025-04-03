@@ -1,6 +1,7 @@
-Logs the opening of containers and tnt placement to a log channel
+Sends a message to alert when a player is opening containers or placing TNT.
 
-![Demo grief log](/assets/examples/grief_log.png)
+
+![Demo grief log](/assets/examples/grief-log.png)
 
 
 ```sc title="grief_log.sc"
@@ -9,7 +10,7 @@ __config() -> {
     'bot' -> 'mybot'
 };
 
-global_log = dc_channel_from_id('1234567891011121314');
+global_log = dc_channel_from_id('put id here!');
 
 __on_player_interacts_with_block(player, hand, block, face, hitvec) -> (
     // warn when player opens chest/barrel/shulkerbox

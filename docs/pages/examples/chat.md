@@ -1,11 +1,13 @@
-This script bridges chat messages in Minecraft to the configured
-`global_channel` channel, and bridges messages in that
-channel to the server chat.
+Bridges chat messages to Discord, and vice versa with the ability to ping users by their @name.
 
 !!! warning "Requires privileged intents"
-    To use this example script, your bot will require the [MESSAGE_CONTENT intent](/setup.md#intents).
+    This script requires the
+    [`MESSAGE_CONTENT` and `GUILD_MEMBERS`](/setup.md#using-intents)
+    intent to be used.
+
 
 ![Demo chat](/assets/examples/chat.png)
+
 
 ```sc title="chat.sc"
 __config() -> {
@@ -13,48 +15,47 @@ __config() -> {
     'bot' -> 'mybot'
 };
 
-global_channel = dc_channel_from_id('1234567891011121314');
+global_channel = dc_channel_from_id('put id here!');
 
+// bridge dc -> mc
 __on_discord_message(message) -> (
-    // limit to chat channel only
+    // make sure to only bridge messages from our channel
     if (message~'channel'~'id' != global_channel~'id', return());
 
-    user = message~'user';
-
     // ignore messages without a user (e.g. interactions)
-    if (user == null, return());
+    if (message~'user' == null, return());
 
     // ignore messages by the bot itself
-    if (user~'is_self', return()); 
+    if (message~'user'~'is_self', return()); 
 
-    // get the user's name
-    name = dc_get_display_name(user, message~'server');
+    // get user details
+    name = dc_get_display_name(message~'user', message~'server');
+    color = dc_get_user_color(message~'user', message~'server') || '#FFFFFF';
 
-    // get the user's color. if `null`, use white
-    color = dc_get_user_color(user, message~'server') || '#FFFFFF';
-
-    // format the message, with the color of the user
+    // format the message
     mc_message = format(str('%s [%s]', color, name));
-    mc_message += format(str('w  %s', message~'readable_content'));
+    mc_message += format(str('w \ %s', message~'readable_content'));
 
     print(player('all'), mc_message);
 );
 
-
-__on_system_message(text,type) -> (
-    // don't send admin command messages
-    if (type != 'chat.type.admin', 
-        // allow for pings from inside Minecraft
-        msg = parse_mentions(text, global_channel~'server');
-        // send to Discord
-        task(_(outer(msg)) -> dc_send_message(global_channel, msg)); 
+// bridge mc -> dc
+__on_system_message(text, type) -> (
+    if (type != 'chat.type.admin',
+        message = parse_mentions(text, global_channel~'server');
+        task(_(outer(message)) -> dc_send_message(global_channel, message)); 
     );
 );
 
-parse_mentions(msg,server) -> (
+// parse pings from mc -> dc
+parse_mentions(message, server) -> (
     for (server~'users',
-        msg = replace(msg, '@' + dc_get_display_name(_, server), _~'mention_tag');
+        message = replace(
+            message,
+            '@' + dc_get_display_name(_, server),
+            _~'mention_tag'
+        );
     );
-    msg;
+    return (message);
 );
 ```

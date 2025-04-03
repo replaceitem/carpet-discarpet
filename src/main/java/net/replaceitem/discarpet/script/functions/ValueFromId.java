@@ -4,6 +4,7 @@ import net.replaceitem.discarpet.config.Bot;
 import carpet.script.Context;
 import carpet.script.annotation.ScarpetFunction;
 import net.replaceitem.discarpet.Discarpet;
+import net.replaceitem.discarpet.script.util.ValueUtil;
 import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.emoji.Emoji;
@@ -50,25 +51,25 @@ public class ValueFromId {
 	@ScarpetFunction
 	public User dc_user_from_id(Context ctx, String userId) {
 		Bot bot = Discarpet.getBotInContext(ctx,"dc_user_from_id");
-		return bot.getApi().getUserById(userId).join();
+		return ValueUtil.awaitFuture(bot.getApi().getUserById(userId), "Error getting user from id");
 	}
 	
 	@ScarpetFunction
 	public Message dc_message_from_id(Context ctx, String messageId, Channel channel) {
 		Bot bot = Discarpet.getBotInContext(ctx,"dc_message_from_id");
 		if(!(channel instanceof TextChannel textChannel)) return null;
-		return bot.getApi().getMessageById(messageId, textChannel).join();
+		return ValueUtil.awaitFuture(bot.getApi().getMessageById(messageId, textChannel), "Error getting message from id");
 	}
 
 	@ScarpetFunction
 	public Webhook dc_webhook_from_id(Context ctx, String webhookId, String token) {
 		Bot bot = Discarpet.getBotInContext(ctx,"dc_webhook_from_id");
-		return bot.getApi().getIncomingWebhookByIdAndToken(webhookId, token).join();
+		return ValueUtil.awaitFuture(bot.getApi().getIncomingWebhookByIdAndToken(webhookId, token), "Error getting webhook from id");
 	}
 
 	@ScarpetFunction
 	public Webhook dc_webhook_from_url(Context ctx, String webhookUrl) {
 		Bot bot = Discarpet.getBotInContext(ctx,"dc_webhook_from_url");
-		return bot.getApi().getIncomingWebhookByUrl(webhookUrl).join();
+		return ValueUtil.awaitFuture(bot.getApi().getIncomingWebhookByUrl(webhookUrl), "Error getting webhook from url");
 	}
 }

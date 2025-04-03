@@ -20,6 +20,6 @@ public class ModalParsable implements Applicable<InteractionBase> {
     @Override
     public void apply(InteractionBase interactionBase) {
         List<HighLevelComponent> highLevelComponents = components.stream().map(lowLevelComponents -> ((HighLevelComponent) ActionRow.of(lowLevelComponents))).toList();
-        ValueUtil.awaitFutureBoolean(interactionBase.respondWithModal(id, title, highLevelComponents),"Error sending 'respond_with_modal' response to interaction");
+        ValueUtil.awaitFuture(interactionBase.respondWithModal(id, title, highLevelComponents),"Error sending 'respond_with_modal' response to interaction");
     }
 }

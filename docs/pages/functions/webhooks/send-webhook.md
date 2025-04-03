@@ -1,14 +1,29 @@
 ### `dc_send_webhook(webhook, content, profile)`
 
+Sends a message to the webhook.
+In contrast to `dc_send_message(webhook, content)`, it lets you change the webhook's profile at the same time.
+
 {% include 'warning-blocking.md' %}
 
-Sends a message to the webhook. Also lets you change the webhook's profile at the same time.
 
-- `webhook` {->} [Webhook](/values/webhook.md)
+### {input:}
+
+* `webhook` {->} [Webhook](/values/webhook.md)
   {:} The webhook to send the message to.
-- `content` {->}
+* `content` {->}
   [Message content](/parsables/message-content.md),
   String
   {:} The content of the message.
-- `profile` {->} [Webhook message profile](/parsables/webhooks/webhook-message-profile.md)
+* `profile` {->} [Webhook message profile](/parsables/webhooks/webhook-message-profile.md)
   {:} The profile to use.
+
+
+### {output:}
+
+#### {output values:}
+
+* The sent [message](/values/message.md).
+
+#### {ouput exceptions:}
+
+* Throws an exception on failure.

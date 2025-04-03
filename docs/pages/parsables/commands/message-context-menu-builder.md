@@ -1,5 +1,7 @@
 `message_context_menu_builder`
 
-| Value         | Type   | Description           |
-|---------------|--------|-----------------------|
-| `name`        | String | The name of the menu. |
+Used to create a message context menu command.
+
+| Value  | Type   | Description           |
+|-------:|--------|-----------------------|
+| `name` | String | The name of the menu. |

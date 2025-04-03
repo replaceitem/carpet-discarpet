@@ -1,20 +1,33 @@
 ### `dc_send_message(target, content)`
 
-{% include 'warning-blocking.md' %}
-
 Sends a message to a target.
 
-Returns the [message](/values/message.md) that was sent.
+{% include 'warning-blocking.md' %}
 
-- `target` {->}
+
+### {input:}
+
+* `target` {->}
   [Channel](/values/channel.md),
   [User](/values/user.md),
   [Webhook](/values/webhook.md)
   {:} The target to use to send the message.
-- `content` {->}
+* `content` {->}
   [Message content](/parsables/message-content.md),
   String
   {:} The content of the message.
+
+
+### {output:}
+
+#### {output values:}
+
+* The sent [message](/values/message.md).
+
+#### {output exceptions:}
+
+* Throws an exception on failure.
+
 
 <!--
 This example shows how you can send a message and add reactions to it as soon as it was sent:

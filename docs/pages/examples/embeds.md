@@ -1,8 +1,8 @@
-Sends a message with a detailed embed
+Sends a message with an [embed](/parsables/embed.md).
 
-For more info, check out the [Embed parsable](/parsables/embeds/embed.md).
 
 ![Demo embed](/assets/examples/embed.png)
+
 
 ```sc title="embeds.sc"
 __config() -> {

@@ -2,13 +2,12 @@
 
 Sets the activity of the bot.
 
-Returns a Boolean, whether if the operation was successful.
 
-Returns `null` if the `type` was invalid.
+### {input:}
 
-- `type` {->} String
+* `type` {->} String
   {:} The [type](#activity-types) of activity.
-- `text` {->} String
+* `text` {->} String
   {:} The text of the activity.
 
 #### Activity types
@@ -17,3 +16,10 @@ Returns `null` if the `type` was invalid.
 * `STREAMING` - Streaming [text]
 * `LISTENING` - Listening to [text]
 * `WATCHING` - Watching [text]
+
+
+### {output:}
+
+#### {output values:}
+
+* Boolean, whether if the operation was successful.

@@ -1,9 +1,11 @@
-Demonstration of the various ways of sending attachments in a message.
-Remember to adjust the channel id to a channel in your server the bot has access to.
+Sends a message with multiple [attachments](/parsables/attachment.md):
 
-For more info, check out the [Attachment parsable](/parsables/attachment.md).
+* Image attachment from an external URL
+* File attachment with specified `bytes`
+
 
 ![Demo attachments](/assets/examples/attachments.png)
+
 
 ```sc title="attachments.sc"
 __config() -> {
@@ -11,7 +13,7 @@ __config() -> {
     'bot' -> 'mybot'
 };
 
-channel = dc_channel_from_id('1234567891011121314');
+channel = dc_channel_from_id('put id here!');
 
 dc_send_message(channel, {
     'content' -> '',

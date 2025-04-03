@@ -2,10 +2,13 @@
 
 Sets the status of the bot.
 
-- `status` {->} String
-  {:} The [status](#statuses) to use.
 
-#### Statuses
+### {input:}
+
+* `status` {->} String
+  {:} The [type](#status-types) of status to use.
+
+#### Status types
 
 * `online` - Online
 * `idle` - Idle

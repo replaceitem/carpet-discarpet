@@ -2,5 +2,5 @@
 
 Executes when a user uses a select menu component on a message.
 
-- `interaction` {->} [Select menu interaction](/values/interactions/select-menu-interaction.md)
+* `interaction` {->} [Select menu interaction](/values/interactions/select-menu-interaction.md)
   {:} The interaction about the select menu that was used.

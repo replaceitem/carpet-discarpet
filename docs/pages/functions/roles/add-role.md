@@ -1,12 +1,28 @@
 ### `dc_add_role(user, role, reason?)`
 
-{% include 'warning-blocking.md' %}
-
 Adds a role to a user.
 
-- `user` {->} [User](/values/user.md)
+{% include 'warning-blocking.md' %}
+
+
+### {input:}
+
+* `user` {->} [User](/values/user.md)
   {:} The user to add the role to.
-- `role` {->} [Role](/values/role.md)
+* `role` {->} [Role](/values/role.md)
   {:} The role to add.
-- `reason` {:?} {->} String
+* `reason` {:?} {->} String
   {:} The audit log reason.
+
+
+### {output:}
+
+#### {output values:}
+
+* Null, if successful.
+
+#### {output exceptions:}
+
+* `missing_permission`
+    * `50001` * You do not have "Manage Roles" permission
+    * `50013` * You may be trying to add a role that is of higher hierachy

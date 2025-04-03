@@ -1,8 +1,8 @@
-Demonstrates how to make and respond to a modal.
+Creates an interactive [modal](/parsables/modal.md).
 
-For more info, check out the [Modal parsable](/parsables/components/modal.md).
 
 ![Demo modal](/assets/examples/modal.png)
+
 
 ```sc title="modal.sc"
 __config() -> {
@@ -10,7 +10,7 @@ __config() -> {
     'bot' -> 'mybot'
 };
 
-global_channel = dc_channel_from_id('759102744761335891');
+global_channel = dc_channel_from_id('put id here!');
 
 task(_() -> (
     dc_send_message(global_channel, {
@@ -67,6 +67,14 @@ __on_discord_button(int) -> (
 );
 
 __on_discord_modal(interaction) -> (
-    dc_respond_interaction(interaction, 'respond_immediately', 'Welcome ' + interaction~'input_values_by_id':'name_input' + '!');
+    input = interaction~'input_values_by_id';
+
+    dc_respond_interaction(interaction, 'RESPOND_IMMEDIATELY', {
+        'content' -> {
+            'name' -> input:'name_input',
+            'age' -> input:'age_input',
+            'introduction' -> input:'introduction_input'
+        }
+    });
 );
 ```

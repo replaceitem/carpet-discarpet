@@ -1,8 +1,8 @@
-This script changes the bots activity and status to show how many players are online.
+Changes the bots activity and status to show how many players are online.
 
-When no players are online, the bot will display that nobody is online, and will show as idle.
 
 ![Demo activity](/assets/examples/activity.png)
+
 
 ```sc title="activity.sc"
 __config() -> {

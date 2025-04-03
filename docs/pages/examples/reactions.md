@@ -1,6 +1,8 @@
-Demonstrates adding reactions and using the reaction event.
+A poll message that listens to added and removed reactions.
+
 
 ![Demo reactions](/assets/examples/reactions.png)
+
 
 ```sc title="reactions.sc"
 __config() -> {
@@ -8,7 +10,7 @@ __config() -> {
     'bot' -> 'mybot'
 };
 
-global_channel = dc_channel_from_id('1234567891011121314');
+global_channel = dc_channel_from_id('put id here!');
 
 task(_() -> (
     // create a message, then add reactions to that message

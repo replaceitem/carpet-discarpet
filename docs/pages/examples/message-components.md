@@ -1,8 +1,8 @@
-Sends a message with various buttons and select menus, and responds to input.
+Sends a message with various interactive [components](/parsables/components/component.md).
 
-For more info, check out [Components](/parsables/components/component.md).
 
 ![Demo components](/assets/examples/components.png)
+
 
 ```sc title="message_components.sc"
 __config() -> {
@@ -10,7 +10,7 @@ __config() -> {
     'bot' -> 'mybot'
 };
 
-global_channel = dc_channel_from_id('1234567891011121314');
+global_channel = dc_channel_from_id('put id here!');
 
 task(_() -> (
     button_components = [
@@ -41,12 +41,20 @@ task(_() -> (
             'style' -> 'grey',
             'label' -> 'Grey button',
             'emoji' -> '📧'
+        },
+        {
+            'component' -> 'button',
+            // 'id' is not required
+            'style' -> 'url',
+            'label' -> 'Open replaceitem\'s github',
+            'emoji' -> '🌐',
+            'url' -> 'https://github.com/replaceitem'
         }
     ];
 
-    select_food_component = [{
+    select_string_component = [{
         'component' -> 'select_menu_string',
-        'id' -> 'select1',
+        'id' -> 'select_string',
         'placeholder' -> 'Select at least 2 items here',
         'min' -> 2,
         'max' -> 3,
@@ -86,9 +94,26 @@ task(_() -> (
 
     select_user_component = [{
         'component' -> 'select_menu_user',
-        'id' -> 'select2',
-        'placeholder' -> 'Pick a user',
-        'options' -> []
+        'id' -> 'select_user',
+        'placeholder' -> 'Pick a user'
+    }];
+
+    select_role_component = [{
+        'component' -> 'select_menu_role',
+        'id' -> 'select_role',
+        'placeholder' -> 'Pick a role'
+    }];
+
+    select_mentionable_component = [{
+        'component' -> 'select_menu_mentionable',
+        'id' -> 'select_mentionable',
+        'placeholder' -> 'Pick a mentionable'
+    }];
+
+    select_channel_component = [{
+        'component' -> 'select_menu_channel',
+        'id' -> 'select_channel',
+        'placeholder' -> 'Pick a channel'
     }];
 
     button_url_component = [{
@@ -100,13 +125,16 @@ task(_() -> (
         'url' -> 'https://github.com/replaceitem'
     }];
 
+    // note: 'components' cannot have more than 5 rows
     dc_send_message(global_channel, {
         'content' -> 'Example interactions',
         'components' -> [
             button_components,
-            select_food_component,
+            select_string_component,
             select_user_component,
-            button_url_component
+            select_role_component,
+            //select_mentionable_component,
+            select_channel_component
         ]
     });
 ));

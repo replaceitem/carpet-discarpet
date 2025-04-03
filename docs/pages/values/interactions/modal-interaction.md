@@ -1,6 +1,6 @@
 `dc_modal_interaction`
 
-Represents an interaction from a user's response to a modal from [`__on_discord_modal()`](/events/discord-modal.md).
+Represents an interaction from a user's response to a modal from [`__on_discord_modal`](/events/discord-modal.md).
 
 #### Queryable:
 

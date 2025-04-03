@@ -16,11 +16,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.replaceitem.discarpet.config.Bot;
 
+import java.net.URI;
 import java.util.Set;
 
 import static net.minecraft.server.command.CommandManager.literal;
 
 public class DiscarpetCommand {
+    public static final URI DOCS_URI = URI.create("https://replaceitem.github.io/carpet-discarpet/");
     private static final SuggestionProvider<ServerCommandSource> BOTS = (commandContext, suggestionsBuilder) ->
             CommandSource.suggestMatching(Discarpet.discordBots.keySet().stream(), suggestionsBuilder);
 
@@ -32,8 +34,8 @@ public class DiscarpetCommand {
                 MutableText text = Text.literal("Discarpet version " + version).formatted(Formatting.BLUE);
                 text.append("\nFor help, see the ");
                 text.append(Text.literal("documentation").setStyle(Style.EMPTY
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,"https://replaceitem.github.io/carpet-discarpet/"))
-                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,Text.literal("Click to get to the Discarpet documentation")))
+                        .withClickEvent(new ClickEvent.OpenUrl(DOCS_URI))
+                        .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to get to the Discarpet documentation")))
                         .withFormatting(Formatting.UNDERLINE)
                         .withColor(Formatting.DARK_BLUE)));
                 return text;
@@ -43,7 +45,7 @@ public class DiscarpetCommand {
             executes(commandContext->{
                 commandContext.getSource().sendFeedback(() -> {
                     Set<String> botIDs = Discarpet.discordBots.keySet();
-                    if(botIDs.size() == 0) return Text.literal("There are no bots active").formatted(Formatting.RED);
+                    if(botIDs.isEmpty()) return Text.literal("There are no bots active").formatted(Formatting.RED);
                     final MutableText t = Text.literal("There are " + botIDs.size() + " bots active").formatted(Formatting.GREEN);
                     botIDs.forEach(id -> t.append(Text.literal("\n" + id).formatted(Formatting.BLUE)));
                     return t;
@@ -61,8 +63,8 @@ public class DiscarpetCommand {
                 return Text.literal("Click here to get the invite link for the bot")
                         .styled((style) -> style.withColor(Formatting.BLUE)
                                 .withFormatting(Formatting.UNDERLINE)
-                                .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, invite))
-                                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Click to open the invite link")))
+                                .withClickEvent(new ClickEvent.OpenUrl(URI.create(invite)))
+                                .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to open the invite link")))
                                 .withInsertion(invite));
             },false);
             return 1;

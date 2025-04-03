@@ -1,12 +1,24 @@
 ### `dc_set_channel_topic(channel, text)`
 
-{% include 'warning-blocking.md' %}
-
 Sets the description of a channel to the specified text.
 
-Returns a Boolean, whether if the operation was successful.
+{% include 'warning-blocking.md' %}
 
-- `channel` {->} [Channel](/values/channel.md)
+
+### {input:}
+
+* `channel` {->} [Channel](/values/channel.md)
   {:} The channel to set the topic.
-- `text` {->} String
+* `text` {->} String
   {:} The text to set the channel to.
+
+
+### {output:}
+
+#### {output values:}
+
+* Boolean, whether if the operation was successful.
+
+#### {output exceptions:}
+
+* Throws an exception on failure.

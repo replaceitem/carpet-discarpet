@@ -1,16 +1,15 @@
-Demonstrates message and user context menus.
+Adds multiple context menus:
 
-Adds a message command, which waits 10 seconds and then deletes the message.
+* One [message command](/parsables/commands/message-context-menu-builder.md), which waits 10 seconds and then deletes the message.
+* Two [user commands](/parsables/commands/user-context-menu-builder.md), one for adding a [prefix] to a user's nickname, and one for removing it.
 
-It also adds two user commands, one for adding a prefix nickname to a user, and one for resetting it.
+!!! note "Notes"
+    1. Your bot will need "Manage Messages" and "Manage Nicknames" permissions.
+    2. The bot cannot set the nickname of someone that is higher in role hierarchy than itself.
 
-!!! note
-    Your bot will need "Manage Messages" and "Manage Nicknames" permissions.
 
-!!! note
-    The bot cannot set the nickname of someone that is higher in role hierarchy than itself.
+![Demo context menu](/assets/examples/context-menu.png)
 
-![Demo context menu](/assets/examples/context_menu.png)
 
 ```sc title="context_menu.sc"
 __config() -> {

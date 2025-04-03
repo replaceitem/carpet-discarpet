@@ -1,8 +1,13 @@
 Replies to any message that only contains "Ping".
+
 !!! warning "Requires privileged intents"
-    To use this example script, your bot will require the [MESSAGE_CONTENT intent](/setup.md#intents).
+    This script requires the
+    [`MESSAGE_CONTENT`](/setup.md#using-intents)
+    intent to be used.
+
 
 ![Demo reply](/assets/examples/reply.png)
+
 
 ```sc title="reply.sc"
 __config() -> {

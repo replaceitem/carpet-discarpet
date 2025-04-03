@@ -1,12 +1,12 @@
 ### `dc_delete(value)`
 
-{% include 'warning-blocking.md' %}
-
 Deletes whatever value provided.
 
-Returns a Boolean, whether if the operation was successful.
+{% include 'warning-blocking.md' %}
 
-- `value` {->}
+### {input:}
+
+* `value` {->}
   [Message](/values/message.md),
   [Webhook](/values/webhook.md),
   [Role](/values/role.md),
@@ -15,3 +15,13 @@ Returns a Boolean, whether if the operation was successful.
   [User context menu](/values/commands/user-context-menu.md),
   [Message context menu](/values/commands/message-context-menu.md)
   {:} The value to delete.
+
+### {output:}
+
+#### {output values:}
+
+* Boolean, whether if the operation was successful.
+
+#### {output exceptions:}
+
+* Throws an exception on failure.

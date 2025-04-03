@@ -2,8 +2,10 @@
 icon: octicons/question-16
 ---
 
-Discarpet wraps around [Javacord](https://github.com/Javacord/Javacord) with new scarpet values, functions and events.
+
+Discarpet wraps around [Javacord](https://github.com/Javacord/Javacord) with new scarpet functions, values, and events.
 It also uses parsables as a way to define more complex things like embeds, slash commands, or message components.
+
 
 ## Discarpet values
 
@@ -22,10 +24,10 @@ All type names (accessible using scarpet's `type()` function) of Discarpet value
 are prefixed with `dc_` to easily associate them with Discarpet.
 The internal type name of a value is listed in their documentation.
 
-### Getting values by their ID
+### Getting values
 
-Many Discord entities have an ID.
-You can use the appropriate [value from ID function](/functions/value-from-id.md) to get its value from their ID.
+You can use the appropriate function under ["Value functions"](/functions/values/channel-from-id.md) to get its value.
+
 
 ## Discarpet parsables
 
@@ -35,12 +37,12 @@ Those properties and their types are listed in the documentation of each parsabl
 
 As an example, a value from a parsable with these properties:
 
-| Value    | Type                                     | Description                             |
-|----------|------------------------------------------|-----------------------------------------|
-| `name`   | String                                   | Some name                               |
-| `id`     | String                                   | The ID                                  |
-| `length` | Number                                   | Number example field                    |
-| `hidden` | Boolean<br>(optional, defaults to false) | Whether this example parsable is hidden |
+| Value    | Type    | Description                                            |
+|---------:|---------|--------------------------------------------------------|
+| `name`   | String  | The name of the player.                                |
+| `id`     | String  | The ID of the player.                                  |
+| `size`   | Number  | The size of the player.                                |
+| `hidden` | Boolean | Whether this player is hidden.<br>(`false` by default) |
 
 would look like this:
 
@@ -48,7 +50,72 @@ would look like this:
 example = {
     'name' -> 'replaceitem',
     'id' -> '0123456789',
-    'length' -> 4,
+    'size' -> 4,
     'hidden' -> true
 };
 ```
+
+
+## Discarpet exceptions
+
+Discarpet adds exception types that can be caught using scarpet's `try()` function.
+The exception hierarchy is as follows:
+
+- `exception`
+<br> (Base scarpet exception)
+    - `discord_exception`
+    <br> (Base Discarpet exception)
+        - `missing_intent`
+        {:} You do not have the intent to do that
+        - `api_exception`
+        <br> (General exception for requests to the Discord API)
+            - `missing_permission`
+            {:} You do not have the permission to do that
+            - `rate_limit`
+            {:} You sent too many requests within a short timespan
+            - `bad_request`
+            {:} You sent invalid data
+
+All exceptions Discarpet uses have `discord_exception` as the base exception type.
+
+All exceptions that were returned from the Discord API will be an `api_exception`, which also have additional information in them you can query.
+
+`rate_limit` exceptions are rare, since Javacord will queue requests to avoid rate limits. If far too many requests are sent, you might hit the limit anyway.
+
+### Example
+
+The exception value can be accessed like this:
+
+```sc title="Getting exception details"
+test() -> (
+    dc_send_message(global_channel, '');
+);
+
+try(test(), 'discord_exception', print(_));
+```
+
+### Format
+
+Here's an example of what the exception format looks like:
+
+```sc title="Example exception value"
+{
+    'code' -> 403,
+    'body' -> {
+        'code' -> 50013,
+        'message' -> 'Missing Permissions'
+    }
+}
+```
+
+#### Explanation:
+
+- `code` - The Discord HTTP status code according to [this list][http codes].
+- `body` - The contents of the exception.
+    - `code` - The Discord JSON status code according to [this list][json code].
+    - `message` - The error string also provided by the Discord API response.
+
+The `body` may have additional properties you can query.
+
+[http codes]: https://discord.com/developers/docs/topics/opcodes-and-status-codes#http
+[json codes]: https://discord.com/developers/docs/topics/opcodes-and-status-codes#json

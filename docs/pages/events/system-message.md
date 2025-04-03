@@ -2,9 +2,9 @@
 
 Executes when a system message is sent, such as server chat & operator messages.
 
-- `text` {->} Formatted text
+* `text` {->} Formatted text
   {:} The text of the system message.
-- `type` {->}
+* `type` {->}
   String,
   Null
   {:} The type of the translation text key. Returns `null` if `text` is a literal text.
@@ -17,6 +17,6 @@ or by just printing it out and testing various chat message types.
 
 Here are some example types:
 
-- `chat.type.text` - Normal chat message
-- `multiplayer.player.left` - Someone left the game
-- `chat.type.admin` - Admin command executed
+* `chat.type.text` - Normal chat message
+* `multiplayer.player.left` - Someone left the game
+* `chat.type.admin` - Admin command executed

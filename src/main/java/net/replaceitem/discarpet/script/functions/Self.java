@@ -1,10 +1,11 @@
 package net.replaceitem.discarpet.script.functions;
 
-import net.replaceitem.discarpet.config.Bot;
 import carpet.script.Context;
 import carpet.script.annotation.ScarpetFunction;
 import carpet.script.exception.InternalExpressionException;
 import net.replaceitem.discarpet.Discarpet;
+import net.replaceitem.discarpet.Util;
+import net.replaceitem.discarpet.config.Bot;
 import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.entity.user.UserStatus;
@@ -19,32 +20,16 @@ public class Self {
 
 
     @ScarpetFunction
-    public boolean dc_set_activity(Context ctx, String activity, String text) {
+    public void dc_set_activity(Context ctx, String activityName, String text) {
         Bot bot = Discarpet.getBotInContext(ctx,"dc_set_activity");
-        ActivityType activityType = null;
-        for(ActivityType type : ActivityType.values()) {
-            if(type.toString().equalsIgnoreCase(activity)) {
-                activityType = type;
-                break;
-            }
-        }
-        if (activityType == null) return false;
+        ActivityType activityType = Util.activityTypeByName(activityName).orElseThrow(() -> new InternalExpressionException("Invalid activity type '" + activityName + "'"));
         bot.getApi().updateActivity(activityType, text);
-        return true;
     }
 
     @ScarpetFunction
-    public void dc_set_status(Context ctx, String status) {
+    public void dc_set_status(Context ctx, String statusName) {
         Bot bot = Discarpet.getBotInContext(ctx,"dc_set_status");
-        UserStatus userStatus = null;
-
-        for (UserStatus s : UserStatus.values()) {
-            if (s.getStatusString().equalsIgnoreCase(status)) {
-                userStatus = s;
-                break;
-            }
-        }
-        if (userStatus == null) throw new InternalExpressionException("Invalid status");
-        bot.getApi().updateStatus(userStatus);
+        UserStatus status = Util.statusByName(statusName).orElseThrow(() -> new InternalExpressionException("Invalid user status '" + statusName + "'"));
+        bot.getApi().updateStatus(status);
     }
 }

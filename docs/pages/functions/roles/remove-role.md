@@ -1,12 +1,28 @@
 ### `dc_remove_role(user, role, reason?)`
 
-{% include 'warning-blocking.md' %}
-
 Removes a role from a user.
 
-- `user` {->} [User](/values/user.md)
-  {:} The user to remove a role.
-- `role` {->} [Role](/values/role.md)
+{% include 'warning-blocking.md' %}
+
+
+### {input:}
+
+* `user` {->} [User](/values/user.md)
+  {:} The user to remove the role from.
+* `role` {->} [Role](/values/role.md)
   {:} The role to remove.
-- `reason` {:?} {->} String
+* `reason` {:?} {->} String
   {:} The audit log reason.
+
+
+### {output:}
+
+#### {output values:}
+
+* Null, if successful.
+
+#### {output exceptions:}
+
+* `missing_permission`
+    * `50001` - You do not have "Manage Roles" permission
+    * `50013` - You may be trying to remove a role that is of higher hierachy

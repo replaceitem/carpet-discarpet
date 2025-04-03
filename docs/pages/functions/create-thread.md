@@ -1,10 +1,22 @@
 ### `dc_create_thread(thread)`
 
-{% include 'warning-blocking.md' %}
-
 Creates a thread.
 
-Returns the [thread](/values/channel.md) it created.
+{% include 'warning-blocking.md' %}
 
-- `thread` {->} [Thread parsable](/parsables/thread.md)
+
+### {input:}
+
+* `thread` {->} [Thread parsable](/parsables/thread.md)
   {:} The details to use to create the thread.
+
+
+### {output:}
+
+#### {output values:}
+
+* The created [thread](/values/channel.md).
+
+#### {output exceptions:}
+
+* `bad_request`
