@@ -7,8 +7,9 @@ This is only for custom emojis, since standard emojis are specified from the uni
 
 ### {input:}
 
-* `id` {->} String
-  {:} The ID of the emoji.
+| Parameter | Type           | Description          |
+|----------:|:---------------|:---------------------|
+|      `id` | String, Number | The ID of the emoji. |
 
 
 ### {output:}

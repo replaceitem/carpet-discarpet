@@ -2,17 +2,16 @@
 
 Adds a role to a user.
 
-{% include 'warning-blocking.md' %}
+{% include 'blocking-function.md' %}
 
 
 ### {input:}
 
-* `user` {->} [User](/values/user.md)
-  {:} The user to add the role to.
-* `role` {->} [Role](/values/role.md)
-  {:} The role to add.
-* `reason` {:?} {->} String
-  {:} The audit log reason.
+|     Parameter | Type                    | Description                  |
+|--------------:|:------------------------|:-----------------------------|
+|        `user` | [User](/values/user.md) | The user to add the role to. |
+|        `role` | [Role](/values/role.md) | The role to add.             |
+| `reason` {:?} | String                  | The audit log reason.        |
 
 
 ### {output:}
@@ -23,6 +22,7 @@ Adds a role to a user.
 
 #### {output exceptions:}
 
+* Throws an exception on failure.
 * `missing_permission`
-    * `50001` * You do not have "Manage Roles" permission
-    * `50013` * You may be trying to add a role that is of higher hierachy
+    * `50001` - You do not have "Manage Roles" permission
+    * `50013` - You may be trying to add a role that is of higher hierachy

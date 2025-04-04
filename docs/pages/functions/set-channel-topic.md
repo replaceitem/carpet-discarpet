@@ -2,22 +2,22 @@
 
 Sets the description of a channel to the specified text.
 
-{% include 'warning-blocking.md' %}
+{% include 'blocking-function.md' %}
 
 
 ### {input:}
 
-* `channel` {->} [Channel](/values/channel.md)
-  {:} The channel to set the topic.
-* `text` {->} String
-  {:} The text to set the channel to.
+| Parameter | Type                          | Description                     |
+|----------:|:------------------------------|:--------------------------------|
+| `channel` | [Channel](/values/channel.md) | The channel to set the topic.   |
+|    `text` | String                        | The text to set the channel to. |
 
 
 ### {output:}
 
 #### {output values:}
 
-* Boolean, whether if the operation was successful.
+* Null, if successful.
 
 #### {output exceptions:}
 

@@ -1,3 +1,8 @@
+---
+icon: material/reply
+---
+
+
 Replies to any message that only contains "Ping".
 
 !!! warning "Requires privileged intents"

@@ -1,11 +1,11 @@
 ---
-hide:
-  - navigation
+# hide:
+#   - navigation
 icon: material/home
 ---
 
 
-# Discarpet documentation
+# Welcome to the Discarpet documentation!
 
 ![Discarpet logo](/assets/visual.svg){ align=left .invert-in-light }
 

@@ -1,3 +1,8 @@
+---
+icon: octicons/command-palette-16
+---
+
+
 Adds multiple [slash commands](/parsables/commands/slash-command-builder.md):
 
 - `/ping` with fake latency

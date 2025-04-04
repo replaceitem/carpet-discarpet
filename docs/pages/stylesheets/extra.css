@@ -25,7 +25,7 @@
 .md-nav__title {
   background: url("../assets/wool-header.png");
 
-  background-position: bottom right;
+  background-position: bottom center;
 }
 
 /* remove header shadow */
@@ -124,7 +124,13 @@
 
 .md-typeset table:not([class]) {
   border-radius: .3rem;
-  font-size: .7rem;
+
+  font-size: .675rem;
+}
+
+.md-typeset table:not([class]) td,
+.md-typeset table:not([class]) th {
+  padding: 0.65em 1.25em;
 }
 
 
@@ -171,8 +177,67 @@
 
 
 
-/* do not compress values/properties */
+/* make footnote references a tad more noticeable */
 
-td:first-child {
-  white-space: pre;
+.footnote-ref::before {
+  content: "["
+}
+
+.footnote-ref::after {
+  content: "]";
+}
+
+
+
+/* do not compress values/properties on larger screens */
+
+@media (min-width: 800px) {
+  td:first-child {
+    white-space: pre;
+  }
+}
+
+
+
+button.discord {
+  padding: 6px 16px;
+
+  color: var(--md-primary-bg-color);
+
+  border: 1px solid;
+  border-radius: 8px;
+
+  font-size: .9em;
+}
+
+a[href] button.discord.url {
+  cursor: pointer;
+}
+
+button.discord.blurple {
+  background: rgb(88, 101, 242);
+  border-color: rgba(255, 255, 255, 16%);
+}
+
+[data-md-color-scheme="default"] button.discord.grey,
+[data-md-color-scheme="default"] button.discord.url {
+  color: var(--md-default-fg-color);
+  background: rgba(151, 151, 159, 0.16);
+  border-color: rgba(0, 0, 0, 16%);
+}
+
+[data-md-color-scheme="slate"] button.discord.grey,
+[data-md-color-scheme="slate"] button.discord.url {
+  background: rgba(151, 151, 159, 0.12);
+  border-color: rgba(255, 255, 255, 16%);
+}
+
+button.discord.green {
+  background: rgb(0, 134, 58);
+  border-color: rgba(255, 255, 255, 16%);
+}
+
+button.discord.red {
+  background: rgb(210, 45, 57);
+  border-color: rgba(255, 255, 255, 16%);
 }

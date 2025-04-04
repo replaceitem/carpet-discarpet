@@ -2,5 +2,9 @@
 
 Executes when a message is deleted in a channel the bot has access to.
 
-* `message` {->} [Message](/values/message.md)
-  {:} The message that was deleted.
+
+### {output:}
+
+|     Value | Type                          | Description                   |
+|----------:|:------------------------------|:------------------------------|
+| `message` | [Message](/values/message.md) | The message that was deleted. |

@@ -2,13 +2,14 @@
 
 Gets a webhook from the specified URL.
 
-{% include 'warning-blocking.md' %}
+{% include 'blocking-function.md' %}
 
 
 ### {input:}
 
-* `url` {->} String
-  {:} The URL of the webhook.
+| Parameter | Type   | Description             |
+|----------:|:-------|:------------------------|
+|     `url` | String | The URL of the webhook. |
 
 
 ### {output:}

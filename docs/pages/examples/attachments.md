@@ -1,3 +1,8 @@
+---
+icon: material/file-upload
+---
+
+
 Sends a message with multiple [attachments](/parsables/attachment.md):
 
 * Image attachment from an external URL

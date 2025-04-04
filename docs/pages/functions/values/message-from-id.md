@@ -2,15 +2,15 @@
 
 Gets a message from the specified ID and channel.
 
-{% include 'warning-blocking.md' %}
+{% include 'blocking-function.md' %}
 
 
 ### {input:}
 
-* `id` {->} String
-  {:} The ID of the message.
-* `channel` {->} [Channel](/values/channel.md)
-  {:} The channel to get the message from.
+| Parameter | Type                          | Description                          |
+|----------:|:------------------------------|:-------------------------------------|
+|      `id` | String, Number                | The ID of the message.               |
+| `channel` | [Channel](/values/channel.md) | The channel to get the message from. |
 
 
 ### {output:}

@@ -1,3 +1,8 @@
+---
+icon: material/text
+---
+
+
 Sends all system messages and triggered commands.
 
 

@@ -5,13 +5,23 @@ Sets the status of the bot.
 
 ### {input:}
 
-* `status` {->} String
-  {:} The [type](#status-types) of status to use.
+| Parameter | Type   | Description                                 |
+|----------:|:-------|:--------------------------------------------|
+|  `status` | String | The [type](#status-types) of status to use. |
 
 #### Status types
 
-* `online` - Online
-* `idle` - Idle
-* `dnd` - Do Not Disturb
-* `invisible` - Invisible
-* `offline` - Offline
+|      String | Description    |
+|------------:|:---------------|
+|    `ONLINE` | Online         |
+|      `IDLE` | Idle           |
+|       `DND` | Do Not Disturb |
+| `INVISIBLE` | Invisible      |
+|   `OFFLINE` | Offline        |
+
+
+### {output:}
+
+#### {output values:}
+
+* Null, if successful.

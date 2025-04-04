@@ -19,19 +19,27 @@ theme:
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
+    - navigation.indexes
     - toc.integrate
     - content.tooltips
     - content.code.copy
   palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
     - scheme: default
+      media: "(prefers-color-scheme: light)"
       toggle:
         icon: octicons/sun-16
         name: Switch to dark mode
 
     - scheme: slate
+      media: "(prefers-color-scheme: dark)"
       toggle:
         icon: octicons/moon-16
-        name: Switch to light mode
+        name: Switch to system preference
 extra_css:
   - stylesheets/extra.css
 markdown_extensions:
@@ -39,6 +47,7 @@ markdown_extensions:
       permalink: "#"
       toc_depth: 2
   - attr_list
+  - md_in_html
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
@@ -50,21 +59,16 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.tilde
+  - footnotes
 plugins:
   - search
   - macros:
       include_dir: docs/include
   - replace_markdown:
       patterns:
-        - param_arrow:
-            oldvalue: '{->}'
-            newvalue: ':material-arrow-right:{ style="opacity:40%" }'
-        - param_description:
-            oldvalue: '{:}'
-            newvalue: '<br>:material-tilde:{ style="opacity:40%" }'
-        - param_optional:
+        - optional:
             oldvalue: '{:?}'
-            newvalue: ':fontawesome-solid-question:{ title="Optional parameter" }'
+            newvalue: ':fontawesome-solid-question:{ title="Optional" }'
         - section_input:
             oldvalue: '{input:}'
             newvalue: ':octicons-download-24: Input parameters'
@@ -77,12 +81,9 @@ plugins:
         - section_output_exceptions:
             oldvalue: '{output exceptions:}'
             newvalue: '[Uncaught exceptions](/how-it-works.md/#discarpet-exceptions)'
-        - decor_input:
-            oldvalue: '{=i}'
-            newvalue: ':octicons-download-24:{ title="Input parameter" }'
-        - decor_output:
-            oldvalue: '{=o}'
-            newvalue: ':octicons-upload-24:{ title="Output parameter" }'
+        - section_query:
+            oldvalue: '{query:}'
+            newvalue: ':material-database-arrow-right-outline: Queryable properties'
   - abs-to-rel
 extra:
   social:
@@ -96,23 +97,24 @@ extra:
       link: https://github.com/replaceitem/carpet-discarpet
       name: GitHub
 nav:
-  - Home: 'index.md'
-  # - Changelog: 'changelog.md'
-  - Getting started: 'setup.md'
-  - How it works: 'how-it-works.md'
+  - Home:
+    - 'index.md'
+    - Getting started: 'setup.md'
+    - How it works: 'how-it-works.md'
+    - Changelog: 'changelog.md'
 
   - Example scripts:
     - Chat: 'examples/chat.md'
     - Log: 'examples/log.md'
     - Grief log: 'examples/grief-log.md'
-    - Attachments: 'examples/attachments.md'
-    - Embeds: 'examples/embeds.md'
     - Reply: 'examples/reply.md'
+    - Attachments: 'examples/attachments.md'
+    - Embed: 'examples/embed.md'
     - Reactions: 'examples/reactions.md'
-    - Status and activity: 'examples/activity.md'
+    - Status and activity: 'examples/status-and-activity.md'
     - Message components: 'examples/message-components.md'
     - Slash commands: 'examples/slash-commands.md'
-    - Context menus: 'examples/context-menu.md'
+    - Context menus: 'examples/context-menus.md'
     - Modal: 'examples/modal.md'
 
   - Functions:
@@ -187,40 +189,32 @@ nav:
       - User context menu: 'values/commands/user-context-menu.md'
     - Interactions:
       - Base interaction: 'values/interactions/interaction.md'
-      - Slash command interaction: 'values/interactions/slash-command-interaction.md'
-      - Button interaction: 'values/interactions/button-interaction.md'
-      - Select menu interaction: 'values/interactions/select-menu-interaction.md'
-      - Message context menu interaction: 'values/interactions/message-context-menu-interaction.md'
-      - User context menu interaction: 'values/interactions/user-context-menu-interaction.md'
-      - Modal interaction: 'values/interactions/modal-interaction.md'
+      - Slash command interaction: 'values/interactions/slash-command.md'
+      - Button interaction: 'values/interactions/button.md'
+      - Select menu interaction: 'values/interactions/select-menu.md'
+      - Message context menu interaction: 'values/interactions/message-context-menu.md'
+      - User context menu interaction: 'values/interactions/user-context-menu.md'
+      - Modal interaction: 'values/interactions/modal.md'
     
   - Parsables:
     - Message content: 'parsables/message-content.md'
     - Attachment: 'parsables/attachment.md'
-    - Allowed mentions: 'parsables/allowed-mentions.md'
+    # - Allowed mentions: 'parsables/allowed-mentions.md'
     - Timestamp: 'parsables/timestamp.md'
     - Color: 'parsables/color.md'
     - Embed: 'parsables/embed.md'
     - Thread: 'parsables/thread.md'
     - Modal: 'parsables/modal.md'
-    # - Embeds:
-    #   - Embed: 'parsables/embeds/embed.md'
-    #   - Embed author: 'parsables/embeds/embed-author.md'
-    #   - Embed field: 'parsables/embeds/embed-field.md'
-    #   - Embed footer: 'parsables/embeds/embed-footer.md'
     - Webhooks:
       - Webhook profile: 'parsables/webhooks/webhook-profile.md'
       - Webhook profile updater: 'parsables/webhooks/webhook-profile-updater.md'
       - Webhook message profile: 'parsables/webhooks/webhook-message-profile.md'
     - Application commands:
       - Slash command builder: 'parsables/commands/slash-command-builder.md'
-    #  - Slash command option: 'parsables/commands/slash-command-option.md'
-    #  - Slash command option choice: 'parsables/commands/slash-command-option-choice.md'
       - User context menu builder: 'parsables/commands/user-context-menu-builder.md'
       - Message context menu builder: 'parsables/commands/message-context-menu-builder.md'
     - Components:
       - Base component: 'parsables/components/component.md'
       - Button component: 'parsables/components/button.md'
       - Select menu component: 'parsables/components/select-menu.md'
-    #  - Select menu component option: 'parsables/components/select-menu-option.md'
       - Text input component: 'parsables/components/text-input.md'

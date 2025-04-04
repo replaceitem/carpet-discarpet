@@ -1,5 +1,5 @@
 ---
-icon: material/update
+icon: octicons/history-16
 ---
 
 

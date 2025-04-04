@@ -2,7 +2,7 @@
 
 Gets all global application commands of the bot.
 
-{% include 'warning-blocking.md' %}
+{% include 'blocking-function.md' %}
 
 
 ### {output:}

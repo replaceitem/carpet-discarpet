@@ -2,19 +2,21 @@
 
 Represents an attachment from a message or slash command.
 
-#### Queryable:
 
-| Property     | Type         | Description                                                                                                                                              |
-|-------------:|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `message`    | [Message][1] | The message of this attachment.<br>Returns `null` if it's not a message attachment.                                                                      |
-| `file_name`  | String       | The name of the attachment.                                                                                                                              |
-| `size`       | Number       | The size as the number of bytes of the attached file.                                                                                                    |
-| `url`        | String       | The URL of the attachment.                                                                                                                               |
-| `proxy_url`  | String       | The proxy URL of this file.                                                                                                                              |
-| `is_image`   | Boolean      | Whether this file is an image or not.                                                                                                                    |
-| `width`      | Number       | The width of the attached image.<br>Returns `null` if the attachment is not an image.                                                                    |
-| `height`     | Number       | The height of the attached image.<br>Returns `null` if the attachment is not an image.                                                                   |
-| `is_spoiler` | Boolean      | Whether this file is marked as a spoiler.                                                                                                                |
-| `download`   | String       | Downloads the file's bytes as a string.<br>Be careful with this, as big files can block the game for quite some time!<br>Throws an exception on failure. |
+### {query:}
 
-[1]: /values/message.md
+|     Property | Type                          | Description                                                                            |
+|-------------:|:------------------------------|:---------------------------------------------------------------------------------------|
+|    `message` | [Message](/values/message.md) | The message of the attachment.<br>Returns `null` if it's not a message attachment.     |
+|  `file_name` | String                        | The name of the attachment.                                                            |
+|       `size` | Number                        | The size as the number of bytes of the attached file.                                  |
+|        `url` | String                        | The URL of the attachment.                                                             |
+|  `proxy_url` | String                        | The proxy URL of the file.                                                             |
+|   `is_image` | Boolean                       | Whether if this file is an image.                                                      |
+|      `width` | Number                        | The width of the attached image.<br>Returns `null` if the attachment is not an image.  |
+|     `height` | Number                        | The height of the attached image.<br>Returns `null` if the attachment is not an image. |
+| `is_spoiler` | Boolean                       | Whether if this file is marked as a spoiler.                                           |
+|   `download` | String                        | Downloads the file's bytes as a string.[^1]<br>Throws an exception on failure.         |
+
+
+[^1]: {% include 'blocking-property.md' %}

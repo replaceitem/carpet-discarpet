@@ -2,13 +2,14 @@
 
 Creates a thread.
 
-{% include 'warning-blocking.md' %}
+{% include 'blocking-function.md' %}
 
 
 ### {input:}
 
-* `thread` {->} [Thread parsable](/parsables/thread.md)
-  {:} The details to use to create the thread.
+| Parameter | Type                                    | Description                              |
+|----------:|:----------------------------------------|:-----------------------------------------|
+|  `thread` | [Thread parsable](/parsables/thread.md) | The details to use to create the thread. |
 
 
 ### {output:}
@@ -19,4 +20,5 @@ Creates a thread.
 
 #### {output exceptions:}
 
+* Throws an exception on failure.
 * `bad_request`

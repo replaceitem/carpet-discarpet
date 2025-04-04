@@ -3,19 +3,16 @@
 Sends a message to the webhook.
 In contrast to `dc_send_message(webhook, content)`, it lets you change the webhook's profile at the same time.
 
-{% include 'warning-blocking.md' %}
+{% include 'blocking-function.md' %}
 
 
 ### {input:}
 
-* `webhook` {->} [Webhook](/values/webhook.md)
-  {:} The webhook to send the message to.
-* `content` {->}
-  [Message content](/parsables/message-content.md),
-  String
-  {:} The content of the message.
-* `profile` {->} [Webhook message profile](/parsables/webhooks/webhook-message-profile.md)
-  {:} The profile to use.
+| Parameter | Type                                                                      | Description                         |
+|----------:|:--------------------------------------------------------------------------|:------------------------------------|
+| `webhook` | [Webhook](/values/webhook.md)                                             | The webhook to send the message to. |
+| `content` | [Message content](/parsables/message-content.md), String                  | The content of the message.         |
+| `profile` | [Webhook message profile](/parsables/webhooks/webhook-message-profile.md) | The profile to use.                 |
 
 
 ### {output:}
@@ -24,6 +21,6 @@ In contrast to `dc_send_message(webhook, content)`, it lets you change the webho
 
 * The sent [message](/values/message.md).
 
-#### {ouput exceptions:}
+#### {output exceptions:}
 
 * Throws an exception on failure.

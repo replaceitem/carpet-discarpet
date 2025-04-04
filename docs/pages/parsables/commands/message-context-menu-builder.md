@@ -2,6 +2,6 @@
 
 Used to create a message context menu command.
 
-| Value  | Type   | Description           |
-|-------:|--------|-----------------------|
+|  Value | Type   | Description           |
+|-------:|:-------|:----------------------|
 | `name` | String | The name of the menu. |

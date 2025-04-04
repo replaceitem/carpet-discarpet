@@ -2,15 +2,15 @@
 
 Gets a webhook from the specified ID and token.
 
-{% include 'warning-blocking.md' %}
+{% include 'blocking-function.md' %}
 
 
 ### {input:}
 
-* `id` {->} String
-  {:} The ID of the webhook.
-* `token` {->} String
-  {:} The token of the webhook.
+| Parameter | Type           | Description               |
+|----------:|:---------------|:--------------------------|
+|      `id` | String, Number | The ID of the webhook.    |
+|   `token` | String         | The token of the webhook. |
 
 
 ### {output:}

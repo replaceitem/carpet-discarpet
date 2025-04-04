@@ -1,3 +1,8 @@
+---
+icon: material/emoticon-plus
+---
+
+
 A poll message that listens to added and removed reactions.
 
 

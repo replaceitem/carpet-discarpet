@@ -5,8 +5,9 @@ Gets a sticker from the specified ID.
 
 ### {input:}
 
-* `id` {->} String
-  {:} The ID of the sticker.
+| Parameter | Type           | Description            |
+|----------:|:---------------|:-----------------------|
+|      `id` | String, Number | The ID of the sticker. |
 
 
 ### {output:}

@@ -2,5 +2,9 @@
 
 Executes when a user runs a slash command.
 
-* `interaction` {->} [Slash command interaction](/values/interactions/slash-command-interaction.md)
-  {:} The interaction about the command that was executed.
+
+### {output:}
+
+|         Value | Type                                                               | Description                                          |
+|--------------:|:-------------------------------------------------------------------|:-----------------------------------------------------|
+| `interaction` | [Slash command interaction](/values/interactions/slash-command.md) | The interaction about the command that was executed. |

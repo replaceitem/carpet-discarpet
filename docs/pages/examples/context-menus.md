@@ -1,4 +1,9 @@
-Adds multiple context menus:
+---
+icon: material/menu-open
+---
+
+
+Adds multiple context menu commands:
 
 * One [message command](/parsables/commands/message-context-menu-builder.md), which waits 10 seconds and then deletes the message.
 * Two [user commands](/parsables/commands/user-context-menu-builder.md), one for adding a [prefix] to a user's nickname, and one for removing it.

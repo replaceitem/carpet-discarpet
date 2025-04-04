@@ -1,3 +1,8 @@
+---
+icon: material/card-text
+---
+
+
 Sends a message with an [embed](/parsables/embed.md).
 
 
@@ -9,6 +14,8 @@ __config() -> {
     'scope' -> 'global',
     'bot' -> 'mybot'
 };
+
+channel = dc_channel_from_id('put id here');
 
 embed = {
     'title' -> 'SuperCoolEmbed',
@@ -46,10 +53,8 @@ embed = {
     },
     'image' -> 'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png',
     'thumbnail' -> 'https://repository-images.githubusercontent.com/185908133/04119080-f738-11e9-9e23-03d4e371d438',
-    'timestamp' -> convert_date(2022, 12, 1, 20, 51, 20)
+    'timestamp' -> 'now'
 };
-
-channel = dc_channel_from_id('1234567891011121314');
 
 dc_send_message(channel, {
     'content' -> '',

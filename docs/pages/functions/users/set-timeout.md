@@ -2,19 +2,17 @@
 
 Timeouts the user in a server until the given timestamp.
 
-{% include 'warning-blocking.md' %}
+{% include 'blocking-function.md' %}
 
 
 ### {input:}
 
-* `user` {->} [User](/values/user.md)
-  {:} The user to set the timeout to.
-* `server` {->} [Server](/values/server.md)
-  {:} The server to set the user's timeout to.
-* `timestamp` {->} Number
-  {:} The timestamp formatted in unix time milliseconds.
-* `reason` {:?} {->} String
-  {:} The audit log reason.
+|     Parameter | Type                        | Description                              |
+|--------------:|:----------------------------|:-----------------------------------------|
+|        `user` | [User](/values/user.md)     | The user to set the timeout to.          |
+|      `server` | [Server](/values/server.md) | The server to set the user's timeout to. |
+|   `timestamp` | Number                      | The timestamp in unix time milliseconds. |
+| `reason` {:?} | String                      | The audit log reason.                    |
 
 
 ### {output:}
@@ -25,4 +23,5 @@ Timeouts the user in a server until the given timestamp.
 
 #### {output exceptions:}
 
+* Throws an exception on failure.
 * `bad_request`, if the given timestamp is invalid.

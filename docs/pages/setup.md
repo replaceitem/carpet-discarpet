@@ -5,10 +5,12 @@ icon: octicons/rocket-16
 
 ## Setting up a bot
 
+
 ### Discord setup
 
-Firstly, you'll need to have a Discord bot account to use. If you already know how to do this, you can go [setup Minecraft next](#minecraft-setup).
-<br>If you don't, here's some quick steps:
+Firstly, you'll need to have a Discord bot account to use.
+
+If you have already done this, you can go [setup Minecraft next](#minecraft-setup). If you haven't, here's some quick steps:
 
 1. Go to the [Discord Developer Portal][portal], and click on the button "Add Application" at the top right. A prompt should pop up.
 2. Type in the name prompt, click on the checkbox, then click on "Create".
@@ -24,6 +26,7 @@ Firstly, you'll need to have a Discord bot account to use. If you already know h
 6. Select the server where you want to add the bot to, then click on "Authorize".
 
 If things didn't go wrong, you've got a Discord bot into your server! Very nice!
+
 
 ### Minecraft setup
 
@@ -63,7 +66,7 @@ Now your config should look something like this:
   "bots": [
     {
       "bot_id": "mybot",
-      "bot_token": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",
+      "bot_token": "xxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
       "intents": []
     }
   ],
@@ -72,10 +75,11 @@ Now your config should look something like this:
 ```
 
 Now, you can use the in-game command `/discarpet reload` to reload all the bots, and start new ones if you added one to the config.
-This command will tell you whether the bots could be logged in or not.
+This command will tell you whether if the bots could be logged in or not.
 
 When login was successful, you can use `/discarpet getInvite [bot id]` to get a link in chat, which upon clicking,
 will take you directly to the webpage where you can add the bot to any Discord server you have the "Manage Server" permission in.
+
 
 
 ## Setting up a script
@@ -99,6 +103,7 @@ __config() -> {
 
 The `'bot'` value is specified from your bot's ID in the config.
 Without setting a valid bot and the scope globally, most Discarpet functions and events will not work, and will throw errors.
+
 
 
 ## Using intents
@@ -165,26 +170,17 @@ you can add more into the `"bots"` list in the config file like this:
 }
 ```
 
-!!! note "Notes"
-    1. A script can only use one bot, and will only receive events from that bot.
-    2. When getting Discord values like a
-    [channel](/functions/values/channel-from-id.md)
-    or a
-    [message](/functions/values/message-from-id.md),
-    they will have the context of the bot from that script.
-    <br>
-    (e.g. if you pass a message to another script and make it add a reaction,
-    it will be added by the bot from the original script.)
+A script can only use one bot, and will only receive events from that bot.
 
+When getting Discord values like a
+[channel](/functions/values/channel-from-id.md)
+or a
+[message](/functions/values/message-from-id.md),
+they will have the context of the bot from that script.
+<br>
+(e.g. if you pass a message to another script and make it add a reaction,
+it will be added by the bot from the original script.)
 
-## Enable developer mode
-
-Most [value functions][1] require you to input an ID to get the respective value.
-
-To get IDs, you'll need to open your Discord settings and navigate to "Advanced". Then, enable "Developer Mode".
-
-Now, when you right click certain things (like users, channels, and messages),
-the context menu will have an option to copy the ID.
 
 
 ## Disabling log messages
@@ -197,6 +193,18 @@ If you run Discarpet for a while, you might notice messages that look like this:
 ```
 
 To disable those messages, you can set the `"disable_reconnect_logs"` in the config to `true`.
+
+
+
+## Enabling developer mode
+
+Most [value functions][1] require you to input an ID to get the respective value.
+
+To get IDs, you'll need to open your Discord settings and navigate to "Advanced". Then, enable "Developer Mode".
+
+Now, when you right click certain things (like users, channels, and messages),
+the context menu will have an option to copy the ID.
+
 
 
 [1]: /functions/values/channel-from-id.md

@@ -2,5 +2,9 @@
 
 Executes when a user submits a modal.
 
-* `interaction` {->} [Modal interaction](/values/interactions/modal-interaction.md)
-  {:} The interaction about the submitted modal data.
+
+### {output:}
+
+|         Value | Type                                               | Description                                     |
+|--------------:|:---------------------------------------------------|:------------------------------------------------|
+| `interaction` | [Modal interaction](/values/interactions/modal.md) | The interaction about the submitted modal data. |

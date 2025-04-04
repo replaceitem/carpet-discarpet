@@ -1,3 +1,8 @@
+---
+icon: material/chat
+---
+
+
 Bridges chat messages to Discord, and vice versa with the ability to ping users by their @name.
 
 !!! warning "Requires privileged intents"

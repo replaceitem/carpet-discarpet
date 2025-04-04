@@ -5,8 +5,9 @@ Gets the channel from the specified channel ID.
 
 ### {input:}
 
-* `id` {->} String
-  {:} The ID of the channel.
+| Parameter | Type           | Description            |
+|----------:|:---------------|:-----------------------|
+|      `id` | String, Number | The ID of the channel. |
 
 
 ### {output:}

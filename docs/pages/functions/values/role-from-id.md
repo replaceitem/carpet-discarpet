@@ -5,8 +5,9 @@ Gets a role from the specified ID.
 
 ### {input:}
 
-* `id` {->} String
-  {:} The ID of the role.
+| Parameter | Type           | Description         |
+|----------:|:---------------|:--------------------|
+|      `id` | String, Number | The ID of the role. |
 
 
 ### {output:}

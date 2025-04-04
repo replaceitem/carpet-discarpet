@@ -5,8 +5,9 @@ Gets a server from the specified ID.
 
 ### {input:}
 
-* `id` {->} String
-  {:} The ID of the server.
+| Parameter | Type           | Description           |
+|----------:|:---------------|:----------------------|
+|      `id` | String, Number | The ID of the server. |
 
 
 ### {output:}

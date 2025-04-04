@@ -1,3 +1,8 @@
+---
+icon: material/form-textbox
+---
+
+
 Creates an interactive [modal](/parsables/modal.md).
 
 

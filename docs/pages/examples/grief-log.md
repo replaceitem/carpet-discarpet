@@ -1,3 +1,8 @@
+---
+icon: material/alert
+---
+
+
 Sends a message to alert when a player is opening containers or placing TNT.
 
 

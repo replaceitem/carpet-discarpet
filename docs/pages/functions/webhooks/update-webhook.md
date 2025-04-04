@@ -2,15 +2,15 @@
 
 Updates a webhook's profile.
 
-{% include 'warning-blocking.md' %}
+{% include 'blocking-function.md' %}
 
 
 ### {input:}
 
-* `webhook` {->} [Webhook](/values/webhook.md)
-  {:} The webhook to update.
-* `profile` {->} [Webhook profile updater](/parsables/webhooks/webhook-profile-updater.md)
-  {:} The profile to use.
+| Parameter | Type                                                                      | Description            |
+|----------:|:--------------------------------------------------------------------------|:-----------------------|
+| `webhook` | [Webhook](/values/webhook.md)                                             | The webhook to update. |
+| `profile` | [Webhook profile updater](/parsables/webhooks/webhook-profile-updater.md) | The profile to use.    |
 
 
 ### {output:}
@@ -21,4 +21,4 @@ Updates a webhook's profile.
 
 #### {output exceptions:}
 
-Throws an exception on failure
+* Throws an exception on failure.

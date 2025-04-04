@@ -2,13 +2,14 @@
 
 Gets a user from the specified ID.
 
-{% include 'warning-blocking.md' %}
+{% include 'blocking-function.md' %}
 
 
 ### {input:}
 
-* `id` {->} String
-  {:} The ID of the user.
+| Parameter | Type           | Description         |
+|----------:|:---------------|:--------------------|
+|      `id` | String, Number | The ID of the user. |
 
 
 ### {output:}
