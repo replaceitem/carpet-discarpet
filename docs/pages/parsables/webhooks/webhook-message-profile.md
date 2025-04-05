@@ -1,8 +1,11 @@
 `webhook_message_profile`
 
-Used when updating the webhook profile along with sending a message
+Used for updating a webhook's profile when sending a message.
 
-| Value    | Type              | Description                              |
-|----------|-------------------|------------------------------------------|
-| `name`   | String (optional) | The username of the webhook              |
-| `avatar` | String (optional) | A URL to the avatar shown on the webhook |
+
+### {map:}
+
+|           Key | Type   | Description                                  |
+|--------------:|:-------|:---------------------------------------------|
+|   `name` {:?} | String | The display name of the webhook.             |
+| `avatar` {:?} | String | The image URL used for the webhook's avatar. |

@@ -1,18 +1,22 @@
 `dc_attachment`
 
-An attachment from a message or slash command
+Represents an attachment from a message or slash command.
 
-#### Queryable:
 
-| Property     | Type                          | Description                                                                                                                                        |
-|--------------|-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| `message`    | [Message](/values/message.md) | The message of this attachment, or null if this is not a message attachment                                                                        |
-| `file_name`  | String                        | File name of the attachment                                                                                                                        |
-| `size`       | number                        | The size as the number of bytes of the attached file                                                                                               |
-| `url`        | String                        | The URL of this file                                                                                                                               |
-| `proxy_url`  | String                        | The proxy URL of this file                                                                                                                         |
-| `is_image`   | boolean                       | Whether this file is an image or not                                                                                                               |
-| `width`      | number or null                | The width of the attached image, or null if not an image                                                                                           |
-| `height`     | number or null                | The height of the attached image, or null if not an image                                                                                          |
-| `is_spoiler` | boolean                       | Whether this file is marked as a spoiler                                                                                                           |
-| `download`   | String                        | Downloads the file's bytes as a string. Be careful with this one, big files can block the game for quite some time. Throws an exception on failure |
+### {query:}
+
+|     Property | Type                                | Description                                                                            |
+|-------------:|:------------------------------------|:---------------------------------------------------------------------------------------|
+|    `message` | [Message](/values/message.md), Null | The message of the attachment.<br>Returns `null` if it's not a message attachment.     |
+|  `file_name` | String                              | The name of the attachment.                                                            |
+|       `size` | Number                              | The size as the number of bytes of the attached file.                                  |
+|        `url` | String                              | The URL of the attachment.                                                             |
+|  `proxy_url` | String                              | The proxy URL of the file.                                                             |
+|   `is_image` | Boolean                             | Whether if this file is an image.                                                      |
+|      `width` | Number, Null                        | The width of the attached image.<br>Returns `null` if the attachment is not an image.  |
+|     `height` | Number, Null                        | The height of the attached image.<br>Returns `null` if the attachment is not an image. |
+| `is_spoiler` | Boolean                             | Whether if this file is marked as a spoiler.                                           |
+|   `download` | String                              | Downloads the file's bytes as a string.[^1]<br>Throws an exception on failure.         |
+
+
+[^1]: {% include 'blocking-property.md' %}

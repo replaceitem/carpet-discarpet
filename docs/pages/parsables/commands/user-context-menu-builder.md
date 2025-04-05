@@ -1,5 +1,10 @@
 `user_context_menu_builder`
 
-| Value         | Type   | Description      |
-|---------------|--------|------------------|
-| `name`        | String | The command name |
+Used to create a user context menu command.
+
+
+### {map:}
+
+|    Key | Type   | Description           |
+|-------:|:-------|:----------------------|
+| `name` | String | The name of the menu. |

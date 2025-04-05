@@ -1,33 +1,38 @@
 `dc_channel`
 
-A channel value represents a Discord server channel, DM channel, server thread or channel category.
+Represents a server channel, thread, DMs, or channel category.
 
-#### Queryable:
+Threads and DMs are considered as channels.
 
-| Property      | Type                                   | Description                                                                                           |
-|---------------|----------------------------------------|-------------------------------------------------------------------------------------------------------|
-| `name`        | String                                 | The name of the Discord channel                                                                       |
-| `topic`       | String                                 | The topic of the channel (See `dc_set_channel_topic`)                                                 |
-| `id`          | String                                 | ID of the channel                                                                                     |
-| `mention_tag` | String                                 | Mention tag for the channel. This can be put inside a message for the channel to be a clickable link. |
-| `server`      | [Server](/values/server.md)            | Server this channel is in, or null if this is a private channel                                       |
-| `type`        | String                                 | [Channel type](#channel-types)                                                                        |
-| `webhooks`    | List of [Webhooks](/values/webhook.md) | All webhooks in this channel. Throws an exception on failure                                          |
-| `nsfw`        | boolean                                | Whether the channel is marked as "Not safe for work"                                                  |
+
+### {query:}
+
+|      Property | Type                                   | Description                                                                    |
+|--------------:|:---------------------------------------|:-------------------------------------------------------------------------------|
+|        `name` | String                                 | The name of the channel.                                                       |
+|       `topic` | String                                 | The topic/description of the channel.                                          |
+|          `id` | String                                 | The ID of the channel.                                                         |
+| `mention_tag` | String                                 | The mention tag for the channel. Used to directly link channels in a message.  |
+|      `server` | [Server](/values/server.md), Null      | The server this channel is in.<br>Returns `null` if this is a private channel. |
+|        `type` | String                                 | The [type](#channel-types) of the channel.                                     |
+|    `webhooks` | List of [Webhooks](/values/webhook.md) | The webhooks in this channel.<br>Throws an exception on failure.               |
+|        `nsfw` | Boolean                                | Whether if this channel is age-restricted.                                     |
 
 #### Channel types
 
-* `server_text_channel`
-* `private_channel`
-* `server_voice_channel`
-* `group_channel`
-* `channel_category`
-* `server_news_channel`
-* `server_store_channel`
-* `server_news_thread`
-* `server_public_thread`
-* `server_private_thread`
-* `server_stage_voice_channel`
-* `server_directory_channel`
-* `server_forum_channel`
-* `unknown`
+|                       String | Description                       |
+|-----------------------------:|:----------------------------------|
+|        `SERVER_TEXT_CHANNEL` | Text channel                      |
+|       `SERVER_VOICE_CHANNEL` | Voice channel                     |
+|       `SERVER_FORUM_CHANNEL` | Forum channel                     |
+| `SERVER_STAGE_VOICE_CHANNEL` | Stage channel                     |
+|        `SERVER_NEWS_CHANNEL` | Announcement channel              |
+|       `SERVER_STORE_CHANNEL` | Store channel                     |
+|       `SERVER_PUBLIC_THREAD` | Public thread                     |
+|      `SERVER_PRIVATE_THREAD` | Private thread                    |
+|         `SERVER_NEWS_THREAD` | Thread in an announcement channel |
+|            `PRIVATE_CHANNEL` | Direct messages with another user |
+|              `GROUP_CHANNEL` | Group chat                        |
+|           `CHANNEL_CATEGORY` | Channel categories                |
+|   `SERVER_DIRECTORY_CHANNEL` |                                   |
+|                    `UNKNOWN` |                                   |

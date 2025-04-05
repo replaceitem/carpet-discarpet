@@ -1,9 +1,12 @@
-### `__on_discord_reaction(reaction,user,added)`
+### `__on_discord_reaction(reaction, user, added)`
 
-Executes when a user reacts to a message with some emoji
+Executes when a user reacts to a message with some emoji.
 
-`reaction` -> [Reaction](/values/reaction.md): The reaction that was made containing the emoji
 
-`user` -> [User](/values/user.md): The user who reacted
+### {event inputs:}
 
-`added` -> boolean, `true` if the reaction was added, `false` if the reaction was removed
+|      Value | Type                            | Description                                      |
+|-----------:|:--------------------------------|:-------------------------------------------------|
+| `reaction` | [Reaction](/values/reaction.md) | The reaction that was made containing the emoji. |
+|     `user` | [User](/values/user.md)         | The user who reacted.                            |
+|    `added` | Boolean                         | Whether if the reaction was added or removed.    |

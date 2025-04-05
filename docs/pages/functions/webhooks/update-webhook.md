@@ -1,9 +1,24 @@
-### `dc_update_webhook(webhook, webhook_profile_updater)`
+### `dc_update_webhook(webhook, profile)`
 
-{% include 'warning-blocking.md' %}
+Updates a webhook's profile.
 
-Updates the [`webhook`](/values/webhook.md) with the specified [`webhook_profile_updater`](/parsables/webhooks/webhook-profile-updater.md).
+{% include 'blocking-function.md' %}
 
-Returns the updated [`webhook`](/values/webhook.md)
 
-Throws an exception on failure
+### {input:}
+
+| Parameter | Type                                                                      | Description            |
+|----------:|:--------------------------------------------------------------------------|:-----------------------|
+| `webhook` | [Webhook](/values/webhook.md)                                             | The webhook to update. |
+| `profile` | [Webhook profile updater](/parsables/webhooks/webhook-profile-updater.md) | The profile to use.    |
+
+
+### {output:}
+
+#### {output values:}
+
+* The updated [webhook](/values/webhook.md).
+
+#### {output exceptions:}
+
+* Throws an exception on failure.

@@ -1,26 +1,30 @@
 `dc_message`
 
-A Discord message which has been sent. Main use is in [`__on_discord_message`](/events/discord-message.md) event
+Represents a message sent by a user, bot, webhook, or server.
 
-#### Queryable:
 
-| Property             | Type                                         | Description                                                                                                                                                                         |
-|----------------------|----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `content`            | String                                       | Get the content (text) of the message, not that things like emojis, mentions or channels will appear as their id. For the readable content, see below.                              |
-| `readable_content`   | String                                       | Get the content and replace all emojis, mentions, channels with their readable representation. Note that if a user is not cached, mentions to him may not get parsed.               |
-| `id`                 | String                                       | Get the id of the message                                                                                                                                                           |
-| `channel`            | [Channel](/values/channel.md)                | Get the channel this message is inside                                                                                                                                              |
-| `user`               | User                                         | Get the user that wrote this message. Note that this may fail (and return null) if the user is not cached, but if queried after the `__on_discord_message` event, it should be fine |
-| `webhook_id`         | Number                                       | The webhook id if this message was sent from a webhook                                                                                                                              |
-| `server`             | Server                                       | Get the server this message was written in                                                                                                                                          |
-| `delete`             | boolean                                      | This is not actually a query, but it removes the message. Returns false if the bot does not have permission to delete the message, otherwise false                                  |
-| `nonce`              | String                                       | The nonce of this message                                                                                                                                                           |
-| `attachments`        | List of [Attachments](/values/attachment.md) | A list of attachments on this message                                                                                                                                               |
-| `sticker_ids`        | List of Numbers                              | List of sticker ids in this message                                                                                                                                                 |
-| `referenced_message` | [Message](/values/message.md)                | The message that is the reply message, or source of crosspost, channel follow add, or pin                                                                                           |
-| `type`               | String                                       | The [message type](https://discord.com/developers/docs/resources/channel#message-object-message-types)                                                                              |
-| `link`               | String                                       | Url linking to the message                                                                                                                                                          |
-| `flags`              | List of Strings                              | [Flags](https://discord.com/developers/docs/resources/channel#message-object-message-flags) of this message                                                                         |
-| `creation_timestamp` | Number                                       | Unix timestamp since message creation                                                                                                                                               |
-| `edit_timestamp`     | Number                                       | Unix timestamp since the message was last edited                                                                                                                                    |
-| `position`           | Number                                       | Position of the message                                                                                                                                                             |
+### {query:}
+
+|             Property | Type                                         | Description                                                                                                            |
+|---------------------:|:---------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------|
+|            `content` | String                                       | The content of the message.<br>All emojis, mentions, and channels will appear with their ID.                           |
+|   `readable_content` | String                                       | The content of the message.<br>All emojis, mentions, and channels will appear with a more readable representation.[^1] |
+|                 `id` | String                                       | The ID of the message.                                                                                                 |
+|            `channel` | [Channel](/values/channel.md)                | The channel this message was sent in.                                                                                  |
+|               `user` | [User](/values/user.md), Null                | The user that sent this message.<br>Returns `null` if not sent or triggered by a user, or if the user is not cached.   |
+|         `webhook_id` | Number, Null                                 | The webhook that sent this message, represented by its ID.[^2]<br>Returns `null` if not sent by a webhook.             |
+|             `server` | Server                                       | The server this message was written in.                                                                                |
+|              `nonce` | String                                       | The nonce of this message.                                                                                             |
+|        `attachments` | List of [Attachments](/values/attachment.md) | The attachments in this message.                                                                                       |
+|        `sticker_ids` | List of Strings                              | The stickers in this message represented with their IDs.[^3]                                                           |
+| `referenced_message` | [Message](/values/message.md)                | The message that is being referenced or replied to.                                                                    |
+|               `type` | String                                       | The [type](https://discord.com/developers/docs/resources/message#message-object-message-types) of the message.         |
+|               `link` | String                                       | The URL linking to the message.                                                                                        |
+|              `flags` | List of Strings                              | The [flags](https://discord.com/developers/docs/resources/message#message-object-message-flags) of the message.        |
+| `creation_timestamp` | Number                                       | The timestamp in unix time milliseconds since message creation.                                                        |
+|     `edit_timestamp` | Number                                       | The timestamp in unix time milliseconds since the message was last edited.                                             |
+|           `position` | Number                                       | The position of the message in a thread.                                                                               |
+
+[^1]: If a user is not cached, mentions to them may not get parsed.
+[^2]: To get the [Webhook](/values/webhook.md) value, use [`dc_webhook_from_id`](/functions/values/webhook-from-id.md).
+[^3]: To get [Sticker](/values/sticker.md) values, use [`dc_sticker_from_id`](/functions/values/sticker-from-id.md).

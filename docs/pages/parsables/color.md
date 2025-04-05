@@ -1,9 +1,12 @@
 `color`
 
-Can also be parsed directly from a list `[r,g,b]`, or a number (`0xRRGGBB`)
+Can also be parsed directly from a list (`[r, g, b]`), or a number (`0xRRGGBB`).
 
-| Value | Type   | Description     |
-|-------|--------|-----------------|
-| `r`   | number | Red component   |
-| `g`   | number | Green component |
-| `b`   | number | Blue component  |
+
+### {map:}
+
+|   Key | Type   | Description      |
+|------:|--------|------------------|
+| `r`   | Number | Red component.   |
+| `g`   | Number | Green component. |
+| `b`   | Number | Blue component.  |

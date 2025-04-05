@@ -1,13 +1,18 @@
 `attachment`
 
-An attachment can be created in different ways.
-From a File, a URL or from a string which will be the raw bytes of the file.
+Used to create an attachment.
 
-| Value     | Type                                                                                      | Description                                  |
-|-----------|-------------------------------------------------------------------------------------------|----------------------------------------------|
-| `file`    | String (optional)                                                                         | File path for attached file                  |
-| `url`     | String (optional)                                                                         | URL of the file to attach                    |
-| `bytes`   | String (optional)                                                                         | String, which will be the file's binary data |
-| `image`   | Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) (optional) | Image to be sent as an attachment            |
-| `name`    | String (optional)                                                                         | File name if using `bytes`                   |
-| `spoiler` | boolean (optional, defaults to false)                                                     | Whether this attachment is a spoiler         |
+An attachment can be created in different ways,
+either by using a file, URL, or from a string that will be the raw data of the file.
+
+
+### {map:}
+
+|            Key | Type                                                                           | Description                              |
+|---------------:|:-------------------------------------------------------------------------------|:-----------------------------------------|
+|    `file` {:?} | String                                                                         | The file path for attached file.         |
+|     `url` {:?} | String                                                                         | The URL of the file to attach.           |
+|   `bytes` {:?} | String                                                                         | The file's binary data.                  |
+|   `image` {:?} | Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) | The image to be sent as an attachment.   |
+|    `name` {:?} | String                                                                         | The file name if using `bytes`.          |
+| `spoiler` {:?} | Boolean                                                                        | Whether if this attachment is a spoiler. |
