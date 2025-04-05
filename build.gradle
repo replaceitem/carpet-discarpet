@@ -86,6 +86,12 @@ jar {
 	}
 }
 
+tasks.register('appendChangelog', AppendChangelogTask) {
+	changelog = rootProject.file("changelog.md").text
+	changelogHistoryFile = rootProject.file("docs/pages/changelog.md")
+	versionName = project.mod_version
+}
+
 import com.modrinth.minotaur.dependencies.ModDependency
 
 modrinth {
@@ -105,4 +111,27 @@ modrinth {
 		changelog = ""
 	}
 	syncBodyFrom = rootProject.file("README.md").text
+}
+tasks.modrinth.dependsOn tasks.appendChangelog
+
+import java.text.SimpleDateFormat
+class AppendChangelogTask extends DefaultTask {
+	@Input
+	String changelog = ""
+	
+	@Input
+	String versionName = ""
+	
+	@Input
+	SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL dd, yyyy", Locale.ENGLISH)
+	
+	@InputFile
+	File changelogHistoryFile
+	
+	
+	@TaskAction
+	void action() {
+		def headline = """## ${versionName} – <small>${dateFormat.format(new Date())}</small> { id="${versionName}" }"""
+		changelogHistoryFile.write(changelogHistoryFile.text.replaceFirst("<!-- INSERT_HERE -->", "\$0\n\n${headline}\n\n${changelog}\n"))
+	}
 }

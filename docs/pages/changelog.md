@@ -2,11 +2,7 @@
 icon: octicons/history-16
 ---
 
-
-<!--
-## x.y.z – <small>January 1, 1970</small> { id="x.y.z" }
--->
-
+<!-- INSERT_HERE -->
 
 
 ## 1.5.6 – <small>March 31, 2025</small> { id="1.5.6" }
