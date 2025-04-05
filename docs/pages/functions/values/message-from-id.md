@@ -1,6 +1,6 @@
 ### `dc_message_from_id(id, channel)`
 
-Gets a message from the specified ID and channel.
+Gets the message from the specified ID and channel.
 
 {% include 'blocking-function.md' %}
 

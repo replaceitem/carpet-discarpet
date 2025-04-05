@@ -1,14 +1,14 @@
 ### `__on_system_message(text, type)`
 
-Executes when a system message is sent, such as server chat & operator messages.
+Executes when a system message is sent, such as server chat and operator messages.
 
 
 ### {output:}
 
-|  Value | Type           | Description                                                                       |
-|-------:|:---------------|:----------------------------------------------------------------------------------|
-| `text` | Formatted text | The text of the system message.                                                   |
-| `type` | String, Null   | The type of the translation text key. Returns `null` if `text` is a literal text. |
+|  Value | Type           | Description                                                                          |
+|-------:|:---------------|:-------------------------------------------------------------------------------------|
+| `text` | Formatted text | The text of the system message.                                                      |
+| `type` | String, Null   | The type of the translation text key.<br>Returns `null` if `text` is a literal text. |
 
 To extract components from `text` for further processing, you can get them by using `decode_json(encode_json(text))`
 

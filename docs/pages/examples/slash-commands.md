@@ -26,27 +26,27 @@ initialize_commands() -> (
     for (global_server~'slash_commands', dc_delete(_));
 
     // simple ping command
-    dc_create_application_command('slash_command', {
+    dc_create_application_command('SLASH_COMMAND', {
         'name' -> 'ping',
         'description' -> 'Ping -> Pong!'
     }, global_server);
 
     // slighly more complex command
     // shows the file you uploaded
-    dc_create_application_command('slash_command', {
+    dc_create_application_command('SLASH_COMMAND', {
         'name' -> 'upload',
         'description' -> 'Upload and display file',
         'options' -> [{
+            'type' -> 'ATTACHMENT',
             'name' -> 'attachment',
             'description' -> 'Upload a file',
-            'type' -> 'ATTACHMENT',
             'required' -> true
         }]
     });
 
     // more complex command
     // takes in various options and spits them back out
-    dc_create_application_command('slash_command', {
+    dc_create_application_command('SLASH_COMMAND', {
         'name' -> 'complex',
         'description' -> 'Test command',
         'options' -> [

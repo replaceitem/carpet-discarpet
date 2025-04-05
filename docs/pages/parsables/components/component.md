@@ -1,8 +1,13 @@
 `component`
 
-Can be either a [Button](button.md), a [Select menu](select-menu.md) or a [Text input](text-input.md).
+Used for creating a component, which contains additional values from the used component.
 
-|       Value | Type   | Description                                    |
+Can be either a [Button](button.md), [Select menu](select-menu.md), or a [Text input](text-input.md).
+
+
+### {map:}
+
+|         Key | Type   | Description                                    |
 |------------:|:-------|:-----------------------------------------------|
 | `component` | String | The [type](#component-types) of the component. |
 
@@ -10,9 +15,9 @@ Values from the used parsable must be included, like so:
 
 ```sc
 component = {
-    'component' -> 'button',
+    'component' -> 'BUTTON',
     'id' -> 'blurple_button',
-    'style' -> 'blurple',
+    'style' -> 'BLURPLE',
     'label' -> 'Blurple button',
     'emoji' -> '🚪'
 },
@@ -22,10 +27,10 @@ component = {
 
 |                    String | Description        |
 |--------------------------:|:-------------------|
-|                  `button` | Button             |
-|      `select_menu_string` | Select an item     |
-|        `select_menu_user` | Select a user      |
-|        `select_menu_role` | Select a role      |
-| `select_menu_mentionable` | Select a user/role |
-|     `select_menu_channel` | Select a channel   |
-|              `text_input` | Text input         |
+|                  `BUTTON` | Button             |
+|      `SELECT_MENU_STRING` | Select an item     |
+|        `SELECT_MENU_USER` | Select a user      |
+|        `SELECT_MENU_ROLE` | Select a role      |
+| `SELECT_MENU_MENTIONABLE` | Select a user/role |
+|     `SELECT_MENU_CHANNEL` | Select a channel   |
+|              `TEXT_INPUT` | Text input         |

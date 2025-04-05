@@ -1,11 +1,11 @@
 `thread`
 
-Used for creating a thread in a channel, using [`dc_create_thread`](/functions/create-thread.md)
+Used for creating a thread in a channel.
 
 
-### {input:}
+### {map:}
 
-|                        Value | Type                          | Description                                                                                                     |
+|                          Key | Type                          | Description                                                                                                     |
 |-----------------------------:|:------------------------------|:----------------------------------------------------------------------------------------------------------------|
 |                       `name` | String                        | The name of the thread<br>(max 100 characters).                                                                 |
 |               `message` {:?} | [Message](/values/message.md) | The message to start this thread with.<br>(Only required if `channel` is not provided)                          |
@@ -18,6 +18,8 @@ Used for creating a thread in a channel, using [`dc_create_thread`](/functions/c
 
 #### Channel types
 
-- `SERVER_PUBLIC_THREAD` - Public thread
-- `SERVER_PRIVATE_THREAD` - Private thread
-- `SERVER_NEWS_THREAD` - Thread in announcements channel
+|                  String | Description                     |
+|------------------------:|:--------------------------------|
+|  `SERVER_PUBLIC_THREAD` | Public thread                   |
+| `SERVER_PRIVATE_THREAD` | Private thread                  |
+|    `SERVER_NEWS_THREAD` | Thread in announcements channel |

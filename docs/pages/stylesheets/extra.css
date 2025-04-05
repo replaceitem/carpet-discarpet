@@ -4,18 +4,6 @@
   --md-primary-fg-color: #4B59D8;
 }
 
-/* for light mode */
-
-[data-md-color-scheme=default] .invert-in-light {
-  filter: invert(1);
-}
-
-/* for dark mode */
-
-[data-md-color-scheme=slate] {
-  --md-code-bg-color: hsl(225deg 16.88% 8.8%);
-}
-
 
 
 /* make header wool */
@@ -26,12 +14,6 @@
   background: url("../assets/wool-header.png");
 
   background-position: bottom center;
-}
-
-/* remove header shadow */
-
-.md-header--shadow {
-  box-shadow: unset;
 }
 
 /* make footer wool */
@@ -145,6 +127,10 @@
 
 /* tweaky `code` */
 
+[data-md-color-scheme=slate] {
+  --md-code-bg-color: hsl(225deg 16.88% 8.8%);
+}
+
 .md-typeset :not(pre) > code {
   border-radius: .2rem;
   font-size: .95em;
@@ -199,45 +185,10 @@
 
 
 
-button.discord {
-  padding: 6px 16px;
-
-  color: var(--md-primary-bg-color);
-
-  border: 1px solid;
-  border-radius: 8px;
-
-  font-size: .9em;
+.icon-help svg {
+  scale: 80%;
 }
 
-a[href] button.discord.url {
-  cursor: pointer;
-}
-
-button.discord.blurple {
-  background: rgb(88, 101, 242);
-  border-color: rgba(255, 255, 255, 16%);
-}
-
-[data-md-color-scheme="default"] button.discord.grey,
-[data-md-color-scheme="default"] button.discord.url {
-  color: var(--md-default-fg-color);
-  background: rgba(151, 151, 159, 0.16);
-  border-color: rgba(0, 0, 0, 16%);
-}
-
-[data-md-color-scheme="slate"] button.discord.grey,
-[data-md-color-scheme="slate"] button.discord.url {
-  background: rgba(151, 151, 159, 0.12);
-  border-color: rgba(255, 255, 255, 16%);
-}
-
-button.discord.green {
-  background: rgb(0, 134, 58);
-  border-color: rgba(255, 255, 255, 16%);
-}
-
-button.discord.red {
-  background: rgb(210, 45, 57);
-  border-color: rgba(255, 255, 255, 16%);
+.icon-optional {
+  opacity: 75%;
 }

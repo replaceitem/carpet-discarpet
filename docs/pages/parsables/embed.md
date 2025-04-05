@@ -3,9 +3,9 @@
 Used to create an embed.
 
 
-### {input:}
+### {map:}
 
-|              Value | Type                                                                                   | Description                                                   |
+|                Key | Type                                                                                   | Description                                                   |
 |-------------------:|:---------------------------------------------------------------------------------------|:--------------------------------------------------------------|
 |            `title` | String                                                                                 | The title of the embed.                                       |
 |         `url` {:?} | String                                                                                 | The URL redirect when clicking on the embed title.            |
@@ -29,9 +29,9 @@ Used to create the author in an embed.
 Can also be parsed directly from a [User](/values/user.md) value, or a string (which will only set `name`).
 
 
-### {input:}
+### {map:}
 
-|       Value | Type                                                                                   | Description                                               |
+|         Key | Type                                                                                   | Description                                               |
 |------------:|:---------------------------------------------------------------------------------------|:----------------------------------------------------------|
 |      `name` | String                                                                                 | The display name of the author.                           |
 |  `url` {:?} | String                                                                                 | The URL link when clicking on the author name.            |
@@ -46,9 +46,9 @@ Can also be parsed directly from a [User](/values/user.md) value, or a string (w
 Used to create a field in an embed.
 
 
-### {input:}
+### {map:}
 
-|         Value | Type    | Description                             |
+|           Key | Type    | Description                             |
 |--------------:|:--------|:----------------------------------------|
 |        `name` | String  | The name/title of this field.           |
 |       `value` | String  | The value/description of this field.    |
@@ -61,11 +61,11 @@ Used to create a field in an embed.
 Used to create the footer in an embed.
 
 
-### {input:}
+### {map:}
 
 `embed_footer`
 
-|       Value | Type                                                                                   | Description                                               |
+|         Key | Type                                                                                   | Description                                               |
 |------------:|:---------------------------------------------------------------------------------------|:----------------------------------------------------------|
 |      `text` | String                                                                                 | The footer text.                                          |
 | `icon` {:?} | String, Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) | The image URL (or image file) used for the footer's icon. |

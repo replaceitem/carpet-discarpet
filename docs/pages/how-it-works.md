@@ -39,6 +39,8 @@ to get the value you need.
 Most value functions require you to input an ID.
 [See here for how to get IDs](/setup.md#enabling-developer-mode).
 
+Some values can also give you other values.
+
 
 
 ## Discarpet parsables
@@ -71,8 +73,11 @@ example = {
 
 ## Discarpet exceptions
 
-Sometimes when using a function or querying something,
-it may fail for whatever reason and will throw an uncaught exception.
+When using a function or querying something,
+it may fail for whatever reason and throw an uncaught exception.
+
+Some document pages mention if they can throw an uncaught exception,
+sometimes with additional details and a brief explanation as to why it happened.
 
 All Discarpet exceptions can be caught under `discord_exception` using the
 [`try`](https://github.com/gnembon/fabric-carpet/blob/master/docs/scarpet/language/FunctionsAndControlFlow.md#tryexpr-tryexpr-user_catch_expr-tryexpr-type-catch_expr-type-catch_expr-) function.
@@ -80,19 +85,19 @@ All Discarpet exceptions can be caught under `discord_exception` using the
 
 ### Exception hierarchy
 
-- `exception`
+* `exception`
 <br>(Base scarpet exception)
-    - `discord_exception`
+    * `discord_exception`
     <br>(Base Discarpet exception)
-        - `missing_intent`
+        * `missing_intent`
         <br>You do not have the intent to do that
-        - `api_exception`
+        * `api_exception`
         <br>(General exception for requests to the Discord API)
-            - `missing_permission`
+            * `missing_permission`
             <br>You do not have the permission to do that
-            - `rate_limit`
+            * `rate_limit`
             <br>You sent too many requests within a short timespan[^1]
-            - `bad_request`
+            * `bad_request`
             <br>You sent data that Discord considers as invalid
 
 
@@ -102,13 +107,13 @@ The exception value can be accessed like this:
 
 ```sc title="Getting exception details"
 test() -> (
-    dc_send_message(global_channel, 'egg');
+    dc_send_message(global_channel, 'hello world!');
 );
 
 try(test(), 'discord_exception', print(_));
 ```
 
-Let's pretend the message failed to send for whatever reason.
+Let's pretend the message failed to send for some reason.
 Here's what the exception format looks like:
 
 ```sc title="Example exception value"
@@ -121,14 +126,14 @@ Here's what the exception format looks like:
 }
 ```
 
-#### Explanation:
+#### Structure:
 
-- `code` - The Discord HTTP status code according to
+* `code` - The Discord HTTP status code according to
   [this list](https://discord.com/developers/docs/topics/opcodes-and-status-codes#http).
-- `body` - The contents of the error.
-    - `code` - The Discord JSON status code according to
+* `body` - The contents of the error.
+    * `code` - The Discord JSON status code according to
     [this list](https://discord.com/developers/docs/topics/opcodes-and-status-codes#json).
-    - `message` - The error string provided by the response.
+    * `message` - The error string provided by the response.
 
 An `api_exception` can have additional information that you can access from the `body`.
 

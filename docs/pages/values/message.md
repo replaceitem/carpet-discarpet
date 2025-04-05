@@ -11,8 +11,8 @@ Represents a message sent by a user, bot, webhook, or server.
 |   `readable_content` | String                                       | The content of the message.<br>All emojis, mentions, and channels will appear with a more readable representation.[^1] |
 |                 `id` | String                                       | The ID of the message.                                                                                                 |
 |            `channel` | [Channel](/values/channel.md)                | The channel this message was sent in.                                                                                  |
-|               `user` | [User](/values/user.md)                      | The user that sent this message.<br>Returns `null` if not sent or triggered by a user, or if the user is not cached.   |
-|         `webhook_id` | Number                                       | The webhook that sent this message, represented by its ID.[^2]<br>Returns `null` if not sent by a webhook.             |
+|               `user` | [User](/values/user.md), Null                | The user that sent this message.<br>Returns `null` if not sent or triggered by a user, or if the user is not cached.   |
+|         `webhook_id` | Number, Null                                 | The webhook that sent this message, represented by its ID.[^2]<br>Returns `null` if not sent by a webhook.             |
 |             `server` | Server                                       | The server this message was written in.                                                                                |
 |              `nonce` | String                                       | The nonce of this message.                                                                                             |
 |        `attachments` | List of [Attachments](/values/attachment.md) | The attachments in this message.                                                                                       |

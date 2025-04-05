@@ -1,6 +1,6 @@
 ### `dc_webhook_from_url(url)`
 
-Gets a webhook from the specified URL.
+Gets the webhook from the specified URL.
 
 {% include 'blocking-function.md' %}
 

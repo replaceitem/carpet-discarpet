@@ -3,9 +3,9 @@
 Can also be parsed directly from a list (`[r, g, b]`), or a number (`0xRRGGBB`).
 
 
-### {input:}
+### {map:}
 
-| Value | Type   | Description      |
+|   Key | Type   | Description      |
 |------:|--------|------------------|
 | `r`   | Number | Red component.   |
 | `g`   | Number | Green component. |

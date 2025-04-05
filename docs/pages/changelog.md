@@ -8,6 +8,7 @@ icon: octicons/history-16
 -->
 
 
+
 ## 1.5.6 – <small>March 31, 2025</small> { id="1.5.6" }
 
 * Updated to 1.21.5
@@ -55,9 +56,11 @@ icon: octicons/history-16
 * Split `dc_timeout` into `dc_get_timeout` and `dc_set_timeout`
 
 
+
 ## 1.5.5 – <small>November 9, 2024</small> { id="1.5.5+2" }
 
 * Fixed errors on Minecraft 1.21.3
+
 
 
 ## 1.5.5 – <small>April 23, 2024</small> { id="1.5.5+1" }
@@ -65,9 +68,11 @@ icon: octicons/history-16
 * Update to Minecraft 1.20.5
 
 
+
 ## 1.5.4 – <small>December 11, 2023</small> { id="1.5.4" }
 
 * Updated to MC 1.20.4
+
 
 
 ## 1.5.3 – <small>November 13, 2023</small> { id="1.5.3" }
@@ -83,6 +88,7 @@ icon: octicons/history-16
 * Added `stickers` field to message content parsable
 
 
+
 ## 1.5.2 – <small>November 8, 2023</small> { id="1.5.2" }
 
 * Added new properties to message values:
@@ -95,12 +101,14 @@ icon: octicons/history-16
     * `position`
 
 
+
 ## 1.5.1 – <small>September 7, 2023</small> { id="1.5.1" }
 
 * Fixed discarpet loading events too early, causing log spam with modded entities ([#42](https://github.com/replaceitem/carpet-discarpet/pull/42))
 * Removed `__on_command_executed` in favor of builtin `__on_player_command`
 * Server voice channels can now be used for sending messages into the buildin text-in-voice channel
 * Added suppress_notifications to the message content parsable
+
 
 
 ## 1.5.0 – <small>June 7, 2023</small> { id="1.5.0" }
@@ -110,9 +118,11 @@ icon: octicons/history-16
 * Improved error handling of the /discarpet command
 
 
+
 ## 1.4.9 – <small>March 20, 2023</small> { id="1.4.9" }
 
 * Updated to Minecraft 1.19.4
+
 
 
 ## 1.4.8 – <small>February 15, 2023</small> { id="1.4.8" }
@@ -124,10 +134,12 @@ icon: octicons/history-16
 * Changed docs to be more consistent and correct for interaction value types
 
 
+
 ## 1.4.7 – <small>October 19, 2022</small> { id="1.4.7" }
 
 * Fixed (#38)[https://github.com/replaceitem/carpet-discarpet/issues/38]
 * Changed the maven group to `net.replaceitem`
+
 
 
 ## 1.4.6 – <small>August 12, 2022</small> { id="1.4.6" }
@@ -138,6 +150,7 @@ icon: octicons/history-16
 * Using new internal enum parser for parsables
 
 
+
 ## 1.4.5 – <small>July 29, 2022</small> { id="1.4.5" }
 
 * Updated to Minecraft 1.19.1
@@ -145,11 +158,13 @@ icon: octicons/history-16
 * The `text` argument `__on_system_message` is now a formatted text value, which allows for better parsing using `encode_json(text)``
 
 
+
 ## 1.4.4 – <small>July 27, 2022</small> { id="1.4.4" }
 
 * Improved config loading by adding missing config entries on startup
 * Fix errors when events trigger when the server is starting or stopping
 * Bumped dependency versions (This fixes the server not fully terminating after the world saved)
+
 
 
 ## 1.4.3 – <small>July 12, 2022</small> { id="1.4.3" }

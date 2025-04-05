@@ -1,6 +1,6 @@
 ### `dc_get_display_name(user, server)`
 
-Gets a user's nickname in a server, or display name if no nickname is present.
+Gets the user's nickname in a server, or display name if no nickname is present.
 
 
 ### {input:}

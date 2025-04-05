@@ -1,6 +1,6 @@
 ### `dc_user_from_id(id)`
 
-Gets a user from the specified ID.
+Gets the user from the specified ID.
 
 {% include 'blocking-function.md' %}
 

@@ -6,9 +6,9 @@ An attachment can be created in different ways,
 either by using a file, URL, or from a string that will be the raw data of the file.
 
 
-### {input:}
+### {map:}
 
-|          Value | Type                                                                           | Description                              |
+|            Key | Type                                                                           | Description                              |
 |---------------:|:-------------------------------------------------------------------------------|:-----------------------------------------|
 |    `file` {:?} | String                                                                         | The file path for attached file.         |
 |     `url` {:?} | String                                                                         | The URL of the file to attach.           |

@@ -1,6 +1,6 @@
 ### `dc_webhook_from_id(id, token)`
 
-Gets a webhook from the specified ID and token.
+Gets the webhook from the specified ID and token.
 
 {% include 'blocking-function.md' %}
 

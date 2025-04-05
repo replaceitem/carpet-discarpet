@@ -32,13 +32,13 @@ theme:
     - scheme: default
       media: "(prefers-color-scheme: light)"
       toggle:
-        icon: octicons/sun-16
+        icon: material/brightness-7
         name: Switch to dark mode
 
     - scheme: slate
       media: "(prefers-color-scheme: dark)"
       toggle:
-        icon: octicons/moon-16
+        icon: material/brightness-4
         name: Switch to system preference
 extra_css:
   - stylesheets/extra.css
@@ -46,11 +46,10 @@ markdown_extensions:
   - toc:
       permalink: "#"
       toc_depth: 2
-  - attr_list
-  - md_in_html
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
   - admonition
   - pymdownx.details
   - pymdownx.superfences
@@ -66,24 +65,27 @@ plugins:
       include_dir: docs/include
   - replace_markdown:
       patterns:
-        - optional:
+        - icon-optional:
             oldvalue: '{:?}'
-            newvalue: ':fontawesome-solid-question:{ title="Optional" }'
+            newvalue: ':fontawesome-solid-question:{ .icon-optional title="Optional" }'
         - section_input:
             oldvalue: '{input:}'
-            newvalue: ':octicons-download-24: Input parameters'
+            newvalue: ':material-download: Input parameters'
         - section_output:
             oldvalue: '{output:}'
-            newvalue: ':octicons-upload-24: Output values'
+            newvalue: ':material-upload: Output values'
         - section_output_values:
             oldvalue: '{output values:}'
             newvalue: 'Return values'
         - section_output_exceptions:
             oldvalue: '{output exceptions:}'
-            newvalue: '[Uncaught exceptions](/how-it-works.md/#discarpet-exceptions)'
+            newvalue: 'Uncaught exceptions [:octicons-question-16:](/how-it-works.md/#discarpet-exceptions){ .icon-help title="More info" }'
         - section_query:
             oldvalue: '{query:}'
-            newvalue: ':material-database-arrow-right-outline: Queryable properties'
+            newvalue: ':material-upload: Queryable properties [:octicons-question-16:](/how-it-works.md/#discarpet-values){ .icon-help title="More info" }'
+        - section_map:
+            oldvalue: '{map:}'
+            newvalue: ':material-download: Map entries [:octicons-question-16:](/how-it-works.md/#discarpet-parsables){ .icon-help title="More info" }'
   - abs-to-rel
 extra:
   social:

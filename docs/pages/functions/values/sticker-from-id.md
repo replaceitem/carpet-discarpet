@@ -1,6 +1,6 @@
 ### `dc_sticker_from_id(id)`
 
-Gets a sticker from the specified ID.
+Gets the sticker from the specified ID.
 
 
 ### {input:}

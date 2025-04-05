@@ -2,6 +2,9 @@
 
 Used to create a user context menu command.
 
-|  Value | Type   | Description           |
+
+### {map:}
+
+|    Key | Type   | Description           |
 |-------:|:-------|:----------------------|
 | `name` | String | The name of the menu. |

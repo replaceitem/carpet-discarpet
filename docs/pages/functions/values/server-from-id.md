@@ -1,6 +1,6 @@
 ### `dc_server_from_id(id)`
 
-Gets a server from the specified ID.
+Gets the server from the specified ID.
 
 
 ### {input:}

@@ -1,6 +1,6 @@
 ### `dc_role_from_id(id)`
 
-Gets a role from the specified ID.
+Gets the role from the specified ID.
 
 
 ### {input:}

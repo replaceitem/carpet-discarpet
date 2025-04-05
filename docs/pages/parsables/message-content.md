@@ -2,18 +2,18 @@
 
 Used to create a message's content.
 
-Can also be parsed directly from a string (which is equivalent to only setting `content`).
+Can also be parsed directly from a String, which is equivalent to only setting `content`.
 
 
-### {input:}
+### {map:}
 
-|                         Value | Type                                                              | Description                                                                                 |
+|                           Key | Type                                                              | Description                                                                                 |
 |------------------------------:|:------------------------------------------------------------------|:--------------------------------------------------------------------------------------------|
 |                     `content` | String                                                            | The content of the message.                                                                 |
 |            `attachments` {:?} | List of [Attachments](/parsables/attachment.md)                   | The attachments in the message.                                                             |
 |               `stickers` {:?} | List of [Stickers](/values/sticker.md) or Numbers                 | The stickers in the message, specified by values or IDs.                                    |
 |                 `embeds` {:?} | List of [Embeds](/parsables/embed.md)                             | The embeds in the message.                                                                  |
-|             `components` {:?} | List of Lists of [Components](/parsables/components/component.md) | The rows of containers with message components.[^1]                                         |
+|             `components` {:?} | List of Lists of [Components](/parsables/components/component.md) | The rows of containers with components.[^1]                                                 |
 |       `allowed_mentions` {:?} | [Allowed mentions](#allowed-mentions)                             | Allowed mentions of the message.                                                            |
 |               `reply_to` {:?} | [Message](/values/message.md)                                     | The message to reply or reference to.                                                       |
 |                  `nonce` {:?} | String                                                            | The nonce of the message.                                                                   |
@@ -36,9 +36,9 @@ Used for configuring allowed mentions.
     Otherwise when unspecified, they are `true` by default.
 
 
-### {input:}
+### {map:}
 
-|                   Value | Type            | Description                                             |
+|                     Key | Type            | Description                                             |
 |------------------------:|:----------------|:--------------------------------------------------------|
 |    `mention_roles` {:?} | Boolean         | Whether if roles can be mentioned.                      |
 |    `mention_users` {:?} | Boolean         | Whether if users can be mentioned.                      |

@@ -2,7 +2,10 @@
 
 Used to create a slash command.
 
-|         Value | Type                       | Description                           |
+
+### {map:}
+
+|           Key | Type                       | Description                           |
 |--------------:|:---------------------------|:--------------------------------------|
 |        `name` | String                     | The name of the slash command.        |
 | `description` | String                     | The description of the slash command. |
@@ -25,7 +28,10 @@ This means that the length of the command chains (without the other options that
 
 For more info, [check this documentation](https://canary.discord.com/developers/docs/interactions/application-commands#subcommands-and-subcommand-groups).
 
-|           Value | Type                                    | Description                                         |
+
+### {map:}
+
+|             Key | Type                                    | Description                                         |
 |----------------:|:----------------------------------------|:----------------------------------------------------|
 |          `type` | String                                  | The [type](#option-types) of slash command option.  |
 |          `name` | String                                  | The name of the option.                             |
@@ -36,17 +42,19 @@ For more info, [check this documentation](https://canary.discord.com/developers/
 
 #### [Option types][1] { id="option-types" }
 
-* `SUB_COMMAND`
-* `SUB_COMMAND_GROUND`
-* `STRING`
-* `INTEGER` - Any integer between -2^53 and 2^53
-* `BOOLEAN`
-* `USER`
-* `CHANNEL` - All channel types + categories
-* `ROLE`
-* `MENTIONABLE` - Users and roles
-* `NUMBER`
-* `ATTACHMENT`
+|              String | Description                        |
+|--------------------:|:-----------------------------------|
+|       `SUB_COMMAND` |                                    |
+| `SUB_COMMAND_GROUP` |                                    |
+|            `STRING` |                                    |
+|           `INTEGER` | Any integer between -2^53 and 2^53 |
+|           `BOOLEAN` |                                    |
+|              `USER` | Select a user                      |
+|           `CHANNEL` | All channel types + categories     |
+|              `ROLE` | Select a role                      |
+|       `MENTIONABLE` | Select a user/role                 |
+|            `NUMBER` |                                    |
+|        `ATTACHMENT` | Upload an attachment               |
 
 
 
@@ -54,7 +62,7 @@ For more info, [check this documentation](https://canary.discord.com/developers/
 
 `slash_command_option_choice`
 
-|   Value | Type   | Description                                                                     |
+|     Key | Type   | Description                                                                     |
 |--------:|:-------|:--------------------------------------------------------------------------------|
 |  `name` | String | The visible autocompleted filled in choice for the option.                      |
 | `value` | String | The value that will be received in the slash command event as the option value. |
