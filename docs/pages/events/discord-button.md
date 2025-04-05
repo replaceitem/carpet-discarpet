@@ -3,7 +3,7 @@
 Executes when a user presses a button component on a message.
 
 
-### {output:}
+### {event inputs:}
 
 |         Value | Type                                                 | Description                                        |
 |--------------:|:-----------------------------------------------------|:---------------------------------------------------|

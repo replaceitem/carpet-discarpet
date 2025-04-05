@@ -3,7 +3,7 @@
 Executes when a message is sent in a channel the bot has access to.
 
 
-### {output:}
+### {event inputs:}
 
 |     Value | Type                          | Description                |
 |----------:|:------------------------------|:---------------------------|

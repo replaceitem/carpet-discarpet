@@ -77,6 +77,9 @@ plugins:
         - section_output_values:
             oldvalue: '{output values:}'
             newvalue: 'Return values'
+        - section_event_inputs:
+            oldvalue: '{event inputs:}'
+            newvalue: ':material-download: Event inputs'
         - section_output_exceptions:
             oldvalue: '{output exceptions:}'
             newvalue: 'Uncaught exceptions [:octicons-question-16:](/how-it-works.md/#discarpet-exceptions){ .icon-help title="More info" }'

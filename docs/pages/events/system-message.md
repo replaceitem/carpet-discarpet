@@ -3,7 +3,7 @@
 Executes when a system message is sent, such as server chat and operator messages.
 
 
-### {output:}
+### {event inputs:}
 
 |  Value | Type           | Description                                                                          |
 |-------:|:---------------|:-------------------------------------------------------------------------------------|

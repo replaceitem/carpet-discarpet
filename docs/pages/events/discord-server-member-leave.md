@@ -3,7 +3,7 @@
 Executes when a user leaves a server the bot has access to.
 
 
-### {output:}
+### {event inputs:}
 
 |    Value | Type                        | Description                    |
 |---------:|:----------------------------|:-------------------------------|

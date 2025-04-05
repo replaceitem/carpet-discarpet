@@ -3,7 +3,7 @@
 Executes when a user reacts to a message with some emoji.
 
 
-### {output:}
+### {event inputs:}
 
 |      Value | Type                            | Description                                      |
 |-----------:|:--------------------------------|:-------------------------------------------------|

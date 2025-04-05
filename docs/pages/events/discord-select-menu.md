@@ -3,7 +3,7 @@
 Executes when a user uses a select menu component on a message.
 
 
-### {output:}
+### {event inputs:}
 
 |         Value | Type                                                           | Description                                          |
 |--------------:|:---------------------------------------------------------------|:-----------------------------------------------------|

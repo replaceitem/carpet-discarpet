@@ -3,7 +3,7 @@
 Executes when a user submits a modal.
 
 
-### {output:}
+### {event inputs:}
 
 |         Value | Type                                               | Description                                     |
 |--------------:|:---------------------------------------------------|:------------------------------------------------|

@@ -3,7 +3,7 @@
 Executes when a user joins a server the bot has access to.
 
 
-### {output:}
+### {event inputs:}
 
 |    Value | Type                        | Description                      |
 |---------:|:----------------------------|:---------------------------------|
