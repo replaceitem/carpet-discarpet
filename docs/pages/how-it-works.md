@@ -46,12 +46,13 @@ Some values can also give you other values.
 ## Discarpet parsables
 
 Many things in Discarpet can be parsed and built using maps.
+
 These parsables have properties which are defined from the key-value pairs of the map.
 Those properties and their types are listed in the documentation of each parsable.
 
 As an example, a parsable with these properties:
 
-|    Value | Type    | Description                                               |
+|      Key | Type    | Description                                               |
 |---------:|:--------|:----------------------------------------------------------|
 |   `name` | String  | The name of the player.                                   |
 |     `id` | String  | The ID of the player.                                     |
