@@ -82,10 +82,10 @@ plugins:
             newvalue: 'Uncaught exceptions [:octicons-question-16:](/how-it-works.md/#discarpet-exceptions){ .icon-help title="More info" }'
         - section_query:
             oldvalue: '{query:}'
-            newvalue: ':material-upload: Queryable properties [:octicons-question-16:](/how-it-works.md/#discarpet-values){ .icon-help title="More info" }'
+            newvalue: ':material-format-list-bulleted-type: Queryable properties [:octicons-question-16:](/how-it-works.md/#discarpet-values){ .icon-help title="More info" }'
         - section_map:
             oldvalue: '{map:}'
-            newvalue: ':material-download: Map entries [:octicons-question-16:](/how-it-works.md/#discarpet-parsables){ .icon-help title="More info" }'
+            newvalue: ':material-code-braces: Map entries [:octicons-question-16:](/how-it-works.md/#discarpet-parsables){ .icon-help title="More info" }'
   - abs-to-rel
 extra:
   social:
