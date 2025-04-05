@@ -1,8 +1,24 @@
-### `dc_set_channel_topic(channel,text)`
+### `dc_set_channel_topic(channel, text)`
 
-{% include 'warning-blocking.md' %}
+Sets the description of a channel to the specified text.
 
-This function sets the description of the [`channel`](/values/channel.md)
-to the specified `text`.
+{% include 'blocking-function.md' %}
 
-Throws an exception on failure
+
+### {input:}
+
+| Parameter | Type                          | Description                     |
+|----------:|:------------------------------|:--------------------------------|
+| `channel` | [Channel](/values/channel.md) | The channel to set the topic.   |
+|    `text` | String                        | The text to set the channel to. |
+
+
+### {output:}
+
+#### {output values:}
+
+* Null, if successful.
+
+#### {output exceptions:}
+
+* Throws an exception on failure.

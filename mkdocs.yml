@@ -9,32 +9,47 @@ site_author: replaceitem
 strict: true
 theme:
   name: material
-  logo: assets/logo.png
+  logo: assets/icon.svg
   favicon: assets/logo.png
   icon:
     repo: fontawesome/brands/github
   features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.indexes
     - toc.integrate
+    - content.tooltips
+    - content.code.copy
   palette:
-    - scheme: default
+    - media: "(prefers-color-scheme)"
       toggle:
-        icon: material/toggle-switch-off-outline
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    - scheme: default
+      media: "(prefers-color-scheme: light)"
+      toggle:
+        icon: material/brightness-7
         name: Switch to dark mode
 
     - scheme: slate
+      media: "(prefers-color-scheme: dark)"
       toggle:
-        icon: material/toggle-switch
-        name: Switch to light mode
+        icon: material/brightness-4
+        name: Switch to system preference
 extra_css:
   - stylesheets/extra.css
 markdown_extensions:
   - toc:
       permalink: "#"
       toc_depth: 2
-  - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
   - admonition
   - pymdownx.details
   - pymdownx.superfences
@@ -43,26 +58,69 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.tilde
+  - footnotes
 plugins:
-  - abs-to-rel
   - search
   - macros:
       include_dir: docs/include
+  - replace_markdown:
+      patterns:
+        - icon-optional:
+            oldvalue: '{:?}'
+            newvalue: ':fontawesome-solid-question:{ .icon-optional title="Optional" }'
+        - section_input:
+            oldvalue: '{input:}'
+            newvalue: ':material-download: Input parameters'
+        - section_output:
+            oldvalue: '{output:}'
+            newvalue: ':material-upload: Output values'
+        - section_output_values:
+            oldvalue: '{output values:}'
+            newvalue: 'Return values'
+        - section_event_inputs:
+            oldvalue: '{event inputs:}'
+            newvalue: ':material-download: Event inputs'
+        - section_output_exceptions:
+            oldvalue: '{output exceptions:}'
+            newvalue: 'Uncaught exceptions [:octicons-question-16:](/how-it-works.md/#discarpet-exceptions){ .icon-help title="More info" }'
+        - section_query:
+            oldvalue: '{query:}'
+            newvalue: ':material-format-list-bulleted-type: Queryable properties [:octicons-question-16:](/how-it-works.md/#discarpet-values){ .icon-help title="More info" }'
+        - section_map:
+            oldvalue: '{map:}'
+            newvalue: ':material-code-braces: Map entries [:octicons-question-16:](/how-it-works.md/#discarpet-parsables){ .icon-help title="More info" }'
+  - abs-to-rel
 extra:
   social:
     - icon: fontawesome/brands/discord
       link: https://discord.gg/etTDQAVSgt
-      name: My discord server
-    - icon: fontawesome/solid/download
+      name: Join the Discord
+    - icon: simple/modrinth
       link: https://modrinth.com/mod/discarpet
       name: Download on Modrinth
-    - icon: fontawesome/brands/github
+    - icon: simple/github
       link: https://github.com/replaceitem/carpet-discarpet
       name: GitHub
 nav:
-  - Home: 'index.md'
-  - Getting started: 'setup.md'
-  - How it works: 'how-it-works.md'
+  - Home:
+    - 'index.md'
+    - Getting started: 'setup.md'
+    - How it works: 'how-it-works.md'
+    - Changelog: 'changelog.md'
+
+  - Example scripts:
+    - Chat: 'examples/chat.md'
+    - Log: 'examples/log.md'
+    - Grief log: 'examples/grief-log.md'
+    - Reply: 'examples/reply.md'
+    - Attachments: 'examples/attachments.md'
+    - Embed: 'examples/embed.md'
+    - Reactions: 'examples/reactions.md'
+    - Status and activity: 'examples/status-and-activity.md'
+    - Message components: 'examples/message-components.md'
+    - Slash commands: 'examples/slash-commands.md'
+    - Context menus: 'examples/context-menus.md'
+    - Modal: 'examples/modal.md'
 
   - Functions:
     - dc_send_message: 'functions/send-message.md'
@@ -71,7 +129,16 @@ nav:
     - dc_set_name: 'functions/set-name.md'
     - dc_set_channel_topic: 'functions/set-channel-topic.md'
     - dc_create_thread: 'functions/create-thread.md'
-    - Value from id functions: 'functions/value-from-id.md'
+    - Value functions:
+      - dc_channel_from_id: 'functions/values/channel-from-id.md'
+      - dc_server_from_id: 'functions/values/server-from-id.md'
+      - dc_emoji_from_id: 'functions/values/emoji-from-id.md'
+      - dc_sticker_from_id: 'functions/values/sticker-from-id.md'
+      - dc_role_from_id: 'functions/values/role-from-id.md'
+      - dc_user_from_id: 'functions/values/user-from-id.md'
+      - dc_message_from_id: 'functions/values/message-from-id.md'
+      - dc_webhook_from_id: 'functions/values/webhook-from-id.md'
+      - dc_webhook_from_url: 'functions/values/webhook-from-url.md'
     - Bot functions:
       - dc_get_bot_user: 'functions/bot/get-bot-user.md'
       - dc_set_activity: 'functions/bot/set-activity.md'
@@ -82,93 +149,77 @@ nav:
       - dc_set_nickname: 'functions/users/set-nickname.md'
       - dc_set_timeout: 'functions/users/set-timeout.md'
       - dc_get_timeout: 'functions/users/get-timeout.md'
+    - Webhook functions:
+      - dc_create_webhook: 'functions/webhooks/create-webhook.md'
+      - dc_send_webhook: 'functions/webhooks/send-webhook.md'
+      - dc_update_webhook: 'functions/webhooks/update-webhook.md'
     - Role functions:
       - dc_add_role: 'functions/roles/add-role.md'
       - dc_remove_role: 'functions/roles/remove-role.md'
       - dc_get_user_roles: 'functions/roles/get-user-roles.md'
-      - dc_get_user-color: 'functions/roles/get-user-color.md'
     - Interaction functions:
       - dc_create_application_command: 'functions/interactions/create-application-command.md'
       - dc_get_global_application_commands: 'functions/interactions/get-global-application-commands.md'
       - dc_respond_interaction: 'functions/interactions/respond-interaction.md'
-    - Webhook functions:
-      - dc_create_webhook: 'functions/webhooks/create-webhook.md'
-      - dc_delete_webhook: 'functions/webhooks/delete-webhook.md'
-      - dc_send_webhook: 'functions/webhooks/send-webhook.md'
-      - dc_update_webhook: 'functions/webhooks/update-webhook.md'
+
+  - Events:
+    - __on_system_message: 'events/system-message.md'
+    - __on_discord_message: 'events/discord-message.md'
+    - __on_discord_message_edit: 'events/discord-message-edit.md'
+    - __on_discord_message_delete: 'events/discord-message-delete.md'
+    - __on_discord_reaction: 'events/discord-reaction.md'
+    - __on_discord_server_member_join: 'events/discord-server-member-join.md'
+    - __on_discord_server_member_leave: 'events/discord-server-member-leave.md'
+    - __on_discord_slash_command: 'events/discord-slash-command.md'
+    - __on_discord_button: 'events/discord-button.md'
+    - __on_discord_select_menu: 'events/discord-select-menu.md'
+    - __on_discord_message_context_menu: 'events/discord-message-context-menu.md'
+    - __on_discord_user_context_menu: 'events/discord-user-context-menu.md'
+    - __on_discord_modal: 'events/discord-modal.md'
 
   - Values:
     - Message: 'values/message.md'
-    - Channel: 'values/channel.md'
-    - Server: 'values/server.md'
-    - User: 'values/user.md'
-    - Role: 'values/role.md'
     - Attachment: 'values/attachment.md'
-    - Reaction: 'values/reaction.md'
     - Emoji: 'values/emoji.md'
     - Sticker: 'values/sticker.md'
+    - Reaction: 'values/reaction.md'
+    - User: 'values/user.md'
     - Webhook: 'values/webhook.md'
+    - Role: 'values/role.md'
+    - Server: 'values/server.md'
+    - Channel: 'values/channel.md'
     - Application commands:
       - Slash command: 'values/commands/slash-command.md'
       - Message context menu: 'values/commands/message-context-menu.md'
       - User context menu: 'values/commands/user-context-menu.md'
     - Interactions:
-      - Slash command interaction: 'values/interactions/slash-command-interaction.md'
-      - Slash command interaction option: 'values/interactions/slash-command-interaction-option.md'
-      - Button interaction: 'values/interactions/button-interaction.md'
-      - Select menu interaction: 'values/interactions/select-menu-interaction.md'
-      - Modal interaction: 'values/interactions/modal-interaction.md'
-      - Message context menu interaction: 'values/interactions/message-context-menu-interaction.md'
-      - User context menu interaction: 'values/interactions/user-context-menu-interaction.md'
+      - Base interaction: 'values/interactions/interaction.md'
+      - Slash command interaction: 'values/interactions/slash-command.md'
+      - Button interaction: 'values/interactions/button.md'
+      - Select menu interaction: 'values/interactions/select-menu.md'
+      - Message context menu interaction: 'values/interactions/message-context-menu.md'
+      - User context menu interaction: 'values/interactions/user-context-menu.md'
+      - Modal interaction: 'values/interactions/modal.md'
     
-  - Parsable values:
+  - Parsables:
     - Message content: 'parsables/message-content.md'
     - Attachment: 'parsables/attachment.md'
-    - Color: 'parsables/color.md'
+    # - Allowed mentions: 'parsables/allowed-mentions.md'
     - Timestamp: 'parsables/timestamp.md'
-    - Allowed mentions: 'parsables/allowed-mentions.md'
+    - Color: 'parsables/color.md'
+    - Embed: 'parsables/embed.md'
     - Thread: 'parsables/thread.md'
-    - Embeds:
-      - Embed: 'parsables/embeds/embed.md'
-      - Embed author: 'parsables/embeds/embed-author.md'
-      - Embed field: 'parsables/embeds/embed-field.md'
-      - Embed footer: 'parsables/embeds/embed-footer.md'
+    - Modal: 'parsables/modal.md'
     - Webhooks:
       - Webhook profile: 'parsables/webhooks/webhook-profile.md'
       - Webhook profile updater: 'parsables/webhooks/webhook-profile-updater.md'
       - Webhook message profile: 'parsables/webhooks/webhook-message-profile.md'
-    - Commands:
+    - Application commands:
       - Slash command builder: 'parsables/commands/slash-command-builder.md'
-      - Slash command option: 'parsables/commands/slash-command-option.md'
-      - Slash command option choice: 'parsables/commands/slash-command-option-choice.md'
       - User context menu builder: 'parsables/commands/user-context-menu-builder.md'
       - Message context menu builder: 'parsables/commands/message-context-menu-builder.md'
     - Components:
-      - Component: 'parsables/components/component.md'
-      - Button: 'parsables/components/button.md'
-      - Select menu: 'parsables/components/select-menu.md'
-      - Select menu option: 'parsables/components/select-menu-option.md'
-      - Text input: 'parsables/components/text-input.md'
-      - Modal: 'parsables/components/modal.md'
-  - Events:
-    - __on_system_message: 'events/system-message.md'
-    - __on_discord_message: 'events/discord-message.md'
-    - __on_discord_reaction: 'events/discord-reaction.md'
-    - __on_discord_slash_command: 'events/discord-slash-command.md'
-    - __on_discord_button: 'events/discord-button.md'
-    - __on_discord_select_menu: 'events/discord-select-menu.md'
-    - __on_discord_modal: 'events/discord-modal.md'
-  - Exceptions: 'exceptions.md'
-  - Example scripts:
-    - Chat: 'examples/chat.md'
-    - Activity: 'examples/activity.md'
-    - Log: 'examples/log.md'
-    - Grief log: 'examples/grief-log.md'
-    - Reply: 'examples/reply.md'
-    - Embeds: 'examples/embeds.md'
-    - Attachments: 'examples/attachments.md'
-    - Reactions: 'examples/reactions.md'
-    - Slash commands: 'examples/slash-commands.md'
-    - Context menu: 'examples/context-menu.md'
-    - Message components: 'examples/message-components.md'
-    - Modal: 'examples/modal.md'
+      - Base component: 'parsables/components/component.md'
+      - Button component: 'parsables/components/button.md'
+      - Select menu component: 'parsables/components/select-menu.md'
+      - Text input component: 'parsables/components/text-input.md'

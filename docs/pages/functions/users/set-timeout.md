@@ -1,6 +1,27 @@
 ### `dc_set_timeout(user, server, timestamp, reason?)`
 
-{% include 'warning-blocking.md' %}
+Timeouts the user in a server until the given timestamp.
 
-Timeouts the [`user`](/values/user.md) in a [`server`](/values/server.md) until the given `timestamp` given in unix time milliseconds.
-If provided, `reason` will be shown in the audit log of your server.
+{% include 'blocking-function.md' %}
+
+
+### {input:}
+
+|     Parameter | Type                        | Description                              |
+|--------------:|:----------------------------|:-----------------------------------------|
+|        `user` | [User](/values/user.md)     | The user to set the timeout to.          |
+|      `server` | [Server](/values/server.md) | The server to set the user's timeout to. |
+|   `timestamp` | Number                      | The timestamp in unix time milliseconds. |
+| `reason` {:?} | String                      | The audit log reason.                    |
+
+
+### {output:}
+
+#### {output values:}
+
+* Null, if successful.
+
+#### {output exceptions:}
+
+* Throws an exception on failure.
+* `bad_request`, if the given timestamp is invalid.

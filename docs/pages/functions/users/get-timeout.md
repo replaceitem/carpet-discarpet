@@ -1,3 +1,18 @@
 ### `dc_get_timeout(user, server)`
 
-Returns the timeout of a [`user`](/values/user.md) in a [`server`](/values/server.md) as a unix time in milliseconds.
+Get the timeout of a user in a server.
+
+
+### {input:}
+
+| Parameter | Type                        | Description                                |
+|----------:|:----------------------------|:-------------------------------------------|
+|    `user` | [User](/values/user.md)     | The user to get the timeout from.          |
+|  `server` | [Server](/values/server.md) | The server to get the user's timeout from. |
+
+
+### {output:}
+
+#### {output values:}
+
+* The timeout of the user, as a Number in unix time milliseconds.

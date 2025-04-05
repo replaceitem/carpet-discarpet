@@ -1,13 +1,19 @@
 ### `dc_get_global_application_commands()`
 
-{% include 'warning-blocking.md' %}
+Gets all global application commands of the bot.
 
-Returns a list of all global application commands of the bot.
+{% include 'blocking-function.md' %}
 
-Throws an exception on failure
 
-This includes
+### {output:}
 
-* [Slash commands](/values/commands/slash-command.md)
-* [User context menus](/values/commands/user-context-menu.md)
-* [Message context menus](/values/commands/message-context-menu.md)
+#### {output values:}
+
+* List of all global application commands. This includes:
+    * [Slash commands](/values/commands/slash-command.md)
+    * [User context menus](/values/commands/user-context-menu.md)
+    * [Message context menus](/values/commands/message-context-menu.md)
+
+#### {output exceptions:}
+
+* Throws an exception on failure.

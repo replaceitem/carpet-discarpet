@@ -1,11 +1,29 @@
 `button`
 
-| Value       | Type                                                    | Description                                                                    |
-|-------------|---------------------------------------------------------|--------------------------------------------------------------------------------|
-| `component` | String                                                  | Must be `button`                                                               |
-| `id`        | String (optional, not required for `url` style buttons) | Custom id of the button. Used to identify them when pressed                    |
-| `label`     | String                                                  | The text shown on the button                                                   |
-| `disabled`  | boolean (optional, defaults to false)                   | Whether the button is greyed out or pressable                                  |
-| `style`     | String (optional, defaults to grey)                     | Button style. Can be `blurple`, `grey`, `green`, `red` and `url`               |
-| `emoji`     | String or Emoji value (optional)                        | The emoji shown on the button                                                  |
-| `url`       | String (optional, only required for `url` style)        | The URL opened when clicking the button. This is only used for the `url` style |
+Used for creating a button component.
+
+
+### {map:}
+
+|             Key | Type                                 | Description                                                               |
+|----------------:|:-------------------------------------|:--------------------------------------------------------------------------|
+|            `id` | String                               | The ID of the button. Used to identify when interacted with.[^1]          |
+|         `label` | String                               | The text shown on the button.                                             |
+| `disabled` {:?} | Boolean<br>(`false` by default)      | Whether if this button is disabled.                                       |
+|    `style` {:?} | String<br>(`GREY` by default)        | The [style](/parsables/components/button.md#button-styles) of the button. |
+|    `emoji` {:?} | String, or [Emoji](/values/emoji.md) | The emoji shown on the button.                                            |
+|           `url` | String                               | The URL opened when clicking the button.[^2]                              |
+
+#### Button styles
+
+|    String | Preview                                 |
+|----------:|:----------------------------------------|
+| `BLURPLE` | ![Primary](/assets/buttons/blurple.svg) |
+|    `GREY` | ![Secondary](/assets/buttons/grey.svg)  |
+|   `GREEN` | ![Success](/assets/buttons/green.svg)   |
+|     `RED` | ![Danger](/assets/buttons/red.svg)      |
+|     `URL` | ![Link](/assets/buttons/url.svg)        |
+
+
+[^1]: Not required for `URL` style.
+[^2]: Only required for `URL` style.

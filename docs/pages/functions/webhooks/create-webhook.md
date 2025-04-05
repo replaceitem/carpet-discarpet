@@ -1,11 +1,24 @@
-### `dc_create_webhook(channel, webhookProfile)`
+### `dc_create_webhook(channel, profile)`
 
-{% include 'warning-blocking.md' %}
+Creates a new webhook in a channel.
 
-Creates a new Webhook in the specified [`channel`](/values/channel.md)
-with the specified options in `webhookProfile`
-as a [webhook profile parsable](/parsables/webhooks/webhook-profile.md).
+{% include 'blocking-function.md' %}
 
-Returns a [`webhook`](/values/webhook.md)
 
-Throws an exception on failure
+### {input:}
+
+| Parameter | Type                                                      | Description                           |
+|----------:|:----------------------------------------------------------|:--------------------------------------|
+| `channel` | [Channel](/values/channel.md)                             | The channel to create the webhook in. |
+| `profile` | [Webhook profile](/parsables/webhooks/webhook-profile.md) | The webhook's profile.                |
+
+
+### {output:}
+
+#### {output values:}
+
+* The created [webhook](/values/webhook.md).
+
+#### {output exceptions:}
+
+* Throws an exception on failure.

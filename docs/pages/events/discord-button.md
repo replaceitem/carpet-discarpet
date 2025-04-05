@@ -1,5 +1,10 @@
 ### `__on_discord_button(interaction)`
 
-Executes when a user presses a button component on a message
+Executes when a user presses a button component on a message.
 
-* `interaction` -> [Button interaction](/values/interactions/button-interaction.md): The button interaction containing everything about the button that was pressed
+
+### {event inputs:}
+
+|         Value | Type                                                 | Description                                        |
+|--------------:|:-----------------------------------------------------|:---------------------------------------------------|
+| `interaction` | [Button interaction](/values/interactions/button.md) | The interaction about the button that was pressed. |

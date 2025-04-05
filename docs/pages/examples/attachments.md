@@ -1,21 +1,34 @@
-Demonstration of the various ways of sending attachments in a message.
-Remember to adjust the channel id to a channel in your server the bot has access to.
+---
+icon: material/file-upload
+---
+
+
+Sends a message with multiple [attachments](/parsables/attachment.md):
+
+* Image attachment from an external URL
+* File attachment with specified `bytes`
+
+
+![Demo attachments](/assets/examples/attachments.png)
+
 
 ```sc title="attachments.sc"
-__config() -> {'scope'->'global','bot'->'BOT'};
+__config() -> {
+    'scope' -> 'global',
+    'bot' -> 'mybot'
+};
 
-dc_send_message(dc_channel_from_id('759102744761335891'),{
-    'content'->'',
-    'attachments'->[
+channel = dc_channel_from_id('put id here!');
+
+dc_send_message(channel, {
+    'content' -> '',
+    'attachments' -> [
         {
-            'file'->'C:/path/to/some/file.txt'
+            'url' -> 'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png'
         },
         {
-            'url'->'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png'
-        },
-        {
-            'bytes'->'Hello world!',
-            'name'->'Message.txt'
+            'bytes' -> 'Hello world!',
+            'name' -> 'Message.txt'
         }
     ]
 });

@@ -1,8 +1,28 @@
-### `dc_set_nickname(user,server,name,reason?)`
+### `dc_set_nickname(user, server, name, reason?)`
 
-{% include 'warning-blocking.md' %}
+Sets the nickname of a user in a server.
 
-Sets the nickname of the [`user`](/values/user.md) on the [`server`](/values/server.md).
-If provided, `reason` will be shown in the audit log of your server.
+{% include 'blocking-function.md' %}
 
-Throws an exception on failure
+
+### {input:}
+
+|     Parameter | Type                        | Description                            |
+|--------------:|:----------------------------|:---------------------------------------|
+|        `user` | [User](/values/user.md)     | The user to set the nickname.          |
+|      `server` | [Server](/values/server.md) | The server to set the user's nickname. |
+|        `name` | String                      | The name to set the user to.           |
+| `reason` {:?} | String                      | The audit log reason.                  |
+
+
+### {output:}
+
+#### {output values:}
+
+* Null, if successful.
+
+#### {output exceptions:}
+
+* Throws an exception on failure.
+* `missing_permission`
+    * `50013` - You do not have "Manage Nicknames" permission, or the user is of higher hierarchy
