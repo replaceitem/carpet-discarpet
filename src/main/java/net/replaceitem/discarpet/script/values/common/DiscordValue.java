@@ -62,7 +62,7 @@ public abstract class DiscordValue<T> extends Value {
 
     @Override
     @NotNull
-    public NbtElement toTag(boolean force, DynamicRegistryManager regs) {
+    public NbtElement toTag(boolean force, @NotNull DynamicRegistryManager regs) {
         return NbtString.of(getString());
     }
 }

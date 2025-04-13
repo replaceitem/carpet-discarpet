@@ -41,7 +41,7 @@ public class Interactions {
         CompletableFuture<? extends ApplicationCommand> cf;
         if(server.isEmpty()) {
             Bot bot = Discarpet.getBotInContext(context, "dc_create_application_command");
-            cf = applicationCommandBuilder.createGlobal(bot.getApi());
+            cf = applicationCommandBuilder.createGlobal(bot.getJda());
         } else {
             cf = applicationCommandBuilder.createForServer(server.get());
         }
@@ -51,7 +51,7 @@ public class Interactions {
     @ScarpetFunction
     public List<ApplicationCommand> dc_get_global_application_commands(Context context) {
         Bot bot = Discarpet.getBotInContext(context,"dc_get_global_application_commands");
-        DiscordApi api = bot.getApi();
+        DiscordApi api = bot.getJda();
         Set<ApplicationCommand> applicationCommands = ValueUtil.awaitFuture(api.getGlobalApplicationCommands(), "Could not get global application commands");
         return new ArrayList<>(applicationCommands);
     }

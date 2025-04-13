@@ -1,21 +1,25 @@
 package net.replaceitem.discarpet.script.parsable.parsables.embeds;
 
+import carpet.script.value.Value;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.utils.FileUpload;
 import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.script.parsable.Optional;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
 import net.replaceitem.discarpet.script.util.ScarpetGraphicsDependency;
-import carpet.script.value.Value;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @ParsableClass(name = "embed")
-public class EmbedParsable implements ParsableConstructor<EmbedBuilder> {
+public class EmbedParsable implements ParsableConstructor<MessageEmbed> {
     @Optional String title;
     @Optional String url;
     @Optional String description;
@@ -27,15 +31,15 @@ public class EmbedParsable implements ParsableConstructor<EmbedBuilder> {
     @Optional Value thumbnail;
     @Optional Instant timestamp;
     
-    
+    private final List<FileUpload> fileUploads = new ArrayList<>(0);
 
     @Override
-    public EmbedBuilder construct() {
+    public MessageEmbed construct() {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(title);
         embedBuilder.setUrl(url);
         embedBuilder.setDescription(description);
-        if(author!=null) author.apply(embedBuilder);
+        if(author != null) author.apply(embedBuilder);
         for (EmbedFieldParsable field : fields) {
             field.apply(embedBuilder);
         }
@@ -44,7 +48,7 @@ public class EmbedParsable implements ParsableConstructor<EmbedBuilder> {
         if(image != null) setImage(embedBuilder);
         if(thumbnail != null) setThumbnail(embedBuilder);
         embedBuilder.setTimestamp(timestamp);
-        return embedBuilder;
+        return embedBuilder.build();
     }
     
     private void setImage(EmbedBuilder embedBuilder) {
@@ -65,6 +69,8 @@ public class EmbedParsable implements ParsableConstructor<EmbedBuilder> {
     private void setThumbnail(EmbedBuilder embedBuilder) {
         if(Discarpet.isScarpetGraphicsInstalled() && ScarpetGraphicsDependency.isPixelAccessible(thumbnail)) {
             BufferedImage bufferedImage = ScarpetGraphicsDependency.getImageFromValue(thumbnail);
+            // TODO make file upload creation from image/url/file/bytes generalized
+            fileUploads.add();
             embedBuilder.setThumbnail(bufferedImage);
             return;
         }

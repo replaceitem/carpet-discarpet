@@ -1,21 +1,20 @@
 package net.replaceitem.discarpet.script.values.interactions;
 
-import net.replaceitem.discarpet.script.util.ValueUtil;
+import carpet.script.value.BooleanValue;
+import carpet.script.value.NumericValue;
+import carpet.script.value.StringValue;
+import carpet.script.value.Value;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.replaceitem.discarpet.script.values.AttachmentValue;
 import net.replaceitem.discarpet.script.values.ChannelValue;
 import net.replaceitem.discarpet.script.values.RoleValue;
 import net.replaceitem.discarpet.script.values.UserValue;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
-import carpet.script.value.BooleanValue;
-import carpet.script.value.ListValue;
-import carpet.script.value.NumericValue;
-import carpet.script.value.StringValue;
-import carpet.script.value.Value;
-import org.javacord.api.interaction.SlashCommandInteractionOption;
 
-public class SlashCommandInteractionOptionValue extends DiscordValue<SlashCommandInteractionOption> {
-    public SlashCommandInteractionOptionValue(SlashCommandInteractionOption slashCommandInteractionOption) {
-        super(slashCommandInteractionOption);
+public class SlashCommandInteractionOptionValue extends DiscordValue<OptionMapping> {
+    public SlashCommandInteractionOptionValue(OptionMapping option) {
+        super(option);
     }
 
     @Override
@@ -26,23 +25,25 @@ public class SlashCommandInteractionOptionValue extends DiscordValue<SlashComman
     public Value getProperty(String property) {
         return switch (property) {
             case "name" -> StringValue.of(delegate.getName());
-            case "is_subcommand_or_group" -> BooleanValue.of(delegate.isSubcommandOrGroup());
+            // TODO deprecate this and add ~type
+            case "is_subcommand_or_group" -> BooleanValue.of(delegate.getType() == OptionType.SUB_COMMAND || delegate.getType() == OptionType.SUB_COMMAND_GROUP);
             case "value" -> getValue();
-            case "options" -> ListValue.wrap(delegate.getOptions().stream().map(SlashCommandInteractionOptionValue::new));
-           
             default -> super.getProperty(property);
         };
     }
     
     private Value getValue() {
-        if(delegate.getStringValue().isPresent()) return StringValue.of(ValueUtil.unpackOptional(delegate.getStringValue()));
-        if(delegate.getLongValue().isPresent()) return NumericValue.of(ValueUtil.unpackOptional(delegate.getLongValue()));
-        if(delegate.getBooleanValue().isPresent()) return ValueUtil.ofOptionalBoolean(delegate.getBooleanValue());
-        if(delegate.getUserValue().isPresent()) return UserValue.of(delegate.getUserValue());
-        if(delegate.getChannelValue().isPresent()) return ChannelValue.of(delegate.getChannelValue());
-        if(delegate.getRoleValue().isPresent()) return RoleValue.of(delegate.getRoleValue());
-        if(delegate.getDecimalValue().isPresent()) return NumericValue.of(ValueUtil.unpackOptional(delegate.getDecimalValue()));
-        if(delegate.getAttachmentValue().isPresent()) return AttachmentValue.of(delegate.getAttachmentValue());
-        return StringValue.of(ValueUtil.unpackOptional(delegate.getStringRepresentationValue()));
+        return switch (delegate.getType()) {
+            case STRING -> StringValue.of(delegate.getAsString());
+            case INTEGER -> NumericValue.of(delegate.getAsInt());
+            case BOOLEAN -> BooleanValue.of(delegate.getAsBoolean());
+            case USER -> UserValue.of(delegate.getAsUser());
+            case CHANNEL -> ChannelValue.of(delegate.getAsChannel());
+            case ROLE -> RoleValue.of(delegate.getAsRole());
+            case MENTIONABLE -> DiscordValue.of(delegate.getAsMentionable());
+            case NUMBER -> NumericValue.of(delegate.getAsDouble());
+            case ATTACHMENT -> AttachmentValue.of(delegate.getAsAttachment());
+            case SUB_COMMAND, SUB_COMMAND_GROUP, UNKNOWN -> Value.NULL;
+        };
     }
 }

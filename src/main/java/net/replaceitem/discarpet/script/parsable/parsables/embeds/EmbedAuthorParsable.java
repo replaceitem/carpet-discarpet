@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables.embeds;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.script.parsable.Applicable;
 import net.replaceitem.discarpet.script.parsable.DirectParsable;

@@ -2,8 +2,8 @@ package net.replaceitem.discarpet.script.values.interactions;
 
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import net.dv8tion.jda.api.interactions.components.buttons.ButtonInteraction;
 import net.replaceitem.discarpet.script.values.MessageValue;
-import org.javacord.api.interaction.ButtonInteraction;
 
 public class ButtonInteractionValue extends InteractionValue<ButtonInteraction> {
     public ButtonInteractionValue(ButtonInteraction buttonInteraction) {
@@ -17,7 +17,7 @@ public class ButtonInteractionValue extends InteractionValue<ButtonInteraction> 
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "custom_id" -> StringValue.of(delegate.getCustomId());
+            case "custom_id" -> StringValue.of(delegate.getId());
             case "message" -> MessageValue.of(delegate.getMessage());
             default -> super.getProperty(property);
         };

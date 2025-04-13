@@ -4,10 +4,10 @@ import carpet.script.value.BooleanValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
-import net.replaceitem.discarpet.script.values.EmojiValue;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.replaceitem.discarpet.script.exception.DiscordThrowables;
-import org.javacord.api.entity.emoji.Emoji;
-import org.javacord.core.entity.emoji.UnicodeEmojiImpl;
+import net.replaceitem.discarpet.script.values.EmojiValue;
 
 import java.awt.*;
 import java.util.Optional;
@@ -20,6 +20,14 @@ public class ValueUtil {
     public static <T> T awaitFuture(CompletableFuture<T> cf, String message) {
         try {
             return cf.get();
+        } catch (Exception e) {
+            throw DiscordThrowables.convert(e, message);
+        }
+    }
+    
+    public static <T> T awaitRest(RestAction<T> restAction, String message) {
+        try {
+            return restAction.complete();
         } catch (Exception e) {
             throw DiscordThrowables.convert(e, message);
         }
@@ -41,6 +49,11 @@ public class ValueUtil {
         if(optionalBoolean.isEmpty()) return Value.NULL;
         return BooleanValue.of(optionalBoolean.get());
     }
+    
+    public static Value ofPositiveInt(int v) {
+        if(v < 0) return Value.NULL;
+        return NumericValue.of(v);
+    }
 
 
     public static Value colorToValue(Color color) {
@@ -49,7 +62,7 @@ public class ValueUtil {
     }
     
     public static Emoji emojiFromValue(Value value) {
-        return value==null? null : (value instanceof EmojiValue emojiValue ? emojiValue.getDelegate() : UnicodeEmojiImpl.fromString(value.getString()));
+        return value == null ? null : (value instanceof EmojiValue emojiValue ? emojiValue.getDelegate() : Emoji.fromFormatted(value.getString()));
     }
     
     public static <T> Optional<T> optionalArg(T[] array, int index) {

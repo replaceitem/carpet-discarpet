@@ -45,6 +45,7 @@ public class Messages {
 
 	@ScarpetFunction
 	public void dc_react(Message message, Value emojiValue) {
+        // TODO split to dc_add_reaction(msg, emoji) and dc_remove_reaction(msg, emoji?, user?)
         CompletableFuture<Void> cf = message.addReaction(ValueUtil.emojiFromValue(emojiValue));
         ValueUtil.awaitFuture(cf, "Error reacting to message");
 	}

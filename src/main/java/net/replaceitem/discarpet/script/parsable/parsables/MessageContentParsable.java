@@ -3,30 +3,30 @@ package net.replaceitem.discarpet.script.parsable.parsables;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.MapValue;
 import carpet.script.value.Value;
-import net.replaceitem.discarpet.script.parsable.Applicable;
-import net.replaceitem.discarpet.script.parsable.DirectParsable;
-import net.replaceitem.discarpet.script.parsable.Optional;
-import net.replaceitem.discarpet.script.parsable.ParsableClass;
-import net.replaceitem.discarpet.script.util.content.ContentApplier;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.sticker.Sticker;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.ItemComponent;
+import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
+import net.dv8tion.jda.api.utils.FileUpload;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import net.dv8tion.jda.api.utils.messages.MessageRequest;
+import net.replaceitem.discarpet.script.parsable.*;
+import net.replaceitem.discarpet.script.parsable.parsables.embeds.EmbedParsable;
 import net.replaceitem.discarpet.script.values.StickerValue;
-import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.message.MessageFlag;
-import org.javacord.api.entity.message.component.ActionRow;
-import org.javacord.api.entity.message.component.LowLevelComponent;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
-import org.javacord.api.entity.message.mention.AllowedMentions;
 
 import java.util.EnumSet;
 import java.util.List;
 
 @ParsableClass(name = "message_content")
-public class MessageContentParsable implements Applicable<ContentApplier>, DirectParsable {
+public class MessageContentParsable implements Applicable<MessageRequest<?>>, DirectParsable {
     
     String content;
-    @Optional List<AttachmentParsable> attachments = List.of();
+    @Optional List<FileUpload> attachments = List.of();
     @Optional List<Value> stickers = List.of();
-    @Optional List<EmbedBuilder> embeds = List.of();
-    @Optional List<List<LowLevelComponent>> components = List.of();
+    @Optional List<EmbedParsable> embeds = List.of();
+    @Optional List<List<ItemComponent>> components = List.of();
     @Optional AllowedMentions allowed_mentions;
     @Optional Message reply_to;
     @Optional String nonce;
@@ -38,41 +38,45 @@ public class MessageContentParsable implements Applicable<ContentApplier>, Direc
     @Optional Boolean suppress_notifications = false;
     
     @Override
-    public void apply(ContentApplier contentApplier) {
-        contentApplier.setContent(content);
-        for (AttachmentParsable attachment : attachments) {
-            attachment.apply(contentApplier);
+    public void apply(MessageRequest<?> message) {
+        message.setContent(content);
+        message.setFiles(attachments);
+        if(!stickers.isEmpty()) {
+            if(!(message instanceof MessageCreateAction messageCreateRequest)) throw new InternalExpressionException("'stickers' is only supported for message creation, not edits");
+            messageCreateRequest.setStickers(stickers.stream().map(value ->
+                    Sticker.fromId(value instanceof StickerValue stickerValue ?
+                            stickerValue.getDelegate().getId() :
+                            value.getString()
+                    )).toList()
+            );
         }
-        for (Value sticker : stickers) {
-            if(sticker instanceof StickerValue stickerValue) {
-                contentApplier.addSticker(stickerValue.getDelegate());
-            } else {
-                String stickerId = sticker.getString();
-                try {
-                    long id = Long.parseLong(stickerId);
-                    contentApplier.addSticker(id);
-                } catch (NumberFormatException e) {
-                    throw new InternalExpressionException("'stickers' must be a list of sticker values or sticker ids");
-                }
-            }
-        }
+        message.setEmbeds()
         for (EmbedBuilder embed : embeds) {
-            contentApplier.addEmbed(embed);
+            message.addEmbed(embed);
         }
         List<ActionRow> actionRows = components.stream().map(ActionRow::of).toList();
         for (ActionRow actionRow : actionRows) {
-            contentApplier.addComponent(actionRow);
+            message.addComponent(actionRow);
         }
-        if(allowed_mentions != null) contentApplier.setAllowedMentions(allowed_mentions);
-        if(reply_to != null) contentApplier.replyTo(reply_to);
-        contentApplier.setNonce(nonce);
-        contentApplier.setTts(tts);
+        if(allowed_mentions != null) message.setAllowedMentions(allowed_mentions);
+        if(reply_to != null) message.replyTo(reply_to);
+        message.setNonce(nonce);
+        message.setTts(tts);
 
         EnumSet<MessageFlag> messageFlags = EnumSet.noneOf(MessageFlag.class);
         if(ephemeral) messageFlags.add(MessageFlag.EPHEMERAL);
         if(suppress_embeds) messageFlags.add(MessageFlag.SUPPRESS_EMBEDS);
         if(suppress_notifications) messageFlags.add(MessageFlag.SUPPRESS_NOTIFICATIONS);
-        if(!messageFlags.isEmpty()) contentApplier.setFlags(messageFlags);
+        if(!messageFlags.isEmpty()) message.setFlags(messageFlags);
+    }
+
+    @Override
+    public MessageCreateData construct() {
+        MessageCreateBuilder builder = new MessageCreateBuilder();
+        builder.setContent(content);
+        builder.addFiles();
+        
+        return builder.build();
     }
 
     @Override

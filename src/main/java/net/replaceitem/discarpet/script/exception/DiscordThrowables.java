@@ -8,10 +8,12 @@ import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import com.google.gson.JsonParseException;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.replaceitem.discarpet.Discarpet;
 import org.javacord.api.exception.*;
 import org.javacord.api.util.rest.RestRequestResponseInformation;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -46,17 +48,21 @@ public class DiscordThrowables {
         if(exception instanceof MissingIntentException missingIntentException) {
             return new ThrowStatement(missingIntentException.getMessage(), MISSING_INTENT);
         }
-        Discarpet.LOGGER.error("Could now convert exception type {} to discarpet exception ({}):", exception.getClass().getSimpleName(), message, exception);
+        if(exception instanceof IOException) {
+            return new ThrowStatement(message, Throwables.IO_EXCEPTION);
+        }
+        Discarpet.LOGGER.error("Could not convert exception type {} to discarpet exception ({}):", exception.getClass().getSimpleName(), message, exception);
         return new ThrowStatement(exception.getMessage(), DISCORD_EXCEPTION);
     }
     
-    public static ThrowStatement genericCode(int code) {
-        return new ThrowStatement(createSimpleError(code), DISCORD_EXCEPTION);
+    public static ThrowStatement genericCode(ErrorResponse errorCode) {
+        return new ThrowStatement(createSimpleError(errorCode), DISCORD_EXCEPTION);
     }
 
-    private static MapValue createSimpleError(int code) {
+    private static MapValue createSimpleError(ErrorResponse errorCode) {
         Map<Value, Value> map = new HashMap<>();
-        map.put(StringValue.of("code"), NumericValue.of(code));
+        map.put(StringValue.of("code"), NumericValue.of(errorCode.getCode()));
+        map.put(StringValue.of("message"), StringValue.of(errorCode.getMeaning()));
         return MapValue.wrap(map);
     }
     private static MapValue createErrorMap(RestRequestResponseInformation restRequestResponseInformation) {
@@ -74,6 +80,7 @@ public class DiscordThrowables {
         return MapValue.wrap(map);
     }
     
+    // https://discord.com/developers/docs/topics/opcodes-and-status-codes#http
     public static class Codes {
         public static final int CANNOT_EXECUTE_ACTION_ON_CHANNEL_TYPE = 50024;
         public static final int INVALID_EMOJI = 50151;
