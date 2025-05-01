@@ -1,35 +1,47 @@
 package net.replaceitem.discarpet.script.parsable.parsables.components;
 
-import net.replaceitem.discarpet.script.parsable.Optional;
+import net.dv8tion.jda.api.interactions.components.Component;
+import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
+import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
+import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
+import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
-import org.javacord.api.entity.message.component.ComponentType;
-import org.javacord.api.entity.message.component.SelectMenu;
-import org.javacord.api.entity.message.component.SelectMenuBuilder;
-import org.javacord.api.entity.message.component.SelectMenuOption;
 
+import java.util.EnumSet;
 import java.util.List;
-import java.util.Locale;
 
 @ParsableClass(name = "select_menu")
 public class SelectMenuParsable implements ParsableConstructor<SelectMenu> {
     String id;
-    ComponentType component;
-    @Optional Boolean disabled = false;
-    @Optional List<SelectMenuOption> options = List.of();
-    @Optional Integer min = 1;
-    @Optional Integer max = 1;
-    @Optional String placeholder;
+    Component.Type component;
+    @OptionalField
+    Boolean disabled = false;
+    @OptionalField
+    List<SelectOption> options = List.of();
+    @OptionalField
+    Integer min = 1;
+    @OptionalField
+    Integer max = 1;
+    @OptionalField
+    String placeholder;
 
+    // TODO some things may be added here, like channelType for entity selects
+    
     @Override
     public SelectMenu construct() {
-        SelectMenuBuilder selectMenuBuilder = new SelectMenuBuilder(component, id);
-
-        selectMenuBuilder.setDisabled(disabled);
-        selectMenuBuilder.addOptions(options);
-        selectMenuBuilder.setMinimumValues(min);
-        selectMenuBuilder.setMaximumValues(max);
-        selectMenuBuilder.setPlaceholder(placeholder);
-        return selectMenuBuilder.build();
+        SelectMenu.Builder<?,?> builder = switch (component) {
+            case STRING_SELECT -> StringSelectMenu.create(id).addOptions(options);
+            case USER_SELECT -> EntitySelectMenu.create(id, EntitySelectMenu.SelectTarget.USER);
+            case CHANNEL_SELECT -> EntitySelectMenu.create(id, EntitySelectMenu.SelectTarget.CHANNEL).setDefaultValues();
+            case ROLE_SELECT -> EntitySelectMenu.create(id, EntitySelectMenu.SelectTarget.ROLE);
+            case MENTIONABLE_SELECT -> EntitySelectMenu.create(id, EnumSet.of(EntitySelectMenu.SelectTarget.USER, EntitySelectMenu.SelectTarget.ROLE));
+            default -> throw new IllegalArgumentException("ComponentParsable redirected to SelectMenu, but type is invalid for select menu. Report this to discarpet.");
+        };
+        
+        builder.setDisabled(disabled).setRequiredRange(min, max);
+        if(placeholder != null) builder.setPlaceholder(placeholder);
+        return builder.build();
     }
 }

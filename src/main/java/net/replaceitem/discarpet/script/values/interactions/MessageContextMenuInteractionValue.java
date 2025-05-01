@@ -1,11 +1,11 @@
 package net.replaceitem.discarpet.script.values.interactions;
 
-import net.replaceitem.discarpet.script.values.UserValue;
 import carpet.script.value.Value;
-import org.javacord.api.interaction.MessageContextMenuInteraction;
+import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
+import net.replaceitem.discarpet.script.values.UserValue;
 
-public class MessageContextMenuInteractionValue extends ApplicationCommandInteractionValue<MessageContextMenuInteraction> {
-    public MessageContextMenuInteractionValue(MessageContextMenuInteraction messageContextMenuInteraction) {
+public class MessageContextMenuInteractionValue extends ApplicationCommandInteractionValue<MessageContextInteractionEvent> {
+    public MessageContextMenuInteractionValue(MessageContextInteractionEvent messageContextMenuInteraction) {
         super(messageContextMenuInteraction);
     }
 

@@ -1,79 +1,104 @@
 package net.replaceitem.discarpet.script.parsable.parsables.embeds;
 
+import carpet.script.exception.InternalExpressionException;
+import carpet.script.value.Value;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.utils.FileUpload;
 import net.replaceitem.discarpet.Discarpet;
-import net.replaceitem.discarpet.script.parsable.Optional;
+import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
+import net.replaceitem.discarpet.script.util.FileUtil;
 import net.replaceitem.discarpet.script.util.ScarpetGraphicsDependency;
-import carpet.script.value.Value;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
 
+import javax.annotation.Nullable;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @ParsableClass(name = "embed")
-public class EmbedParsable implements ParsableConstructor<EmbedBuilder> {
-    @Optional String title;
-    @Optional String url;
-    @Optional String description;
-    @Optional EmbedAuthorParsable author;
-    @Optional List<EmbedFieldParsable> fields = List.of();
-    @Optional Color color;
-    @Optional EmbedFooterParsable footer;
-    @Optional Value image;
-    @Optional Value thumbnail;
-    @Optional Instant timestamp;
-    
-    
+public class EmbedParsable implements ParsableConstructor<MessageEmbed> {
+    @OptionalField
+    String title;
+    @OptionalField
+    String url;
+    @OptionalField
+    String description;
+    @OptionalField
+    EmbedAuthorParsable author;
+    @OptionalField
+    List<EmbedFieldParsable> fields = List.of();
+    @OptionalField
+    Color color;
+    @OptionalField
+    EmbedFooterParsable footer;
+    @OptionalField
+    Value image;
+    @OptionalField
+    Value thumbnail;
+    @OptionalField
+    Instant timestamp;
+
+    private final List<FileUpload> fileUploads = new ArrayList<>(0);
 
     @Override
-    public EmbedBuilder construct() {
+    public MessageEmbed construct() {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(title);
         embedBuilder.setUrl(url);
         embedBuilder.setDescription(description);
-        if(author!=null) author.apply(embedBuilder);
+        embedBuilder.setColor(color);
+        embedBuilder.setTimestamp(timestamp);
+        
         for (EmbedFieldParsable field : fields) {
             field.apply(embedBuilder);
         }
-        embedBuilder.setColor(color);
-        if(footer!=null) footer.apply(embedBuilder);
-        if(image != null) setImage(embedBuilder);
-        if(thumbnail != null) setThumbnail(embedBuilder);
-        embedBuilder.setTimestamp(timestamp);
-        return embedBuilder;
-    }
-    
-    private void setImage(EmbedBuilder embedBuilder) {
-        if(Discarpet.isScarpetGraphicsInstalled() && ScarpetGraphicsDependency.isPixelAccessible(image)) {
-            BufferedImage bufferedImage = ScarpetGraphicsDependency.getImageFromValue(image);
-            embedBuilder.setImage(bufferedImage);
-            return;
+        
+        if(author != null) {
+            if(author.getFileUpload() != null) fileUploads.add(author.getFileUpload());
+            author.apply(embedBuilder);
         }
-        String iconString = image.getString();
-        File file = new File(iconString);
-        if(file.exists()) {
-            embedBuilder.setImage(file);
-            return;
+        if(footer != null) {
+            if(footer.getFileUpload() != null) fileUploads.add(footer.getFileUpload());
+            footer.apply(embedBuilder);
         }
-        embedBuilder.setImage(iconString);
+        if(image != null) {
+            EmbedImage embedImage = handleImage(image);
+            this.fileUploads.add(embedImage.fileUpload());
+            embedBuilder.setImage(embedImage.url());
+        }
+        if(thumbnail != null) {
+            EmbedImage embedImage = handleImage(thumbnail);
+            this.fileUploads.add(embedImage.fileUpload());
+            embedBuilder.setThumbnail(embedImage.url());
+        }
+        
+        return embedBuilder.build();
     }
 
-    private void setThumbnail(EmbedBuilder embedBuilder) {
-        if(Discarpet.isScarpetGraphicsInstalled() && ScarpetGraphicsDependency.isPixelAccessible(thumbnail)) {
-            BufferedImage bufferedImage = ScarpetGraphicsDependency.getImageFromValue(thumbnail);
-            embedBuilder.setThumbnail(bufferedImage);
-            return;
+    public List<FileUpload> getFileUploads() {
+        return fileUploads;
+    }
+
+    record EmbedImage(String url, @Nullable FileUpload fileUpload) {}
+
+    static EmbedImage handleImage(Value value) {
+        if(Discarpet.isScarpetGraphicsInstalled() && ScarpetGraphicsDependency.isPixelAccessible(value)) {
+            FileUpload fileUpload = FileUtil.fromImage(value, FileUtil.randomName("png"));
+            return new EmbedImage("attachment://" + fileUpload.getName(), fileUpload);
         }
-        String iconString = thumbnail.getString();
-        File file = new File(iconString);
+        String valueString = value.getString();
+        if(EmbedBuilder.URL_PATTERN.matcher(valueString).matches()) {
+            return new EmbedImage(valueString, null);
+        }
+        File file = new File(valueString);
         if(file.exists()) {
-            embedBuilder.setThumbnail(file);
-            return;
+            FileUpload fileUpload = FileUtil.fromFile(file, FileUtil.randomName(FileUtil.getFileExtension(valueString, "png")));
+            return new EmbedImage("attachment://" + fileUpload.getName(), fileUpload);
         }
-        embedBuilder.setThumbnail(iconString);
+        throw new InternalExpressionException("Expected either a url, file path or image value");
     }
 }

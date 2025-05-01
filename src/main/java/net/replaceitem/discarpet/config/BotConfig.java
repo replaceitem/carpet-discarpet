@@ -2,7 +2,6 @@ package net.replaceitem.discarpet.config;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BotConfig {
