@@ -1,4 +1,4 @@
-package net.replaceitem.discarpet.script.values.commands;
+package net.replaceitem.discarpet.script.values;
 
 import carpet.script.value.ListValue;
 import carpet.script.value.StringValue;
@@ -7,9 +7,9 @@ import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.replaceitem.discarpet.mixins.CommandImplMixin;
 import net.replaceitem.discarpet.script.util.ValueUtil;
-import net.replaceitem.discarpet.script.values.ServerValue;
 import net.replaceitem.discarpet.script.values.common.Deletable;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
+import org.jetbrains.annotations.Nullable;
 
 public class CommandValue extends DiscordValue<Command> implements Deletable {
     public CommandValue(Command applicationCommand) {
@@ -34,7 +34,7 @@ public class CommandValue extends DiscordValue<Command> implements Deletable {
     }
 
     @Override
-    public RestAction<?> delete(String reason) {
+    public RestAction<?> delete(@Nullable String reason) {
         return delegate.delete();
     }
 }

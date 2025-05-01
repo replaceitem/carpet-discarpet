@@ -10,6 +10,7 @@ import net.replaceitem.discarpet.script.values.common.DiscordValue;
 import carpet.script.value.ListValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -52,7 +53,7 @@ public class MessageValue extends DiscordValue<Message> implements Deletable {
     }
 
     @Override
-    public RestAction<?> delete(String reason) {
+    public RestAction<?> delete(@Nullable String reason) {
         return delegate.delete().reason(reason);
     }
 }

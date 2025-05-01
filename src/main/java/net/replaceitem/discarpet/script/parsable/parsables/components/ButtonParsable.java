@@ -6,26 +6,31 @@ import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 @ParsableClass(name = "button")
 public class ButtonParsable implements ParsableConstructor<Button> {
-    @OptionalField
+    @OptionalField @Nullable
     String id;
     String label;
     @OptionalField
     Boolean disabled = false;
     @OptionalField
     ButtonStyle style = ButtonStyle.SECONDARY;
-    @OptionalField
+    @OptionalField @Nullable
     Emoji emoji;
-    @OptionalField
+    @OptionalField @Nullable
     String url;
     
     @Override
     public Button construct() {
         return Button.of(
                 style,
-                style == ButtonStyle.LINK ? url : id,
+                style == ButtonStyle.LINK ?
+                        Objects.requireNonNull(url, "Link style requires an url") :
+                        Objects.requireNonNull(id, "Non-link style requires an id"),
                 label,
                 emoji
         ).withDisabled(disabled);

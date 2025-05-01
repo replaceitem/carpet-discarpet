@@ -9,23 +9,22 @@ import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
 import net.replaceitem.discarpet.script.util.FileUtil;
 import net.replaceitem.discarpet.script.util.ScarpetGraphicsDependency;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 @ParsableClass(name = "attachment")
 public class AttachmentParsable implements ParsableConstructor<FileUpload> {
     
-    @OptionalField
-    @Nullable String file;
-    @OptionalField
-    @Nullable String url;
-    @OptionalField
-    @Nullable String bytes;
-    @OptionalField
-    @Nullable Value image;
+    @OptionalField @Nullable
+    String file;
+    @OptionalField @Nullable
+    String url;
+    @OptionalField @Nullable
+    String bytes;
+    @OptionalField @Nullable
+    Value image;
     
-    @OptionalField
-    @Nullable String name;
+    @OptionalField @Nullable
+    String name;
     @OptionalField
     Boolean spoiler = false;
     

@@ -52,7 +52,6 @@ public class Bot {
 	
 	public static CompletableFuture<Bot> create(String id, String token, Set<GatewayIntent> intents, MemberCachePolicy memberCachePolicy) {
 		CompletableFuture<JDA> cf = awaitReady(
-				// TODO make member cache policy configurable with config
 				JDABuilder.createDefault(token).enableIntents(intents).setMemberCachePolicy(memberCachePolicy)
 		);
 		cf.orTimeout(10, TimeUnit.SECONDS);

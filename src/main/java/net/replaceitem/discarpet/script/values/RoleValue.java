@@ -12,6 +12,7 @@ import carpet.script.value.ListValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import org.jetbrains.annotations.Nullable;
 
 public class RoleValue extends DiscordValue<Role> implements Deletable, Renamable { 
     public RoleValue(Role role) {
@@ -42,7 +43,7 @@ public class RoleValue extends DiscordValue<Role> implements Deletable, Renamabl
     }
 
     @Override
-    public RestAction<?> delete(String reason) {
+    public RestAction<?> delete(@Nullable String reason) {
         return delegate.delete().reason(reason);
     }
 

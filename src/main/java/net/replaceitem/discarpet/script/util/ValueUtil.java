@@ -12,6 +12,7 @@ import java.awt.*;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class ValueUtil {
@@ -32,8 +33,12 @@ public class ValueUtil {
             throw DiscordThrowables.convert(e, message);
         }
     }
+    
+    public static <T> Value of(@Nullable T val, Function<T,Value> constructor) {
+        return val == null ? Value.NULL : constructor.apply(val);
+    }
 
-    public static <T> T unpackOptional(Optional<T> optional) {
+    public static <T> @Nullable T unpackOptional(Optional<T> optional) {
         return optional.orElse(null);
     }
     
@@ -60,17 +65,17 @@ public class ValueUtil {
     }
 
 
-    public static Value colorToValue(Color color) {
+    public static Value colorToValue(@Nullable Color color) {
         if(color == null) return Value.NULL;
         return StringValue.of(String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue()));
     }
     
-    public static <T> @Nullable T optionalArg(T[] array, int index) {
+    public static <T> @Nullable T optionalArg(T@Nullable[] array, int index) {
         if(array == null) return null;
         return array.length > index ? array[index] : null;
     }
 
-    public static <T> @Nullable T optionalArg(T[] array) {
+    public static <T> @Nullable T optionalArg(T@Nullable[] array) {
         return optionalArg(array, 0);
     }
     

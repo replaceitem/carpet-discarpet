@@ -14,11 +14,11 @@ import org.jetbrains.annotations.Nullable;
 @ParsableClass(name = "emoji")
 public class EmojiParsable implements ParsableConstructor<Emoji> {
     
-    @OptionalField
+    @OptionalField @Nullable
     String name;
-    @OptionalField
+    @OptionalField @Nullable
     String unicode;
-    @OptionalField
+    @OptionalField @Nullable
     String id;
     @OptionalField
     Boolean animated = false;

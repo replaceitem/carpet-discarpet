@@ -12,6 +12,7 @@ import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.common.Deletable;
 import net.replaceitem.discarpet.script.values.common.MessageableValue;
 import net.replaceitem.discarpet.script.values.common.Renamable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ public class WebhookValue extends MessageableValue<WebhookClient<Message>> imple
     }
 
     @Override
-    public RestAction<?> delete(String reason) {
+    public RestAction<?> delete(@Nullable String reason) {
         if(!(delegate instanceof Webhook webhook)) throw new ThrowStatement("Cannot delete webhook not managed by this bot", DiscordThrowables.DISCORD_EXCEPTION);
         return webhook.delete().reason(reason);
     }

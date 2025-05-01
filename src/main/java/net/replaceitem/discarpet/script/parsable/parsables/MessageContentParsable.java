@@ -16,6 +16,7 @@ import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.parsables.embeds.EmbedParsable;
 import net.replaceitem.discarpet.script.values.StickerValue;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Function;
@@ -33,11 +34,11 @@ public class MessageContentParsable implements DirectParsable {
     List<EmbedParsable> embeds = List.of();
     @OptionalField
     List<List<ItemComponent>> components = List.of();
-    @OptionalField
+    @OptionalField @Nullable
     AllowedMentionsParsable allowed_mentions;
-    @OptionalField
+    @OptionalField @Nullable
     Message reply_to;
-    @OptionalField
+    @OptionalField @Nullable
     String nonce;
     @OptionalField
     Boolean tts = false;

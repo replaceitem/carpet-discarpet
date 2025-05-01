@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -24,7 +25,7 @@ public class SelectMenuParsable implements ParsableConstructor<SelectMenu> {
     Integer min = 1;
     @OptionalField
     Integer max = 1;
-    @OptionalField
+    @OptionalField @Nullable
     String placeholder;
 
     // TODO some things may be added here, like channelType for entity selects
@@ -41,7 +42,7 @@ public class SelectMenuParsable implements ParsableConstructor<SelectMenu> {
         };
         
         builder.setDisabled(disabled).setRequiredRange(min, max);
-        if(placeholder != null) builder.setPlaceholder(placeholder);
+        builder.setPlaceholder(placeholder);
         return builder.build();
     }
 }

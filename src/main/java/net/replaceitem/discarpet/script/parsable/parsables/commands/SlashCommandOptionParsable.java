@@ -9,8 +9,8 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 

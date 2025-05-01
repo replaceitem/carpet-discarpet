@@ -7,9 +7,8 @@ import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.script.exception.DiscordThrowables;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -19,7 +18,6 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-@ParametersAreNonnullByDefault
 public class FileUtil {
     
     public static Icon iconFromValue(Value value) {
@@ -90,6 +88,7 @@ public class FileUtil {
             if(!Discarpet.isScarpetGraphicsInstalled()) throw new InternalExpressionException("scarpet-graphics is not installed, but required for an image file upload");
             if(!ScarpetGraphicsDependency.isPixelAccessible(value)) throw new InternalExpressionException("Image needs to be an image or graphics value");
             BufferedImage image = ScarpetGraphicsDependency.getImageFromValue(value);
+            if(image == null) throw new InternalExpressionException("Value is not an image value");
             PipedOutputStream pos = new PipedOutputStream();
             PipedInputStream pis = new PipedInputStream(pos);
 
@@ -111,7 +110,7 @@ public class FileUtil {
         return FileUpload.fromData(imageValueToInputStream(value, getFileExtension(name, "png")), name);
     }
     
-    public static String getFileExtension(String name, @Nullable String fallback) {
+    public static String getFileExtension(String name, String fallback) {
         return name.contains(".") ? name.substring(name.lastIndexOf(".") + 1) : fallback;
     }
 }

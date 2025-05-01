@@ -19,7 +19,7 @@ public class ValueConversions {
         }
     }
 
-    private static Class<?> findOutputConvertibleInterface(Class<?> inputClass) {
+    private static @Nullable Class<?> findOutputConvertibleInterface(Class<?> inputClass) {
         if(getOutputConverter(inputClass) != null) return inputClass;
         return Stream.concat(Stream.of(inputClass.getSuperclass()), Arrays.stream(inputClass.getInterfaces()))
                 .filter(Objects::nonNull)
@@ -30,7 +30,7 @@ public class ValueConversions {
     }
 
     @SuppressWarnings("unchecked")
-    public static Value toValue(Object object) {
+    public static Value toValue(@Nullable Object object) {
         if(object == null) return Value.NULL;
         Class<Object> toClass = (Class<Object>) ValueConversions.findOutputConvertibleInterface(object.getClass());
         if(toClass == null) throw new InternalExpressionException("Could not find an interface for an output converter for DiscordValue.of() and type " + object.getClass());

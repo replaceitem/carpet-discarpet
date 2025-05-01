@@ -6,8 +6,9 @@ import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.replaceitem.discarpet.script.util.ValueConversions;
 import net.replaceitem.discarpet.script.util.ValueUtil;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class DiscordValue<T> extends Value {
@@ -15,7 +16,7 @@ public abstract class DiscordValue<T> extends Value {
     protected final T delegate;
     
     protected DiscordValue(T delegate) {
-        this.delegate = delegate;
+        this.delegate = Objects.requireNonNull(delegate);
     }
     
     public T getDelegate() {
@@ -26,7 +27,7 @@ public abstract class DiscordValue<T> extends Value {
         return NULL;
     }
 
-    public static Value of(Object object) {
+    public static Value of(@Nullable Object object) {
         return ValueConversions.toValue(object);
     }
     
@@ -36,7 +37,6 @@ public abstract class DiscordValue<T> extends Value {
     }
 
     @Override
-    @NotNull
     public Value in(Value value1) {
         return this.getProperty(value1.getString());
     }
@@ -44,13 +44,11 @@ public abstract class DiscordValue<T> extends Value {
     protected abstract String getDiscordTypeString();
 
     @Override
-    @NotNull
     public String getTypeString() {
         return "dc_" + this.getDiscordTypeString();
     }
 
     @Override
-    @NotNull
     public String getString() {
         return delegate.toString();
     }
@@ -61,8 +59,7 @@ public abstract class DiscordValue<T> extends Value {
     }
 
     @Override
-    @NotNull
-    public NbtElement toTag(boolean force, @NotNull DynamicRegistryManager regs) {
+    public NbtElement toTag(boolean force, DynamicRegistryManager regs) {
         return NbtString.of(getString());
     }
 }

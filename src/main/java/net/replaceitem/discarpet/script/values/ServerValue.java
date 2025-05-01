@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.replaceitem.discarpet.script.util.ValueUtil;
-import net.replaceitem.discarpet.script.values.commands.CommandValue;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
 import net.replaceitem.discarpet.script.values.common.Renamable;
 

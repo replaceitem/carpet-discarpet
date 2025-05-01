@@ -15,6 +15,7 @@ import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.common.Deletable;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
 import net.replaceitem.discarpet.script.values.common.Renamable;
+import org.jetbrains.annotations.Nullable;
 
 public class StickerValue extends DiscordValue<Sticker> implements Deletable, Renamable {
     public StickerValue(Sticker sticker) {
@@ -44,7 +45,7 @@ public class StickerValue extends DiscordValue<Sticker> implements Deletable, Re
     }
 
     @Override
-    public RestAction<?> delete(String reason) {
+    public RestAction<?> delete(@Nullable String reason) {
         if(!(delegate instanceof GuildSticker guildSticker)) throw DiscordThrowables.genericCode(ErrorResponse.UNKNOWN_STICKER);
         return guildSticker.delete().reason(reason);
     }

@@ -3,13 +3,14 @@ package net.replaceitem.discarpet.script.parsable.parsables.webhooks;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
+import org.jetbrains.annotations.Nullable;
 
 @ParsableClass(name = "webhook_message_profile")
 public class WebhookMessageProfileParsable {
     
-    @OptionalField
+    @OptionalField @Nullable
     String name;
-    @OptionalField
+    @OptionalField @Nullable
     String avatar;
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

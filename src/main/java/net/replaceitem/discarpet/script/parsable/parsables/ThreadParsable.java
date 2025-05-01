@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.requests.restaction.ThreadChannelAction;
 import net.dv8tion.jda.internal.entities.channel.mixin.attribute.IThreadContainerMixin;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
+import org.jetbrains.annotations.Nullable;
 
 @ParsableClass(name = "thread")
 public class ThreadParsable {
@@ -13,11 +14,11 @@ public class ThreadParsable {
     String name;
     @OptionalField
     Boolean is_private = false;
-    @OptionalField
+    @OptionalField @Nullable
     Boolean invitable;
-    @OptionalField
+    @OptionalField @Nullable
     Integer auto_archive_duration;
-    @OptionalField
+    @OptionalField @Nullable
     String reason;
 
     public ThreadChannelAction apply(IThreadContainerMixin<?> threadContainer) {
