@@ -6,12 +6,17 @@ import net.replaceitem.discarpet.script.values.common.MessageableValue;
 import carpet.script.value.BooleanValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class UserValue extends MessageableValue<User> {
     public UserValue(User user) {
         super(user);
+    }
+    
+    public static Value of(@Nullable User user) {
+        return ValueUtil.ofNullable(user, UserValue::new);
     }
 
     @Override

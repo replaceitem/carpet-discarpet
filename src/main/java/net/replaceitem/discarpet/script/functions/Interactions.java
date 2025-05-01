@@ -25,7 +25,7 @@ import net.replaceitem.discarpet.script.parsable.parsables.commands.SlashCommand
 import net.replaceitem.discarpet.script.parsable.parsables.commands.UserContextMenuBuilderParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.components.ModalParsable;
 import net.replaceitem.discarpet.script.util.ValueUtil;
-import net.replaceitem.discarpet.script.values.common.DiscordValue;
+import net.replaceitem.discarpet.script.values.CommandValue;
 import net.replaceitem.discarpet.script.values.interactions.InteractionValue;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,7 +50,7 @@ public class Interactions {
         } else {
             action = server.upsertCommand(parsableConstructor.construct());
         }
-        return DiscordValue.of(ValueUtil.awaitRest(action, "Error creating application command"));        
+        return CommandValue.of(ValueUtil.awaitRest(action, "Error creating application command"));        
     }
 
     @ScarpetFunction

@@ -5,12 +5,18 @@ import carpet.script.value.MapValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.replaceitem.discarpet.script.util.ValueUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Collectors;
 
 public class SlashCommandInteractionValue extends ApplicationCommandInteractionValue<SlashCommandInteractionEvent> {
     public SlashCommandInteractionValue(SlashCommandInteractionEvent applicationCommandInteraction) {
         super(applicationCommandInteraction);
+    }
+    
+    public static Value of(@Nullable SlashCommandInteractionEvent slashCommandInteractionEvent) {
+        return ValueUtil.ofNullable(slashCommandInteractionEvent, SlashCommandInteractionValue::new);
     }
 
     @Override

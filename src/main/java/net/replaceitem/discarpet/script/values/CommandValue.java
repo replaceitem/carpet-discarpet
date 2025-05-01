@@ -15,6 +15,10 @@ public class CommandValue extends DiscordValue<Command> implements Deletable {
     public CommandValue(Command applicationCommand) {
         super(applicationCommand);
     }
+    
+    public static Value of(@Nullable Command command) {
+        return ValueUtil.ofNullable(command, CommandValue::new);
+    }
 
     @Override
     protected String getDiscordTypeString() {
