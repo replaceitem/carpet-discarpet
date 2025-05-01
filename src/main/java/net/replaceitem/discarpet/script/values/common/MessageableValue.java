@@ -1,17 +1,21 @@
 package net.replaceitem.discarpet.script.values.common;
 
-import org.javacord.api.entity.message.Messageable;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+
+import java.util.Optional;
 
 public abstract class MessageableValue<T> extends DiscordValue<T> {
     public MessageableValue(T value) {
         super(value);
     }
     
-    public Messageable getMessageable() {
-        return this.delegate instanceof Messageable messageable ? messageable : null;
+    public Optional<MessageConsumer> getMessageConsumer() {
+        return Optional.empty();
     }
     
-    public boolean isMessageable() {
-        return this.delegate instanceof Messageable;
+    public interface MessageConsumer {
+        RestAction<Message> send(MessageCreateData data);
     }
 }

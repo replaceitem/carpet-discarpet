@@ -4,12 +4,12 @@ import carpet.script.value.BooleanValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
-import net.replaceitem.discarpet.script.values.EmojiValue;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.replaceitem.discarpet.script.exception.DiscordThrowables;
-import org.javacord.api.entity.emoji.Emoji;
-import org.javacord.core.entity.emoji.UnicodeEmojiImpl;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -20,6 +20,14 @@ public class ValueUtil {
     public static <T> T awaitFuture(CompletableFuture<T> cf, String message) {
         try {
             return cf.get();
+        } catch (Exception e) {
+            throw DiscordThrowables.convert(e, message);
+        }
+    }
+    
+    public static <T> T awaitRest(RestAction<T> restAction, String message) {
+        try {
+            return restAction.complete();
         } catch (Exception e) {
             throw DiscordThrowables.convert(e, message);
         }
@@ -41,6 +49,15 @@ public class ValueUtil {
         if(optionalBoolean.isEmpty()) return Value.NULL;
         return BooleanValue.of(optionalBoolean.get());
     }
+    
+    public static Value ofPositiveInt(int v) {
+        if(v < 0) return Value.NULL;
+        return NumericValue.of(v);
+    }
+    
+    public static Value ofEnum(Enum<?> enumValue) {
+        return StringValue.of(enumValue.name().toLowerCase(Locale.ROOT));
+    }
 
 
     public static Value colorToValue(Color color) {
@@ -48,16 +65,19 @@ public class ValueUtil {
         return StringValue.of(String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue()));
     }
     
-    public static Emoji emojiFromValue(Value value) {
-        return value==null? null : (value instanceof EmojiValue emojiValue ? emojiValue.getDelegate() : UnicodeEmojiImpl.fromString(value.getString()));
-    }
-    
-    public static <T> Optional<T> optionalArg(T[] array, int index) {
-        if(array == null) return Optional.empty();
-        return array.length > index ? Optional.of(array[index]) : Optional.empty();
+    public static <T> @Nullable T optionalArg(T[] array, int index) {
+        if(array == null) return null;
+        return array.length > index ? array[index] : null;
     }
 
-    public static <T> Optional<T> optionalArg(T[] array) {
+    public static <T> @Nullable T optionalArg(T[] array) {
         return optionalArg(array, 0);
+    }
+    
+    public static <T extends Enum<T>> Optional<T> getEnum(Class<T> enumClass, String name) {
+        for (T enumConstant : enumClass.getEnumConstants()) {
+            if(enumConstant.name().equalsIgnoreCase(name)) return Optional.of(enumConstant);
+        }
+        return Optional.empty();
     }
 }

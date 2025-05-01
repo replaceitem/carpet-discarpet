@@ -4,16 +4,12 @@ import carpet.script.value.ListValue;
 import carpet.script.value.MapValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
-import org.javacord.api.interaction.SlashCommandInteraction;
-import org.javacord.api.interaction.SlashCommandInteractionOption;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
-public class SlashCommandInteractionValue extends ApplicationCommandInteractionValue<SlashCommandInteraction> {
-    public SlashCommandInteractionValue(SlashCommandInteraction applicationCommandInteraction) {
+public class SlashCommandInteractionValue extends ApplicationCommandInteractionValue<SlashCommandInteractionEvent> {
+    public SlashCommandInteractionValue(SlashCommandInteractionEvent applicationCommandInteraction) {
         super(applicationCommandInteraction);
     }
 
@@ -24,33 +20,11 @@ public class SlashCommandInteractionValue extends ApplicationCommandInteractionV
 
     public Value getProperty(String property) {
         return switch (property) {
-            case "arguments" -> ListValue.wrap(getAllArguments().stream().map(SlashCommandInteractionOptionValue::new));
-            case "arguments_by_name" -> getArgumentsByName();
+            case "sub_command" -> StringValue.of(delegate.getSubcommandName());
+            case "sub_command_group" -> StringValue.of(delegate.getSubcommandGroup());
+            case "arguments" -> ListValue.wrap(delegate.getOptions().stream().map(SlashCommandInteractionOptionValue::new));
+            case "arguments_by_name" -> MapValue.wrap(delegate.getOptions().stream().collect(Collectors.toMap(o -> StringValue.of(o.getName()), SlashCommandInteractionOptionValue::of)));
             default -> super.getProperty(property);
         };
-    }
-    
-    private List<SlashCommandInteractionOption> getAllArguments() {
-        List<SlashCommandInteractionOption> options = new ArrayList<>(this.delegate.getOptions());
-        this.delegate.getOptions().forEach(option -> addOptionRec(options,option));
-        return options;
-    }
-    
-    private void addOptionRec(List<SlashCommandInteractionOption> options, SlashCommandInteractionOption option) {
-        options.add(option);
-        option.getOptions().forEach(option1 -> addOptionRec(options, option1));
-    }
-
-    private Value getArgumentsByName() {
-        final Map<Value, Value> optionsMap = new HashMap<>();
-        this.addOptions(getAllArguments(), optionsMap);
-        return MapValue.wrap(optionsMap);
-    }
-    
-    private void addOptions(List<SlashCommandInteractionOption> options, final Map<Value, Value> map) {
-        for (SlashCommandInteractionOption slashCommandInteractionOption : options) {
-            map.put(StringValue.of(slashCommandInteractionOption.getName()), SlashCommandInteractionOptionValue.of(slashCommandInteractionOption));
-            this.addOptions(slashCommandInteractionOption.getOptions(),map);
-        }
     }
 }

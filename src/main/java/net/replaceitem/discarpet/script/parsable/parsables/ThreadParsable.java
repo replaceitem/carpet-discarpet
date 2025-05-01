@@ -1,44 +1,38 @@
 package net.replaceitem.discarpet.script.parsable.parsables;
 
-import net.replaceitem.discarpet.script.parsable.Optional;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
+import net.dv8tion.jda.api.requests.restaction.ThreadChannelAction;
+import net.dv8tion.jda.internal.entities.channel.mixin.attribute.IThreadContainerMixin;
+import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
-import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
-import carpet.script.exception.InternalExpressionException;
-import org.javacord.api.entity.channel.Channel;
-import org.javacord.api.entity.channel.ChannelType;
-import org.javacord.api.entity.channel.ServerTextChannel;
-import org.javacord.api.entity.channel.ServerThreadChannelBuilder;
-import org.javacord.api.entity.message.Message;
 
 @ParsableClass(name = "thread")
-public class ThreadParsable implements ParsableConstructor<ServerThreadChannelBuilder> {
+public class ThreadParsable {
     
     String name;
-    @Optional Message message;
-    @Optional Channel channel;
-    @Optional ChannelType channel_type;
-    @Optional Boolean invitable;
-    @Optional Integer auto_archive_duration;
-    @Optional Integer slow_mode_delay;
-    @Optional String reason;
+    @OptionalField
+    Boolean is_private = false;
+    @OptionalField
+    Boolean invitable;
+    @OptionalField
+    Integer auto_archive_duration;
+    @OptionalField
+    String reason;
 
+    public ThreadChannelAction apply(IThreadContainerMixin<?> threadContainer) {
+        return apply(threadContainer.createThreadChannel(name, is_private));
+    }
 
-    @Override
-    public ServerThreadChannelBuilder construct() {
-        ServerThreadChannelBuilder serverThreadChannelBuilder;
-        if(message != null) {
-            serverThreadChannelBuilder = new ServerThreadChannelBuilder(message, name);
-        } else {
-            if(channel == null) throw new InternalExpressionException("Either 'message' or 'channel' needs to be given");
-            if(!(channel instanceof ServerTextChannel serverTextChannel)) throw new InternalExpressionException("'channel' needs to be a server text channel, but is a " + channel.getType().toString());
-            if(channel_type == null) throw new InternalExpressionException("'channel_type' needs to be provided when creating a thread from a channel");
-            serverThreadChannelBuilder = new ServerThreadChannelBuilder(serverTextChannel, channel_type, name);
-        }
-        
-        serverThreadChannelBuilder.setInvitableFlag(invitable);
-        serverThreadChannelBuilder.setAutoArchiveDuration(auto_archive_duration);
-        if(slow_mode_delay != null) serverThreadChannelBuilder.setSlowmodeDelayInSeconds(slow_mode_delay);
-        serverThreadChannelBuilder.setAuditLogReason(reason);
-        return serverThreadChannelBuilder;
+    public ThreadChannelAction apply(Message message) {
+        return apply(message.createThreadChannel(name));
+    }
+    
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private ThreadChannelAction apply(ThreadChannelAction action) {
+        if(invitable != null) action.setInvitable(invitable);
+        if(auto_archive_duration != null) action.setAutoArchiveDuration(ThreadChannel.AutoArchiveDuration.fromKey(auto_archive_duration));
+        action.reason(reason);
+        return action;
     }
 }

@@ -1,51 +1,45 @@
 package net.replaceitem.discarpet.script.functions;
 
+import carpet.script.annotation.ScarpetFunction;
+import carpet.script.exception.InternalExpressionException;
+import carpet.script.value.Value;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.WebhookClient;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.replaceitem.discarpet.script.parsable.Parser;
 import net.replaceitem.discarpet.script.parsable.parsables.MessageContentParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.webhooks.WebhookMessageProfileParsable;
 import net.replaceitem.discarpet.script.util.ValueUtil;
-import net.replaceitem.discarpet.script.util.content.MessageContentApplier;
-import net.replaceitem.discarpet.script.util.content.WebhookMessageContentApplier;
 import net.replaceitem.discarpet.script.values.common.MessageableValue;
-import carpet.script.annotation.ScarpetFunction;
-import carpet.script.exception.InternalExpressionException;
-import carpet.script.value.Value;
-import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.message.MessageBuilder;
-import org.javacord.api.entity.message.Messageable;
-import org.javacord.api.entity.message.WebhookMessageBuilder;
-import org.javacord.api.entity.webhook.IncomingWebhook;
-import org.javacord.api.entity.webhook.Webhook;
 
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 @SuppressWarnings("unused")
 public class Messages {
     @ScarpetFunction
     public Message dc_send_message(Value target, Value messageContent) {
-        MessageBuilder messageBuilder = new MessageBuilder();
-        if(!(target instanceof MessageableValue<?> messageableValue) || !messageableValue.isMessageable()) throw new InternalExpressionException("'dc_send_message' expected a messageable channel, user or incoming webhook as the first parameter");
-        Parser.parseType(messageContent, MessageContentParsable.class).apply(new MessageContentApplier(messageBuilder));
-        Messageable messageable = messageableValue.getMessageable();
-        CompletableFuture<Message> cf = messageBuilder.send(messageable);
-        return ValueUtil.awaitFuture(cf,"Error sending message");
+        Optional<MessageableValue.MessageConsumer> messageConsumer = target instanceof MessageableValue<?> messageableValue ? messageableValue.getMessageConsumer() : Optional.empty();
+        if(messageConsumer.isEmpty()) throw new InternalExpressionException("'dc_send_message' expected a messageable channel, user or incoming webhook as the first parameter. Got: " + target.getTypeString());
+        MessageCreateBuilder builder = new MessageCreateBuilder();
+        Parser.parseType(messageContent, MessageContentParsable.class).apply(builder);
+        return ValueUtil.awaitRest(messageConsumer.get().send(builder.build()),"Error sending message");
     }
     
     @ScarpetFunction
-    public Message dc_send_webhook(Webhook webhook, Value messageContent, Value webhookProfile) {
-        Optional<IncomingWebhook> optionalIncomingWebhook = webhook.asIncomingWebhook();
-        if(optionalIncomingWebhook.isEmpty()) throw new InternalExpressionException("'dc_send_webhook' expected an incoming webhook as the first parameter");
-        WebhookMessageBuilder webhookMessageBuilder = new WebhookMessageBuilder();
-        Parser.parseType(messageContent, MessageContentParsable.class).apply(new WebhookMessageContentApplier(webhookMessageBuilder));
-        Parser.parseType(webhookProfile, WebhookMessageProfileParsable.class).apply(webhookMessageBuilder);
-        CompletableFuture<Message> cf = webhookMessageBuilder.send(optionalIncomingWebhook.get());
-        return ValueUtil.awaitFuture(cf,"Error sending message");
+    public Message dc_send_webhook(WebhookClient<Message> webhook, Value messageContent, Value webhookProfile) {
+        MessageCreateBuilder builder = new MessageCreateBuilder();
+        WebhookMessageCreateAction<Message> messageWebhookMessageCreateAction = webhook.sendMessage(builder.build());
+        Parser.parseType(messageContent, MessageContentParsable.class).apply(builder);
+        Parser.parseType(webhookProfile, WebhookMessageProfileParsable.class).apply(messageWebhookMessageCreateAction);
+        return ValueUtil.awaitRest(messageWebhookMessageCreateAction,"Error sending message");
     }
 
 	@ScarpetFunction
 	public void dc_react(Message message, Value emojiValue) {
-        CompletableFuture<Void> cf = message.addReaction(ValueUtil.emojiFromValue(emojiValue));
-        ValueUtil.awaitFuture(cf, "Error reacting to message");
+        // TODO split to dc_add_reaction(msg, emoji) and dc_remove_reaction(msg, emoji?, user?)
+        Emoji emoji = Parser.parseType(emojiValue, Emoji.class);
+        ValueUtil.awaitRest(message.addReaction(emoji), "Error reacting to message");
 	}
 }

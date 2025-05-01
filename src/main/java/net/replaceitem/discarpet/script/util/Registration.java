@@ -6,36 +6,32 @@ import carpet.script.annotation.SimpleTypeConverter;
 import carpet.script.annotation.ValueCaster;
 import carpet.script.value.ListValue;
 import carpet.script.value.Value;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.Channel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.entities.sticker.Sticker;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.replaceitem.discarpet.script.functions.*;
 import net.replaceitem.discarpet.script.parsable.Parser;
-import net.replaceitem.discarpet.script.parsable.parsables.*;
+import net.replaceitem.discarpet.script.parsable.parsables.AttachmentParsable;
+import net.replaceitem.discarpet.script.parsable.parsables.ColorParsable;
+import net.replaceitem.discarpet.script.parsable.parsables.EmojiParsable;
+import net.replaceitem.discarpet.script.parsable.parsables.TimestampParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.commands.*;
 import net.replaceitem.discarpet.script.parsable.parsables.components.*;
-import net.replaceitem.discarpet.script.parsable.parsables.embeds.EmbedAuthorParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.embeds.EmbedFieldParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.embeds.EmbedFooterParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.embeds.EmbedParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.webhooks.WebhookMessageProfileParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.webhooks.WebhookProfileParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.webhooks.WebhookProfileUpdaterParsable;
 import net.replaceitem.discarpet.script.values.*;
-import net.replaceitem.discarpet.script.values.commands.MessageContextMenuValue;
-import net.replaceitem.discarpet.script.values.commands.SlashCommandValue;
-import net.replaceitem.discarpet.script.values.commands.UserContextMenuValue;
+import net.replaceitem.discarpet.script.values.commands.CommandValue;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
 import net.replaceitem.discarpet.script.values.common.MessageableValue;
 import net.replaceitem.discarpet.script.values.interactions.*;
-import org.javacord.api.entity.Attachment;
-import org.javacord.api.entity.channel.Channel;
-import org.javacord.api.entity.emoji.Emoji;
-import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.message.Reaction;
-import org.javacord.api.entity.permission.Role;
-import org.javacord.api.entity.server.Server;
-import org.javacord.api.entity.sticker.Sticker;
-import org.javacord.api.entity.user.User;
-import org.javacord.api.entity.webhook.Webhook;
-import org.javacord.api.interaction.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,29 +40,27 @@ import java.util.function.Function;
 public class Registration {
     public static void registerDiscordValues() {
         // command
-        registerDiscordValue(MessageContextMenuValue.class, MessageContextMenu.class, MessageContextMenuValue::new);
-        registerDiscordValue(SlashCommandValue.class, SlashCommand.class, SlashCommandValue::new);
-        registerDiscordValue(UserContextMenuValue.class, UserContextMenu.class, UserContextMenuValue::new);
+        registerDiscordValue(CommandValue.class, Command.class, CommandValue::new);
 
         // interaction
-        registerDiscordValue(ButtonInteractionValue.class, ButtonInteraction.class, ButtonInteractionValue::new);
-        registerDiscordValue(MessageContextMenuInteractionValue.class, MessageContextMenuInteraction.class, MessageContextMenuInteractionValue::new);
-        registerDiscordValue(ModalInteractionValue.class, ModalInteraction.class, ModalInteractionValue::new);
-        registerDiscordValue(SelectMenuInteractionValue.class, SelectMenuInteraction.class, SelectMenuInteractionValue::new);
-        registerDiscordValue(SlashCommandInteractionOptionValue.class, SlashCommandInteractionOption.class, SlashCommandInteractionOptionValue::new);
-        registerDiscordValue(SlashCommandInteractionValue.class, SlashCommandInteraction.class, SlashCommandInteractionValue::new);
-        registerDiscordValue(UserContextMenuInteractionValue.class, UserContextMenuInteraction.class, UserContextMenuInteractionValue::new);
+        registerDiscordValue(ButtonInteractionValue.class, ButtonInteractionEvent.class, ButtonInteractionValue::new);
+        registerDiscordValue(MessageContextMenuInteractionValue.class, MessageContextInteractionEvent.class, MessageContextMenuInteractionValue::new);
+        registerDiscordValue(ModalInteractionValue.class, ModalInteractionEvent.class, ModalInteractionValue::new);
+        registerDiscordValue(SelectMenuInteractionValue.class, GenericSelectMenuInteractionEvent.class, SelectMenuInteractionValue::new);
+        registerDiscordValue(SlashCommandInteractionOptionValue.class, OptionMapping.class, SlashCommandInteractionOptionValue::new);
+        registerDiscordValue(SlashCommandInteractionValue.class, SlashCommandInteractionEvent.class, SlashCommandInteractionValue::new);
+        registerDiscordValue(UserContextMenuInteractionValue.class, UserContextInteractionEvent.class, UserContextMenuInteractionValue::new);
 
-        registerDiscordValue(AttachmentValue.class, Attachment.class, AttachmentValue::new);
+        registerDiscordValue(AttachmentValue.class, Message.Attachment.class, AttachmentValue::new);
         registerDiscordValue(ChannelValue.class, Channel.class, ChannelValue::new);
         registerDiscordValue(EmojiValue.class, Emoji.class, EmojiValue::new);
         registerDiscordValue(MessageValue.class, Message.class, MessageValue::new);
-        registerDiscordValue(ReactionValue.class, Reaction.class, ReactionValue::new);
+        registerDiscordValue(ReactionValue.class, MessageReaction.class, ReactionValue::new);
         registerDiscordValue(RoleValue.class, Role.class, RoleValue::new);
-        registerDiscordValue(ServerValue.class, Server.class, ServerValue::new);
+        registerDiscordValue(ServerValue.class, Guild.class, ServerValue::new);
         registerDiscordValue(StickerValue.class, Sticker.class, StickerValue::new);
         registerDiscordValue(UserValue.class, User.class, UserValue::new);
-        registerDiscordValue(WebhookValue.class, Webhook.class, WebhookValue::new);
+        registerDiscordValue(WebhookValue.class, WebhookClient.class, WebhookValue::new);
     }
     
     public static void registerFunctions() {
@@ -82,15 +76,11 @@ public class Registration {
     public static void registerParsables() {
         Parser.registerParsable(ComponentParsable.class);
         
-        Parser.registerParsable(AllowedMentionsParsable.class);
         Parser.registerParsable(AttachmentParsable.class);
         Parser.registerParsable(ButtonParsable.class);
         Parser.registerParsable(ColorParsable.class);
-        Parser.registerParsable(EmbedAuthorParsable.class);
-        Parser.registerParsable(EmbedFieldParsable.class);
-        Parser.registerParsable(EmbedFooterParsable.class);
+        Parser.registerParsable(EmojiParsable.class);
         Parser.registerParsable(EmbedParsable.class);
-        Parser.registerParsable(MessageContentParsable.class);
         Parser.registerParsable(MessageContextMenuBuilderParsable.class);
         Parser.registerParsable(ModalParsable.class);
         Parser.registerParsable(SelectMenuOptionParsable.class);
@@ -99,12 +89,8 @@ public class Registration {
         Parser.registerParsable(SlashCommandOptionParsable.class);
         Parser.registerParsable(SlashCommandBuilderParsable.class);
         Parser.registerParsable(TextInputParsable.class);
-        Parser.registerParsable(ThreadParsable.class);
         Parser.registerParsable(TimestampParsable.class);
         Parser.registerParsable(UserContextMenuBuilderParsable.class);
-        Parser.registerParsable(WebhookMessageProfileParsable.class);
-        Parser.registerParsable(WebhookProfileParsable.class);
-        Parser.registerParsable(WebhookProfileUpdaterParsable.class);
     }
     
     public static void registerValueCasters() {
@@ -118,6 +104,9 @@ public class Registration {
         // allows to return lists of values or other objects with a registered output converter
         OutputConverter.register(List.class, Registration::listOutputConverter);
         OutputConverter.register(Optional.class, Registration::optionalOutputConverter);
+
+        // convert member objects to user objects, since member values don't exist (used in for example select_menu_interaction~'chosen')
+        OutputConverter.register(Member.class, (member, dynamicRegistryManager) -> new UserValue(member.getUser()));
     }
     
     private static Value listOutputConverter(List<?> list) {
@@ -129,7 +118,7 @@ public class Registration {
         return ValueConversions.toValue(optional.orElse(null));
     }
 
-    public static <T> void registerDiscordValue(Class<? extends DiscordValue<T>> valueClass, Class<T> internalClass, Function<T, Value> constructor) {
+    public static <T, U extends DiscordValue<? extends T>> void registerDiscordValue(Class<U> valueClass, Class<T> internalClass, Function<T, Value> constructor) {
         String typeName = constructor.apply(null).getTypeString();
         SimpleTypeConverter.registerType(valueClass, internalClass, DiscordValue::getDelegate, typeName);
         OutputConverter.register(internalClass, constructor);

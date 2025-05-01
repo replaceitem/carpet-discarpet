@@ -9,6 +9,7 @@ import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import com.mojang.brigadier.CommandDispatcher;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.CommandRegistryAccess;
@@ -18,23 +19,15 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.replaceitem.discarpet.commands.DiscarpetCommand;
-import net.replaceitem.discarpet.config.*;
+import net.replaceitem.discarpet.config.Bot;
 import net.replaceitem.discarpet.config.BotConfig;
 import net.replaceitem.discarpet.config.ConfigManager;
-import net.replaceitem.discarpet.script.events.MiscEvents;
 import net.replaceitem.discarpet.script.events.DiscordEvents;
+import net.replaceitem.discarpet.script.events.MiscEvents;
 import net.replaceitem.discarpet.script.util.Registration;
-import org.apache.logging.log4j.Level;
+import net.replaceitem.discarpet.script.util.ValueUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.Filter;
-import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.config.AppenderRef;
-import org.apache.logging.log4j.core.config.Configuration;
-import org.apache.logging.log4j.core.config.LoggerConfig;
-import org.apache.logging.log4j.core.filter.CompositeFilter;
-import org.apache.logging.log4j.core.filter.StringMatchFilter;
-import org.javacord.api.entity.intent.Intent;
 
 import java.io.File;
 import java.io.IOException;
@@ -99,19 +92,6 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 			Discarpet.LOGGER.info("No Discarpet configuration file found, creating one. Edit config/discarpet.json to add your bots");
 			return;
 		}
-		if(configManager.getConfig().DISABLE_RECONNECT_LOGS) {
-			// hackfix, if you know a better solution, feel free to open a PR
-			String loggerName = "org.javacord.core.util.gateway.DiscordWebSocketAdapter";
-			LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-			Configuration configuration = ctx.getConfiguration();
-			Filter websocketClosedFilter = new StringMatchFilter.Builder().setMatchString("Websocket closed with reason 'Discord commanded a reconnect (Received opcode 7)' and code COMMANDED_RECONNECT (4999) by client!").setOnMatch(Filter.Result.DENY).setOnMismatch(Filter.Result.NEUTRAL).build();
-			Filter reconnect1sFilter = new StringMatchFilter.Builder().setMatchString("Trying to reconnect/resume in 1 seconds!").setOnMatch(Filter.Result.DENY).setOnMismatch(Filter.Result.NEUTRAL).build();
-			Filter compositeFilter = CompositeFilter.createFilters(new Filter[]{websocketClosedFilter, reconnect1sFilter});
-			configuration.addLoggerFilter((org.apache.logging.log4j.core.Logger) LogManager.getLogger(loggerName),compositeFilter);
-			LoggerConfig loggerConfig = LoggerConfig.createLogger(false, Level.INFO, loggerName, "true", new AppenderRef[0], null,configuration, compositeFilter);
-			configuration.addLogger(loggerName, loggerConfig);
-			ctx.updateLoggers();
-		}
 		loadBots(source);
 	}
 
@@ -126,10 +106,11 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 		for (BotConfig botConfig : configManager.getConfig().BOTS) {
 			if(botConfig == null) continue;
-			Set<Intent> intents = botConfig.INTENTS.stream().map(s -> {
-				try { return Intent.valueOf(s.toUpperCase()); } 
-				catch (IllegalArgumentException e) { return null; }
-			}).filter(Objects::nonNull).collect(Collectors.toSet());
+			// TODO migrate intent names?
+			Set<GatewayIntent> intents = botConfig.INTENTS.stream()
+					.map(s -> ValueUtil.getEnum(GatewayIntent.class, s).orElse(null))
+					.filter(Objects::nonNull)
+					.collect(Collectors.toSet());
 
 			String botId = botConfig.BOT_ID;
 
