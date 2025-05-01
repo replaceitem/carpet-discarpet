@@ -38,13 +38,13 @@ Used for configuring allowed mentions.
 
 ### {map:}
 
-|                     Key | Type            | Description                                             |
-|------------------------:|:----------------|:--------------------------------------------------------|
-|    `mention_roles` {:?} | Boolean         | Whether if roles can be mentioned.                      |
-|    `mention_users` {:?} | Boolean         | Whether if users can be mentioned.                      |
-| `mention_everyone` {:?} | Boolean         | Whether if @everyone and @here can be mentioned.        |
-|                 `roles` | List of Strings | Roles that should be mentioned, specified by their IDs. |
-|                 `users` | List of Strings | Users that should be mentioned, specified by their IDs. |
+|                     Key | Type            | Description                                                       |
+|------------------------:|:----------------|:------------------------------------------------------------------|
+|    `mention_roles` {:?} | Boolean         | Whether roles can be mentioned. (Defaults to false)               |
+|    `mention_users` {:?} | Boolean         | Whether users can be mentioned. (Defaults to false)               |
+| `mention_everyone` {:?} | Boolean         | Whether @everyone and @here can be mentioned. (Defaults to false) |
+|            `roles` {:?} | List of Strings | Roles that should be mentioned, specified by their IDs.           |
+|            `users` {:?} | List of Strings | Users that should be mentioned, specified by their IDs.           |
 
 
 

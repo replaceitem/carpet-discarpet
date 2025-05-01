@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class Registration {
+public class  Registration {
     public static void registerDiscordValues() {
         // command
         registerDiscordValue(CommandValue.class, Command.class, CommandValue::new);

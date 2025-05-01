@@ -9,6 +9,7 @@ Can only be used inside [modals](/parsables/modal.md).
 
 |                Key | Type    | Description                                            |
 |-------------------:|:--------|:-------------------------------------------------------|
+|        `component` | String  | For a text input always `text_input`                   |
 |               `id` | String  | The ID of the text input.                              |
 |            `style` | String  | The [style](#text-input-styles) of the text input.     |
 |            `label` | String  | The label of the text input.                           |
@@ -22,5 +23,5 @@ Can only be used inside [modals](/parsables/modal.md).
 
 |      String | Description       |
 |------------:|:------------------|
-|     `SHORT` | Single-line input |
-| `PARAGRAPH` | Multi-line input  |
+|     `short` | Single-line input |
+| `paragraph` | Multi-line input  |

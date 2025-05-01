@@ -20,19 +20,17 @@ Threads and DMs are considered as channels.
 
 #### Channel types
 
-|                       String | Description                       |
-|-----------------------------:|:----------------------------------|
-|        `SERVER_TEXT_CHANNEL` | Text channel                      |
-|       `SERVER_VOICE_CHANNEL` | Voice channel                     |
-|       `SERVER_FORUM_CHANNEL` | Forum channel                     |
-| `SERVER_STAGE_VOICE_CHANNEL` | Stage channel                     |
-|        `SERVER_NEWS_CHANNEL` | Announcement channel              |
-|       `SERVER_STORE_CHANNEL` | Store channel                     |
-|       `SERVER_PUBLIC_THREAD` | Public thread                     |
-|      `SERVER_PRIVATE_THREAD` | Private thread                    |
-|         `SERVER_NEWS_THREAD` | Thread in an announcement channel |
-|            `PRIVATE_CHANNEL` | Direct messages with another user |
-|              `GROUP_CHANNEL` | Group chat                        |
-|           `CHANNEL_CATEGORY` | Channel categories                |
-|   `SERVER_DIRECTORY_CHANNEL` |                                   |
-|                    `UNKNOWN` |                                   |
+|                 String | Description                       |
+|-----------------------:|:----------------------------------|
+|                 `text` | Text channel                      |
+|              `private` | Direct messages with another user |
+|                `voice` | Voice channel in a server         |
+|                `group` | Group DM channel                  |
+|             `category` | Server channel category           |
+|                 `news` | Server news channel               |
+|                `stage` | Server stage voice channel        |
+|    `guild_news_thread` | Server news thread                |
+|  `guild_public_thread` | Server public thread              |
+| `guild_private_thread` | Server private thread             |
+|                `forum` | Server forum channel              |
+|                `media` | Media channel                     |

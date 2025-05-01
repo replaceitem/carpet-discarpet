@@ -13,3 +13,4 @@ Represents a Unicode emoji, or a custom emoji from a server.
 | `is_animated` | Boolean      | Whether if this emoji is animated.                                          |
 |  `is_unicode` | Boolean      | Whether if this emoji is a unicode emoji.                                   |
 |   `is_custom` | Boolean      | Whether if this emoji is from a server.                                     |
+|        `type` | String       | `unicode` or `custom`                                                       |
