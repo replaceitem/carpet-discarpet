@@ -5,9 +5,41 @@
 * Added `message~'stripped_content'`
 * Added `message~'stickers'`
 * Added `emoji~'type'`
-* Replaced with `reaction~'message'` with `reaction~'message_id'`
+* Replaced `reaction~'message'` with `reaction~'message_id'`
+* Added `reaction~'channel'` and `reaction~'server'`
 * Removed `slash_command_interaction_option~'options'`
-* Button parsable style is now no longer the color, but the types (primary, secondary,...)
+* All enum-like string parsables are now parsed in a unified case-insensitive way, you can use upper and lower case strings.
+* The `component` type in a component parsable have partially different names now:
+  * `BUTTON` -> `button`
+  * `SELECT_MENU_STRING` -> `string_select`
+  * `SELECT_MENU_USER` -> `user_select`
+  * `SELECT_MENU_ROLE` -> `role_select`
+  * `SELECT_MENU_MENTIONABLE` -> `mentionable_select`
+  * `SELECT_MENU_CHANNEL` -> `channel_select`
+  * `TEXT_INPUT` -> `text_input`
+* The `style` of a button parsable now no longer the color name, but the types name:
+  * `BLURPLE` -> `primary`
+  * `GREY` -> `secondary`
+  * `GREEN` -> `success`
+  * `RED` -> `danger`
+  * `URL` -> `link`
+* The `type`s of a channel value have changed:
+  * `SERVER_TEXT_CHANNEL` -> `text`
+  * `SERVER_VOICE_CHANNEL` -> `voice`
+  * `SERVER_FORUM_CHANNEL` -> `forum`
+  * `SERVER_STAGE_VOICE_CHANNEL` -> `stage`
+  * `SERVER_NEWS_CHANNEL` -> `news`
+  * `SERVER_STORE_CHANNEL` -> *removed*
+  * `SERVER_PUBLIC_THREAD` -> `guild_public_thread`
+  * `SERVER_PRIVATE_THREAD` -> `guild_private_thread`
+  * `SERVER_NEWS_THREAD` -> `guild_news_thread`
+  * `PRIVATE_CHANNEL` -> `private`
+  * `GROUP_CHANNEL` -> `group`
+  * `CHANNEL_CATEGORY` -> `category`
+  * `SERVER_DIRECTORY_CHANNEL` -> *removed*
+  * - -> `media`
+* Sticker type `server` changed to `guild`
+* `webhook~'type'` `CHANNEL_FOLLOWER` changed to `follower`
 * Emoji fields in parsables now support many more string notations
 * The channel or message for creating a thread is no longer provided in the parsable, but as an argument to `dc_create_thread`
 * Remove the slow mode delay when creating a thread, since that's not supported by JDA
@@ -16,3 +48,4 @@
 * Removed `message~'attachment'`
 * `slash_command_interaction~'arguments'` and `slash_command_interaction~'arguments_by_name'` no longer include the subcommand and subcommand group
 * Added `slash_command_interaction~'subcommand'` and `slash_command_interaction~'subcommand_group'`
+* Replaced `thread` parsable `channel_type` with `is_private`.

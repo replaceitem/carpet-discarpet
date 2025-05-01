@@ -170,7 +170,7 @@ nav:
     - __on_discord_reaction: 'events/discord-reaction.md'
     - __on_discord_server_member_join: 'events/discord-server-member-join.md'
     - __on_discord_server_member_leave: 'events/discord-server-member-leave.md'
-    - __on_discord_slash_command: 'events/discord-slash-command.md'
+    - __on_discord_slash_command: 'events/discord-command.md'
     - __on_discord_button: 'events/discord-button.md'
     - __on_discord_select_menu: 'events/discord-select-menu.md'
     - __on_discord_message_context_menu: 'events/discord-message-context-menu.md'
@@ -188,13 +188,10 @@ nav:
     - Role: 'values/role.md'
     - Server: 'values/server.md'
     - Channel: 'values/channel.md'
-    - Application commands:
-      - Slash command: 'values/commands/slash-command.md'
-      - Message context menu: 'values/commands/message-context-menu.md'
-      - User context menu: 'values/commands/user-context-menu.md'
+    - Slash command: 'values/command.md'
     - Interactions:
       - Base interaction: 'values/interactions/interaction.md'
-      - Slash command interaction: 'values/interactions/slash-command.md'
+      - Slash command interaction: 'values/interactions/command.md'
       - Button interaction: 'values/interactions/button.md'
       - Select menu interaction: 'values/interactions/select-menu.md'
       - Message context menu interaction: 'values/interactions/message-context-menu.md'
@@ -204,7 +201,6 @@ nav:
   - Parsables:
     - Message content: 'parsables/message-content.md'
     - Attachment: 'parsables/attachment.md'
-    # - Allowed mentions: 'parsables/allowed-mentions.md'
     - Timestamp: 'parsables/timestamp.md'
     - Color: 'parsables/color.md'
     - Embed: 'parsables/embed.md'

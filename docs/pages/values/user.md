@@ -9,7 +9,6 @@ Represents a regular user, or a bot.
 |---------------------:|:------------------------------|:----------------------------------------------------------------------------------------------------------------------|
 |               `name` | String                        | The name of the user.<br>To get the nickname, use [`dc_get_display_name`](/functions/users/get-display-name.md).      |
 |        `mention_tag` | String                        | The mention tag to mention a user in a message.                                                                       |
-| `discriminated_name` | String                        | The name of the user with its discriminator (e.g. `replaceitem#9118`).                                                |
 |                 `id` | String                        | The ID of the user.                                                                                                   |
 |             `avatar` | String                        | The image URL used in the user's avatar picture.                                                                      |
 |             `is_bot` | Boolean                       | Whether if the user is a bot.                                                                                         |

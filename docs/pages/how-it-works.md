@@ -90,16 +90,14 @@ All Discarpet exceptions can be caught under `discord_exception` using the
 <br>(Base scarpet exception)
     * `discord_exception`
     <br>(Base Discarpet exception)
-        * `missing_intent`
-        <br>You do not have the intent to do that
         * `api_exception`
-        <br>(General exception for requests to the Discord API)
-            * `missing_permission`
-            <br>You do not have the permission to do that
-            * `rate_limit`
-            <br>You sent too many requests within a short timespan[^1]
-            * `bad_request`
-            <br>You sent data that Discord considers as invalid
+        <br>The discord api replied that this request has failed
+        * `missing_permission`
+        <br>You do not have the permission to do that
+        * `rate_limit`
+        <br>You sent too many requests within a short timespan[^1]
+        * `http_exception`
+        <br>The request failed before reaching the discord api
 
 
 ### Accessing exceptions
@@ -114,12 +112,22 @@ test() -> (
 try(test(), 'discord_exception', print(_));
 ```
 
-Let's pretend the message failed to send for some reason.
-Here's what the exception format looks like:
+For the `api_exception` type, the exception value is a map of details about the error:
+
+* `code` - The Discord status code according to
+  [this list](https://discord.com/developers/docs/topics/opcodes-and-status-codes#http).
+* `message` - The message for the `code`
+* `body` - The contents of the HTTP response directly from discord.
+  * `code` - The Discord JSON status code according to
+    [this list](https://discord.com/developers/docs/topics/opcodes-and-status-codes#json).
+  * `message` - The error string provided by the response.
+
+An `api_exception` can also have additional information that you can access from the `body`.
 
 ```sc title="Example exception value"
 {
     'code' -> 403,
+    'message' -> '...',
     'body' -> {
         'code' -> 50013,
         'message' -> 'Missing Permissions'
@@ -127,18 +135,7 @@ Here's what the exception format looks like:
 }
 ```
 
-#### Structure:
-
-* `code` - The Discord HTTP status code according to
-  [this list](https://discord.com/developers/docs/topics/opcodes-and-status-codes#http).
-* `body` - The contents of the error.
-    * `code` - The Discord JSON status code according to
-    [this list](https://discord.com/developers/docs/topics/opcodes-and-status-codes#json).
-    * `message` - The error string provided by the response.
-
-An `api_exception` can have additional information that you can access from the `body`.
-
-
+The other exception types only consist of an error message string.
 
 ## Blocking functions and properties
 
