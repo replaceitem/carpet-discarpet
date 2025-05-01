@@ -20,6 +20,10 @@ public class WebhookValue extends MessageableValue<WebhookClient<Message>> imple
     public WebhookValue(WebhookClient<Message> webhook) {
         super(webhook);
     }
+    
+    public static Value of(@Nullable WebhookClient<Message> webhookClient) {
+        return ValueUtil.ofNullable(webhookClient, WebhookValue::new);
+    }
 
     @Override
     protected String getDiscordTypeString() {

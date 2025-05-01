@@ -20,6 +20,10 @@ public class EmojiValue extends DiscordValue<Emoji> implements Deletable, Renama
     public EmojiValue(Emoji emoji) {
         super(emoji);
     }
+    
+    public static Value of(@Nullable Emoji emoji) {
+        return ValueUtil.ofNullable(emoji, EmojiValue::new);
+    }
 
     @Override
     protected String getDiscordTypeString() {

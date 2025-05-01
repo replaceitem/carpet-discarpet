@@ -18,6 +18,10 @@ public class RoleValue extends DiscordValue<Role> implements Deletable, Renamabl
     public RoleValue(Role role) {
         super(role);
     }
+    
+    public static Value of(@Nullable Role role) {
+        return ValueUtil.ofNullable(role, RoleValue::new);
+    }
 
     @Override
     protected String getDiscordTypeString() {

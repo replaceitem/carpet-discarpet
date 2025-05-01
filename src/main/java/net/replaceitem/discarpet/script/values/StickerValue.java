@@ -21,6 +21,10 @@ public class StickerValue extends DiscordValue<Sticker> implements Deletable, Re
     public StickerValue(Sticker sticker) {
         super(sticker);
     }
+    
+    public static Value of(@Nullable Sticker sticker) {
+        return ValueUtil.ofNullable(sticker, StickerValue::new);
+    }
 
     @Override
     protected String getDiscordTypeString() {

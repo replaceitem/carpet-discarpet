@@ -6,15 +6,22 @@ import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.replaceitem.discarpet.script.util.ValueConversions;
+import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.AttachmentValue;
 import net.replaceitem.discarpet.script.values.ChannelValue;
 import net.replaceitem.discarpet.script.values.RoleValue;
 import net.replaceitem.discarpet.script.values.UserValue;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
+import org.jetbrains.annotations.Nullable;
 
 public class SlashCommandInteractionOptionValue extends DiscordValue<OptionMapping> {
     public SlashCommandInteractionOptionValue(OptionMapping option) {
         super(option);
+    }
+    
+    public static Value of(@Nullable OptionMapping optionMapping) {
+        return ValueUtil.ofNullable(optionMapping, SlashCommandInteractionOptionValue::new);
     }
 
     @Override
@@ -40,7 +47,7 @@ public class SlashCommandInteractionOptionValue extends DiscordValue<OptionMappi
             case USER -> UserValue.of(delegate.getAsUser());
             case CHANNEL -> ChannelValue.of(delegate.getAsChannel());
             case ROLE -> RoleValue.of(delegate.getAsRole());
-            case MENTIONABLE -> DiscordValue.of(delegate.getAsMentionable());
+            case MENTIONABLE -> ValueConversions.toValue(delegate.getAsMentionable());
             case NUMBER -> NumericValue.of(delegate.getAsDouble());
             case ATTACHMENT -> AttachmentValue.of(delegate.getAsAttachment());
             case SUB_COMMAND, SUB_COMMAND_GROUP, UNKNOWN -> Value.NULL;

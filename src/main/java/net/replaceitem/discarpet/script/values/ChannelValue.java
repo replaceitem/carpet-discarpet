@@ -16,12 +16,17 @@ import net.replaceitem.discarpet.script.exception.DiscordThrowables;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.common.MessageableValue;
 import net.replaceitem.discarpet.script.values.common.Renamable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class ChannelValue extends MessageableValue<Channel> implements Renamable {
     public ChannelValue(Channel channel) {
         super(channel);
+    }
+    
+    public static Value of(@Nullable Channel channel) {
+        return ValueUtil.ofNullable(channel, ChannelValue::new);
     }
 
     @Override

@@ -13,7 +13,8 @@ public class ScarpetGraphicsDependency {
     }
 
     public static @Nullable BufferedImage getImageFromValue(Value value) {
-        if(!(value instanceof PixelAccessibleValue<?> pixelAccessibleValue)) return null;
+        //noinspection rawtypes
+        if(!(value instanceof PixelAccessibleValue pixelAccessibleValue)) return null;
         Image image = pixelAccessibleValue.getNativeImage();
         return image instanceof BufferedImage bufferedImage ? bufferedImage : null;
     }

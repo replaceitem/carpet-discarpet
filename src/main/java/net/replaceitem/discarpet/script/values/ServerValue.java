@@ -9,10 +9,15 @@ import net.dv8tion.jda.api.requests.RestAction;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
 import net.replaceitem.discarpet.script.values.common.Renamable;
+import org.jetbrains.annotations.Nullable;
 
 public class ServerValue extends DiscordValue<Guild> implements Renamable {
     public ServerValue(Guild server) {
         super(server);
+    }
+    
+    public static Value of(@Nullable Guild guild) {
+        return ValueUtil.ofNullable(guild, ServerValue::new);
     }
 
     @Override

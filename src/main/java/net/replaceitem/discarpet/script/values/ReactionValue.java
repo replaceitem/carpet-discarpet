@@ -1,14 +1,20 @@
 package net.replaceitem.discarpet.script.values;
 
-import carpet.script.value.StringValue;
-import net.dv8tion.jda.api.entities.MessageReaction;
-import net.replaceitem.discarpet.script.values.common.DiscordValue;
 import carpet.script.value.NumericValue;
+import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import net.dv8tion.jda.api.entities.MessageReaction;
+import net.replaceitem.discarpet.script.util.ValueUtil;
+import net.replaceitem.discarpet.script.values.common.DiscordValue;
+import org.jetbrains.annotations.Nullable;
 
 public class ReactionValue extends DiscordValue<MessageReaction> {
     public ReactionValue(MessageReaction reaction) {
         super(reaction);
+    }
+    
+    public static Value of(@Nullable MessageReaction messageReaction) {
+        return ValueUtil.ofNullable(messageReaction, ReactionValue::new);
     }
 
     @Override

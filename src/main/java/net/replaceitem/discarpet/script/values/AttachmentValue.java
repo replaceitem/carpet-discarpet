@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.replaceitem.discarpet.script.exception.DiscordThrowables;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +16,10 @@ import java.io.InputStream;
 public class AttachmentValue extends DiscordValue<Message.Attachment> {
     public AttachmentValue(Message.Attachment attachment) {
         super(attachment);
+    }
+    
+    public static Value of(@Nullable Message.Attachment messageAttachment) {
+        return ValueUtil.ofNullable(messageAttachment, AttachmentValue::new);
     }
 
     @Override

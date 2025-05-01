@@ -20,6 +20,10 @@ public class MessageValue extends DiscordValue<Message> implements Deletable {
     public MessageValue(Message message) {
         super(message);
     }
+    
+    public static Value of(@Nullable Message message) {
+        return ValueUtil.ofNullable(message, MessageValue::new);
+    }
 
     @Override
     protected String getDiscordTypeString() {

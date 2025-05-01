@@ -34,7 +34,7 @@ public class ValueUtil {
         }
     }
     
-    public static <T> Value of(@Nullable T val, Function<T,Value> constructor) {
+    public static <T> Value ofNullable(@Nullable T val, Function<T,Value> constructor) {
         return val == null ? Value.NULL : constructor.apply(val);
     }
 

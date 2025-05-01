@@ -4,6 +4,8 @@ import carpet.script.value.MapValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.replaceitem.discarpet.script.util.ValueUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Collectors;
 
@@ -12,6 +14,9 @@ public class ModalInteractionValue extends InteractionValue<ModalInteractionEven
         super(modalInteraction);
     }
 
+    public static Value of(@Nullable ModalInteractionEvent modalInteractionEvent) {
+        return ValueUtil.ofNullable(modalInteractionEvent, ModalInteractionValue::new);
+    }
 
     @Override
     protected String getDiscordTypeString() {
