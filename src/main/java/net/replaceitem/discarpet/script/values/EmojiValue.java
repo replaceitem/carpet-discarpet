@@ -14,6 +14,7 @@ import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.common.Deletable;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
 import net.replaceitem.discarpet.script.values.common.Renamable;
+import org.jetbrains.annotations.Nullable;
 
 public class EmojiValue extends DiscordValue<Emoji> implements Deletable, Renamable {
     public EmojiValue(Emoji emoji) {
@@ -40,7 +41,7 @@ public class EmojiValue extends DiscordValue<Emoji> implements Deletable, Renama
     }
 
     @Override
-    public RestAction<?> delete(String reason) {
+    public RestAction<?> delete(@Nullable String reason) {
         if(!(delegate instanceof RichCustomEmoji customEmoji)) throw DiscordThrowables.genericCode(ErrorResponse.UNKNOWN_EMOJI);
         return customEmoji.delete().reason(reason);
     }

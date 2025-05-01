@@ -10,26 +10,29 @@ import net.replaceitem.discarpet.script.parsable.DirectParsable;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.values.UserValue;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 @ParsableClass(name = "embed_author")
 public class EmbedAuthorParsable implements DirectParsable {
     
     String name;
-    @OptionalField
+    @OptionalField @Nullable
     String url;
-    @OptionalField
+    @OptionalField @Nullable
     Value icon;
     
     @Nullable
     private FileUpload fileUpload = null;
 
     public void apply(EmbedBuilder embedBuilder) {
-        EmbedParsable.EmbedImage embedImage = EmbedParsable.handleImage(icon);
-        //noinspection resource
-        if(embedImage.fileUpload() != null) this.fileUpload = embedImage.fileUpload();
-        embedBuilder.setAuthor(name, url, embedImage.url());
+        @Nullable String iconUrl = null; 
+        if(icon != null) {
+            EmbedParsable.EmbedImage embedImage = EmbedParsable.handleImage(icon);
+            //noinspection resource
+            if(embedImage.fileUpload() != null) this.fileUpload = embedImage.fileUpload();
+            iconUrl = embedImage.url();
+        }
+        embedBuilder.setAuthor(name, url, iconUrl);
     }
 
     @Override

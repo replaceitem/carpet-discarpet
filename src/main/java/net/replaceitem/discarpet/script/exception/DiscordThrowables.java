@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.exceptions.RateLimitedException;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.Response;
 import net.replaceitem.discarpet.Discarpet;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -36,34 +37,39 @@ public class DiscordThrowables {
     public static final Throwables HTTP_EXCEPTION = register("http_exception", DISCORD_EXCEPTION);
     
     public static ThrowStatement convert(Throwable exception) {
-        return convert(exception, exception.getMessage());
+        return convert(exception, null);
     }
     
-    public static ThrowStatement convert(Throwable exception, String message) {
-        if(exception instanceof ExecutionException executionException && executionException.getCause() != null) {
-            return convert(executionException.getCause(), message);
+    public static ThrowStatement convert(Throwable exception, @Nullable String message) {
+        String finalMessage = message == null ? exception.getMessage() : exception.getMessage() + ": " + message;
+        switch (exception) {
+            case ExecutionException executionException when executionException.getCause() != null -> {
+                return convert(executionException.getCause(), message);
+            }
+            case ErrorResponseException errorResponseException -> {
+                Value value = createErrorMap(errorResponseException.getResponse());
+                return new ThrowStatement(value, API_EXCEPTION);
+            }
+            case PermissionException ignored -> {
+                return new ThrowStatement(finalMessage, MISSING_PERMISSION);
+            }
+            case RateLimitedException ignored -> {
+                return new ThrowStatement(finalMessage, RATE_LIMIT);
+            }
+            case HttpException ignored -> {
+                return new ThrowStatement(finalMessage, HTTP_EXCEPTION);
+            }
+            case IOException ignored -> {
+                return new ThrowStatement(finalMessage, Throwables.IO_EXCEPTION);
+            }
+            case UncheckedIOException uncheckedIOException when uncheckedIOException.getCause() != null -> {
+                return convert(uncheckedIOException.getCause(), message);
+            }
+            default -> {
+                Discarpet.LOGGER.error("Could not convert exception type {} to discarpet exception ({}):", exception.getClass().getSimpleName(), message, exception);
+                return new ThrowStatement(exception.getMessage(), Throwables.THROWN_EXCEPTION_TYPE);
+            }
         }
-        if(exception instanceof ErrorResponseException errorResponseException) {
-            Value value = createErrorMap(errorResponseException.getResponse());
-            return new ThrowStatement(value, API_EXCEPTION);
-        }
-        if(exception instanceof PermissionException permissionException) {
-            return new ThrowStatement(permissionException.getMessage(), MISSING_PERMISSION);
-        }
-        if(exception instanceof RateLimitedException rateLimitedException) {
-            return new ThrowStatement(rateLimitedException.getMessage(), RATE_LIMIT);
-        }
-        if(exception instanceof HttpException httpException) {
-            return new ThrowStatement(httpException.getMessage(), HTTP_EXCEPTION);
-        }
-        if(exception instanceof IOException) {
-            return new ThrowStatement(message, Throwables.IO_EXCEPTION);
-        }
-        if(exception instanceof UncheckedIOException uncheckedIOException && uncheckedIOException.getCause() != null) {
-            return convert(uncheckedIOException.getCause());
-        }
-        Discarpet.LOGGER.error("Could not convert exception type {} to discarpet exception ({}):", exception.getClass().getSimpleName(), message, exception);
-        return new ThrowStatement(exception.getMessage(), Throwables.THROWN_EXCEPTION_TYPE);
     }
     
     public static ThrowStatement genericCode(ErrorResponse errorCode) {

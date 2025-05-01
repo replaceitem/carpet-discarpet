@@ -1,8 +1,7 @@
 package net.replaceitem.discarpet.script.parsable;
 
 import carpet.script.value.Value;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public interface ParsableConstructor<T> {
     T construct();

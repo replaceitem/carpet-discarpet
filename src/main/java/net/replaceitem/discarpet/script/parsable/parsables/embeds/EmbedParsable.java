@@ -11,8 +11,8 @@ import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
 import net.replaceitem.discarpet.script.util.FileUtil;
 import net.replaceitem.discarpet.script.util.ScarpetGraphicsDependency;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.io.File;
 import java.time.Instant;
@@ -21,25 +21,25 @@ import java.util.List;
 
 @ParsableClass(name = "embed")
 public class EmbedParsable implements ParsableConstructor<MessageEmbed> {
-    @OptionalField
+    @OptionalField @Nullable
     String title;
-    @OptionalField
+    @OptionalField @Nullable
     String url;
-    @OptionalField
+    @OptionalField @Nullable
     String description;
-    @OptionalField
+    @OptionalField @Nullable
     EmbedAuthorParsable author;
     @OptionalField
     List<EmbedFieldParsable> fields = List.of();
-    @OptionalField
+    @OptionalField @Nullable
     Color color;
-    @OptionalField
+    @OptionalField @Nullable
     EmbedFooterParsable footer;
-    @OptionalField
+    @OptionalField @Nullable
     Value image;
-    @OptionalField
+    @OptionalField @Nullable
     Value thumbnail;
-    @OptionalField
+    @OptionalField @Nullable
     Instant timestamp;
 
     private final List<FileUpload> fileUploads = new ArrayList<>(0);

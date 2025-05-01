@@ -25,9 +25,6 @@ import net.minecraft.server.ServerTask;
 import net.replaceitem.discarpet.config.Bot;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
 public class DiscarpetEventsListener extends ListenerAdapter {
     
     protected final Bot bot;

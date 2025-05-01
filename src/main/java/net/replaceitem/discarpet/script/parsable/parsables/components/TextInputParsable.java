@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
+import org.jetbrains.annotations.Nullable;
 
 @ParsableClass(name = "text_input")
 public class TextInputParsable implements ParsableConstructor<TextInput> {
@@ -12,15 +13,15 @@ public class TextInputParsable implements ParsableConstructor<TextInput> {
     String id;
     TextInputStyle style;
     String label;
-    @OptionalField
+    @OptionalField @Nullable
     Integer min_length;
-    @OptionalField
+    @OptionalField @Nullable
     Integer max_length;
     @OptionalField
     Boolean required = true;
-    @OptionalField
+    @OptionalField @Nullable
     String value = null;
-    @OptionalField
+    @OptionalField @Nullable
     String placeholder;
     
     @Override

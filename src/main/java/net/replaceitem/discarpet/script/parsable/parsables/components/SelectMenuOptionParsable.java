@@ -5,15 +5,16 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
+import org.jetbrains.annotations.Nullable;
 
 @ParsableClass(name = "select_menu_option")
 public class SelectMenuOptionParsable implements ParsableConstructor<SelectOption> {
     
     String value;
     String label;
-    @OptionalField
+    @OptionalField @Nullable
     Emoji emoji;
-    @OptionalField
+    @OptionalField @Nullable
     String description;
     @OptionalField
     Boolean default_option = false;

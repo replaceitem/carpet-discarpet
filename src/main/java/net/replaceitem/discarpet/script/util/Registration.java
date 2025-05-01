@@ -28,7 +28,6 @@ import net.replaceitem.discarpet.script.parsable.parsables.commands.*;
 import net.replaceitem.discarpet.script.parsable.parsables.components.*;
 import net.replaceitem.discarpet.script.parsable.parsables.embeds.EmbedParsable;
 import net.replaceitem.discarpet.script.values.*;
-import net.replaceitem.discarpet.script.values.commands.CommandValue;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
 import net.replaceitem.discarpet.script.values.common.MessageableValue;
 import net.replaceitem.discarpet.script.values.interactions.*;
