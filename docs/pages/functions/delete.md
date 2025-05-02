@@ -19,8 +19,9 @@ Deletes whatever value provided.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
-* `missing_permissions`
+Throws an exception on failure.
+* `api_exception`
+* `missing_permission`
     * Message - You do not have "Manage Messages" permission.
     * Role - You do not have "Manage Roles" permission, or the role is of higher hierarchy.
     * Emoji, Sticker - You do not have "Manage Expressions" permission.

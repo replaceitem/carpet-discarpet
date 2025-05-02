@@ -21,5 +21,6 @@ Creates a thread channel.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
-* `bad_request`
+Throws an exception on failure.
+* `api_exception`
+* `missing_permission`
