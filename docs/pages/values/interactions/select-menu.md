@@ -6,6 +6,8 @@ Represents an interaction from a user inputting into a select menu from
 
 ### {query:}
 
+Also has all properties from the [base interaction](/values/interactions/interaction.md)
+
 |         Property | Type                          | Description                                                                               |
 |-----------------:|:------------------------------|:------------------------------------------------------------------------------------------|
 |      `custom_id` | String                        | The custom ID of the select menu.                                                         |
