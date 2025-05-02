@@ -16,6 +16,14 @@ public class AllowedMentionsParsable {
     @OptionalField
     Boolean mention_users = false;
     @OptionalField
+    Boolean mention_channels = false;
+    @OptionalField
+    Boolean mention_emojis = false;
+    @OptionalField
+    Boolean mention_slash_commands = false;
+    @OptionalField
+    Boolean mention_here = false;
+    @OptionalField
     Boolean mention_everyone = false;
     @OptionalField
     List<String> roles = List.of();
@@ -27,8 +35,11 @@ public class AllowedMentionsParsable {
         EnumSet<Message.MentionType> mentionTypes = EnumSet.noneOf(Message.MentionType.class);
         if(mention_roles) mentionTypes.add(Message.MentionType.ROLE);
         if(mention_users) mentionTypes.add(Message.MentionType.USER);
+        if(mention_channels) mentionTypes.add(Message.MentionType.CHANNEL);
+        if(mention_emojis) mentionTypes.add(Message.MentionType.EMOJI);
+        if(mention_slash_commands) mentionTypes.add(Message.MentionType.SLASH_COMMAND);
+        if(mention_here) mentionTypes.add(Message.MentionType.HERE);
         if(mention_everyone) mentionTypes.add(Message.MentionType.EVERYONE);
-        // TODO add and document other mention types
         messageRequest.setAllowedMentions(mentionTypes);
         
         // TODO add this
