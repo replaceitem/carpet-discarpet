@@ -4,6 +4,7 @@ import carpet.script.annotation.ScarpetFunction;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.Value;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.WebhookClient;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
@@ -16,7 +17,7 @@ import net.replaceitem.discarpet.script.values.common.MessageableValue;
 
 import java.util.Optional;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
 public class Messages {
     @ScarpetFunction
     public Message dc_send_message(Value target, Value messageContent) {
@@ -37,9 +38,22 @@ public class Messages {
     }
 
 	@ScarpetFunction
-	public void dc_react(Message message, Value emojiValue) {
-        // TODO split to dc_add_reaction(msg, emoji) and dc_remove_reaction(msg, emoji?, user?)
+	public void dc_add_reaction(Message message, Value emojiValue) {
         Emoji emoji = Parser.parseType(emojiValue, Emoji.class);
-        ValueUtil.awaitRest(message.addReaction(emoji), "Error reacting to message");
+        ValueUtil.awaitRest(message.addReaction(emoji), "Error adding reaction to message");
 	}
+
+	@ScarpetFunction
+	public void dc_remove_reaction(Message message, Optional<Value> emojiValue, Optional<User> user) {
+        if (emojiValue.isEmpty()) {
+            ValueUtil.awaitRest(message.clearReactions(), "Error removing all reactions from message");
+            return;
+        }
+        Emoji emoji = Parser.parseType(emojiValue.get(), Emoji.class);
+        if(user.isEmpty()) {
+            ValueUtil.awaitRest(message.removeReaction(emoji), "Error removing reactions from message");
+            return;
+        }
+        ValueUtil.awaitRest(message.removeReaction(emoji, user.get()), "Error removing reactions from message for a user");
+    }
 }

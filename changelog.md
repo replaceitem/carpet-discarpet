@@ -54,3 +54,4 @@
 * Replaced `~'is_subcommand_or_group'` in slash command interaction option values with `~'type'`
 * Added `mention_channels`, `mention_emojis`, `mention_slash_commands`, `mention_here` fields to allowed mentions parsable
 * Added `mention_replied_user` to allowed mentions
+* `dc_react` has been split to `dc_add_reaction(msg, emoji)` and `dc_remove_reaction(msg, emoji?, user?)`

@@ -124,7 +124,8 @@ nav:
 
   - Functions:
     - dc_send_message: 'functions/send-message.md'
-    - dc_react: 'functions/react.md'
+    - dc_react: 'functions/add-reaction.md'
+    - dc_react: 'functions/remove-reaction.md'
     - dc_delete: 'functions/delete.md'
     - dc_set_name: 'functions/set-name.md'
     - dc_set_channel_topic: 'functions/set-channel-topic.md'
