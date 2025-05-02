@@ -5,14 +5,15 @@ Used for creating a select menu component.
 
 ### {map:}
 
-|                Key | Type                       | Description                                                                                                        |
-|-------------------:|:---------------------------|:-------------------------------------------------------------------------------------------------------------------|
-|        `component` | String                     | One of the select menu [component types](/parsabled/components/component.md#component-types) ending with `_select` |
-|               `id` | String                     | The ID of the select menu. Used to identify when interacted with.                                                  |
-|     `options` {:?} | List of [Options](#option) | All options selectable in this select menu.[^1]                                                                    |
-|         `min` {:?} | Number                     | The minimum number of options that need to be selected.                                                            |
-|         `max` {:?} | Number                     | The maximum number of options that can be selected.                                                                |
-| `placeholder` {:?} | String                     | The text displayed when nothing is selected yet.                                                                   |
+|                  Key | Type                       | Description                                                                                                        |
+|---------------------:|:---------------------------|:-------------------------------------------------------------------------------------------------------------------|
+|          `component` | String                     | One of the select menu [component types](/parsabled/components/component.md#component-types) ending with `_select` |
+|                 `id` | String                     | The ID of the select menu. Used to identify when interacted with.                                                  |
+|       `options` {:?} | List of [Options](#option) | All options selectable in this select menu.[^1]                                                                    |
+| `channel_types` {:?} | List of Strings            | The [channel types](/values/channel.md#channel-types) allowed if this is a `channel_select` component.             |
+|           `min` {:?} | Number                     | The minimum number of options that need to be selected.                                                            |
+|           `max` {:?} | Number                     | The maximum number of options that can be selected.                                                                |
+|   `placeholder` {:?} | String                     | The text displayed when nothing is selected yet.                                                                   |
 
 
 

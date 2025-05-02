@@ -50,3 +50,5 @@
 * `slash_command_interaction~'arguments'` and `slash_command_interaction~'arguments_by_name'` no longer include the subcommand and subcommand group
 * Added `slash_command_interaction~'subcommand'` and `slash_command_interaction~'subcommand_group'`
 * Replaced `thread` parsable `channel_type` with `is_private`.
+* Added `channel_types` to select menu parsable
+* Replaced `~'is_subcommand_or_group'` in slash command interaction option values with `~'type'`
