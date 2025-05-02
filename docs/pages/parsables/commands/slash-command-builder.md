@@ -31,14 +31,15 @@ For more info, [check this documentation](https://canary.discord.com/developers/
 
 ### {map:}
 
-|             Key | Type                                    | Description                                         |
-|----------------:|:----------------------------------------|:----------------------------------------------------|
-|          `type` | String                                  | The [type](#option-types) of slash command option.  |
-|          `name` | String                                  | The name of the option.                             |
-|   `description` | String                                  | The description of the option.                      |
-| `required` {:?} | Boolean<br>(`false` by default)         | Whether if this option is required to be specified. |
-|  `options` {:?} | List of [Options](#option)              | Sub-options to this sub-command/group.[^1]          |
-|  `choices` {:?} | List of [Option choices](#option-types) | Autocompletable choices for this command option.    |
+|                 Key | Type                                    | Description                                        |
+|--------------------:|:----------------------------------------|:---------------------------------------------------|
+|              `type` | String                                  | The [type](#option-types) of slash command option. |
+|              `name` | String                                  | The name of the option.                            |
+|       `description` | String                                  | The description of the option.                     |
+|     `required` {:?} | Boolean<br>(`false` by default)         | Whether this option is required to be specified.   |
+| `autocomplete` {:?} | Boolean<br>(`false` by default)         | Whether this option should autocomplete.           |
+|      `options` {:?} | List of [Options](#option)              | Sub-options to this sub-command/group.[^1]         |
+|      `choices` {:?} | List of [Option choices](#option-types) | Autocompletable choices for this command option.   |
 
 #### [Option types][1] { id="option-types" }
 

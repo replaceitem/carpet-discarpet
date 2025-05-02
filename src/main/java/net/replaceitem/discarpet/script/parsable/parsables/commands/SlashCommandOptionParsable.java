@@ -22,6 +22,8 @@ public class SlashCommandOptionParsable implements ParsableConstructor<SlashComm
     @OptionalField
     Boolean required = false;
     @OptionalField
+    Boolean autocomplete = false;
+    @OptionalField
     List<SlashCommandOptionParsable.SlashCommandOptionUnion> options = List.of();
     @OptionalField
     List<Command.Choice> choices = List.of();
@@ -50,7 +52,7 @@ public class SlashCommandOptionParsable implements ParsableConstructor<SlashComm
                                     .toList()
                             )
             );
-            default -> SlashCommandOptionUnion.ofOption(new OptionData(type, name, description, required).addChoices(choices));
+            default -> SlashCommandOptionUnion.ofOption(new OptionData(type, name, description, required, autocomplete).addChoices(choices));
         };
     }
     
