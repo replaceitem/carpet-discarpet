@@ -112,30 +112,42 @@ test() -> (
 try(test(), 'discord_exception', print(_));
 ```
 
+#### `api_exception`
+
 For the `api_exception` type, the exception value is a map of details about the error:
 
+* `message` - The message for the `code`
 * `code` - The Discord status code according to
   [this list](https://discord.com/developers/docs/topics/opcodes-and-status-codes#http).
-* `message` - The message for the `code`
-* `body` - The contents of the HTTP response directly from discord.
-  * `code` - The Discord JSON status code according to
-    [this list](https://discord.com/developers/docs/topics/opcodes-and-status-codes#json).
-  * `message` - The error string provided by the response.
+* `body` - The contents of the HTTP response body directly from discord.
 
-An `api_exception` can also have additional information that you can access from the `body`.
-
-```sc title="Example exception value"
+```sc title="Example api_exception exception value"
 {
-    'code' -> 403,
+    'code' -> 400,
     'message' -> '...',
     'body' -> {
-        'code' -> 50013,
-        'message' -> 'Missing Permissions'
+        ...
     }
 }
 ```
 
-The other exception types only consist of an error message string.
+#### `missing_permission`
+
+For the `missing_permission` type, the exception value is a map of details about the error:
+
+* `message` - The message of the exception
+* `permission` - The [permission name](https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags) that was missing
+* `server` - The server id where the permission was missing.
+* `channel` - The channel id where the permission was missing.
+
+```sc title="Example api_exception exception value"
+{
+    'code' -> 400,
+    'message' -> '...',
+    'server' -> '012345678901234567',
+    'channel' -> '123456789012345678',
+}
+```
 
 ## Blocking functions and properties
 

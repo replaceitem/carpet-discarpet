@@ -8,19 +8,16 @@ import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import com.google.gson.JsonParseException;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import net.dv8tion.jda.api.exceptions.HttpException;
-import net.dv8tion.jda.api.exceptions.PermissionException;
-import net.dv8tion.jda.api.exceptions.RateLimitedException;
+import net.dv8tion.jda.api.exceptions.*;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.Response;
 import net.replaceitem.discarpet.Discarpet;
+import net.replaceitem.discarpet.script.util.MapBuilder;
+import net.replaceitem.discarpet.script.util.ValueUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static carpet.script.exception.Throwables.THROWN_EXCEPTION_TYPE;
@@ -50,8 +47,15 @@ public class DiscordThrowables {
                 Value value = createErrorMap(errorResponseException.getResponse());
                 return new ThrowStatement(value, API_EXCEPTION);
             }
-            case PermissionException ignored -> {
-                return new ThrowStatement(finalMessage, MISSING_PERMISSION);
+            case PermissionException permissionException -> {
+                MapBuilder map = new MapBuilder()
+                        .put("permission", ValueUtil.ofEnum(permissionException.getPermission()))
+                        .put("message", permissionException.getMessage());
+                if(permissionException instanceof InsufficientPermissionException insufficientPermissionException){
+                    map.put("server", Long.toUnsignedString(insufficientPermissionException.getGuildId()));
+                    map.put("channel", Long.toUnsignedString(insufficientPermissionException.getChannelId()));
+                }
+                return new ThrowStatement(map.build(), MISSING_PERMISSION);
             }
             case RateLimitedException ignored -> {
                 return new ThrowStatement(finalMessage, RATE_LIMIT);
@@ -77,15 +81,15 @@ public class DiscordThrowables {
     }
 
     private static MapValue createSimpleError(ErrorResponse errorCode) {
-        Map<Value, Value> map = new HashMap<>();
-        map.put(StringValue.of("code"), NumericValue.of(errorCode.getCode()));
-        map.put(StringValue.of("message"), StringValue.of(errorCode.getMeaning()));
-        return MapValue.wrap(map);
+        return new MapBuilder()
+                .put("code", NumericValue.of(errorCode.getCode()))
+                .put("message", StringValue.of(errorCode.getMeaning()))
+                .build();
     }
     private static MapValue createErrorMap(Response response) {
-        Map<Value, Value> map = new HashMap<>();
-        map.put(StringValue.of("code"), NumericValue.of(response.code));
-        map.put(StringValue.of("message"), StringValue.of(response.message));
+        MapBuilder map = new MapBuilder()
+                .put("code", NumericValue.of(response.code))
+                .put("message", StringValue.of(response.message));
         response.optObject().ifPresent(body -> {
             Value json;
             try {
@@ -93,8 +97,8 @@ public class DiscordThrowables {
             } catch (JsonParseException e) {
                 json = StringValue.of(body.toString());
             }
-            map.put(StringValue.of("body"), json);
+            map.put("body", json);
         });
-        return MapValue.wrap(map);
+        return map.build();
     }
 }
