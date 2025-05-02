@@ -42,19 +42,19 @@ For more info, [check this documentation](https://canary.discord.com/developers/
 
 #### [Option types][1] { id="option-types" }
 
-|              String | Description                        |
-|--------------------:|:-----------------------------------|
-|       `SUB_COMMAND` |                                    |
-| `SUB_COMMAND_GROUP` |                                    |
-|            `STRING` |                                    |
-|           `INTEGER` | Any integer between -2^53 and 2^53 |
-|           `BOOLEAN` |                                    |
-|              `USER` | Select a user                      |
-|           `CHANNEL` | All channel types + categories     |
-|              `ROLE` | Select a role                      |
-|       `MENTIONABLE` | Select a user/role                 |
-|            `NUMBER` |                                    |
-|        `ATTACHMENT` | Upload an attachment               |
+|              String | Description                                              |
+|--------------------:|:---------------------------------------------------------|
+|       `sub_command` | A subcommand                                             |
+| `sub_command_group` | A subcommand group for containing subcommands as options |
+|            `string` | Any string                                               |
+|           `integer` | Any integer between -2^53 and 2^53                       |
+|           `boolean` | true or false                                            |
+|              `user` | Select a user                                            |
+|           `channel` | All channel types + categories                           |
+|              `role` | Select a role                                            |
+|       `mentionable` | Select a user/role                                       |
+|            `number` | A double value                                           |
+|        `attachment` | Upload an attachment                                     |
 
 
 

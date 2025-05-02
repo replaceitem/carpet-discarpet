@@ -5,7 +5,6 @@ import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.replaceitem.discarpet.script.util.ValueConversions;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.AttachmentValue;
@@ -32,8 +31,7 @@ public class SlashCommandInteractionOptionValue extends DiscordValue<OptionMappi
     public Value getProperty(String property) {
         return switch (property) {
             case "name" -> StringValue.of(delegate.getName());
-            // TODO deprecate this and add ~type
-            case "is_subcommand_or_group" -> BooleanValue.of(delegate.getType() == OptionType.SUB_COMMAND || delegate.getType() == OptionType.SUB_COMMAND_GROUP);
+            case "type" -> ValueUtil.ofEnum(delegate.getType());
             case "value" -> getValue();
             default -> super.getProperty(property);
         };
