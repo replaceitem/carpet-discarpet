@@ -53,3 +53,4 @@
 * Added `channel_types` to select menu parsable
 * Replaced `~'is_subcommand_or_group'` in slash command interaction option values with `~'type'`
 * Added `mention_channels`, `mention_emojis`, `mention_slash_commands`, `mention_here` fields to allowed mentions parsable
+* Added `mention_replied_user` to allowed mentions
