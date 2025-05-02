@@ -21,4 +21,6 @@ Gets the webhook from the specified ID and token.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
+Throws an exception on failure.
+* `api_exception`
+* `missing_permission`

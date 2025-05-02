@@ -23,6 +23,6 @@ Sets the nickname of a user in a server.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
+Throws an exception on failure.
+* `api_exception`
 * `missing_permission`
-    * `50013` - You do not have "Manage Nicknames" permission, or the user is of higher hierarchy

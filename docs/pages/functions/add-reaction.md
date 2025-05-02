@@ -15,6 +15,6 @@ Reacts to a message with an emoji.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
+Throws an exception on failure.
 * `api_exception`
-    * `50013` - The channel has "Add Reactions" disabled.
+* `missing_permission`
