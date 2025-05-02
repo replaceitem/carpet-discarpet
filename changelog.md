@@ -52,3 +52,4 @@
 * Replaced `thread` parsable `channel_type` with `is_private`.
 * Added `channel_types` to select menu parsable
 * Replaced `~'is_subcommand_or_group'` in slash command interaction option values with `~'type'`
+* Added `mention_channels`, `mention_emojis`, `mention_slash_commands`, `mention_here` fields to allowed mentions parsable
