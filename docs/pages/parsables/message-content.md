@@ -38,17 +38,18 @@ Used for configuring allowed mentions.
 
 ### {map:}
 
-|                           Key | Type            | Description                                                  |
-|------------------------------:|:----------------|:-------------------------------------------------------------|
-|          `mention_roles` {:?} | Boolean         | Whether roles can be mentioned. (Defaults to false)          |
-|          `mention_users` {:?} | Boolean         | Whether users can be mentioned. (Defaults to false)          |
-|       `mention_channels` {:?} | Boolean         | Whether channels can be mentioned. (Defaults to false)       |
-|         `mention_emojis` {:?} | Boolean         | Whether emojis can be mentioned. (Defaults to false)         |
-| `mention_slash_commands` {:?} | Boolean         | Whether slash commands can be mentioned. (Defaults to false) |
-|           `mention_here` {:?} | Boolean         | Whether @here can be mentioned. (Defaults to false)          |
-|       `mention_everyone` {:?} | Boolean         | Whether @everyone can be mentioned. (Defaults to false)      |
-|                  `roles` {:?} | List of Strings | Roles that should be mentioned, specified by their IDs.      |
-|                  `users` {:?} | List of Strings | Users that should be mentioned, specified by their IDs.      |
+|                           Key | Type            | Description                                                                                        |
+|------------------------------:|:----------------|:---------------------------------------------------------------------------------------------------|
+|          `mention_roles` {:?} | Boolean         | Whether roles can be mentioned. (Defaults to false)                                                |
+|          `mention_users` {:?} | Boolean         | Whether users can be mentioned. (Defaults to false)                                                |
+|       `mention_channels` {:?} | Boolean         | Whether channels can be mentioned. (Defaults to false)                                             |
+|         `mention_emojis` {:?} | Boolean         | Whether emojis can be mentioned. (Defaults to false)                                               |
+| `mention_slash_commands` {:?} | Boolean         | Whether slash commands can be mentioned. (Defaults to false)                                       |
+|           `mention_here` {:?} | Boolean         | Whether @here can be mentioned. (Defaults to false)                                                |
+|       `mention_everyone` {:?} | Boolean         | Whether @everyone can be mentioned. (Defaults to false)                                            |
+|   `mention_replied_user` {:?} | Boolean         | Whether the author of the replied to message (`reply_to`) should be mentioned. (Defaults to false) |
+|                  `roles` {:?} | List of Strings | Roles that should be mentioned, specified by their IDs.                                            |
+|                  `users` {:?} | List of Strings | Users that should be mentioned, specified by their IDs.                                            |
 
 
 

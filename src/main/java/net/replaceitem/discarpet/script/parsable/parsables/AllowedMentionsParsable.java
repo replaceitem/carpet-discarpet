@@ -25,6 +25,10 @@ public class AllowedMentionsParsable {
     Boolean mention_here = false;
     @OptionalField
     Boolean mention_everyone = false;
+    
+    @OptionalField
+    Boolean mention_replied_user = false;
+    
     @OptionalField
     List<String> roles = List.of();
     @OptionalField
@@ -42,9 +46,8 @@ public class AllowedMentionsParsable {
         if(mention_everyone) mentionTypes.add(Message.MentionType.EVERYONE);
         messageRequest.setAllowedMentions(mentionTypes);
         
-        // TODO add this
-        //messageRequest.mentionRepliedUser()
-        
+        messageRequest.mentionRepliedUser(mention_replied_user);
+                
         if(roles != null) messageRequest.mentionRoles(roles);
         if(users != null) messageRequest.mentionRoles(users);
     }
