@@ -8,7 +8,8 @@
 * Replaced `reaction~'message'` with `reaction~'message_id'`
 * Added `reaction~'channel'` and `reaction~'server'`
 * Removed `slash_command_interaction_option~'options'`
-* All enum-like string parsables are now parsed in a unified case-insensitive way, you can use upper and lower case strings.
+* Fixed some enum-like string fields in parsables being case-sensitive. You can now use upper and lower case strings everywhere.
+* All `~'type'` queries are now lower case strings
 * The `component` type in a component parsable have partially different names now:
   * `BUTTON` -> `button`
   * `SELECT_MENU_STRING` -> `string_select`
