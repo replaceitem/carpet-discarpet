@@ -55,3 +55,4 @@
 * Added `mention_channels`, `mention_emojis`, `mention_slash_commands`, `mention_here` fields to allowed mentions parsable
 * Added `mention_replied_user` to allowed mentions
 * `dc_react` has been split to `dc_add_reaction(msg, emoji)` and `dc_remove_reaction(msg, emoji?, user?)`
+* Added `dc_member` value type, referencing a user in a server. This can be used to retrieve data of a user specific to a server, like nicknames and roles.

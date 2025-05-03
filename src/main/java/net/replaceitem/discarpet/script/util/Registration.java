@@ -53,6 +53,7 @@ public class  Registration {
         registerDiscordValue(AttachmentValue.class, Message.Attachment.class, AttachmentValue::new);
         registerDiscordValue(ChannelValue.class, Channel.class, ChannelValue::new);
         registerDiscordValue(EmojiValue.class, Emoji.class, EmojiValue::new);
+        registerDiscordValue(MemberValue.class, Member.class, MemberValue::new);
         registerDiscordValue(MessageValue.class, Message.class, MessageValue::new);
         registerDiscordValue(ReactionValue.class, MessageReaction.class, ReactionValue::new);
         registerDiscordValue(RoleValue.class, Role.class, RoleValue::new);
@@ -103,9 +104,6 @@ public class  Registration {
         // allows to return lists of values or other objects with a registered output converter
         OutputConverter.register(List.class, Registration::listOutputConverter);
         OutputConverter.register(Optional.class, Registration::optionalOutputConverter);
-
-        // convert member objects to user objects, since member values don't exist (used in for example select_menu_interaction~'chosen')
-        OutputConverter.register(Member.class, (member, dynamicRegistryManager) -> new UserValue(member.getUser()));
     }
     
     private static Value listOutputConverter(List<?> list) {
