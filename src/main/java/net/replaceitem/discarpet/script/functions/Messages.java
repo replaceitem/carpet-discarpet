@@ -43,7 +43,7 @@ public class Messages {
         ValueUtil.awaitRest(message.addReaction(emoji), "Error adding reaction to message");
 	}
 
-	@ScarpetFunction
+	@ScarpetFunction(maxParams = 3)
 	public void dc_remove_reaction(Message message, Optional<Value> emojiValue, Optional<User> user) {
         if (emojiValue.isEmpty()) {
             ValueUtil.awaitRest(message.clearReactions(), "Error removing all reactions from message");
