@@ -29,7 +29,7 @@ public class ServerValue extends DiscordValue<Guild> implements Renamable {
         return switch (property) {
             case "name" -> StringValue.of(delegate.getName());
             case "id" -> StringValue.of(delegate.getId());
-            // TODO also add ~'members' which returns new guild specific member values, which replaces/deprecates functions like dc_get_roles and dc_get_nickname with dc_get_member(server,user)~'roles'
+            case "members" -> ListValue.wrap(delegate.getMembers().stream().map(MemberValue::new));
             case "users" -> ListValue.wrap(delegate.getMembers().stream().map(Member::getUser).map(UserValue::new));
             case "channels" -> ListValue.wrap(delegate.getChannels().stream().map(ChannelValue::new));
             case "roles" -> ListValue.wrap(delegate.getRoles().stream().map(RoleValue::new));
