@@ -12,7 +12,7 @@ public abstract class DiscordValue<T> extends Value {
     protected final T delegate;
     
     protected DiscordValue(T delegate) {
-        this.delegate = Objects.requireNonNull(delegate);
+        this.delegate = Objects.requireNonNull(delegate, this::getTypeString);
     }
     
     public T getDelegate() {
