@@ -5,6 +5,7 @@ import carpet.script.value.Value;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.ChannelValue;
+import net.replaceitem.discarpet.script.values.MemberValue;
 import net.replaceitem.discarpet.script.values.ServerValue;
 import net.replaceitem.discarpet.script.values.UserValue;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
@@ -19,6 +20,7 @@ public abstract class InteractionValue<T extends GenericInteractionCreateEvent> 
             case "id" -> StringValue.of(delegate.getId());
             case "channel" -> ChannelValue.of(delegate.getChannel());
             case "user" -> UserValue.of(delegate.getUser());
+            case "member" -> MemberValue.of(delegate.getMember());
             case "token" -> StringValue.of(delegate.getToken());
             case "server" -> ServerValue.of(delegate.getGuild());
             case "locale" -> StringValue.of(delegate.getUserLocale().getLocale());

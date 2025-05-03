@@ -33,7 +33,7 @@ public class MessageValue extends DiscordValue<Message> implements Deletable {
             case "id" -> StringValue.of(delegate.getId());
             case "channel" -> ChannelValue.of(delegate.getChannel());
             case "user" -> UserValue.of(delegate.getAuthor());
-            // TODO add ~'member'
+            case "member" -> MemberValue.of(delegate.getMember());
             case "webhook_id" -> StringValue.of(delegate.isWebhookMessage() ? delegate.getAuthor().getId() : null);
             case "server" -> ServerValue.of(delegate.getGuild());
             case "nonce" -> StringValue.of(delegate.getNonce());

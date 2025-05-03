@@ -13,6 +13,7 @@ Represents a message sent by a user, bot, webhook, or server.
 |                 `id` | String                                       | The ID of the message.                                                                                                 |
 |            `channel` | [Channel](/values/channel.md)                | The channel this message was sent in.                                                                                  |
 |               `user` | [User](/values/user.md), Null                | The user that sent this message.<br>Returns `null` if not sent or triggered by a user, or if the user is not cached.   |
+|             `member` | [Member](/values/member.md), Null            | The member that sent this message.<br>Returns `null` if not sent or triggered by a server member in a server channel.  |
 |         `webhook_id` | Number, Null                                 | The webhook that sent this message, represented by its ID.[^2]<br>Returns `null` if not sent by a webhook.             |
 |             `server` | Server                                       | The server this message was written in.                                                                                |
 |              `nonce` | String                                       | The nonce of this message.                                                                                             |

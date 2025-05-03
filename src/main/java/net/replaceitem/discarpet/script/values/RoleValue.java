@@ -36,7 +36,7 @@ public class RoleValue extends DiscordValue<Role> implements Deletable, Renamabl
             case "color" -> ValueUtil.colorToValue(delegate.getColor());
             case "position" -> NumericValue.of(delegate.getPosition());
             case "server" -> ServerValue.of(delegate.getGuild());
-            // TODO add ~members too
+            case "members" -> ListValue.wrap(delegate.getGuild().getMembersWithRoles(delegate).stream().map(MemberValue::new));
             case "users" -> ListValue.wrap(delegate.getGuild().getMembersWithRoles(delegate).stream().map(Member::getUser).map(UserValue::new));
             case "displayed_separately" -> BooleanValue.of(delegate.isHoisted());
             case "is_everyone_value" -> BooleanValue.of(delegate.getIdLong() == delegate.getGuild().getIdLong());
