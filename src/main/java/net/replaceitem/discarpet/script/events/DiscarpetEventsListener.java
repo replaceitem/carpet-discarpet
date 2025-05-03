@@ -1,10 +1,7 @@
 package net.replaceitem.discarpet.script.events;
 
 import carpet.CarpetServer;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageReaction;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
@@ -55,16 +52,16 @@ public class DiscarpetEventsListener extends ListenerAdapter {
     @Override
     public void onMessageReactionAdd(MessageReactionAddEvent event) {
         MessageReaction reaction = event.getReaction();
-        event.retrieveUser().queue(user -> 
-                callEventOnGameThread(() -> DiscordEvents.DISCORD_REACTION.run(bot, reaction, user, true))
+        event.retrieveMember().queue(member -> 
+                callEventOnGameThread(() -> DiscordEvents.DISCORD_REACTION.run(bot, reaction, member, true))
         );
     }
 
     @Override
     public void onMessageReactionRemove(MessageReactionRemoveEvent event) {
         MessageReaction reaction = event.getReaction();
-        event.retrieveUser().queue(user -> 
-                callEventOnGameThread(() -> DiscordEvents.DISCORD_REACTION.run(bot, reaction, user, false))
+        event.retrieveMember().queue(member -> 
+                callEventOnGameThread(() -> DiscordEvents.DISCORD_REACTION.run(bot, reaction, member, false))
         );
     }
 
@@ -100,8 +97,8 @@ public class DiscarpetEventsListener extends ListenerAdapter {
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
         Guild guild = event.getGuild();
-        User user = event.getUser();
-        callEventOnGameThread(() -> DiscordEvents.DISCORD_SERVER_MEMBER_JOIN.run(bot, guild, user));
+        Member member = event.getMember();
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_SERVER_MEMBER_JOIN.run(bot, guild, member));
     }
 
     @Override
