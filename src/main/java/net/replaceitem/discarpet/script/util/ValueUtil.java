@@ -9,6 +9,8 @@ import net.replaceitem.discarpet.script.exception.DiscordThrowables;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -62,6 +64,14 @@ public class ValueUtil {
     
     public static Value ofEnum(Enum<?> enumValue) {
         return StringValue.of(enumValue.name().toLowerCase(Locale.ROOT));
+    }
+    
+    public static Value ofInstant(@Nullable Instant instant) {
+        return instant == null ? Value.NULL : NumericValue.of(instant.toEpochMilli());
+    }
+    
+    public static Value ofTime(@Nullable OffsetDateTime time) {
+        return time == null ? Value.NULL : ofInstant(time.toInstant());
     }
 
 

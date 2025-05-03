@@ -3,7 +3,6 @@ package net.replaceitem.discarpet.script.functions;
 import carpet.script.annotation.ScarpetFunction;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.ListValue;
-import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -14,7 +13,6 @@ import net.replaceitem.discarpet.script.values.RoleValue;
 
 import java.awt.*;
 import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
@@ -66,9 +64,7 @@ public class Users {
     public Value dc_get_timeout(User user, Guild server) {
         Member member = server.getMember(user);
         if(member == null) return Value.NULL;
-        OffsetDateTime timeOutEnd = member.getTimeOutEnd();
-        if (timeOutEnd == null) return Value.NULL;
-        return NumericValue.of(timeOutEnd.toInstant().toEpochMilli());
+        return ValueUtil.ofTime(member.getTimeOutEnd());
     }
     
     @ScarpetFunction(maxParams = 4)

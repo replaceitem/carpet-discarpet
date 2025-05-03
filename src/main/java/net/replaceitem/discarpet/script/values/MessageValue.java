@@ -1,20 +1,15 @@
 package net.replaceitem.discarpet.script.values;
 
-import carpet.script.value.NumericValue;
+import carpet.script.value.ListValue;
+import carpet.script.value.StringValue;
+import carpet.script.value.Value;
 import net.dv8tion.jda.api.entities.ISnowflake;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.common.Deletable;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
-import carpet.script.value.ListValue;
-import carpet.script.value.StringValue;
-import carpet.script.value.Value;
 import org.jetbrains.annotations.Nullable;
-
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.util.Optional;
 
 public class MessageValue extends DiscordValue<Message> implements Deletable {
     public MessageValue(Message message) {
@@ -49,8 +44,8 @@ public class MessageValue extends DiscordValue<Message> implements Deletable {
             case "type" -> ValueUtil.ofEnum(delegate.getType());
             case "link" -> StringValue.of(delegate.getJumpUrl());
             case "flags" -> ListValue.wrap(delegate.getFlags().stream().map(ValueUtil::ofEnum));
-            case "creation_timestamp" -> NumericValue.of(delegate.getTimeCreated().toInstant().toEpochMilli());
-            case "edit_timestamp" -> NumericValue.of(Optional.ofNullable(delegate.getTimeEdited()).map(OffsetDateTime::toInstant).map(Instant::toEpochMilli).orElse(null));
+            case "creation_timestamp" -> ValueUtil.ofTime(delegate.getTimeCreated());
+            case "edit_timestamp" -> ValueUtil.ofTime(delegate.getTimeEdited());
             case "position" -> ValueUtil.ofPositiveInt(delegate.getApproximatePosition());
             default -> super.getProperty(property);
         };
