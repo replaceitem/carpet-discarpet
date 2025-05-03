@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.values.common;
 
+import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.Value;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
@@ -20,7 +21,7 @@ public abstract class DiscordValue<T> extends Value {
     }
     
     public Value getProperty(String property) {
-        return NULL;
+        throw new InternalExpressionException("Unknown feature for " + getTypeString() + ": " + property);
     }
     
     @Override
