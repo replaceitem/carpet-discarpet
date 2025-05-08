@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.WebhookClient;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.replaceitem.discarpet.script.parsable.Parser;
@@ -21,20 +22,21 @@ import java.util.Optional;
 public class Messages {
     @ScarpetFunction
     public Message dc_send_message(Value target, Value messageContent) {
-        Optional<MessageableValue.MessageConsumer> messageConsumer = target instanceof MessageableValue<?> messageableValue ? messageableValue.getMessageConsumer() : Optional.empty();
-        if(messageConsumer.isEmpty()) throw new InternalExpressionException("'dc_send_message' expected a messageable channel, user or incoming webhook as the first parameter. Got: " + target.getTypeString());
-        MessageCreateBuilder builder = new MessageCreateBuilder();
-        Parser.parseType(messageContent, MessageContentParsable.class).apply(builder);
-        return ValueUtil.awaitRest(messageConsumer.get().send(builder.build()),"Error sending message");
+        Optional<MessageableValue.MessageConsumer> optionalMessageConsumer = target instanceof MessageableValue<?> messageableValue ? messageableValue.getMessageConsumer() : Optional.empty();
+        MessageableValue.MessageConsumer messageConsumer = optionalMessageConsumer.orElseThrow(
+                () -> new InternalExpressionException("'dc_send_message' expected a messageable channel, user or incoming webhook as the first parameter. Got: " + target.getTypeString())
+        );
+        MessageContentParsable messageContentParsable = Parser.parseType(messageContent, MessageContentParsable.class);
+        RestAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, messageConsumer::send);
+        return ValueUtil.awaitRest(action,"Error sending message");
     }
     
     @ScarpetFunction
     public Message dc_send_webhook(WebhookClient<Message> webhook, Value messageContent, Value webhookProfile) {
-        MessageCreateBuilder builder = new MessageCreateBuilder();
-        WebhookMessageCreateAction<Message> messageWebhookMessageCreateAction = webhook.sendMessage(builder.build());
-        Parser.parseType(messageContent, MessageContentParsable.class).apply(builder);
-        Parser.parseType(webhookProfile, WebhookMessageProfileParsable.class).apply(messageWebhookMessageCreateAction);
-        return ValueUtil.awaitRest(messageWebhookMessageCreateAction,"Error sending message");
+        MessageContentParsable messageContentParsable = Parser.parseType(messageContent, MessageContentParsable.class);
+        WebhookMessageCreateAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, webhook::sendMessage);
+        Parser.parseType(webhookProfile, WebhookMessageProfileParsable.class).apply(action);
+        return ValueUtil.awaitRest(action,"Error sending message");
     }
 
 	@ScarpetFunction

@@ -8,12 +8,15 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
+import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.config.Bot;
@@ -84,14 +87,13 @@ public class Interactions {
             MessageContentParsable messageContentParsable = Parser.parseType(response[0], MessageContentParsable.class);
             if(!(event instanceof IReplyCallback replyCallback)) throw new InternalExpressionException("Interaction of type " + event.getType() + " cannot be replied to");
             if(responseType.equalsIgnoreCase("RESPOND_IMMEDIATELY")) {
-                MessageCreateBuilder builder = new MessageCreateBuilder();
-                messageContentParsable.apply(builder);
-                ValueUtil.awaitRest(replyCallback.reply(builder.build()),"Error sending 'respond_immediately' response to interaction");
+                ReplyCallbackAction action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, replyCallback::reply);
+                ValueUtil.awaitRest(action,"Error sending 'respond_immediately' response to interaction");
                 return null;
             } else {
-                MessageCreateBuilder builder = new MessageCreateBuilder();
-                messageContentParsable.apply(builder);
-                return ValueUtil.awaitRest(replyCallback.getHook().sendMessage(builder.build()),"Error sending 'respond_followup' response to interaction");
+                InteractionHook hook = replyCallback.getHook();
+                WebhookMessageCreateAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, hook::sendMessage);
+                return ValueUtil.awaitRest(action,"Error sending 'respond_followup' response to interaction");
             }
         } else throw new InternalExpressionException("invalid response type for 'dc_respond_interaction', expected RESPOND_LATER, RESPOND_IMMEDIATELY or RESPOND_FOLLOWUP");
     }
