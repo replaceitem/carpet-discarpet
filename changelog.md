@@ -60,3 +60,7 @@
   * Added `interaction~'member'`
   * Added `role~'members'`
   * Added `server~'members'`
+* Changes to message parsable
+  * Made `content` field optional for messages without content, like forwarded messages
+  * Renamed `reply_to` to `referenced_message` since it can now also used to forward messages
+  * Added `message_reference_type` which can be set to `forward` to forward messages
