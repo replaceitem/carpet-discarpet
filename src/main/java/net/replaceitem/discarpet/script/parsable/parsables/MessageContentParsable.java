@@ -4,6 +4,7 @@ import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.MapValue;
 import carpet.script.value.Value;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageReference;
 import net.dv8tion.jda.api.entities.sticker.Sticker;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
@@ -14,6 +15,7 @@ import net.dv8tion.jda.api.utils.FileUpload;
 import net.dv8tion.jda.api.utils.messages.AbstractMessageBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageData;
+import net.dv8tion.jda.api.utils.messages.MessageRequest;
 import net.replaceitem.discarpet.script.parsable.DirectParsable;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
@@ -27,7 +29,7 @@ import java.util.stream.Stream;
 
 @ParsableClass(name = "message_content")
 public class MessageContentParsable implements DirectParsable {
-    
+    @OptionalField @Nullable
     String content;
     @OptionalField
     List<FileUpload> attachments = List.of();
@@ -40,7 +42,9 @@ public class MessageContentParsable implements DirectParsable {
     @OptionalField @Nullable
     AllowedMentionsParsable allowed_mentions;
     @OptionalField @Nullable
-    Message reply_to;
+    Message referenced_message;
+    @OptionalField
+    MessageReference.MessageReferenceType message_reference_type = MessageReference.MessageReferenceType.DEFAULT;
     @OptionalField @Nullable
     String nonce;
     @OptionalField
@@ -64,7 +68,9 @@ public class MessageContentParsable implements DirectParsable {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public <B extends AbstractMessageBuilder<D,B>,D extends MessageData,A extends RestAction<?>> A apply(B builder, Function<B,D> build, Function<D,A> send) {
-        builder.setContent(content);
+        // temporarily set this to something non-blank, since otherwise builder.build() would fail,later this is set
+        // in the restAction stage which might set it to null for non-content messages, like forwarding.
+        builder.setContent("-");
 
         builder.setFiles(Stream.of(
                 attachments.stream(),
@@ -89,13 +95,15 @@ public class MessageContentParsable implements DirectParsable {
 
         D data = build.apply(builder);
 
-        
-
         A action = send.apply(data);
+        
+        if(action instanceof MessageRequest<?> messageRequest) {
+            messageRequest.setContent(content);
+        }
 
-        if(reply_to != null) {
+        if(referenced_message != null) {
             if(action instanceof MessageCreateAction messageCreateAction) {
-                messageCreateAction.setMessageReference(reply_to);
+                messageCreateAction.setMessageReference(message_reference_type, referenced_message);
             } else throw onlyCreate("reply_to");
         }
         if(nonce != null) {
@@ -105,7 +113,7 @@ public class MessageContentParsable implements DirectParsable {
         }
         if(suppress_notifications) {
             if(action instanceof MessageCreateAction messageCreateAction) {
-                messageCreateAction.setSuppressedNotifications(suppress_notifications);
+                messageCreateAction.setSuppressedNotifications(true);
             } else throw onlyCreate("suppress_notifications");
 
         }
