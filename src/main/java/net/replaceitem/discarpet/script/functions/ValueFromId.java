@@ -68,4 +68,10 @@ public class ValueFromId {
 		Bot bot = Discarpet.getBotInContext(ctx,"dc_webhook_from_url");
 		return WebhookClient.createClient(bot.getJda(), webhookUrl);
 	}
+
+	@ScarpetFunction
+	public Member dc_member_from_user(Context ctx, User user, Guild server) {
+		Bot bot = Discarpet.getBotInContext(ctx,"dc_webhook_from_url");
+		return ValueUtil.awaitRest(server.retrieveMember(user), "Error getting member from user and server");
+	}
 }
