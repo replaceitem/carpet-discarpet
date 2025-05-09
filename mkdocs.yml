@@ -140,6 +140,7 @@ nav:
       - dc_message_from_id: 'functions/values/message-from-id.md'
       - dc_webhook_from_id: 'functions/values/webhook-from-id.md'
       - dc_webhook_from_url: 'functions/values/webhook-from-url.md'
+      - dc_member_from_user: 'functions/values/member-from-user.md'
     - Bot functions:
       - dc_get_bot_user: 'functions/bot/get-bot-user.md'
       - dc_set_activity: 'functions/bot/set-activity.md'

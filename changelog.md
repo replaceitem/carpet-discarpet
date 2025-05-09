@@ -60,6 +60,7 @@
   * Added `interaction~'member'`
   * Added `role~'members'`
   * Added `server~'members'`
+  * Added `dc_member_from_user(user, server)` function for retrieving a member from the user and server.
 * Changes to message parsable
   * Made `content` field optional for messages without content, like forwarded messages
   * Renamed `reply_to` to `referenced_message` since it can now also used to forward messages
