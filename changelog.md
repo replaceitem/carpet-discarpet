@@ -43,7 +43,6 @@
 * `webhook~'type'` `CHANNEL_FOLLOWER` changed to `follower`
 * Emoji fields in parsables now support many more string notations
 * The channel or message for creating a thread is no longer provided in the parsable, but as an argument to `dc_create_thread`
-* Remove the slow mode delay when creating a thread, since that's not supported by JDA
 * Exception hierachy has changed
 * The command value types are now all the same value type `dc_command` and can be distinguished with `command~'type'`
 * Removed `message~'attachment'`
