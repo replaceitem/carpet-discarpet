@@ -11,5 +11,5 @@ Used for creating a thread in a channel.
 |            `is_private` {:?} | Boolean | Whether the thread should be private (Defaults to false)                                                        |
 |             `invitable` {:?} | Boolean | Whether if non-moderators can add other non-moderators to the thread.<br>(Exclusive to `server_private_thread`) |
 | `auto_archive_duration` {:?} | Number  | The duration in minutes until the thread gets archived without activity.                                        |
-|       `slow_mode_delay` {:?} | Number  | The slow mode time in seconds.<br>(0 - 21600)                                                                   |
+|              `slowmode` {:?} | Number  | The slow mode time in seconds.<br>(0 - 21600)                                                                   |
 |                `reason` {:?} | String  | The audit log reason.                                                                                           |

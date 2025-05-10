@@ -19,7 +19,7 @@ public class ThreadParsable {
     @OptionalField @Nullable
     Integer auto_archive_duration;
     @OptionalField @Nullable
-    Integer slow_mode_delay;
+    Integer slowmode;
     @OptionalField @Nullable
     String reason;
 
@@ -35,8 +35,7 @@ public class ThreadParsable {
     private ThreadChannelAction apply(ThreadChannelAction action) {
         if(invitable != null) action.setInvitable(invitable);
         if(auto_archive_duration != null) action.setAutoArchiveDuration(ThreadChannel.AutoArchiveDuration.fromKey(auto_archive_duration));
-        // TODO add slowmode back when https://github.com/discord-jda/JDA/pull/2842 is merged
-        // if(slow_mode_delay != null)
+        if(slowmode != null) action.setSlowmode(slowmode);
         action.reason(reason);
         return action;
     }
