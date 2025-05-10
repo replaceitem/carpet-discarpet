@@ -1,11 +1,9 @@
 package net.replaceitem.discarpet.script.values;
 
-import carpet.script.value.BooleanValue;
-import carpet.script.value.ListValue;
-import carpet.script.value.StringValue;
-import carpet.script.value.Value;
+import carpet.script.value.*;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.attribute.IAgeRestrictedChannel;
+import net.dv8tion.jda.api.entities.channel.attribute.IPositionableChannel;
 import net.dv8tion.jda.api.entities.channel.attribute.IWebhookContainer;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
@@ -48,6 +46,7 @@ public class ChannelValue extends MessageableValue<Channel> implements Renamable
                                     .stream().map(WebhookValue::of)) :
                     Value.NULL;
             case "nsfw" -> BooleanValue.of(delegate instanceof IAgeRestrictedChannel ageRestrictedChannel && ageRestrictedChannel.isNSFW());
+            case "position" -> delegate instanceof IPositionableChannel positionableChannel ? NumericValue.of(positionableChannel.getPositionRaw()) : Value.NULL;
             default -> super.getProperty(property);
         };
     }

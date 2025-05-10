@@ -68,3 +68,4 @@
   * Added `message_reference_type` which can be set to `forward` to forward messages
 * Added `dc_update_channel`, replacing `dc_set_channel_topic`, allowing to update many options of channels.
 * Added `channel_updater` parsable.
+* Added `channel~'position`

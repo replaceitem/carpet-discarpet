@@ -17,6 +17,7 @@ Threads and DMs are considered as channels.
 |        `type` | String                                 | The [type](#channel-types) of the channel.                                     |
 |    `webhooks` | List of [Webhooks](/values/webhook.md) | The webhooks in this channel.<br>Throws an exception on failure.               |
 |        `nsfw` | Boolean                                | Whether if this channel is age-restricted.                                     |
+|    `position` | Number                                 | The position in the server channel list.                                       |
 
 #### Channel types
 
