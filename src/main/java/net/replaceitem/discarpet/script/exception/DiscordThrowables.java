@@ -79,6 +79,10 @@ public class DiscordThrowables {
     public static ThrowStatement genericCode(ErrorResponse errorCode) {
         return new ThrowStatement(createSimpleError(errorCode), DISCORD_EXCEPTION);
     }
+    
+    public static ThrowStatement genericMessage(String message) {
+        return new ThrowStatement(message, DISCORD_EXCEPTION);
+    }
 
     private static MapValue createSimpleError(ErrorResponse errorCode) {
         return new MapBuilder()
