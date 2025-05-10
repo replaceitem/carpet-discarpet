@@ -43,10 +43,10 @@ When you restart your server, it should create a `discarpet.json` file in the co
     {
       "bot_id": "Your bot ID",
       "bot_token": "Your bot token",
-      "intents": []
+      "intents": [],
+      "member_cache_policy": "all"
     }
-  ],
-  "disable_reconnect_logs": false
+  ]
 }
 ```
 
@@ -67,10 +67,10 @@ Now your config should look something like this:
     {
       "bot_id": "mybot",
       "bot_token": "xxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-      "intents": []
+      "intents": [],
+      "member_cache_policy": "all"
     }
-  ],
-  "disable_reconnect_logs": false
+  ]
 }
 ```
 
@@ -87,9 +87,6 @@ will take you directly to the webpage where you can add the bot to any Discord s
 If you have never used scarpet before,
 it's recommended to first [get familiar with the scarpet language](https://github.com/gnembon/fabric-carpet/wiki/Scarpet).
 
-<!-- Since Discarpet supports multiple bots at the same time, you need to specify which bot you want to use in your script.
-This is done by specifying a `'bot'` to the config line, like this: -->
-
 To use your bot in your script, you'll need to set the `'bot'` value inside the `__config` function.
 
 Additionally, it is best to set the `'scope'` to `'global'`.
@@ -103,8 +100,6 @@ __config() -> {
 
 The `'bot'` value is specified from your bot's ID in the config.
 Without setting a valid bot and the scope globally, most Discarpet functions and events will not work, and will throw errors.
-
-
 
 ## Using intents
 
@@ -126,10 +121,10 @@ You can add them to your bot like so:
       "intents": [
         "MESSAGE_CONTENT",
         "GUILD_MEMBERS"
-      ]
+      ],
+      "member_cache_policy": "all"
     }
-  ],
-  "disable_reconnect_logs": false
+  ]
 }
 ```
 
@@ -137,6 +132,21 @@ If you add these intents to the `"intents"` list in your bot config,
 you will also need to enable them in Discord as well.
 You can enable them in the [Developer Portal][portal] under your application's "Bots" tab.
 
+## Changing the member caching policy
+
+By default, all members of all guids are cached.
+This means you have access to the details of all server
+members in all servers the bot is in without having to request them.
+This may be changed with the `member_cache_policy` config option if you do not need the details of all members to save on resources.
+It can be set to the following values:
+
+* `all`: Cache all members (default)
+* `online`: Cache only online members
+* `voice`: Cache only online/idle/dnd members
+* `pending`: Caches members who haven't passed Membership Screening
+* `booster`: Caches only server boosters
+* `owner`: Caches only the owner of a server
+* `none`: Cache no members
 
 ## Using multiple bots
 
@@ -149,24 +159,26 @@ you can add more into the `"bots"` list in the config file like this:
     {
       "bot_id": "mybot",
       "bot_token": "token",
-      "intents": []
+      "intents": [],
+      "member_cache_policy": "all"
     },
     {
       "bot_id": "mybot2",
       "bot_token": "token 2",
       "intents": [
         "MESSAGE_CONTENT"
-      ]
+      ],
+      "member_cache_policy": "all"
     },
     {
       "bot_id": "mybot3",
       "bot_token": "token 3",
       "intents": [
         "GUILD_MEMBERS"
-      ]
+      ],
+      "member_cache_policy": "all"
     }
-  ],
-  "disable_reconnect_logs": false
+  ]
 }
 ```
 
@@ -180,20 +192,6 @@ they will have the context of the bot from that script.
 <br>
 (e.g. if you pass a message to another script and make it add a reaction,
 it will be added by the bot from the original script.)
-
-
-
-## Disabling log messages
-
-If you run Discarpet for a while, you might notice messages that look like this:
-
-```
-[ReadingThread/INFO]: Websocket closed with reason 'Discord commanded a reconnect (Received opcode 7)' and code COMMANDED_RECONNECT (4999) by client!
-[ReadingThread/INFO]: Trying to reconnect/resume in 1 seconds!
-```
-
-To disable those messages, you can set the `"disable_reconnect_logs"` in the config to `true`.
-
 
 
 ## Enabling developer mode

@@ -1,15 +1,16 @@
 {
-  "required": true,
-  "package": "net.replaceitem.discarpet.mixins",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "CallbackListAccessor",
-    "MinecraftServerMixin",
-    "SimpleTypeConverterAccessor"
-  ],
-  "client": [
-  ],
-  "injectors": {
-    "defaultRequire": 1
+    "required": true,
+    "package": "net.replaceitem.discarpet.mixins",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+        "CallbackListAccessor",
+        "CommandImplMixin",
+        "MinecraftServerMixin",
+        "SimpleTypeConverterAccessor"
+    ],
+    "client": [
+    ],
+    "injectors": {
+        "defaultRequire": 1
   }
 }

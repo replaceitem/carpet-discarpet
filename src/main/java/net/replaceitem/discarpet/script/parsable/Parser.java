@@ -2,6 +2,7 @@ package net.replaceitem.discarpet.script.parsable;
 
 import carpet.script.annotation.SimpleTypeConverter;
 import carpet.script.exception.InternalExpressionException;
+import carpet.script.exception.ThrowStatement;
 import carpet.script.value.ListValue;
 import carpet.script.value.MapValue;
 import carpet.script.value.NumericValue;
@@ -10,11 +11,10 @@ import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.mixins.SimpleTypeConverterAccessor;
 import net.replaceitem.discarpet.script.util.MapValueUtil;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.awt.*;
+import java.lang.reflect.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -23,13 +23,13 @@ import java.util.stream.Collectors;
  * A class also needs to implement {@link ParsableConstructor} and the {@link ParsableConstructor#construct()} method,
  * and specify the class this {@link ParsableConstructor} will parse to as the generic type.
  * This is used to create the wanted value from the parsable class.
- * For instance, a parsable for {@link java.awt.Color} could be called {@code ColorParsable},
+ * For instance, a parsable for {@link Color} could be called {@code ColorParsable},
  * and has the {@link Integer} fields {@code R}, {@code G} and {@code B}.
  * In the {@link ParsableConstructor#construct()} method, 
- * the {@link java.awt.Color#Color(int, int, int)} constructor could
- * call to return the actual {@link java.awt.Color} object.
+ * the {@link Color#Color(int, int, int)} constructor could
+ * call to return the actual {@link Color} object.
  * {@link ParsableConstructor#construct()} is automatically called from the Parser.
- * A field in a {@link ParsableConstructor} class can also be annotated with {@link Optional},
+ * A field in a {@link ParsableConstructor} class can also be annotated with {@link OptionalField},
  * which makes the {@link Parser} not throw an error when the field was not specified in the {@link MapValue}.
  * Finally, the {@link ParsableConstructor} class needs to be registered using {@link Parser#registerParsable(Class)}
  */
@@ -40,7 +40,8 @@ public class Parser {
     
     public static void registerParsable(Class<?> parsableClass) {
         Class<?> resultClass = getResultClassFromGeneric(parsableClass);
-        if(resultClass == null) Discarpet.LOGGER.error("Error finding the result class for '" + getClassName(parsableClass) + "' class");
+        if(resultClass == null)
+            Discarpet.LOGGER.error("Error finding the result class for '{}' class", getClassName(parsableClass));
         parsableClasses.put(resultClass, parsableClass);
     }
     
@@ -52,7 +53,7 @@ public class Parser {
         return parseType(value, resultClass, getClassName(resultClass));
     }
     
-    public static <T> T parseType(Value value, Class<T> resultClass, String name) {
+    public static <T, E extends Enum<E>> T parseType(Value value, Class<T> resultClass, String name) {
         if(Value.class.isAssignableFrom(resultClass)) {
             if(resultClass == Value.class) {
                 return (T) value;
@@ -64,15 +65,13 @@ public class Parser {
         }
         
         if(resultClass.isEnum()) {
-            return parseEnum(value, resultClass, name);
+            return (T) parseEnum(value, (Class<E>) resultClass, name);
         }
 
         SimpleTypeConverter<Value, T> typeConverter = SimpleTypeConverterAccessor.callGet(resultClass);
         if(typeConverter != null) {
-            if(!((SimpleTypeConverterAccessor<Value, T>)(Object) typeConverter).getValueClass().isInstance(value)) {
-                throw new InternalExpressionException("Expected a " + resultClass.getSimpleName() + " value, but got a " + value.getTypeString());
-            }
-            return typeConverter.convert(value, null);
+            T converted = typeConverter.convert(value, null);
+            if(converted != null) return converted;
         }
 
         T primitive = tryParsePrimitive(value, resultClass, name);
@@ -84,17 +83,23 @@ public class Parser {
                 if (!hasRegisteredParser(resultClass)) {
                     throw new InternalExpressionException("Could not parse " + name + ", since there was no registered parser");
                 }
-                ParsableConstructor<T> parsable = (ParsableConstructor<T>) parseParsableType(value, parsableClass, name);
+                Object parsedValue = callConstructor(parsableClass, name);
+                T directlyCreated = ((ParsableConstructor<T>) parsedValue).tryCreateFromValueDirectly(value);
+                if(directlyCreated != null) return directlyCreated;
+                ParsableConstructor<T> parsable = (ParsableConstructor<T>) Parser.parseParsableType(value, parsedValue, (Class<Object>) parsableClass, name);
                 try {
                     return parsable.construct();
                 } catch (Exception e) {
+                    rethrowUserException(e);
                     throw new InternalExpressionException("Could not parse " + name + ":\n" + e.getMessage());
                 }
             } else if(Redirector.class.isAssignableFrom(parsableClass)) {
-                return (T) parseParsableType(value, parsableClass, name);
+                Object parsedValue = callConstructor(parsableClass, name);
+                return (T) parseParsableType(value, parsedValue, (Class<Object>) parsableClass, name);
             }
         }
-        return parseParsableType(value, resultClass, name);
+        T parsedValue = callConstructor(resultClass, name);
+        return parseParsableType(value, parsedValue, resultClass, name);
     }
     
     private static <T> T tryParsePrimitive(Value value, Class<T> parsableClass, String name) {
@@ -123,12 +128,11 @@ public class Parser {
         return null;
     }
     
-    public static <T> T parseParsableType(Value value, Class<T> parsableClass, String name) {
-        try {            
-            if(DirectParsable.class.isAssignableFrom(parsableClass)) {
-                T parsedValue = callConstructor(parsableClass, name);
-                if(((DirectParsable) parsedValue).tryParseDirectly(value)) {
-                    return parsedValue;
+    public static <T> T parseParsableType(Value value, T object, Class<T> parsableClass, String name) {
+        try {
+            if(object instanceof DirectParsable directParsable) {
+                if(directParsable.tryParseDirectly(value)) {
+                    return object;
                 }
             }
 
@@ -140,19 +144,21 @@ public class Parser {
             }
             return parsedObject;
         } catch (Exception e) {
+            rethrowUserException(e);
             throw new InternalExpressionException("Could not parse '" + name + "' as '" + getClassName(parsableClass) + "':\n" + e.getMessage());
         }
     }
     
     
-    public static Object parseClass(Value value, Class<?> parsableClass) {
+    public static <T> T parseClass(Value value, Class<T> parsableClass) {
         ParsableClass parsableClassAnnotation = getRequiredParsableClassAnnotation(parsableClass);
         String name = parsableClassAnnotation.name();
         if(!(value instanceof MapValue mapValue)) throw new InternalExpressionException("Could not parse " + name + ", value needs to be a map");
         Map<Value, Value> map = mapValue.getMap();
         Field[] declaredFields = parsableClass.getDeclaredFields();
-        Object parsedValue = callConstructor(parsableClass, name);
+        T parsedValue = callConstructor(parsableClass, name);
         for (Field field : declaredFields) {
+            if(field.accessFlags().contains(AccessFlag.PRIVATE)) continue;
             assignField(map, field, parsedValue);
         }
         return parsedValue;
@@ -166,12 +172,10 @@ public class Parser {
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    private static <E> E parseEnum(Value value, Class<E> resultClass, String name) {
-        Class<Enum> enumResultClass = (Class<Enum>) resultClass;
+    private static <E extends Enum<E>> E parseEnum(Value value, Class<E> resultClass, String name) {
         String enumValue = value.getString();
         try {
-            return (E) Enum.valueOf(enumResultClass, enumValue.toUpperCase());
+            return Enum.valueOf(resultClass, enumValue.toUpperCase());
         } catch (IllegalArgumentException e) {
             E[] enumConstants = resultClass.getEnumConstants();
             String options = Arrays.stream(enumConstants).map(Object::toString).collect(Collectors.joining(", ")).toLowerCase();
@@ -182,8 +186,8 @@ public class Parser {
     private static void assignField(Map<Value, Value> map, Field field, Object parsedValue) {
         String name = field.getName();
         Class<?> fieldType = field.getType();
-        Optional optionalAnnotation = field.getAnnotation(Optional.class);
-        boolean required = optionalAnnotation == null;
+        OptionalField optionalFieldAnnotation = field.getAnnotation(OptionalField.class);
+        boolean required = optionalFieldAnnotation == null;
         try {
             Object object;
             Value value = MapValueUtil.getValueInMap(map, name, required);
@@ -219,6 +223,7 @@ public class Parser {
                 T element = parseType(value, generic, generic.getSimpleName());
                 parsedList.add(element);
             } catch (Exception e) {
+                rethrowUserException(e);
                 throw new InternalExpressionException("Could not parse value in '" + name + "' list with index " + i + ":\n" + e.getMessage());
             }
         }
@@ -234,6 +239,7 @@ public class Parser {
                 List<T> element = parseList(listValue.getItems(), generic, name);
                 parsedList.add(element);
             } catch (Exception e) {
+                rethrowUserException(e);
                 throw new InternalExpressionException("Could not parse value in '" + name + "' list with index " + i + ":\n" + e.getMessage());
             }
         }
@@ -276,4 +282,8 @@ public class Parser {
         ParsableClass parsableClassAnnotation = getRequiredParsableClassAnnotation(clazz);
         return parsableClassAnnotation.name();
     }
+    
+    private static void rethrowUserException(Exception e) throws ThrowStatement {
+        if(e instanceof ThrowStatement throwStatement) throw throwStatement;
+    } 
 }

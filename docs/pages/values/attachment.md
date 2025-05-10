@@ -7,7 +7,6 @@ Represents an attachment from a message or slash command.
 
 |     Property | Type                                | Description                                                                            |
 |-------------:|:------------------------------------|:---------------------------------------------------------------------------------------|
-|    `message` | [Message](/values/message.md), Null | The message of the attachment.<br>Returns `null` if it's not a message attachment.     |
 |  `file_name` | String                              | The name of the attachment.                                                            |
 |       `size` | Number                              | The size as the number of bytes of the attached file.                                  |
 |        `url` | String                              | The URL of the attachment.                                                             |
