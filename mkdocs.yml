@@ -203,6 +203,7 @@ nav:
     - Color: 'parsables/color.md'
     - Embed: 'parsables/embed.md'
     - Thread: 'parsables/thread.md'
+    - Channel updater: 'parsables/channel-updater.md'
     - Modal: 'parsables/modal.md'
     - Webhooks:
       - Webhook profile: 'parsables/webhooks/webhook-profile.md'

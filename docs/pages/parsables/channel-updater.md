@@ -24,3 +24,4 @@ Used to update a server channel with [`dc_update_channel`](/functions/update-cha
 |         `default_reaction` {:?} | [Emoji](/parsables/emoji.md)  | The default sort order of posts in this channel. Can be `recent_activity` or `creation_time` Only works for forum channels. |
 |                  `bitrate` {:?} | Number                        | The bitrate of this channel. Only works for voice channels.                                                                 |
 |               `user_limit` {:?} | Number                        | The maximum number of users allowed in this channel. Only works for voice channels.                                         |
+|                   `reason` {:?} | String                        | The audio-log reason for this update.                                                                                       |
