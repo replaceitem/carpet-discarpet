@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.Webhook;
 import net.dv8tion.jda.api.entities.WebhookClient;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.managers.WebhookManager;
 import net.dv8tion.jda.api.managers.channel.ChannelManager;
 import net.dv8tion.jda.api.requests.ErrorResponse;
@@ -30,12 +31,16 @@ import net.replaceitem.discarpet.script.values.MessageValue;
 public class Channels {
 	@ScarpetFunction
 	public void dc_update_channel(Channel channel, Value channelUpdater) {
-		ChannelUpdaterParsable channelUpdaterParsable = Parser.parseType(channelUpdater, ChannelUpdaterParsable.class);
-        if (!(channel instanceof GuildChannel guildChannel)) throw new InternalExpressionException("Can only update server channels");
-		ChannelManager<?, ?> manager = guildChannel.getManager();
-		channelUpdaterParsable.apply(manager);
-		ValueUtil.awaitRest(manager, "Error updating channel");
-	}
+        try {
+            ChannelUpdaterParsable channelUpdaterParsable = Parser.parseType(channelUpdater, ChannelUpdaterParsable.class);
+            if (!(channel instanceof GuildChannel guildChannel)) throw DiscordThrowables.genericMessage("Can only update server channels");
+            ChannelManager<?, ?> manager = guildChannel.getManager();
+            channelUpdaterParsable.apply(manager);
+            ValueUtil.awaitRest(manager, "Error updating channel");
+        } catch (InsufficientPermissionException e) {
+            throw DiscordThrowables.convert(e);
+        }
+    }
 
 	@ScarpetFunction
 	public WebhookClient<?> dc_create_webhook(Channel channel, Value webhookBuilder) {
@@ -48,11 +53,15 @@ public class Channels {
 
 	@ScarpetFunction
 	public void dc_update_webhook(WebhookClient<Message> webhookClient, Value webhookBuilder) {
-		if(!(webhookClient instanceof Webhook webhook)) throw new ThrowStatement("Cannot update webhook not managed by this bot", DiscordThrowables.DISCORD_EXCEPTION);
-		WebhookManager manager = webhook.getManager();
-		Parser.parseType(webhookBuilder, WebhookProfileUpdaterParsable.class).apply(manager);
-		ValueUtil.awaitRest(manager,"Error updating webhook");
-	}
+        try {
+            if(!(webhookClient instanceof Webhook webhook)) throw new ThrowStatement("Cannot update webhook not managed by this bot", DiscordThrowables.DISCORD_EXCEPTION);
+            WebhookManager manager = webhook.getManager();
+            Parser.parseType(webhookBuilder, WebhookProfileUpdaterParsable.class).apply(manager);
+            ValueUtil.awaitRest(manager,"Error updating webhook");
+        } catch (InsufficientPermissionException e) {
+            throw DiscordThrowables.convert(e);
+        }
+    }
 	
 	@ScarpetFunction
 	public Channel dc_create_thread(Value channelOrMessage, Value threadValue) {

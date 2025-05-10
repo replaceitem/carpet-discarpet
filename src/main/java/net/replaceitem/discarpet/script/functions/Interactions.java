@@ -20,6 +20,7 @@ import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.config.Bot;
+import net.replaceitem.discarpet.script.exception.DiscordThrowables;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
 import net.replaceitem.discarpet.script.parsable.Parser;
 import net.replaceitem.discarpet.script.parsable.parsables.MessageContentParsable;
@@ -68,13 +69,13 @@ public class Interactions {
     public Message dc_respond_interaction(InteractionValue<?> interactionValue, String responseType, Value... response) {
         GenericInteractionCreateEvent event = interactionValue.getDelegate();
         if(responseType.equalsIgnoreCase("RESPOND_LATER")) {
-            if(!(event instanceof IReplyCallback replyCallback)) throw new InternalExpressionException("Interaction of type " + event.getType() + " cannot be replied to");
+            if(!(event instanceof IReplyCallback replyCallback)) throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
             ValueUtil.awaitRest(replyCallback.deferReply(),"Error sending 'respond_later' response to interaction");
             return null;
         }
 
         if(responseType.equalsIgnoreCase("RESPOND_MODAL")) {
-            if(!(event instanceof IModalCallback modalCallback)) throw new InternalExpressionException("Interaction of type " + event.getType() + " cannot be replied to");
+            if(!(event instanceof IModalCallback modalCallback)) throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
             if(response.length == 0) throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + responseType);
             ModalParsable modalParsable = Parser.parseType(response[0], ModalParsable.class);
             Modal modal = modalParsable.construct();
@@ -85,7 +86,7 @@ public class Interactions {
         if (responseType.equalsIgnoreCase("RESPOND_IMMEDIATELY") || responseType.equalsIgnoreCase("RESPOND_FOLLOWUP")) {
             if(response.length == 0) throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + responseType);
             MessageContentParsable messageContentParsable = Parser.parseType(response[0], MessageContentParsable.class);
-            if(!(event instanceof IReplyCallback replyCallback)) throw new InternalExpressionException("Interaction of type " + event.getType() + " cannot be replied to");
+            if(!(event instanceof IReplyCallback replyCallback)) throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
             if(responseType.equalsIgnoreCase("RESPOND_IMMEDIATELY")) {
                 ReplyCallbackAction action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, replyCallback::reply);
                 ValueUtil.awaitRest(action,"Error sending 'respond_immediately' response to interaction");
@@ -95,6 +96,6 @@ public class Interactions {
                 WebhookMessageCreateAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, hook::sendMessage);
                 return ValueUtil.awaitRest(action,"Error sending 'respond_followup' response to interaction");
             }
-        } else throw new InternalExpressionException("invalid response type for 'dc_respond_interaction', expected RESPOND_LATER, RESPOND_IMMEDIATELY or RESPOND_FOLLOWUP");
+        } else throw new InternalExpressionException("invalid response type for 'dc_respond_interaction', expected respond_later, respond_immediately or respond_followup");
     }
 }
