@@ -89,8 +89,7 @@ public class Interactions {
             if(!(event instanceof IReplyCallback replyCallback)) throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
             if(responseType.equalsIgnoreCase("RESPOND_IMMEDIATELY")) {
                 ReplyCallbackAction action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, replyCallback::reply);
-                ValueUtil.awaitRest(action,"Error sending 'respond_immediately' response to interaction");
-                return null;
+                return ValueUtil.awaitRest(action.map(interactionHook -> interactionHook.getCallbackResponse().getMessage()),"Error sending 'respond_immediately' response to interaction");
             } else {
                 InteractionHook hook = replyCallback.getHook();
                 WebhookMessageCreateAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, hook::sendMessage);
