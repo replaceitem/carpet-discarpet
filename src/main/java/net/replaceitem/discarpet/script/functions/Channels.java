@@ -8,8 +8,9 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Webhook;
 import net.dv8tion.jda.api.entities.WebhookClient;
 import net.dv8tion.jda.api.entities.channel.Channel;
-import net.dv8tion.jda.api.entities.channel.middleman.StandardGuildMessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.managers.WebhookManager;
+import net.dv8tion.jda.api.managers.channel.ChannelManager;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.restaction.ThreadChannelAction;
 import net.dv8tion.jda.api.requests.restaction.WebhookAction;
@@ -17,6 +18,7 @@ import net.dv8tion.jda.internal.entities.channel.mixin.attribute.IThreadContaine
 import net.dv8tion.jda.internal.entities.channel.mixin.attribute.IWebhookContainerMixin;
 import net.replaceitem.discarpet.script.exception.DiscordThrowables;
 import net.replaceitem.discarpet.script.parsable.Parser;
+import net.replaceitem.discarpet.script.parsable.parsables.ChannelUpdaterParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.ThreadParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.webhooks.WebhookProfileParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.webhooks.WebhookProfileUpdaterParsable;
@@ -26,12 +28,13 @@ import net.replaceitem.discarpet.script.values.MessageValue;
 
 @SuppressWarnings("unused")
 public class Channels {
-	
-	// TODO change to dc_update_channel with generic parsable with everything updatable with channel manager
 	@ScarpetFunction
-	public void dc_set_channel_topic(Channel channel, String str) {
-		if(!(channel instanceof StandardGuildMessageChannel standardGuildMessageChannel)) throw DiscordThrowables.genericCode(ErrorResponse.INVALID_CHANNEL_TYPE);
-        ValueUtil.awaitRest(standardGuildMessageChannel.getManager().setName(str),"Error updating channel topic");
+	public void dc_update_channel(Channel channel, Value channelUpdater) {
+		ChannelUpdaterParsable channelUpdaterParsable = Parser.parseType(channelUpdater, ChannelUpdaterParsable.class);
+        if (!(channel instanceof GuildChannel guildChannel)) throw new InternalExpressionException("Can only update server channels");
+		ChannelManager<?, ?> manager = guildChannel.getManager();
+		channelUpdaterParsable.apply(manager);
+		ValueUtil.awaitRest(manager, "Error updating channel");
 	}
 
 	@ScarpetFunction

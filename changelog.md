@@ -57,6 +57,7 @@
 * `dc_react` has been split to `dc_add_reaction(msg, emoji)` and `dc_remove_reaction(msg, emoji?, user?)`
 * Added `dc_member` value type, referencing a user in a server. This can be used to retrieve data of a user specific to a server, like nicknames and roles.
   * Added `message~'member'`
+  * Added `message~'member'`
   * Added `interaction~'member'`
   * Added `role~'members'`
   * Added `server~'members'`
@@ -65,3 +66,5 @@
   * Made `content` field optional for messages without content, like forwarded messages
   * Renamed `reply_to` to `referenced_message` since it can now also used to forward messages
   * Added `message_reference_type` which can be set to `forward` to forward messages
+* Added `dc_update_channel`, replacing `dc_set_channel_topic`, allowing to update many options of channels.
+* Added `channel_updater` parsable.
