@@ -59,6 +59,9 @@ public class ChannelUpdaterParsable {
     @OptionalField @Nullable
     Integer user_limit;
     
+    @OptionalField @Nullable
+    String reason;
+    
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void apply(ChannelManager<?, ?> manager) {
         // general
@@ -165,6 +168,8 @@ public class ChannelUpdaterParsable {
                 audioChannelManager.setUserLimit(user_limit);
             } else throw wrongType("user_limit", manager);
         }
+        
+        manager.reason(reason);
     }
     
     private static InternalExpressionException wrongType(String fieldName, ChannelManager<?,?> manager) {
