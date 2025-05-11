@@ -143,8 +143,7 @@ nav:
       - dc_member_from_user: 'functions/values/member-from-user.md'
     - Bot functions:
       - dc_get_bot_user: 'functions/bot/get-bot-user.md'
-      - dc_set_activity: 'functions/bot/set-activity.md'
-      - dc_set_status: 'functions/bot/set-status.md'
+      - dc_update_presence: 'functions/bot/update-presence.md'
     - User functions:
       - dc_set_nickname: 'functions/users/set-nickname.md'
       - dc_set_timeout: 'functions/users/set-timeout.md'
@@ -204,6 +203,7 @@ nav:
     - Embed: 'parsables/embed.md'
     - Thread: 'parsables/thread.md'
     - Channel updater: 'parsables/channel-updater.md'
+    - Presence updater: 'parsables/presence-updater.md'
     - Modal: 'parsables/modal.md'
     - Webhooks:
       - Webhook profile: 'parsables/webhooks/webhook-profile.md'
