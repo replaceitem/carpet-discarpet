@@ -18,6 +18,6 @@ public class BotConfig {
         if(BOT_ID == null) BOT_ID = "Your bot ID";
         if(BOT_TOKEN == null) BOT_TOKEN = "Your bot token";
         if(INTENTS == null) INTENTS = List.of();
-        if(MEMBER_CACHE_POLICY == null) MEMBER_CACHE_POLICY = "all";
+        if(MEMBER_CACHE_POLICY == null) MEMBER_CACHE_POLICY = "online";
     }
 }
