@@ -75,7 +75,7 @@ Now your config should look something like this:
 ```
 
 Now, you can use the in-game command `/discarpet reload` to reload all the bots, and start new ones if you added one to the config.
-This command will tell you whether if the bots could be logged in or not.
+This command will tell you whether the bots could be logged in or not.
 
 When login was successful, you can use `/discarpet getInvite [bot id]` to get a link in chat, which upon clicking,
 will take you directly to the webpage where you can add the bot to any Discord server you have the "Manage Server" permission in.

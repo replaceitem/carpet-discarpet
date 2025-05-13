@@ -9,4 +9,4 @@ Executes when a user reacts to a message with some emoji.
 |-----------:|:--------------------------------|:-------------------------------------------------|
 | `reaction` | [Reaction](/values/reaction.md) | The reaction that was made containing the emoji. |
 |   `member` | [Member](/values/member.md)     | The member who reacted.                          |
-|    `added` | Boolean                         | Whether if the reaction was added or removed.    |
+|    `added` | Boolean                         | Whether the reaction was added or removed.       |

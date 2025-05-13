@@ -52,12 +52,12 @@ Those properties and their types are listed in the documentation of each parsabl
 
 As an example, a parsable with these properties:
 
-|      Key | Type    | Description                                               |
-|---------:|:--------|:----------------------------------------------------------|
-|   `name` | String  | The name of the player.                                   |
-|     `id` | String  | The ID of the player.                                     |
-|   `size` | Number  | The size of the player.                                   |
-| `hidden` | Boolean | Whether if this player is hidden.<br>(`false` by default) |
+|      Key | Type    | Description                                              |
+|---------:|:--------|:---------------------------------------------------------|
+|   `name` | String  | The name of the player.                                  |
+|     `id` | String  | The ID of the player.                                    |
+|   `size` | Number  | The size of the player.                                  |
+| `hidden` | Boolean | Whether this player is hidden.<br>(`false` by default)   |
 
 would look like this:
 

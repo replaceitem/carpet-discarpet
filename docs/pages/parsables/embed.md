@@ -48,11 +48,11 @@ Used to create a field in an embed.
 
 ### {map:}
 
-|           Key | Type    | Description                             |
-|--------------:|:--------|:----------------------------------------|
-|        `name` | String  | The name/title of this field.           |
-|       `value` | String  | The value/description of this field.    |
-| `inline` {:?} | Boolean | Whether if this field should be inline. |
+|           Key | Type    | Description                            |
+|--------------:|:--------|:---------------------------------------|
+|        `name` | String  | The name/title of this field.          |
+|       `value` | String  | The value/description of this field.   |
+| `inline` {:?} | Boolean | Whether this field should be inline.   |
 
 
 

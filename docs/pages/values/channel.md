@@ -16,7 +16,7 @@ Threads and DMs are considered as channels.
 |      `server` | [Server](/values/server.md), Null      | The server this channel is in.<br>Returns `null` if this is a private channel. |
 |        `type` | String                                 | The [type](#channel-types) of the channel.                                     |
 |    `webhooks` | List of [Webhooks](/values/webhook.md) | The webhooks in this channel.<br>Throws an exception on failure.               |
-|        `nsfw` | Boolean                                | Whether if this channel is age-restricted.                                     |
+|        `nsfw` | Boolean                                | Whether this channel is age-restricted.                                        |
 |    `position` | Number                                 | The position in the server channel list.                                       |
 
 #### Channel types
