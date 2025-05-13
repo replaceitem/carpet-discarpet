@@ -24,6 +24,7 @@ import net.replaceitem.discarpet.script.exception.DiscordThrowables;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
 import net.replaceitem.discarpet.script.parsable.Parser;
 import net.replaceitem.discarpet.script.parsable.parsables.MessageContentParsable;
+import net.replaceitem.discarpet.script.parsable.parsables.RespondLaterDataParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.commands.MessageContextMenuBuilderParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.commands.SlashCommandBuilderParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.commands.UserContextMenuBuilderParsable;
@@ -33,9 +34,12 @@ import net.replaceitem.discarpet.script.values.CommandValue;
 import net.replaceitem.discarpet.script.values.interactions.InteractionValue;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
 public class Interactions {
     @ScarpetFunction(maxParams = 3)
     public Value dc_create_application_command(Context context, String type, Value command, Guild... optionalServer) {
@@ -64,37 +68,59 @@ public class Interactions {
         return ValueUtil.awaitRest(jda.retrieveCommands(), "Could not get global application commands");
     }
     
+    private enum ResponseType {
+        RESPOND_LATER,
+        RESPOND_MODAL,
+        RESPOND_IMMEDIATELY,
+        RESPOND_FOLLOWUP;
+    }
+    
     @ScarpetFunction(maxParams = 3)
     @Nullable("Only returns a message when an actual message was created during the response")
-    public Message dc_respond_interaction(InteractionValue<?> interactionValue, String responseType, Value... response) {
+    public Message dc_respond_interaction(InteractionValue<?> interactionValue, String responseTypeString, Optional<Value> data) {
         GenericInteractionCreateEvent event = interactionValue.getDelegate();
-        if(responseType.equalsIgnoreCase("RESPOND_LATER")) {
-            if(!(event instanceof IReplyCallback replyCallback)) throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
-            ValueUtil.awaitRest(replyCallback.deferReply(),"Error sending 'respond_later' response to interaction");
-            return null;
-        }
-
-        if(responseType.equalsIgnoreCase("RESPOND_MODAL")) {
-            if(!(event instanceof IModalCallback modalCallback)) throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
-            if(response.length == 0) throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + responseType);
-            ModalParsable modalParsable = Parser.parseType(response[0], ModalParsable.class);
-            Modal modal = modalParsable.construct();
-            ValueUtil.awaitRest(modalCallback.replyModal(modal), "Could not reply with modal");
-            return null;
-        }
-
-        if (responseType.equalsIgnoreCase("RESPOND_IMMEDIATELY") || responseType.equalsIgnoreCase("RESPOND_FOLLOWUP")) {
-            if(response.length == 0) throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + responseType);
-            MessageContentParsable messageContentParsable = Parser.parseType(response[0], MessageContentParsable.class);
-            if(!(event instanceof IReplyCallback replyCallback)) throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
-            if(responseType.equalsIgnoreCase("RESPOND_IMMEDIATELY")) {
-                ReplyCallbackAction action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, replyCallback::reply);
-                return ValueUtil.awaitRest(action.map(interactionHook -> interactionHook.getCallbackResponse().getMessage()),"Error sending 'respond_immediately' response to interaction");
-            } else {
-                InteractionHook hook = replyCallback.getHook();
-                WebhookMessageCreateAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, hook::sendMessage);
-                return ValueUtil.awaitRest(action,"Error sending 'respond_followup' response to interaction");
+        ResponseType responseType = ValueUtil.getEnum(ResponseType.class, responseTypeString).orElseThrow(() ->
+                new InternalExpressionException(
+                        "invalid response type for 'dc_respond_interaction', expected one of " +
+                                Arrays.stream(ResponseType.values()).map(type -> type.name().toLowerCase()).collect(Collectors.joining(", "))
+                )
+        );
+        switch (responseType) {
+            case RESPOND_LATER -> {
+                if (!(event instanceof IReplyCallback replyCallback))
+                    throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
+                RespondLaterDataParsable respondLaterParsable = data.map(d -> Parser.parseType(d, RespondLaterDataParsable.class)).orElseGet(RespondLaterDataParsable::new);
+                ReplyCallbackAction replyCallbackAction = replyCallback.deferReply();
+                respondLaterParsable.apply(replyCallbackAction);
+                ValueUtil.awaitRest(replyCallbackAction, "Error sending 'respond_later' response to interaction");
+                return null;
             }
-        } else throw new InternalExpressionException("invalid response type for 'dc_respond_interaction', expected respond_later, respond_immediately or respond_followup");
+            case RESPOND_MODAL -> {
+                if (!(event instanceof IModalCallback modalCallback))
+                    throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
+                if (data.isEmpty())
+                    throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + responseTypeString);
+                ModalParsable modalParsable = Parser.parseType(data.get(), ModalParsable.class);
+                Modal modal = modalParsable.construct();
+                ValueUtil.awaitRest(modalCallback.replyModal(modal), "Could not reply with modal");
+                return null;
+            }
+            case RESPOND_IMMEDIATELY, RESPOND_FOLLOWUP -> {
+                if (data.isEmpty())
+                    throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + responseTypeString);
+                MessageContentParsable messageContentParsable = Parser.parseType(data.get(), MessageContentParsable.class);
+                if (!(event instanceof IReplyCallback replyCallback))
+                    throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
+                if (responseType == ResponseType.RESPOND_IMMEDIATELY) {
+                    ReplyCallbackAction action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, replyCallback::reply);
+                    return ValueUtil.awaitRest(action.map(interactionHook -> interactionHook.getCallbackResponse().getMessage()), "Error sending 'respond_immediately' response to interaction");
+                } else {
+                    InteractionHook hook = replyCallback.getHook();
+                    WebhookMessageCreateAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, hook::sendMessage);
+                    return ValueUtil.awaitRest(action, "Error sending 'respond_followup' response to interaction");
+                }
+            }
+            default -> throw new IllegalStateException();
+        }
     }
 }

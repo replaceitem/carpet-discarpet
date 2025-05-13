@@ -73,3 +73,4 @@
 * Removed `dc_get_user_color` in favor of `member~'color'`
 * Removed `dc_get_user_roles` in favor of `member~'roles'`
 * Added `dc_update_presence()` to replace `dc_set_status()` and `dc_set_activity()`
+* Added `respond_later_data` parsable to third parameter of `dc_respond_interaction` when using type `respond_later` to specify ephemeral.
