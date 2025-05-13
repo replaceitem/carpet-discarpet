@@ -7,21 +7,21 @@ Can also be parsed directly from a String, which is equivalent to only setting `
 
 ### {map:}
 
-|                           Key | Type                                                              | Description                                                                                 |
-|------------------------------:|:------------------------------------------------------------------|:--------------------------------------------------------------------------------------------|
-|                `content` {:?} | String                                                            | The content of the message.                                                                 |
-|            `attachments` {:?} | List of [Attachments](/parsables/attachment.md)                   | The attachments in the message.                                                             |
-|               `stickers` {:?} | List of [Stickers](/values/sticker.md) or Numbers                 | The stickers in the message, specified by values or IDs.                                    |
-|                 `embeds` {:?} | List of [Embeds](/parsables/embed.md)                             | The embeds in the message.                                                                  |
-|             `components` {:?} | List of Lists of [Components](/parsables/components/component.md) | The rows of containers with components.[^1]                                                 |
-|       `allowed_mentions` {:?} | [Allowed mentions](#allowed-mentions)                             | Allowed mentions of the message.                                                            |
-|     `referenced_message` {:?} | [Message](/values/message.md)                                     | The message to reply to or forward, depending on `message_reference_type`.                  |
-| `message_reference_type` {:?} | String                                                            | `default` for replying to the `referenced_message` or `forward` for forwarding it.          |
-|                  `nonce` {:?} | String                                                            | The nonce of the message.                                                                   |
-|                    `tts` {:?} | Boolean                                                           | Whether if this message should be read by text-to-speech.                                   |
-|              `ephemeral` {:?} | Boolean                                                           | Whether if this message should only be visible to the user who invoked the interaction.[^2] |
-|        `suppress_embeds` {:?} | Boolean                                                           | Whether if embeds should not be included.                                                   |
-| `suppress_notifications` {:?} | Boolean                                                           | Whether if this message should suppress triggering push and desktop notifications.          |
+|                           Key | Type                                                              | Description                                                                              |
+|------------------------------:|:------------------------------------------------------------------|:-----------------------------------------------------------------------------------------|
+|                `content` {:?} | String                                                            | The content of the message.                                                              |
+|            `attachments` {:?} | List of [Attachments](/parsables/attachment.md)                   | The attachments in the message.                                                          |
+|               `stickers` {:?} | List of [Stickers](/values/sticker.md) or Numbers                 | The stickers in the message, specified by values or IDs.                                 |
+|                 `embeds` {:?} | List of [Embeds](/parsables/embed.md)                             | The embeds in the message.                                                               |
+|             `components` {:?} | List of Lists of [Components](/parsables/components/component.md) | The rows of containers with components.[^1]                                              |
+|       `allowed_mentions` {:?} | [Allowed mentions](#allowed-mentions)                             | Allowed mentions of the message.                                                         |
+|     `referenced_message` {:?} | [Message](/values/message.md)                                     | The message to reply to or forward, depending on `message_reference_type`.               |
+| `message_reference_type` {:?} | String                                                            | `default` for replying to the `referenced_message` or `forward` for forwarding it.       |
+|                  `nonce` {:?} | String                                                            | The nonce of the message.                                                                |
+|                    `tts` {:?} | Boolean                                                           | Whether this message should be read by text-to-speech.                                   |
+|              `ephemeral` {:?} | Boolean                                                           | Whether this message should only be visible to the user who invoked the interaction.[^2] |
+|        `suppress_embeds` {:?} | Boolean                                                           | Whether embeds should not be included.                                                   |
+| `suppress_notifications` {:?} | Boolean                                                           | Whether this message should suppress triggering push and desktop notifications.          |
 
 
 
