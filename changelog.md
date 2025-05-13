@@ -72,3 +72,4 @@
 * Removed `dc_get_timeout` in favor of `member~'timeout_end'`
 * Removed `dc_get_user_color` in favor of `member~'color'`
 * Removed `dc_get_user_roles` in favor of `member~'roles'`
+* Added `dc_update_presence()` to replace `dc_set_status()` and `dc_set_activity()`
