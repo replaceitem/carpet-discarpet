@@ -1,26 +1,23 @@
 package net.replaceitem.discarpet.script.parsable.parsables.embeds;
 
-import carpet.script.exception.InternalExpressionException;
-import carpet.script.value.Value;
+import carpet.script.Context;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.utils.FileUpload;
-import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
-import net.replaceitem.discarpet.script.util.FileUtil;
-import net.replaceitem.discarpet.script.util.ScarpetGraphicsDependency;
+import net.replaceitem.discarpet.script.parsable.parsables.AttachmentParsable;
+import net.replaceitem.discarpet.script.parsable.parsables.FileParsable;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
-import java.io.File;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 @ParsableClass(name = "embed")
-public class EmbedParsable implements ParsableConstructor<MessageEmbed> {
+public class EmbedParsable implements ParsableConstructor<EmbedParsable.EmbedWithAttachments> {
     @OptionalField @Nullable
     String title;
     @OptionalField @Nullable
@@ -36,16 +33,15 @@ public class EmbedParsable implements ParsableConstructor<MessageEmbed> {
     @OptionalField @Nullable
     EmbedFooterParsable footer;
     @OptionalField @Nullable
-    Value image;
+    FileParsable.AbstractFile image;
     @OptionalField @Nullable
-    Value thumbnail;
+    FileParsable.AbstractFile thumbnail;
     @OptionalField @Nullable
     Instant timestamp;
-
-    private final List<FileUpload> fileUploads = new ArrayList<>(0);
-
+    
     @Override
-    public MessageEmbed construct() {
+    public EmbedWithAttachments construct(Context context) {
+        List<FileUpload> fileUploads = new ArrayList<>(0);
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(title);
         embedBuilder.setUrl(url);
@@ -66,39 +62,22 @@ public class EmbedParsable implements ParsableConstructor<MessageEmbed> {
             footer.apply(embedBuilder);
         }
         if(image != null) {
-            EmbedImage embedImage = handleImage(image);
-            this.fileUploads.add(embedImage.fileUpload());
-            embedBuilder.setImage(embedImage.url());
+            FileParsable.AttachableUrl attachableUrl = image.asUrl();
+            attachableUrl.optAttachment().ifPresent(fileUploads::add);
+            embedBuilder.setImage(attachableUrl.url());
         }
         if(thumbnail != null) {
-            EmbedImage embedImage = handleImage(thumbnail);
-            this.fileUploads.add(embedImage.fileUpload());
-            embedBuilder.setThumbnail(embedImage.url());
+            FileParsable.AttachableUrl attachableUrl = thumbnail.asUrl();
+            attachableUrl.optAttachment().ifPresent(fileUploads::add);
+            embedBuilder.setThumbnail(attachableUrl.url());
         }
         
-        return embedBuilder.build();
+        return new EmbedWithAttachments(embedBuilder.build(), fileUploads);
     }
 
-    public List<FileUpload> getFileUploads() {
-        return fileUploads;
-    }
-
-    record EmbedImage(String url, @Nullable FileUpload fileUpload) {}
-
-    static EmbedImage handleImage(Value value) {
-        if(Discarpet.isScarpetGraphicsInstalled() && ScarpetGraphicsDependency.isPixelAccessible(value)) {
-            FileUpload fileUpload = FileUtil.fromImage(value, FileUtil.randomName("png"));
-            return new EmbedImage("attachment://" + fileUpload.getName(), fileUpload);
+    public static class EmbedWithAttachments extends AttachmentParsable.WithAttachments<MessageEmbed> {
+        public EmbedWithAttachments(MessageEmbed data, List<FileUpload> fileUploads) {
+            super(data, fileUploads);
         }
-        String valueString = value.getString();
-        if(EmbedBuilder.URL_PATTERN.matcher(valueString).matches()) {
-            return new EmbedImage(valueString, null);
-        }
-        File file = new File(valueString);
-        if(file.exists()) {
-            FileUpload fileUpload = FileUtil.fromFile(file, FileUtil.randomName(FileUtil.getFileExtension(valueString, "png")));
-            return new EmbedImage("attachment://" + fileUpload.getName(), fileUpload);
-        }
-        throw new InternalExpressionException("Expected either a url, file path or image value");
     }
 }

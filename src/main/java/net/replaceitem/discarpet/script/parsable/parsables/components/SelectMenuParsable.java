@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables.components;
 
+import carpet.script.Context;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.Component;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
@@ -32,7 +33,7 @@ public class SelectMenuParsable implements ParsableConstructor<SelectMenu> {
     String placeholder;
     
     @Override
-    public SelectMenu construct() {
+    public SelectMenu construct(Context context) {
         SelectMenu.Builder<?,?> builder = switch (component) {
             case STRING_SELECT -> StringSelectMenu.create(id).addOptions(options);
             case USER_SELECT -> EntitySelectMenu.create(id, EntitySelectMenu.SelectTarget.USER);

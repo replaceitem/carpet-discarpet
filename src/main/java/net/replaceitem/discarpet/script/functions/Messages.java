@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.functions;
 
+import carpet.script.Context;
 import carpet.script.annotation.ScarpetFunction;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.Value;
@@ -21,37 +22,37 @@ import java.util.Optional;
 @SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
 public class Messages {
     @ScarpetFunction
-    public Message dc_send_message(Value target, Value messageContent) {
+    public Message dc_send_message(Context context, Value target, Value messageContent) {
         Optional<MessageableValue.MessageConsumer> optionalMessageConsumer = target instanceof MessageableValue<?> messageableValue ? messageableValue.getMessageConsumer() : Optional.empty();
         MessageableValue.MessageConsumer messageConsumer = optionalMessageConsumer.orElseThrow(
                 () -> new InternalExpressionException("'dc_send_message' expected a messageable channel, user or incoming webhook as the first parameter. Got: " + target.getTypeString())
         );
-        MessageContentParsable messageContentParsable = Parser.parseType(messageContent, MessageContentParsable.class);
+        MessageContentParsable messageContentParsable = Parser.parseType(context, messageContent, MessageContentParsable.class);
         RestAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, messageConsumer::send);
         return ValueUtil.awaitRest(action,"Error sending message");
     }
     
     @ScarpetFunction
-    public Message dc_send_webhook(WebhookClient<Message> webhook, Value messageContent, Value webhookProfile) {
-        MessageContentParsable messageContentParsable = Parser.parseType(messageContent, MessageContentParsable.class);
+    public Message dc_send_webhook(Context context, WebhookClient<Message> webhook, Value messageContent, Value webhookProfile) {
+        MessageContentParsable messageContentParsable = Parser.parseType(context, messageContent, MessageContentParsable.class);
         WebhookMessageCreateAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, webhook::sendMessage);
-        Parser.parseType(webhookProfile, WebhookMessageProfileParsable.class).apply(action);
+        Parser.parseType(context, webhookProfile, WebhookMessageProfileParsable.class).apply(action);
         return ValueUtil.awaitRest(action,"Error sending message");
     }
 
 	@ScarpetFunction
-	public void dc_add_reaction(Message message, Value emojiValue) {
-        Emoji emoji = Parser.parseType(emojiValue, Emoji.class);
+	public void dc_add_reaction(Context context, Message message, Value emojiValue) {
+        Emoji emoji = Parser.parseType(context, emojiValue, Emoji.class);
         ValueUtil.awaitRest(message.addReaction(emoji), "Error adding reaction to message");
 	}
 
 	@ScarpetFunction(maxParams = 3)
-	public void dc_remove_reaction(Message message, Optional<Value> emojiValue, Optional<User> user) {
+	public void dc_remove_reaction(Context context, Message message, Optional<Value> emojiValue, Optional<User> user) {
         if (emojiValue.isEmpty()) {
             ValueUtil.awaitRest(message.clearReactions(), "Error removing all reactions from message");
             return;
         }
-        Emoji emoji = Parser.parseType(emojiValue.get(), Emoji.class);
+        Emoji emoji = Parser.parseType(context, emojiValue.get(), Emoji.class);
         if(user.isEmpty()) {
             ValueUtil.awaitRest(message.removeReaction(emoji), "Error removing reactions from message");
             return;

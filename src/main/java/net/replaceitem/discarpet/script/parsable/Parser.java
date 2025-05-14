@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable;
 
+import carpet.script.Context;
 import carpet.script.annotation.SimpleTypeConverter;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.exception.ThrowStatement;
@@ -20,15 +21,15 @@ import java.util.stream.Collectors;
 /**
  * This Parser is used to simplify the way parsable values are parsed from scarpet {@link MapValue}s to java classes.
  * Classes need to be annotated with {@link ParsableClass}.
- * A class also needs to implement {@link ParsableConstructor} and the {@link ParsableConstructor#construct()} method,
+ * A class also needs to implement {@link ParsableConstructor} and the {@link ParsableConstructor#construct(carpet.script.Context)} method,
  * and specify the class this {@link ParsableConstructor} will parse to as the generic type.
  * This is used to create the wanted value from the parsable class.
  * For instance, a parsable for {@link Color} could be called {@code ColorParsable},
  * and has the {@link Integer} fields {@code R}, {@code G} and {@code B}.
- * In the {@link ParsableConstructor#construct()} method, 
+ * In the {@link ParsableConstructor#construct(carpet.script.Context)} method, 
  * the {@link Color#Color(int, int, int)} constructor could
  * call to return the actual {@link Color} object.
- * {@link ParsableConstructor#construct()} is automatically called from the Parser.
+ * {@link ParsableConstructor#construct(carpet.script.Context)} is automatically called from the Parser.
  * A field in a {@link ParsableConstructor} class can also be annotated with {@link OptionalField},
  * which makes the {@link Parser} not throw an error when the field was not specified in the {@link MapValue}.
  * Finally, the {@link ParsableConstructor} class needs to be registered using {@link Parser#registerParsable(Class)}
@@ -49,11 +50,11 @@ public class Parser {
         return parsableClasses.containsKey(resultClass);
     }
 
-    public static <T> T parseType(Value value, Class<T> resultClass) {
-        return parseType(value, resultClass, getClassName(resultClass));
+    public static <T> T parseType(Context context, Value value, Class<T> resultClass) {
+        return parseType(context, value, resultClass, getClassName(resultClass));
     }
     
-    public static <T, E extends Enum<E>> T parseType(Value value, Class<T> resultClass, String name) {
+    public static <T, E extends Enum<E>> T parseType(Context context, Value value, Class<T> resultClass, String name) {
         if(Value.class.isAssignableFrom(resultClass)) {
             if(resultClass == Value.class) {
                 return (T) value;
@@ -86,20 +87,21 @@ public class Parser {
                 Object parsedValue = callConstructor(parsableClass, name);
                 T directlyCreated = ((ParsableConstructor<T>) parsedValue).tryCreateFromValueDirectly(value);
                 if(directlyCreated != null) return directlyCreated;
-                ParsableConstructor<T> parsable = (ParsableConstructor<T>) Parser.parseParsableType(value, parsedValue, (Class<Object>) parsableClass, name);
+                ParsableConstructor<T> parsable = (ParsableConstructor<T>) Parser.parseParsableType(context, value, parsedValue, (Class<Object>) parsableClass, name);
                 try {
-                    return parsable.construct();
+                    return parsable.construct(context);
                 } catch (Exception e) {
                     rethrowUserException(e);
                     throw new InternalExpressionException("Could not parse " + name + ":\n" + e.getMessage());
                 }
             } else if(Redirector.class.isAssignableFrom(parsableClass)) {
                 Object parsedValue = callConstructor(parsableClass, name);
-                return (T) parseParsableType(value, parsedValue, (Class<Object>) parsableClass, name);
+                return (T) parseParsableType(context, value, parsedValue, (Class<Object>) parsableClass, name);
             }
         }
+        if(resultClass.getAnnotation(ParsableClass.class) == null) throw new IllegalArgumentException("Class " + resultClass + " is neither a parsable class or has a parsable class registered.");
         T parsedValue = callConstructor(resultClass, name);
-        return parseParsableType(value, parsedValue, resultClass, name);
+        return parseParsableType(context, value, parsedValue, resultClass, name);
     }
     
     private static <T> T tryParsePrimitive(Value value, Class<T> parsableClass, String name) {
@@ -128,7 +130,7 @@ public class Parser {
         return null;
     }
     
-    public static <T> T parseParsableType(Value value, T object, Class<T> parsableClass, String name) {
+    public static <T> T parseParsableType(Context context, Value value, T object, Class<T> parsableClass, String name) {
         try {
             if(object instanceof DirectParsable directParsable) {
                 if(directParsable.tryParseDirectly(value)) {
@@ -136,11 +138,11 @@ public class Parser {
                 }
             }
 
-            T parsedObject = parsableClass.cast(parseClass(value, parsableClass));
+            T parsedObject = parsableClass.cast(parseClass(context, value, parsableClass));
             
             if(Redirector.class.isAssignableFrom(parsableClass)) {
                 Class<? extends T> redirectedClass = ((Redirector<T>) parsedObject).redirect();
-                return parseType(value, redirectedClass);
+                return parseType(context, value, redirectedClass);
             }
             return parsedObject;
         } catch (Exception e) {
@@ -150,7 +152,7 @@ public class Parser {
     }
     
     
-    public static <T> T parseClass(Value value, Class<T> parsableClass) {
+    public static <T> T parseClass(Context context, Value value, Class<T> parsableClass) {
         ParsableClass parsableClassAnnotation = getRequiredParsableClassAnnotation(parsableClass);
         String name = parsableClassAnnotation.name();
         if(!(value instanceof MapValue mapValue)) throw new InternalExpressionException("Could not parse " + name + ", value needs to be a map");
@@ -159,7 +161,7 @@ public class Parser {
         T parsedValue = callConstructor(parsableClass, name);
         for (Field field : declaredFields) {
             if(field.accessFlags().contains(AccessFlag.PRIVATE)) continue;
-            assignField(map, field, parsedValue);
+            assignField(context, map, field, parsedValue);
         }
         return parsedValue;
     }
@@ -168,7 +170,7 @@ public class Parser {
         try {
             return clazz.getDeclaredConstructor(new Class[]{}).newInstance();
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new InternalExpressionException("Could not parse " + name + ":\n" + e.getMessage());
+            throw new IllegalArgumentException("Could not parse " + name + ":\n" + e.getMessage());
         }
     }
 
@@ -183,7 +185,7 @@ public class Parser {
         }
     }
     
-    private static void assignField(Map<Value, Value> map, Field field, Object parsedValue) {
+    private static void assignField(Context context, Map<Value, Value> map, Field field, Object parsedValue) {
         String name = field.getName();
         Class<?> fieldType = field.getType();
         OptionalField optionalFieldAnnotation = field.getAnnotation(OptionalField.class);
@@ -200,12 +202,12 @@ public class Parser {
                         Type actualGenericType = getActualGenericType(parameterizedType);
                         if(actualGenericType == null) throw new InternalExpressionException("No type argument on list");
                         if(!(actualGenericType instanceof Class<?> clazz)) throw new InternalExpressionException("Invalid type argument on list: " + actualGenericType);
-                        object = parse2DList(listValue.getItems(), clazz,name);
+                        object = parse2DList(context, listValue.getItems(), clazz,name);
                     } else if(generic instanceof Class<?> clazz) {
-                        object = parseList(listValue.getItems(), clazz, name);
+                        object = parseList(context, listValue.getItems(), clazz, name);
                     } else throw new InternalExpressionException("Invalid type parameter provided for field " + name);
                 } else {
-                    object = parseType(value, fieldType, name);
+                    object = parseType(context, value, fieldType, name);
                 }
                 field.setAccessible(true);
                 field.set(parsedValue, object);
@@ -215,12 +217,12 @@ public class Parser {
         }
     }
     
-    private static <T> List<T> parseList(List<Value> list, Class<T> generic, String name) {
+    private static <T> List<T> parseList(Context context, List<Value> list, Class<T> generic, String name) {
         List<T> parsedList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             try {
                 Value value = list.get(i);
-                T element = parseType(value, generic, generic.getSimpleName());
+                T element = parseType(context, value, generic, generic.getSimpleName());
                 parsedList.add(element);
             } catch (Exception e) {
                 rethrowUserException(e);
@@ -230,13 +232,13 @@ public class Parser {
         return parsedList;
     }
 
-    private static <T> List<List<T>> parse2DList(List<Value> list, Class<T> generic, String name) {
+    private static <T> List<List<T>> parse2DList(Context context, List<Value> list, Class<T> generic, String name) {
         List<List<T>> parsedList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             try {
                 Value value = list.get(i);
                 if(!(value instanceof ListValue listValue)) throw new InternalExpressionException("Item in " + name + " list needs to be a list");
-                List<T> element = parseList(listValue.getItems(), generic, name);
+                List<T> element = parseList(context, listValue.getItems(), generic, name);
                 parsedList.add(element);
             } catch (Exception e) {
                 rethrowUserException(e);

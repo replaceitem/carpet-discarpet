@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables;
 
+import carpet.script.Context;
 import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
@@ -14,7 +15,7 @@ public class TimestampParsable implements ParsableConstructor<Instant> {
     Long epoch_millis;
 
     @Override
-    public Instant construct() {
+    public Instant construct(Context context) {
         return Instant.ofEpochMilli(epoch_millis);
     }
 

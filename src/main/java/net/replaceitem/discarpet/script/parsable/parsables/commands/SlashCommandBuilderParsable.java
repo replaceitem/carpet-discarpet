@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables.commands;
 
+import carpet.script.Context;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
@@ -17,7 +18,7 @@ public class SlashCommandBuilderParsable implements ParsableConstructor<SlashCom
     List<SlashCommandOptionParsable.SlashCommandOptionUnion> options = List.of();
 
     @Override
-    public SlashCommandData construct() {
+    public SlashCommandData construct(Context context) {
         SlashCommandData slash = Commands.slash(name, description);
         for (SlashCommandOptionParsable.SlashCommandOptionUnion option : options) {
             option.asOption().ifPresent(slash::addOptions);

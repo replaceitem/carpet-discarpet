@@ -1,116 +1,98 @@
 package net.replaceitem.discarpet.script.util;
 
+import carpet.script.CarpetScriptHost;
+import carpet.script.Context;
+import carpet.script.argument.FileArgument;
 import carpet.script.exception.InternalExpressionException;
-import carpet.script.value.Value;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.script.exception.DiscordThrowables;
-import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
+import java.net.*;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 public class FileUtil {
-    
-    public static Icon iconFromValue(Value value) {
-        try {
-            if (Discarpet.isScarpetGraphicsInstalled() && ScarpetGraphicsDependency.isPixelAccessible(value)) {
-                return Icon.from(imageValueToInputStream(value, "png"), Icon.IconType.PNG);
-            }
-            String valueString = value.getString();
-            if (EmbedBuilder.URL_PATTERN.matcher(valueString).matches()) {
-                return Icon.from(inputStreamFromUrl(valueString), Icon.IconType.PNG);
-            }
-            File file = new File(valueString);
-            if (file.exists()) {
-                return Icon.from(file);
-            }
-            throw new InternalExpressionException("Expected either a url, file path or image value");
-        } catch (UncheckedIOException | IOException e) {
-            throw DiscordThrowables.convert(e);
-        }
-    }
-    
-    public static String randomName(String fileType) {
-        return UUID.randomUUID() + "." + fileType;
-    }
-
-    public static FileUpload fromFile(String file, @Nullable String name) {
-        return fromFile(new File(file), name);
-    }
-    
-    public static FileUpload fromFile(File file, @Nullable String name) {
-        try {
-            return name == null ? FileUpload.fromData(file) : FileUpload.fromData(file, name);
-        } catch (UncheckedIOException e) {
-            throw DiscordThrowables.convert(e);
-        }
+    public static String randomName() {
+        return UUID.randomUUID().toString();
     }
     
     public static InputStream inputStreamFromUrl(String url) {
         try {
-            HttpURLConnection conn = (HttpURLConnection) new URI(url).toURL().openConnection();
+            URL uri = new URI(url).toURL();
+            return inputStreamFromUrl(uri);
+        } catch (MalformedURLException e) {
+            throw new UncheckedIOException(e);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public static InputStream inputStreamFromUrl(URL url) {
+        try {
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
             return conn.getInputStream();
-        } catch (UncheckedIOException | URISyntaxException | IOException e) {
-            throw DiscordThrowables.convert(e);
+        } catch (IOException e) {
+            throw new UncheckedIOException("Could not download url " + url, e);
         }
     }
     
-    public static FileUpload fromUrl(String url, @Nullable String name) {
+    public static FileUpload fromUrl(String urlString) {
         try {
-            if(name == null) {
-                String[] path = new URI(url).getPath().split("/");
-                name = path.length == 0 ? "unnamed" : path[path.length - 1];
-            }
-            InputStream inputStream = inputStreamFromUrl(url);
-            return FileUpload.fromData(inputStream, name);
-        } catch (UncheckedIOException | URISyntaxException e) {
+            URI uri = new URI(urlString);
+            String[] path = uri.getPath().split("/");
+            String name = path.length == 0 ? "unnamed" : path[path.length - 1];
+            URL url = uri.toURL();
+            return FileUpload.fromStreamSupplier(name, () -> inputStreamFromUrl(url));
+        } catch (UncheckedIOException | URISyntaxException | MalformedURLException e) {
             throw DiscordThrowables.convert(e);
         }
     }
-    
-    public static FileUpload fromString(String bytes, String name) {
-        return FileUpload.fromData(bytes.getBytes(StandardCharsets.UTF_8), name);
-    }
-    
-    public static InputStream imageValueToInputStream(Value value, String fileType) {
-        try {
-            if(!Discarpet.isScarpetGraphicsInstalled()) throw new InternalExpressionException("scarpet-graphics is not installed, but required for an image file upload");
-            if(!ScarpetGraphicsDependency.isPixelAccessible(value)) throw new InternalExpressionException("Image needs to be an image or graphics value");
-            BufferedImage image = ScarpetGraphicsDependency.getImageFromValue(value);
-            if(image == null) throw new InternalExpressionException("Value is not an image value");
-            PipedOutputStream pos = new PipedOutputStream();
-            PipedInputStream pis = new PipedInputStream(pos);
 
-            Thread.startVirtualThread(() -> {
-                try {
-                    ImageIO.write(image, fileType, pos);
-                    pos.close();
-                } catch (Throwable t) {
-                    Discarpet.LOGGER.error("Failed to process buffered image file!", t);
-                }
-            });
-            return pis;
-        } catch (UncheckedIOException | IOException e) {
-            throw DiscordThrowables.convert(e);
-        }
+    public static FileUpload fromFileArgument(Context context, FileArgument fileArgument) {
+        String name = fileArgument.resource.substring(fileArgument.resource.lastIndexOf("/") + 1);
+        return FileUpload.fromStreamSupplier(name, () -> inputStreamFromFileArgument(context, fileArgument));
     }
     
-    public static FileUpload fromImage(Value value, String name) {
-        return FileUpload.fromData(imageValueToInputStream(value, getFileExtension(name, "png")), name);
+    public static InputStream inputStreamFromFileArgument(Context context, FileArgument fileArgument) {
+        return FileUtil.readResourceAsStream(((CarpetScriptHost) context.host), fileArgument);
+    }
+
+    public static InputStream readResourceAsStream(CarpetScriptHost scriptHost, FileArgument fileArgument) {
+        if(scriptHost.isDefaultApp() && !fileArgument.isShared) throw new InternalExpressionException("Cannot read shared resource in " + scriptHost.getVisualName());
+        return ((FileArgumentExtension) fileArgument).asInputStream(scriptHost.main);
     }
     
-    public static String getFileExtension(String name, String fallback) {
-        return name.contains(".") ? name.substring(name.lastIndexOf(".") + 1) : fallback;
+    public static Supplier<InputStream> imageToInputStreamSupplier(BufferedImage image, String fileType) {
+        return () -> {
+            try {
+                PipedOutputStream pos = new PipedOutputStream();
+                PipedInputStream pis = new PipedInputStream(pos);
+
+                Thread.startVirtualThread(() -> {
+                    try {
+                        ImageIO.write(image, fileType, pos);
+                    } catch (Throwable t) {
+                        Discarpet.LOGGER.error("Failed to process buffered image file!", t);
+                    } finally {
+                        try {
+                            pos.close();
+                        } catch (IOException e) {
+                            Discarpet.LOGGER.error(e);
+                        }
+                    }
+                });
+
+                return pis;
+            } catch (IOException ioException) {
+                Discarpet.LOGGER.error("Error creating input stream for image value", ioException);
+            }
+            return null;
+        };
     }
 }

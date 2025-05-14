@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables;
 
+import carpet.script.Context;
 import net.replaceitem.discarpet.script.parsable.DirectParsable;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
@@ -33,7 +34,7 @@ public class ColorParsable implements ParsableConstructor<Color>, DirectParsable
     }
 
     @Override
-    public Color construct() {
+    public Color construct(Context context) {
         return new Color(r,g,b);
     }
 
