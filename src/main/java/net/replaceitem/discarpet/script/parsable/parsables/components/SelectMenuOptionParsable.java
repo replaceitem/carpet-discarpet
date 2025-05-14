@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables.components;
 
+import carpet.script.Context;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
@@ -21,7 +22,7 @@ public class SelectMenuOptionParsable implements ParsableConstructor<SelectOptio
     
     
     @Override
-    public SelectOption construct() {
+    public SelectOption construct(Context context) {
         return SelectOption.of(label, value)
                 .withEmoji(emoji)
                 .withDescription(description)

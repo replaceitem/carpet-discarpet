@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables;
 
+import carpet.script.Context;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
@@ -24,7 +25,7 @@ public class EmojiParsable implements ParsableConstructor<Emoji> {
     Boolean animated = false;
 
     @Override
-    public Emoji construct() {
+    public Emoji construct(Context context) {
         if(name != null && id != null) return Emoji.fromCustom(name, MiscUtil.parseSnowflake(id), animated);
         if(unicode != null) return Emoji.fromUnicode(unicode);
         throw new InternalExpressionException("Expected either 'unicode' or 'name' and 'id'");

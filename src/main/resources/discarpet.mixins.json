@@ -5,6 +5,7 @@
     "mixins": [
         "CallbackListAccessor",
         "CommandImplMixin",
+        "FileArgumentMixin",
         "MinecraftServerMixin",
         "SimpleTypeConverterAccessor"
     ],

@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables.commands;
 
+import carpet.script.Context;
 import carpet.script.exception.InternalExpressionException;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -30,7 +31,7 @@ public class SlashCommandOptionParsable implements ParsableConstructor<SlashComm
     
     
     @Override
-    public SlashCommandOptionUnion construct() {
+    public SlashCommandOptionUnion construct(Context context) {
         return switch (type) {
             case SUB_COMMAND -> SlashCommandOptionUnion.ofSubcommand(
                     new SubcommandData(name, description)

@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables.commands;
 
+import carpet.script.Context;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
@@ -11,7 +12,7 @@ public class SlashCommandOptionChoiceParsable implements ParsableConstructor<Com
     String value;
     
     @Override
-    public Command.Choice construct() {
+    public Command.Choice construct(Context context) {
         return new Command.Choice(name, value);
     }
 }

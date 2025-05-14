@@ -1,7 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables.embeds;
 
 import carpet.script.value.MapValue;
-import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
@@ -9,6 +8,7 @@ import net.dv8tion.jda.api.utils.FileUpload;
 import net.replaceitem.discarpet.script.parsable.DirectParsable;
 import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
+import net.replaceitem.discarpet.script.parsable.parsables.FileParsable;
 import net.replaceitem.discarpet.script.values.UserValue;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +19,7 @@ public class EmbedAuthorParsable implements DirectParsable {
     @OptionalField @Nullable
     String url;
     @OptionalField @Nullable
-    Value icon;
+    FileParsable.AbstractFile icon;
     
     @Nullable
     private FileUpload fileUpload = null;
@@ -27,10 +27,9 @@ public class EmbedAuthorParsable implements DirectParsable {
     public void apply(EmbedBuilder embedBuilder) {
         @Nullable String iconUrl = null; 
         if(icon != null) {
-            EmbedParsable.EmbedImage embedImage = EmbedParsable.handleImage(icon);
-            //noinspection resource
-            if(embedImage.fileUpload() != null) this.fileUpload = embedImage.fileUpload();
-            iconUrl = embedImage.url();
+            FileParsable.AttachableUrl attachableUrl = icon.asUrl();
+            attachableUrl.optAttachment().ifPresent(upload -> this.fileUpload = upload);
+            iconUrl = attachableUrl.url();
         }
         embedBuilder.setAuthor(name, url, iconUrl);
     }
@@ -40,7 +39,7 @@ public class EmbedAuthorParsable implements DirectParsable {
         if(value instanceof UserValue userValue) {
             User user = userValue.getDelegate();
             this.name = user.getName();
-            this.icon = StringValue.of(user.getEffectiveAvatarUrl());
+            this.icon = FileParsable.AbstractFile.ofUrl(user.getEffectiveAvatarUrl());
             return true;
         }
         if(!(value instanceof MapValue)) {

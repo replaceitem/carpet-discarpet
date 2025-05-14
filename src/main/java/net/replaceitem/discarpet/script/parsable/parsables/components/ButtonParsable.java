@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables.components;
 
+import carpet.script.Context;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
@@ -25,7 +26,7 @@ public class ButtonParsable implements ParsableConstructor<Button> {
     String url;
     
     @Override
-    public Button construct() {
+    public Button construct(Context context) {
         return Button.of(
                 style,
                 style == ButtonStyle.LINK ?

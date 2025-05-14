@@ -36,7 +36,7 @@ public class MessageContentParsable implements DirectParsable {
     @OptionalField
     List<Value> stickers = List.of();
     @OptionalField
-    List<EmbedParsable> embeds = List.of();
+    List<EmbedParsable.EmbedWithAttachments> embeds = List.of();
     @OptionalField
     List<List<ItemComponent>> components = List.of();
     @OptionalField @Nullable
@@ -78,7 +78,7 @@ public class MessageContentParsable implements DirectParsable {
         ).flatMap(Function.identity()).toList());
         
 
-        builder.setEmbeds(embeds.stream().map(EmbedParsable::construct).toList());
+        builder.setEmbeds(embeds.stream().map(AttachmentParsable.WithAttachments::getData).toList());
 
         builder.setComponents(components.stream().map(ActionRow::of).toList());
 

@@ -49,14 +49,14 @@ public class Interactions {
             case "message_context_menu" -> MessageContextMenuBuilderParsable.class;
             default -> throw new InternalExpressionException("Invalid application command type");
         };
-        ParsableConstructor<? extends CommandData> parsableConstructor = Parser.parseType(command, commandType);
+        ParsableConstructor<? extends CommandData> parsableConstructor = Parser.parseType(context, command, commandType);
         Guild server = ValueUtil.optionalArg(optionalServer);
         RestAction<Command> action;
         if(server == null) {
             Bot bot = Discarpet.getBotInContext(context, "dc_create_application_command");
-            action = bot.getJda().upsertCommand(parsableConstructor.construct());
+            action = bot.getJda().upsertCommand(parsableConstructor.construct(context));
         } else {
-            action = server.upsertCommand(parsableConstructor.construct());
+            action = server.upsertCommand(parsableConstructor.construct(context));
         }
         return CommandValue.of(ValueUtil.awaitRest(action, "Error creating application command"));        
     }
@@ -72,12 +72,12 @@ public class Interactions {
         RESPOND_LATER,
         RESPOND_MODAL,
         RESPOND_IMMEDIATELY,
-        RESPOND_FOLLOWUP;
+        RESPOND_FOLLOWUP
     }
     
     @ScarpetFunction(maxParams = 3)
     @Nullable("Only returns a message when an actual message was created during the response")
-    public Message dc_respond_interaction(InteractionValue<?> interactionValue, String responseTypeString, Optional<Value> data) {
+    public Message dc_respond_interaction(Context context, InteractionValue<?> interactionValue, String responseTypeString, Optional<Value> data) {
         GenericInteractionCreateEvent event = interactionValue.getDelegate();
         ResponseType responseType = ValueUtil.getEnum(ResponseType.class, responseTypeString).orElseThrow(() ->
                 new InternalExpressionException(
@@ -89,7 +89,7 @@ public class Interactions {
             case RESPOND_LATER -> {
                 if (!(event instanceof IReplyCallback replyCallback))
                     throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
-                RespondLaterDataParsable respondLaterParsable = data.map(d -> Parser.parseType(d, RespondLaterDataParsable.class)).orElseGet(RespondLaterDataParsable::new);
+                RespondLaterDataParsable respondLaterParsable = data.map(d -> Parser.parseType(context, d, RespondLaterDataParsable.class)).orElseGet(RespondLaterDataParsable::new);
                 ReplyCallbackAction replyCallbackAction = replyCallback.deferReply();
                 respondLaterParsable.apply(replyCallbackAction);
                 ValueUtil.awaitRest(replyCallbackAction, "Error sending 'respond_later' response to interaction");
@@ -100,15 +100,15 @@ public class Interactions {
                     throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
                 if (data.isEmpty())
                     throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + responseTypeString);
-                ModalParsable modalParsable = Parser.parseType(data.get(), ModalParsable.class);
-                Modal modal = modalParsable.construct();
+                ModalParsable modalParsable = Parser.parseType(context, data.get(), ModalParsable.class);
+                Modal modal = modalParsable.construct(context);
                 ValueUtil.awaitRest(modalCallback.replyModal(modal), "Could not reply with modal");
                 return null;
             }
             case RESPOND_IMMEDIATELY, RESPOND_FOLLOWUP -> {
                 if (data.isEmpty())
                     throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + responseTypeString);
-                MessageContentParsable messageContentParsable = Parser.parseType(data.get(), MessageContentParsable.class);
+                MessageContentParsable messageContentParsable = Parser.parseType(context, data.get(), MessageContentParsable.class);
                 if (!(event instanceof IReplyCallback replyCallback))
                     throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
                 if (responseType == ResponseType.RESPOND_IMMEDIATELY) {

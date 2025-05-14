@@ -20,6 +20,6 @@ public class Self {
     @ScarpetFunction
     public void dc_update_presence(Context ctx, Value presence) {
         Bot bot = Discarpet.getBotInContext(ctx,"dc_set_status");
-        Parser.parseType(presence, PresenceUpdaterParsable.class).apply(bot.getJda().getPresence());
+        Parser.parseType(ctx, presence, PresenceUpdaterParsable.class).apply(bot.getJda().getPresence());
     }
 }
