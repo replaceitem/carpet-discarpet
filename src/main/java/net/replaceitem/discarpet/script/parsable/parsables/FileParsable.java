@@ -44,6 +44,8 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
     String bytes;
     @OptionalField @Nullable
     Value image;
+    @OptionalField
+    String image_type = "png";
 
     
     private void validateFields() {
@@ -77,7 +79,7 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
             if(!ScarpetGraphicsDependency.isPixelAccessible(image)) throw new InternalExpressionException("Image needs to be an image or graphics value");
             BufferedImage bufferedImage = ScarpetGraphicsDependency.getImageFromValue(image);
             if(bufferedImage == null) throw new InternalExpressionException("Value is not an image value");
-            return AbstractFile.ofBufferedImage(bufferedImage);
+            return AbstractFile.ofBufferedImage(bufferedImage, image_type, Icon.IconType.fromExtension(image_type));
         }
         // should not get here, validated by validateFields()
         throw new IllegalStateException();
@@ -190,12 +192,12 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
             };
         }
 
-        static AbstractFile ofBufferedImage(BufferedImage bufferedImage) {
-            Supplier<InputStream> inputStreamSupplier = FileUtil.imageToInputStreamSupplier(bufferedImage, "png");
+        static AbstractFile ofBufferedImage(BufferedImage bufferedImage, String fileType, Icon.IconType iconType) {
+            Supplier<InputStream> inputStreamSupplier = FileUtil.imageToInputStreamSupplier(bufferedImage, fileType);
             return new AbstractFile() {
                 @Override
                 public FileUpload asFileUpload() {
-                    return FileUpload.fromStreamSupplier(FileUtil.randomName(), inputStreamSupplier);
+                    return FileUpload.fromStreamSupplier(FileUtil.randomName() + "." + fileType, inputStreamSupplier);
                 }
 
                 @Override
@@ -206,7 +208,7 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
                 @Override
                 public Icon asIcon() {
                     try {
-                        return Icon.from(inputStreamSupplier.get());
+                        return Icon.from(inputStreamSupplier.get(), iconType);
                     } catch (IOException e) {
                         throw new UncheckedIOException(e);
                     }
