@@ -22,7 +22,6 @@ Removes a role from a user.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
+Throws an exception on failure.
+* `api_exception`
 * `missing_permission`
-    * `50001` - You do not have "Manage Roles" permission
-    * `50013` - You may be trying to remove a role that is of higher hierachy

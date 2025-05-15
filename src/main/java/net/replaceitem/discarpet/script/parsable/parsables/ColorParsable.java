@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.parsable.parsables;
 
+import carpet.script.Context;
 import net.replaceitem.discarpet.script.parsable.DirectParsable;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
@@ -7,6 +8,7 @@ import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.ListValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.Color;
 import java.util.List;
@@ -28,18 +30,19 @@ public class ColorParsable implements ParsableConstructor<Color>, DirectParsable
             this.b = NumericValue.asNumber(list.get(2),"b").getInt();
             return true;
         }
-        if(value instanceof NumericValue numericValue) {
-            Color color = new Color(numericValue.getInt());
-            this.r = color.getRed();
-            this.g = color.getGreen();
-            this.b = color.getBlue();
-            return true;
-        }
         return false;
     }
 
     @Override
-    public Color construct() {
+    public Color construct(Context context) {
         return new Color(r,g,b);
+    }
+
+    @Override
+    public @Nullable Color tryCreateFromValueDirectly(Value value) {
+        if(value instanceof NumericValue numericValue) {
+            return new Color(numericValue.getInt());
+        }
+        return null;
     }
 }

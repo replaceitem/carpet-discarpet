@@ -25,12 +25,12 @@ component = {
 
 #### Component types
 
-|                    String | Description        |
-|--------------------------:|:-------------------|
-|                  `BUTTON` | Button             |
-|      `SELECT_MENU_STRING` | Select an item     |
-|        `SELECT_MENU_USER` | Select a user      |
-|        `SELECT_MENU_ROLE` | Select a role      |
-| `SELECT_MENU_MENTIONABLE` | Select a user/role |
-|     `SELECT_MENU_CHANNEL` | Select a channel   |
-|              `TEXT_INPUT` | Text input         |
+|               String | Description        |
+|---------------------:|:-------------------|
+|             `button` | Button             |
+|      `string_select` | Select an item     |
+|        `user_select` | Select a user      |
+|        `role_select` | Select a role      |
+| `mentionable_select` | Select a user/role |
+|     `channel_select` | Select a channel   |
+|         `text_input` | Text input         |

@@ -1,25 +1,23 @@
 package net.replaceitem.discarpet.script.parsable.parsables.components;
 
-import net.replaceitem.discarpet.script.parsable.Applicable;
+import carpet.script.Context;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.ItemComponent;
+import net.dv8tion.jda.api.interactions.modals.Modal;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
-import net.replaceitem.discarpet.script.util.ValueUtil;
-import org.javacord.api.entity.message.component.ActionRow;
-import org.javacord.api.entity.message.component.HighLevelComponent;
-import org.javacord.api.entity.message.component.LowLevelComponent;
-import org.javacord.api.interaction.InteractionBase;
+import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
 
 import java.util.List;
 
 @ParsableClass(name = "modal")
-public class ModalParsable implements Applicable<InteractionBase> {
+public class ModalParsable implements ParsableConstructor<Modal> {
     
     String id;
     String title;
-    List<List<LowLevelComponent>> components;
-    
+    List<List<ItemComponent>> components;
+
     @Override
-    public void apply(InteractionBase interactionBase) {
-        List<HighLevelComponent> highLevelComponents = components.stream().map(lowLevelComponents -> ((HighLevelComponent) ActionRow.of(lowLevelComponents))).toList();
-        ValueUtil.awaitFuture(interactionBase.respondWithModal(id, title, highLevelComponents),"Error sending 'respond_with_modal' response to interaction");
+    public Modal construct(Context context) {
+        return Modal.create(id, title).addComponents(components.stream().map(ActionRow::of).toList()).build();
     }
 }

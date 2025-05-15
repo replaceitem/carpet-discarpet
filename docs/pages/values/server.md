@@ -9,6 +9,7 @@ Represents a server.
 |-----------------:|:------------------------------------------------------------|:----------------------------------------------------------------------------------------------|
 |           `name` | String                                                      | The name of the server.                                                                       |
 |             `id` | String                                                      | The ID of the server.                                                                         |
+|        `members` | List of [Members](/values/member.md)                        | All users in this server.<br>(Requires the [`GUILD_MEMBERS`](/setup.md#using-intents) intent) |
 |          `users` | List of [Users](/values/user.md)                            | All users in this server.<br>(Requires the [`GUILD_MEMBERS`](/setup.md#using-intents) intent) |
 |       `channels` | List of [Channels](/values/channel.md)                      | All channels in this server.                                                                  |
 |          `roles` | List of [Roles](/values/role.md)                            | All roles in this server.                                                                     |

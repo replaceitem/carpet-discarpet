@@ -1,5 +1,7 @@
 package net.replaceitem.discarpet.script.values.common;
 
+import net.dv8tion.jda.api.requests.RestAction;
+
 public interface Renamable {
-    void rename(String name);
+    RestAction<?> rename(String name);
 }
