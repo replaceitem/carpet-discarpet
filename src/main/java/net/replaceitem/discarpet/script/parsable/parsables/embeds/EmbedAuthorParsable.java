@@ -39,7 +39,7 @@ public class EmbedAuthorParsable implements DirectParsable {
         if(value instanceof UserValue userValue) {
             User user = userValue.getDelegate();
             this.name = user.getName();
-            this.icon = FileParsable.AbstractFile.ofUrl(user.getEffectiveAvatarUrl());
+            this.icon = FileParsable.AbstractFile.ofUrl(user.getEffectiveAvatarUrl(), null);
             return true;
         }
         if(!(value instanceof MapValue)) {

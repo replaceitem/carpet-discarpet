@@ -25,9 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static carpet.script.argument.FileArgument.recognizeResource;
@@ -41,21 +39,24 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
     @OptionalField @Nullable
     String url;
     @OptionalField @Nullable
-    String bytes;
+    String string;
+    @OptionalField @Nullable
+    String base64;
     @OptionalField @Nullable
     Value image;
-    @OptionalField
-    String image_type = "png";
+    @OptionalField @Nullable
+    String image_type;
 
     
     private void validateFields() {
-        List<String> fields = new ArrayList<>(4);
+        List<String> fields = new ArrayList<>(5);
         if(file != null) fields.add("file");
         if(url != null) fields.add("url");
-        if(bytes != null) fields.add("bytes");
+        if(string != null) fields.add("string");
+        if(base64 != null) fields.add("base64");
         if(image != null) fields.add("image");
-        if(fields.isEmpty()) throw new InternalExpressionException("Expected either 'file', 'url', 'image' or 'bytes' value as an attachment");
-        if(fields.size() > 1) throw new InternalExpressionException("Expected only one of 'file', 'url', 'image' or 'bytes' value as an attachment, but got " + String.join(" and ", fields));
+        if(fields.isEmpty()) throw new InternalExpressionException("Expected either 'file', 'url', 'image', 'base64' or 'string' value as an attachment");
+        if(fields.size() > 1) throw new InternalExpressionException("Expected only one of 'file', 'url', 'image', 'base64' or 'string' value as an attachment, but got " + String.join(" and ", fields));
         if(file == null && file_shared) throw new InternalExpressionException("'file_shared' is only used when providing a 'file'");
     }
 
@@ -65,21 +66,28 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
         if (file != null) {
             Pair<String, String> resource = recognizeResource(file, false, FileArgument.Type.ANY);
             FileArgument fileArgument = new FileArgument(resource.getLeft(), FileArgument.Type.ANY, resource.getRight(), false, file_shared, FileArgument.Reason.READ, context.host);
-            return AbstractFile.ofFileArgument(context, fileArgument);
+            Icon.IconType iconType = image_type == null ? null : Icon.IconType.fromExtension(image_type);
+            return AbstractFile.ofFileArgument(context, fileArgument, iconType);
         }
         if (url != null) {
-           return AbstractFile.ofUrl(url);
+            Icon.IconType iconType = Icon.IconType.fromExtension(image_type != null ? image_type : Objects.requireNonNullElse(FileUtil.getExtension(url), "png"));
+            return AbstractFile.ofUrl(url, iconType);
         }
-        if (bytes != null) {
-            byte[] byteArr = bytes.getBytes(StandardCharsets.UTF_8);
-            return AbstractFile.ofBytes(byteArr);
+        if (string != null) {
+            byte[] byteArr = string.getBytes(StandardCharsets.UTF_8);
+            return AbstractFile.ofBytes(byteArr, Icon.IconType.fromExtension(Objects.requireNonNullElse(image_type, "png")));
+        }
+        if (base64 != null) {
+            byte[] byteArr = Base64.getDecoder().decode(base64);
+            return AbstractFile.ofBytes(byteArr, Icon.IconType.fromExtension(Objects.requireNonNullElse(image_type, "png")));
         }
         if(image != null) {
             if(!Discarpet.isScarpetGraphicsInstalled()) throw new InternalExpressionException("scarpet-graphics is not installed, but required for an image file upload");
             if(!ScarpetGraphicsDependency.isPixelAccessible(image)) throw new InternalExpressionException("Image needs to be an image or graphics value");
             BufferedImage bufferedImage = ScarpetGraphicsDependency.getImageFromValue(image);
             if(bufferedImage == null) throw new InternalExpressionException("Value is not an image value");
-            return AbstractFile.ofBufferedImage(bufferedImage, image_type, Icon.IconType.fromExtension(image_type));
+            Icon.IconType iconType = image_type == null ? Icon.IconType.PNG : Icon.IconType.fromExtension(image_type);
+            return AbstractFile.ofBufferedImage(bufferedImage, iconType);
         }
         // should not get here, validated by validateFields()
         throw new IllegalStateException();
@@ -127,7 +135,12 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
         AttachableUrl asUrl();
         Icon asIcon();
 
-        static AbstractFile ofFileArgument(Context context, FileArgument fileArgument) {
+        static AbstractFile ofFileArgument(Context context, FileArgument fileArgument, @Nullable Icon.IconType iconType) {
+            if(iconType == null) {
+                String extension = FileUtil.getExtension(fileArgument.resource);
+                iconType = extension == null ? Icon.IconType.PNG : Icon.IconType.fromExtension(extension);
+            }
+            Icon.IconType finalIconType = iconType;
             return new AbstractFile() {
                 @Override
                 public FileUpload asFileUpload() {
@@ -142,7 +155,7 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
                 @Override
                 public Icon asIcon() {
                     try {
-                        return Icon.from(FileUtil.inputStreamFromFileArgument(context, fileArgument));
+                        return Icon.from(FileUtil.inputStreamFromFileArgument(context, fileArgument), finalIconType);
                     } catch (IOException e) {
                         throw new UncheckedIOException(e);
                     }
@@ -150,7 +163,12 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
             };
         }
 
-        static AbstractFile ofUrl(String url) {
+        static AbstractFile ofUrl(String url, @Nullable Icon.IconType iconType) {
+            if(iconType == null) {
+                String extension = FileUtil.getExtension(url);
+                iconType = extension == null ? Icon.IconType.PNG : Icon.IconType.fromExtension(extension);
+            }
+            Icon.IconType finalIconType = iconType;
             return new AbstractFile() {
                 @Override
                 public FileUpload asFileUpload() {
@@ -165,7 +183,7 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
                 @Override
                 public Icon asIcon() {
                     try {
-                        return Icon.from(FileUtil.inputStreamFromUrl(url));
+                        return Icon.from(FileUtil.inputStreamFromUrl(url), finalIconType);
                     } catch (IOException e) {
                         throw new UncheckedIOException(e);
                     }
@@ -173,11 +191,11 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
             };
         }
 
-        static AbstractFile ofBytes(byte[] byteArr) {
+        static AbstractFile ofBytes(byte[] byteArr, @Nullable Icon.IconType iconType) {
             return new AbstractFile() {
                 @Override
                 public FileUpload asFileUpload() {
-                    return FileUpload.fromData(byteArr, FileUtil.randomName());
+                    return FileUpload.fromData(byteArr, FileUtil.randomName(iconType == null ? null : iconType.name().toLowerCase()));
                 }
 
                 @Override
@@ -187,17 +205,18 @@ public class FileParsable implements ParsableConstructor<FileParsable.AbstractFi
 
                 @Override
                 public Icon asIcon() {
-                    return Icon.from(byteArr);
+                    return Icon.from(byteArr, iconType == null ? Icon.IconType.PNG : iconType);
                 }
             };
         }
 
-        static AbstractFile ofBufferedImage(BufferedImage bufferedImage, String fileType, Icon.IconType iconType) {
-            Supplier<InputStream> inputStreamSupplier = FileUtil.imageToInputStreamSupplier(bufferedImage, fileType);
+        static AbstractFile ofBufferedImage(BufferedImage bufferedImage, Icon.IconType iconType) {
+            String fileExtension = iconType.name().toLowerCase();
+            Supplier<InputStream> inputStreamSupplier = FileUtil.imageToInputStreamSupplier(bufferedImage, fileExtension);
             return new AbstractFile() {
                 @Override
                 public FileUpload asFileUpload() {
-                    return FileUpload.fromStreamSupplier(FileUtil.randomName() + "." + fileType, inputStreamSupplier);
+                    return FileUpload.fromStreamSupplier(FileUtil.randomName(fileExtension), inputStreamSupplier);
                 }
 
                 @Override

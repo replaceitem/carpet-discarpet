@@ -7,17 +7,37 @@ import carpet.script.exception.InternalExpressionException;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.script.exception.DiscordThrowables;
+import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Supplier;
 
 public class FileUtil {
     public static String randomName() {
         return UUID.randomUUID().toString();
+    }
+    
+    public static String randomName(@Nullable String extension) {
+        return extension == null ? randomName() : randomName() + "." + extension;
+    }
+    
+    @Nullable
+    public static String getName(String path) {
+        String[] split = path.split("[/\\\\]+");
+        return split.length > 0 ? split[split.length - 1] : null;
+    }
+    
+    @Nullable
+    public static String getExtension(String path) {
+        String name = getName(path);
+        if(name == null) return null;
+        int i = name.lastIndexOf('.');
+        return i == -1 ? null : name.substring(i);
     }
     
     public static InputStream inputStreamFromUrl(String url) {
@@ -45,8 +65,7 @@ public class FileUtil {
     public static FileUpload fromUrl(String urlString) {
         try {
             URI uri = new URI(urlString);
-            String[] path = uri.getPath().split("/");
-            String name = path.length == 0 ? "unnamed" : path[path.length - 1];
+            String name = Objects.requireNonNullElse(getName(uri.getPath()), randomName());
             URL url = uri.toURL();
             return FileUpload.fromStreamSupplier(name, () -> inputStreamFromUrl(url));
         } catch (UncheckedIOException | URISyntaxException | MalformedURLException e) {
@@ -55,7 +74,7 @@ public class FileUtil {
     }
 
     public static FileUpload fromFileArgument(Context context, FileArgument fileArgument) {
-        String name = fileArgument.resource.substring(fileArgument.resource.lastIndexOf("/") + 1);
+        String name = Objects.requireNonNullElse(getName(fileArgument.resource), randomName());
         return FileUpload.fromStreamSupplier(name, () -> inputStreamFromFileArgument(context, fileArgument));
     }
     
