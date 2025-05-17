@@ -8,11 +8,9 @@ either by using a file, URL, or from a string that will be the raw data of the f
 
 ### {map:}
 
-|            Key | Type                                                                           | Description                             |
-|---------------:|:-------------------------------------------------------------------------------|:----------------------------------------|
-|    `file` {:?} | String                                                                         | The file path for attached file.        |
-|     `url` {:?} | String                                                                         | The URL of the file to attach.          |
-|   `bytes` {:?} | String                                                                         | The file's binary data.                 |
-|   `image` {:?} | Image from [Scarpet Graphics](https://github.com/replaceitem/scarpet-graphics) | The image to be sent as an attachment.  |
-|    `name` {:?} | String                                                                         | The file name if using `bytes`.         |
-| `spoiler` {:?} | Boolean                                                                        | Whether this attachment is a spoiler.   |
+|                Key | Type                       | Description                                                         |
+|-------------------:|:---------------------------|:--------------------------------------------------------------------|
+|             `file` | [File](/parsables/file.md) | The file to use for the attachment.                                 |
+|        `name` {:?} | String                     | The name of the attachment.                                         |
+| `description` {:?} | String                     | The description of the attachment. This is the alt-text for images. |
+|     `spoiler` {:?} | Boolean                    | Whether this attachment is marked as a spoiler.                     |

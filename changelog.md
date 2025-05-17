@@ -74,3 +74,13 @@
 * Removed `dc_get_user_roles` in favor of `member~'roles'`
 * Added `dc_update_presence()` to replace `dc_set_status()` and `dc_set_activity()`
 * Added `respond_later_data` parsable to third parameter of `dc_respond_interaction` when using type `respond_later` to specify ephemeral.
+* Added a new `file` parsable for specifying the source of a file
+  * It uses some of the same fields previously found in the `attachment` parsable
+  * The `file` field is now no longer a system file path, but a scarpet resource path, just like it is used in scarpet's `read_file`.
+  * `bytes` has been renamed to `string`
+  * `base64` was added as a way to provide data for the file
+  * This is now used for the following fields of parsables:
+    * `thumbnail` and `image` in `embed`
+    * `icon` in `embed_author` and `embed_footer`
+    * `avatar` in `webhook_profile` and `webhook_profile_updater`
+    * The `file`, `url`, `bytes` and `image` fields of the `attachment` field have been replaced with a single `file` field.
