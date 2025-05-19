@@ -37,6 +37,7 @@ public class MemberValue extends DiscordValue<Member> {
             case "is_boosting" -> BooleanValue.of(delegate.isBoosting());
             case "is_owner" -> BooleanValue.of(delegate.isOwner());
             case "is_pending" -> BooleanValue.of(delegate.isPending());
+            case "is_self" -> BooleanValue.of(delegate.getIdLong() == delegate.getJDA().getSelfUser().getIdLong());
             case "timeout_end" -> ValueUtil.ofTime(delegate.getTimeOutEnd());
             case "avatar_url" -> StringValue.of(delegate.getAvatarUrl());
             case "effective_avatar_url" -> StringValue.of(delegate.getEffectiveAvatarUrl());
