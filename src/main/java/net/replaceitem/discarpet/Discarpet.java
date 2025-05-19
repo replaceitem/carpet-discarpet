@@ -25,8 +25,8 @@ import net.replaceitem.discarpet.config.BotConfig;
 import net.replaceitem.discarpet.config.ConfigManager;
 import net.replaceitem.discarpet.script.events.DiscordEvents;
 import net.replaceitem.discarpet.script.events.MiscEvents;
+import net.replaceitem.discarpet.script.util.EnumUtil;
 import net.replaceitem.discarpet.script.util.Registration;
-import net.replaceitem.discarpet.script.util.ValueUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -107,7 +107,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 			String botId = botConfig.BOT_ID;
             try {
                 Set<GatewayIntent> intents = botConfig.INTENTS.stream()
-                        .map(s -> ValueUtil.getEnumOrThrow(GatewayIntent.class, s, "Unknown intent"))
+                        .map(s -> EnumUtil.getEnumOrThrow(GatewayIntent.class, s, "Unknown intent"))
                         .collect(Collectors.toSet());
 				
 				MemberCachePolicy memberCachePolicy = switch (botConfig.MEMBER_CACHE_POLICY.toLowerCase()) {

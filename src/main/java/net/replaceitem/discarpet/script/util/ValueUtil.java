@@ -1,6 +1,5 @@
 package net.replaceitem.discarpet.script.util;
 
-import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.BooleanValue;
 import carpet.script.value.NumericValue;
 import carpet.script.value.StringValue;
@@ -12,12 +11,10 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class ValueUtil {
@@ -90,22 +87,5 @@ public class ValueUtil {
 
     public static <T> @Nullable T optionalArg(T@Nullable[] array) {
         return optionalArg(array, 0);
-    }
-    
-    public static <T extends Enum<T>> Optional<T> getEnum(Class<T> enumClass, String name) {
-        for (T enumConstant : enumClass.getEnumConstants()) {
-            if(enumConstant.name().equalsIgnoreCase(name)) return Optional.of(enumConstant);
-        }
-        return Optional.empty();
-    }
-    
-    public static <T extends Enum<T>> T getEnumOrThrow(Class<T> enumClass, String name, String error) {
-        return getEnum(enumClass, name).orElseThrow(() ->
-                new InternalExpressionException("%s: Value %s is unknown, expected one of %s%s".formatted(error,
-                        enumClass.getSimpleName(),
-                        Arrays.stream(enumClass.getEnumConstants()).limit(8).map(type -> type.name().toLowerCase()).collect(Collectors.joining(", ")),
-                        enumClass.getEnumConstants().length > 8 ? ", ..." : "")
-                )
-        );
     }
 }

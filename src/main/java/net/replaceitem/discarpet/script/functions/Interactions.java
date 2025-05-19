@@ -29,6 +29,7 @@ import net.replaceitem.discarpet.script.parsable.parsables.commands.MessageConte
 import net.replaceitem.discarpet.script.parsable.parsables.commands.SlashCommandBuilderParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.commands.UserContextMenuBuilderParsable;
 import net.replaceitem.discarpet.script.parsable.parsables.components.ModalParsable;
+import net.replaceitem.discarpet.script.util.EnumUtil;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.CommandValue;
 import net.replaceitem.discarpet.script.values.interactions.InteractionValue;
@@ -53,7 +54,7 @@ public class Interactions {
     
     @ScarpetFunction(maxParams = 3)
     public Value dc_create_application_command(Context context, String typeString, Value command, Guild... optionalServer) {
-        ApplicationCommandType type = ValueUtil.getEnumOrThrow(ApplicationCommandType.class, typeString, "Invalid application command type for the first parameter of 'dc_create_application_command'");
+        ApplicationCommandType type = EnumUtil.getEnumOrThrow(ApplicationCommandType.class, typeString, "Invalid application command type for the first parameter of 'dc_create_application_command'");
         Class<? extends ParsableConstructor<? extends CommandData>> parsableClass = type.parsableClass;
         ParsableConstructor<? extends CommandData> parsableConstructor = Parser.parseType(context, command, parsableClass);
         Guild server = ValueUtil.optionalArg(optionalServer);
@@ -85,7 +86,7 @@ public class Interactions {
     @Nullable("Only returns a message when an actual message was created during the response")
     public Message dc_respond_interaction(Context context, InteractionValue<?> interactionValue, String responseTypeString, Optional<Value> data) {
         GenericInteractionCreateEvent event = interactionValue.getDelegate();
-        ResponseType responseType = ValueUtil.getEnumOrThrow(ResponseType.class, responseTypeString, "Invalid response type for 'dc_respond_interaction'");
+        ResponseType responseType = EnumUtil.getEnumOrThrow(ResponseType.class, responseTypeString, "Invalid response type for 'dc_respond_interaction'");
         switch (responseType) {
             case RESPOND_LATER -> {
                 if (!(event instanceof IReplyCallback replyCallback))
