@@ -10,13 +10,15 @@ import carpet.script.value.NumericValue;
 import carpet.script.value.Value;
 import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.mixins.SimpleTypeConverterAccessor;
+import net.replaceitem.discarpet.script.util.EnumUtil;
 import net.replaceitem.discarpet.script.util.MapValueUtil;
 
 import java.awt.*;
 import java.lang.reflect.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * This Parser is used to simplify the way parsable values are parsed from scarpet {@link MapValue}s to java classes.
@@ -176,13 +178,7 @@ public class Parser {
 
     private static <E extends Enum<E>> E parseEnum(Value value, Class<E> resultClass, String name) {
         String enumValue = value.getString();
-        try {
-            return Enum.valueOf(resultClass, enumValue.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            E[] enumConstants = resultClass.getEnumConstants();
-            String options = Arrays.stream(enumConstants).map(Object::toString).collect(Collectors.joining(", ")).toLowerCase();
-            throw new InternalExpressionException("'" + enumValue + "' is an invalid value for '" + name + "', has to be one of [" + options + "]");
-        }
+        return EnumUtil.getEnumOrThrow(resultClass, enumValue, "Invalid value for '" + name + "'");
     }
     
     private static void assignField(Context context, Map<Value, Value> map, Field field, Object parsedValue) {
