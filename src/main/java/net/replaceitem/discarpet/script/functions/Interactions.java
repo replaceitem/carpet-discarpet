@@ -34,22 +34,28 @@ import net.replaceitem.discarpet.script.values.CommandValue;
 import net.replaceitem.discarpet.script.values.interactions.InteractionValue;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
 public class Interactions {
+    private enum ApplicationCommandType {
+        SLASH_COMMAND(SlashCommandBuilderParsable.class),
+        USER_CONTEXT_MENU(UserContextMenuBuilderParsable.class),
+        MESSAGE_CONTEXT_MENU(MessageContextMenuBuilderParsable.class);
+
+        private final Class<? extends ParsableConstructor<? extends CommandData>> parsableClass;
+
+        ApplicationCommandType(Class<? extends ParsableConstructor<? extends CommandData>> parsableClass) {
+            this.parsableClass = parsableClass;
+        }
+    }
+    
     @ScarpetFunction(maxParams = 3)
-    public Value dc_create_application_command(Context context, String type, Value command, Guild... optionalServer) {
-        Class<? extends ParsableConstructor<? extends CommandData>> commandType = switch (type) {
-            case "slash_command" -> SlashCommandBuilderParsable.class;
-            case "user_context_menu" -> UserContextMenuBuilderParsable.class;
-            case "message_context_menu" -> MessageContextMenuBuilderParsable.class;
-            default -> throw new InternalExpressionException("Invalid application command type");
-        };
-        ParsableConstructor<? extends CommandData> parsableConstructor = Parser.parseType(context, command, commandType);
+    public Value dc_create_application_command(Context context, String typeString, Value command, Guild... optionalServer) {
+        ApplicationCommandType type = ValueUtil.getEnumOrThrow(ApplicationCommandType.class, typeString, "Invalid application command type for the first parameter of 'dc_create_application_command'");
+        Class<? extends ParsableConstructor<? extends CommandData>> parsableClass = type.parsableClass;
+        ParsableConstructor<? extends CommandData> parsableConstructor = Parser.parseType(context, command, parsableClass);
         Guild server = ValueUtil.optionalArg(optionalServer);
         RestAction<Command> action;
         if(server == null) {
@@ -79,12 +85,7 @@ public class Interactions {
     @Nullable("Only returns a message when an actual message was created during the response")
     public Message dc_respond_interaction(Context context, InteractionValue<?> interactionValue, String responseTypeString, Optional<Value> data) {
         GenericInteractionCreateEvent event = interactionValue.getDelegate();
-        ResponseType responseType = ValueUtil.getEnum(ResponseType.class, responseTypeString).orElseThrow(() ->
-                new InternalExpressionException(
-                        "invalid response type for 'dc_respond_interaction', expected one of " +
-                                Arrays.stream(ResponseType.values()).map(type -> type.name().toLowerCase()).collect(Collectors.joining(", "))
-                )
-        );
+        ResponseType responseType = ValueUtil.getEnumOrThrow(ResponseType.class, responseTypeString, "Invalid response type for 'dc_respond_interaction'");
         switch (responseType) {
             case RESPOND_LATER -> {
                 if (!(event instanceof IReplyCallback replyCallback))

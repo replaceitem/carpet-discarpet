@@ -107,10 +107,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 			String botId = botConfig.BOT_ID;
             try {
                 Set<GatewayIntent> intents = botConfig.INTENTS.stream()
-                        .map(s -> ValueUtil.getEnum(GatewayIntent.class, s)
-								.orElseThrow(() -> new IllegalArgumentException("Unknown intent: " + s))
-						)
-                        .filter(Objects::nonNull)
+                        .map(s -> ValueUtil.getEnumOrThrow(GatewayIntent.class, s, "Unknown intent"))
                         .collect(Collectors.toSet());
 				
 				MemberCachePolicy memberCachePolicy = switch (botConfig.MEMBER_CACHE_POLICY.toLowerCase()) {
