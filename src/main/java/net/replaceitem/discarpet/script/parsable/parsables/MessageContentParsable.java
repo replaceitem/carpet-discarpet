@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
+import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.dv8tion.jda.api.utils.messages.AbstractMessageBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -130,6 +131,8 @@ public class MessageContentParsable implements DirectParsable {
         if(ephemeral) {
             if(action instanceof WebhookMessageCreateAction<?> webhookMessageCreateAction) {
                 webhookMessageCreateAction.setEphemeral(true);
+            } else if (action instanceof ReplyCallbackAction replyCallbackAction) {
+                replyCallbackAction.setEphemeral(true);
             } else throw new InternalExpressionException("'ephemeral' is only supported for interaction replies");
         }
         
