@@ -19,7 +19,11 @@ public class EnumUtil {
                 new InternalExpressionException("%s: Value %s is unknown, expected one of %s%s".formatted(
                         error,
                         name,
-                        Arrays.stream(enumClass.getEnumConstants()).limit(8).map(type -> type.name().toLowerCase()).collect(Collectors.joining(", ")),
+                        Arrays.stream(enumClass.getEnumConstants())
+                                .limit(8)
+                                .map(type -> type.name().toLowerCase())
+                                .filter(n -> !n.equalsIgnoreCase("unknown"))
+                                .collect(Collectors.joining(", ")),
                         enumClass.getEnumConstants().length > 8 ? ", ..." : "")
                 )
         );
