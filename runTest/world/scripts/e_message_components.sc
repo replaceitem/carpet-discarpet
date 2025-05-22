@@ -12,35 +12,35 @@ task(_() -> (
         {
             'component' -> 'button',
             'id' -> 'red_button',
-            'style' -> 'red',
+            'style' -> 'danger',
             'label' -> 'Red button',
             'emoji' -> '✖️'
         },
         {
             'component' -> 'button',
             'id' -> 'blurple_button',
-            'style' -> 'blurple',
+            'style' -> 'primary',
             'label' -> 'Blurple button',
             'emoji' -> '🚪'
         },
         {
             'component' -> 'button',
             'id' -> 'green_button',
-            'style' -> 'green',
+            'style' -> 'success',
             'label' -> 'Green button',
             'emoji' -> '👑'
         },
         {
             'component' -> 'button',
             'id' -> 'grey_button',
-            'style' -> 'grey',
+            'style' -> 'secondary',
             'label' -> 'Grey button',
             'emoji' -> '📧'
         },
         {
             'component' -> 'button',
             // 'id' is not required
-            'style' -> 'url',
+            'style' -> 'link',
             'label' -> 'Open replaceitem\'s github',
             'emoji' -> '🌐',
             'url' -> 'https://github.com/replaceitem'
@@ -48,7 +48,7 @@ task(_() -> (
     ];
 
     select_string_component = [{
-        'component' -> 'select_menu_string',
+        'component' -> 'string_select',
         'id' -> 'select_string',
         'placeholder' -> 'Select at least 2 items here',
         'min' -> 2,
@@ -88,25 +88,25 @@ task(_() -> (
     }];
 
     select_user_component = [{
-        'component' -> 'select_menu_user',
+        'component' -> 'user_select',
         'id' -> 'select_user',
         'placeholder' -> 'Pick a user'
     }];
 
     select_role_component = [{
-        'component' -> 'select_menu_role',
+        'component' -> 'role_select',
         'id' -> 'select_role',
         'placeholder' -> 'Pick a role'
     }];
 
     select_mentionable_component = [{
-        'component' -> 'select_menu_mentionable',
+        'component' -> 'mentionable_select',
         'id' -> 'select_mentionable',
         'placeholder' -> 'Pick a mentionable'
     }];
 
     select_channel_component = [{
-        'component' -> 'select_menu_channel',
+        'component' -> 'channel_select',
         'id' -> 'select_channel',
         'placeholder' -> 'Pick a channel'
     }];

@@ -11,10 +11,14 @@ dc_send_message(channel, {
     'content' -> '',
     'attachments' -> [
         {
-            'url' -> 'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png'
+            'file' -> {
+                'url' -> 'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png'
+            },
         },
         {
-            'bytes' -> 'Hello world!',
+            'file' -> {
+                'string' -> 'Hello world!',
+            },
             'name' -> 'Message.txt'
         }
     ]

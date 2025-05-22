@@ -12,20 +12,20 @@ task(_() -> (
     message = dc_send_message(global_channel, 'React with 🟩 to accept or 🟥 to deny');
     global_msg_id = message~'id';
 
-    dc_react(message, '🟩');
-    dc_react(message, '🟥');
+    dc_add_reaction(message, '🟩');
+    dc_add_reaction(message, '🟥');
 ));
 
-__on_discord_reaction(reaction, user, added) -> (
+__on_discord_reaction(reaction, member, added) -> (
     // ignore reactions from itself
-    if (user~'is_self', return());
+    if (member~'is_self', return());
 
     // if from the same message, send the action
-    if (reaction~'message'~'id' == global_msg_id,
+    if (reaction~'message_id' == global_msg_id,
         action = if (added, 'voted with', 'removed their vote for');
-        task(_(outer(reaction), outer(user), outer(action)) -> (
-            dc_send_message(reaction~'message'~'channel',
-                str('%s %s %s', user~'name', action, reaction~'emoji'~'unicode'));
+        task(_(outer(reaction), outer(member), outer(action)) -> (
+            dc_send_message(reaction~'channel',
+                str('%s %s %s', member~'effective_name', action, reaction~'emoji'~'unicode'));
         ));
     );
 );

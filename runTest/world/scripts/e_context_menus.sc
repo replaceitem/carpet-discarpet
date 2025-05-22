@@ -12,15 +12,15 @@ initialize_commands() -> (
         if (command_value_type ~ '_context_menu', dc_delete(_));
     );
 
-    global_set_prefix_cmd = dc_create_application_command('USER_CONTEXT_MENU', {
+    global_set_prefix_cmd = dc_create_application_command('user_context_menu', {
         'name' -> 'Set prefix'
     });
 
-    global_reset_prefix_cmd = dc_create_application_command('USER_CONTEXT_MENU', {
+    global_reset_prefix_cmd = dc_create_application_command('user_context_menu', {
         'name' -> 'Reset prefix'
     });
 
-    global_delete_cmd = dc_create_application_command('MESSAGE_CONTEXT_MENU',{
+    global_delete_cmd = dc_create_application_command('message_context_menu',{
         'name' -> 'Delete in 10 seconds'
     });
 );
