@@ -12,19 +12,22 @@ __on_discord_message(message) -> (
     // make sure to only bridge messages from our channel
     if (message~'channel'~'id' != global_channel~'id', return());
 
-    // ignore messages without a user (e.g. interactions)
-    if (message~'user' == null, return());
+    // get server member that sent the message
+    author = message~'member';
+
+    // ignore messages without a member (e.g. interactions)
+    if (author == null, return());
 
     // ignore messages by the bot itself
-    if (message~'user'~'is_self', return()); 
+    if (author~'is_self', return()); 
 
-    // get user details
-    name = dc_get_display_name(message~'user', message~'server');
-    color = dc_get_user_color(message~'user', message~'server') || '#FFFFFF';
+    // get member details
+    name = author~'effective_name';
+    color = author~'color' || '#FFFFFF';
 
     // format the message
     mc_message = format(str('%s [%s]', color, name));
-    mc_message += format(str('w \ %s', message~'readable_content'));
+    mc_message += format(str('w  %s', message~'readable_content'));
 
     print(player('all'), mc_message);
 );
@@ -39,11 +42,11 @@ __on_system_message(text, type) -> (
 
 // parse pings from mc -> dc
 parse_mentions(message, server) -> (
-    for (server~'users',
+    for (server~'members',
         message = replace(
             message,
-            '@' + dc_get_display_name(_, server),
-            _~'mention_tag'
+            '@' + _~'effective_name',
+            _~'user'~'mention_tag'
         );
     );
     return (message);

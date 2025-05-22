@@ -7,12 +7,13 @@ __config() -> {
 
 global_log = dc_channel_from_id(env('channelId'));
 
-__on_player_interacts_with_block(player, hand, block, face, hitvec) -> (
+__on_player_right_clicks_block(player, item_tuple, hand, block, face, hitvec) -> (
     // warn when player opens chest/barrel/shulkerbox
-    if (['chest', 'barrel', 'shulker_box']~block != null, 
-        task(_(outer(player), outer(block)) -> (
+    if (['chest', 'barrel', 'shulker_box']~block != null,
+        dimension = current_dimension(); 
+        task(_(outer(player), outer(block), outer(dimension)) -> (
             dc_send_message(global_log,
-                str(':warning: %s opened %s at %s in %s', player, block, pos(block), current_dimension() ));
+                str(':warning: %s opened %s at %s in %s', player, block, pos(block), dimension));
         ));
     );
 );

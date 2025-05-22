@@ -8,14 +8,14 @@ __config() -> {
 global_channel = dc_channel_from_id(env('channelId'));
 
 send_modal(int) -> (
-    dc_respond_interaction(int, 'RESPOND_MODAL', {
+    dc_respond_interaction(int, 'respond_modal', {
         'id' -> 'my_modal',
         'title' -> 'A Custom Modal',
         'components' -> [
             [{
-                'component' -> 'TEXT_INPUT',
+                'component' -> 'text_input',
                 'id' -> 'name_input',
-                'style' -> 'SHORT',
+                'style' -> 'short',
                 'label' -> 'What\'s your name?',
                 'min_length' -> 3,
                 'max_length' -> 32,
@@ -23,9 +23,9 @@ send_modal(int) -> (
                 'placeholder' -> 'Put your name here'
             }],
             [{
-                'component' -> 'TEXT_INPUT',
+                'component' -> 'text_input',
                 'id' -> 'age_input',
-                'style' -> 'SHORT',
+                'style' -> 'short',
                 'label' -> 'How old are you?',
                 'min_length' -> 1,
                 'max_length' -> 3,
@@ -33,9 +33,9 @@ send_modal(int) -> (
                 'placeholder' -> 'Enter a number'
             }],
             [{
-                'component' -> 'TEXT_INPUT',
+                'component' -> 'text_input',
                 'id' -> 'introduction_input',
-                'style' -> 'PARAGRAPH',
+                'style' -> 'paragraph',
                 'label' -> 'Introduce yourself',
                 'required' -> false,
                 'value' -> 'Hello, I am'
@@ -50,7 +50,7 @@ task(_() -> (
         'components' -> [
             [{
                 'id' -> 'modal_btn',
-                'component' -> 'BUTTON',
+                'component' -> 'button',
                 'label' -> 'Open modal'
             }]
         ]
@@ -68,7 +68,7 @@ __on_discord_button(int) -> (
 __on_discord_modal(interaction) -> (
     input = interaction~'input_values_by_id';
 
-    dc_respond_interaction(interaction, 'RESPOND_IMMEDIATELY', {
+    dc_respond_interaction(interaction, 'respond_immediately', {
         'content' -> {
             'name' -> input:'name_input',
             'age' -> input:'age_input',
