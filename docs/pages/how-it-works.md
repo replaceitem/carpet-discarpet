@@ -52,12 +52,12 @@ Those properties and their types are listed in the documentation of each parsabl
 
 As an example, a parsable with these properties:
 
-|      Key | Type    | Description                                               |
-|---------:|:--------|:----------------------------------------------------------|
-|   `name` | String  | The name of the player.                                   |
-|     `id` | String  | The ID of the player.                                     |
-|   `size` | Number  | The size of the player.                                   |
-| `hidden` | Boolean | Whether if this player is hidden.<br>(`false` by default) |
+|      Key | Type    | Description                                              |
+|---------:|:--------|:---------------------------------------------------------|
+|   `name` | String  | The name of the player.                                  |
+|     `id` | String  | The ID of the player.                                    |
+|   `size` | Number  | The size of the player.                                  |
+| `hidden` | Boolean | Whether this player is hidden.<br>(`false` by default)   |
 
 would look like this:
 
@@ -90,16 +90,14 @@ All Discarpet exceptions can be caught under `discord_exception` using the
 <br>(Base scarpet exception)
     * `discord_exception`
     <br>(Base Discarpet exception)
-        * `missing_intent`
-        <br>You do not have the intent to do that
         * `api_exception`
-        <br>(General exception for requests to the Discord API)
-            * `missing_permission`
-            <br>You do not have the permission to do that
-            * `rate_limit`
-            <br>You sent too many requests within a short timespan[^1]
-            * `bad_request`
-            <br>You sent data that Discord considers as invalid
+        <br>The discord api replied that this request has failed
+        * `missing_permission`
+        <br>You do not have the permission to do that
+        * `rate_limit`
+        <br>You sent too many requests within a short timespan[^1]
+        * `http_exception`
+        <br>The request failed before reaching the discord api
 
 
 ### Accessing exceptions
@@ -114,31 +112,42 @@ test() -> (
 try(test(), 'discord_exception', print(_));
 ```
 
-Let's pretend the message failed to send for some reason.
-Here's what the exception format looks like:
+#### `api_exception`
 
-```sc title="Example exception value"
+For the `api_exception` type, the exception value is a map of details about the error:
+
+* `message` - The message for the `code`
+* `code` - The Discord status code according to
+  [this list](https://discord.com/developers/docs/topics/opcodes-and-status-codes#http).
+* `body` - The contents of the HTTP response body directly from discord.
+
+```sc title="Example api_exception exception value"
 {
-    'code' -> 403,
+    'code' -> 400,
+    'message' -> '...',
     'body' -> {
-        'code' -> 50013,
-        'message' -> 'Missing Permissions'
+        ...
     }
 }
 ```
 
-#### Structure:
+#### `missing_permission`
 
-* `code` - The Discord HTTP status code according to
-  [this list](https://discord.com/developers/docs/topics/opcodes-and-status-codes#http).
-* `body` - The contents of the error.
-    * `code` - The Discord JSON status code according to
-    [this list](https://discord.com/developers/docs/topics/opcodes-and-status-codes#json).
-    * `message` - The error string provided by the response.
+For the `missing_permission` type, the exception value is a map of details about the error:
 
-An `api_exception` can have additional information that you can access from the `body`.
+* `message` - The message of the exception
+* `permission` - The [permission name](https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags) that was missing
+* `server` - The server id where the permission was missing.
+* `channel` - The channel id where the permission was missing.
 
-
+```sc title="Example api_exception exception value"
+{
+    'code' -> 400,
+    'message' -> '...',
+    'server' -> '012345678901234567',
+    'channel' -> '123456789012345678',
+}
+```
 
 ## Blocking functions and properties
 

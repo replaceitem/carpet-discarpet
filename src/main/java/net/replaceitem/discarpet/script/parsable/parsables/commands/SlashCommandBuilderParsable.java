@@ -1,28 +1,30 @@
 package net.replaceitem.discarpet.script.parsable.parsables.commands;
 
-import net.replaceitem.discarpet.script.parsable.Optional;
+import carpet.script.Context;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
 import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
-import org.javacord.api.interaction.SlashCommandBuilder;
-import org.javacord.api.interaction.SlashCommandOption;
 
 import java.util.List;
 
 @ParsableClass(name = "slash_command_builder")
-public class SlashCommandBuilderParsable implements ParsableConstructor<SlashCommandBuilder> {
+public class SlashCommandBuilderParsable implements ParsableConstructor<SlashCommandData> {
 
     String name;
     String description;
-    @Optional List<SlashCommandOption> options = List.of();
+    @OptionalField
+    List<SlashCommandOptionParsable.SlashCommandOptionUnion> options = List.of();
 
     @Override
-    public SlashCommandBuilder construct() {
-        SlashCommandBuilder slashCommandBuilder = new SlashCommandBuilder();
-        
-        slashCommandBuilder.setName(name);
-        slashCommandBuilder.setDescription(description);
-        slashCommandBuilder.setOptions(options);
-        
-        return slashCommandBuilder;
+    public SlashCommandData construct(Context context) {
+        SlashCommandData slash = Commands.slash(name, description);
+        for (SlashCommandOptionParsable.SlashCommandOptionUnion option : options) {
+            option.asOption().ifPresent(slash::addOptions);
+            option.asSubcommand().ifPresent(slash::addSubcommands);
+            option.asSubcommandGroup().ifPresent(slash::addSubcommandGroups);
+        }
+        return slash;
     }
 }

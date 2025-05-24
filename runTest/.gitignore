@@ -1,0 +1,5 @@
+*
+!world/
+!world/scripts/
+!world/scripts/**
+!world/carpet.conf

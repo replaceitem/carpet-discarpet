@@ -7,20 +7,20 @@ Sends a response to an interaction.
 
 ### {input:}
 
-|      Parameter | Type                                                   | Description                                     |
-|---------------:|:-------------------------------------------------------|:------------------------------------------------|
-|  `interaction` | Any [interaction](/values/interactions/interaction.md) | The interaction to respond to.                  |
-|         `type` | String                                                 | The [type](#response-types) of response to use. |
-| `content` {:?} | [(See response types)](#response-types)                | The content of the response.                    |
+|      Parameter | Type                                                   | Description                                        |
+|---------------:|:-------------------------------------------------------|:---------------------------------------------------|
+|  `interaction` | Any [interaction](/values/interactions/interaction.md) | The interaction to respond to.                     |
+|         `type` | String                                                 | The [type](#response-types) of response to use.    |
+| `content` {:?} | [(See response types)](#response-types)                | The data of the response, depending on the `type`. |
 
 #### Response types
 
-|                String | Description                                                                                                                                                                                               |
-|----------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|       `RESPOND_LATER` | Tells that the interaction was received, and a response will come later.<br>You will then need to send a `RESPOND_FOLLOWUP` response within 15 minutes.<br>This does not require the `content` parameter. |
-| `RESPOND_IMMEDIATELY` | Sends an immediate response which has to come within 3 seconds.<br>The `content` parameter requires a [Message content](/parsables/message-content.md) for this.                                          |
-|    `RESPOND_FOLLOWUP` | Sends a followup response for `RESPOND_LATER`.<br>The `content` parameter requires a [Message content](/parsables/message-content.md) for this.                                                           |
-|       `RESPOND_MODAL` | Opens a modal for the user.<br>The `content` parameter requires a [Modal parsable](/parsables/modal.md) for this.                                                                                         |
+|                String | Description                                                                                                                                                                                                                                                   |
+|----------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|       `respond_later` | Tells that the interaction was received, and a response will come later.<br>You will then need to send a `RESPOND_FOLLOWUP` response within 15 minutes.<br>The `content` parameter optionally accepts [Respond Later Data](/parsables/respond-later-data.md). |
+| `respond_immediately` | Sends an immediate response which has to come within 3 seconds.<br>The `content` parameter requires a [Message content](/parsables/message-content.md) for this.                                                                                              |
+|    `respond_followup` | Sends a followup response for `RESPOND_LATER`.<br>The `content` parameter requires a [Message content](/parsables/message-content.md) for this.                                                                                                               |
+|       `respond_modal` | Opens a modal for the user.<br>The `content` parameter requires a [Modal parsable](/parsables/modal.md) for this.                                                                                                                                             |
 
 
 ### {output:}
@@ -28,7 +28,7 @@ Sends a response to an interaction.
 #### {output values:}
 
 * Null, if successful.
-* The [message](/values/message.md) that was sent, if using the `RESPOND_FOLLOWUP` type.
+* The [message](/values/message.md) that was sent, if using the `respond_followup` or `respond_immediately` type.
 
 #### {output exceptions:}
 

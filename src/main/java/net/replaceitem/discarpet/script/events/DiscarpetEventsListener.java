@@ -1,46 +1,28 @@
 package net.replaceitem.discarpet.script.events;
 
 import carpet.CarpetServer;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.minecraft.server.ServerTask;
 import net.replaceitem.discarpet.config.Bot;
-import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.message.Reaction;
-import org.javacord.api.entity.server.Server;
-import org.javacord.api.entity.user.User;
-import org.javacord.api.event.interaction.*;
-import org.javacord.api.event.message.MessageCreateEvent;
-import org.javacord.api.event.message.MessageDeleteEvent;
-import org.javacord.api.event.message.MessageEditEvent;
-import org.javacord.api.event.message.reaction.ReactionAddEvent;
-import org.javacord.api.event.message.reaction.ReactionRemoveEvent;
-import org.javacord.api.event.server.member.ServerMemberJoinEvent;
-import org.javacord.api.event.server.member.ServerMemberLeaveEvent;
-import org.javacord.api.interaction.*;
-import org.javacord.api.listener.interaction.*;
-import org.javacord.api.listener.message.MessageCreateListener;
-import org.javacord.api.listener.message.MessageDeleteListener;
-import org.javacord.api.listener.message.MessageEditListener;
-import org.javacord.api.listener.message.reaction.ReactionAddListener;
-import org.javacord.api.listener.message.reaction.ReactionRemoveListener;
-import org.javacord.api.listener.server.member.ServerMemberJoinListener;
-import org.javacord.api.listener.server.member.ServerMemberLeaveListener;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-
-public class DiscarpetEventsListener implements
-        MessageCreateListener,
-        MessageEditListener,
-        MessageDeleteListener,
-        ReactionAddListener,
-        ReactionRemoveListener,
-        SlashCommandCreateListener,
-        MessageComponentCreateListener,
-        ModalSubmitListener,
-        MessageContextMenuCommandListener,
-        UserContextMenuCommandListener,
-        ServerMemberJoinListener,
-        ServerMemberLeaveListener
-{
+public class DiscarpetEventsListener extends ListenerAdapter {
     
     protected final Bot bot;
     
@@ -49,94 +31,81 @@ public class DiscarpetEventsListener implements
     }
 
     @Override
-    public void onMessageCreate(MessageCreateEvent event) {
-        final Message message = event.getMessage();
-        callEventOnGameThread(() -> DiscordEvents.DISCORD_MESSAGE.run(bot,message));
+    public void onMessageReceived(MessageReceivedEvent event) {
+        Message message = event.getMessage();
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_MESSAGE.run(bot, message));
     }
 
     @Override
-    public void onMessageEdit(MessageEditEvent event) {
-        final Message message = event.getMessage();
-        final Optional<Message> oldMessage = event.getOldMessage();
-        final boolean isActualEdit = event.isActualEdit();
-        callEventOnGameThread(() -> DiscordEvents.DISCORD_MESSAGE_EDIT.run(bot,message, oldMessage, isActualEdit));
+    public void onMessageUpdate(MessageUpdateEvent event) {
+        Message message = event.getMessage();
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_MESSAGE_EDIT.run(bot, message));
     }
 
     @Override
     public void onMessageDelete(MessageDeleteEvent event) {
-        final Optional<Message> message = event.getMessage();
-        callEventOnGameThread(() -> DiscordEvents.DISCORD_MESSAGE_DELETE.run(bot,message));
+        String messageId = event.getMessageId();
+        MessageChannelUnion channel = event.getChannel();
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_MESSAGE_DELETE.run(bot, messageId, channel));
     }
 
     @Override
-    public void onReactionAdd(ReactionAddEvent event) {
-        Optional<Reaction> optionalReaction = event.getReaction();
-        if(optionalReaction.isPresent()) {
-            Reaction reaction = optionalReaction.get();
-            event.requestUser().thenAccept(user -> 
-                    callEventOnGameThread(() -> DiscordEvents.DISCORD_REACTION.run(bot, reaction, user, true)));
-        }
+    public void onMessageReactionAdd(MessageReactionAddEvent event) {
+        MessageReaction reaction = event.getReaction();
+        event.retrieveMember().queue(member -> 
+                callEventOnGameThread(() -> DiscordEvents.DISCORD_REACTION.run(bot, reaction, member, true))
+        );
     }
 
     @Override
-    public void onReactionRemove(ReactionRemoveEvent event) {
-        Optional<Reaction> optionalReaction = event.getReaction();
-        if(optionalReaction.isPresent()) {
-            Reaction reaction = optionalReaction.get();
-            event.requestUser().thenAccept(user -> 
-                    callEventOnGameThread(() -> DiscordEvents.DISCORD_REACTION.run(bot, reaction, user, false)));
-        }
+    public void onMessageReactionRemove(MessageReactionRemoveEvent event) {
+        MessageReaction reaction = event.getReaction();
+        event.retrieveMember().queue(member -> 
+                callEventOnGameThread(() -> DiscordEvents.DISCORD_REACTION.run(bot, reaction, member, false))
+        );
     }
 
     @Override
-    public void onSlashCommandCreate(SlashCommandCreateEvent event) {
-        final SlashCommandInteraction slashCommandInteraction = event.getSlashCommandInteraction();
-        callEventOnGameThread(() -> DiscordEvents.DISCORD_SLASH_COMMAND.run(bot, slashCommandInteraction));
+    public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_SLASH_COMMAND.run(bot, event));
     }
 
     @Override
-    public void onComponentCreate(MessageComponentCreateEvent event) {
-        MessageComponentInteraction messageComponentInteraction = event.getMessageComponentInteraction();
-
-        if(messageComponentInteraction.asButtonInteraction().isPresent()) {
-            final ButtonInteraction buttonInteraction = messageComponentInteraction.asButtonInteraction().get();
+    public void onGenericComponentInteractionCreate(@NotNull GenericComponentInteractionCreateEvent event) {
+        if(event instanceof ButtonInteractionEvent buttonInteraction) {
             callEventOnGameThread(() -> DiscordEvents.DISCORD_BUTTON.run(bot, buttonInteraction));
-        } else if(messageComponentInteraction.asSelectMenuInteraction().isPresent()) {
-            final SelectMenuInteraction selectMenuInteraction = messageComponentInteraction.asSelectMenuInteraction().get();
+        } else if(event instanceof GenericSelectMenuInteractionEvent<?,?> selectMenuInteraction) {
             callEventOnGameThread(() -> DiscordEvents.DISCORD_SELECT_MENU.run(bot, selectMenuInteraction));
         }
     }
 
     @Override
-    public void onModalSubmit(ModalSubmitEvent event) {
-        final ModalInteraction modalInteraction = event.getModalInteraction();
-        callEventOnGameThread(() -> DiscordEvents.DISCORD_MODAL.run(bot, modalInteraction));
+    public void onModalInteraction(@NotNull ModalInteractionEvent event) {
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_MODAL.run(bot, event));
     }
 
     @Override
-    public void onMessageContextMenuCommand(MessageContextMenuCommandEvent event) {
-        final MessageContextMenuInteraction messageContextMenuInteraction = event.getMessageContextMenuInteraction();
-        callEventOnGameThread(() -> DiscordEvents.DISCORD_MESSAGE_CONTEXT_MENU.run(bot, messageContextMenuInteraction));
+    public void onMessageContextInteraction(@NotNull MessageContextInteractionEvent event) {
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_MESSAGE_CONTEXT_MENU.run(bot, event));
     }
 
     @Override
-    public void onUserContextMenuCommand(UserContextMenuCommandEvent event) {
-        final UserContextMenuInteraction userContextMenuInteraction = event.getUserContextMenuInteraction();
-        callEventOnGameThread(() -> DiscordEvents.DISCORD_USER_CONTEXT_MENU.run(bot, userContextMenuInteraction));
+    public void onUserContextInteraction(@NotNull UserContextInteractionEvent event) {
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_USER_CONTEXT_MENU.run(bot, event));
     }
 
     @Override
-    public void onServerMemberJoin(ServerMemberJoinEvent event) {
-        final Server server = event.getServer();
-        final User user = event.getUser();
-        callEventOnGameThread(() -> DiscordEvents.DISCORD_SERVER_MEMBER_JOIN.run(bot, server, user));
+    public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
+        Guild guild = event.getGuild();
+        Member member = event.getMember();
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_SERVER_MEMBER_JOIN.run(bot, guild, member));
     }
 
     @Override
-    public void onServerMemberLeave(ServerMemberLeaveEvent event) {
-        final Server server = event.getServer();
-        final User user = event.getUser();
-        callEventOnGameThread(() -> DiscordEvents.DISCORD_SERVER_MEMBER_LEAVE.run(bot, server, user));
+    public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
+        Guild guild = event.getGuild();
+        User user = event.getUser();
+        callEventOnGameThread(() -> DiscordEvents.DISCORD_SERVER_MEMBER_LEAVE.run(bot, guild, user));
     }
 
     private static void callEventOnGameThread(Runnable runnable) {

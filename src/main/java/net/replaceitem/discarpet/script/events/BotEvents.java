@@ -9,6 +9,7 @@ import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.config.Bot;
 import net.replaceitem.discarpet.mixins.CallbackListAccessor;
 import net.replaceitem.discarpet.script.util.ValueConversions;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,11 +20,11 @@ public class BotEvents extends CarpetEventServer.Event {
         super(name, reqArgs, isGlobalOnly);
     }
     
-    protected Supplier<List<Value>> convertParameters(Object... params) {
+    protected Supplier<List<Value>> convertParameters(@Nullable Object... params) {
         return () -> Arrays.stream(params).map(ValueConversions::toValue).toList();
     }
 
-    protected void runBotEvent(Bot bot, Object... params) {
+    protected void runBotEvent(Bot bot, @Nullable Object... params) {
         callHandlerInBotApps(bot, convertParameters(params));
     }
     
@@ -46,7 +47,7 @@ public class BotEvents extends CarpetEventServer.Event {
             super(name, 1, false);
         }
         
-        public void run(Bot bot, A a) {
+        public void run(Bot bot, @Nullable A a) {
             runBotEvent(bot, a);
         }
     }
@@ -55,7 +56,7 @@ public class BotEvents extends CarpetEventServer.Event {
             super(name, 2, false);
         }
         
-        public void run(Bot bot, A a, B b) {
+        public void run(Bot bot, @Nullable A a, @Nullable B b) {
             runBotEvent(bot, a, b);
         }
     }
@@ -64,7 +65,7 @@ public class BotEvents extends CarpetEventServer.Event {
             super(name, 3, false);
         }
 
-        public void run(Bot bot, A a, B b, C c) {
+        public void run(Bot bot, @Nullable A a, @Nullable B b, @Nullable C c) {
             runBotEvent(bot, a, b, c);
         }
     }

@@ -1,17 +1,16 @@
 package net.replaceitem.discarpet.script.parsable.parsables.embeds;
 
-import net.replaceitem.discarpet.script.parsable.Applicable;
-import net.replaceitem.discarpet.script.parsable.Optional;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 @ParsableClass(name = "embed_field")
-public class EmbedFieldParsable implements Applicable<EmbedBuilder> {
+public class EmbedFieldParsable {
     String name;
     String value;
-    @Optional Boolean inline = false;
+    @OptionalField
+    Boolean inline = false;
     
-    @Override
     public void apply(EmbedBuilder embedBuilder) {
         embedBuilder.addField(name, value, inline);
     }

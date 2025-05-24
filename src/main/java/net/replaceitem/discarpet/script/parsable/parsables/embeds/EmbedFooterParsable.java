@@ -1,37 +1,34 @@
 package net.replaceitem.discarpet.script.parsable.parsables.embeds;
 
-import net.replaceitem.discarpet.Discarpet;
-import net.replaceitem.discarpet.script.parsable.Applicable;
-import net.replaceitem.discarpet.script.parsable.Optional;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.utils.FileUpload;
+import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
-import net.replaceitem.discarpet.script.util.ScarpetGraphicsDependency;
-import carpet.script.value.Value;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
-
-import java.awt.image.BufferedImage;
-import java.io.File;
+import net.replaceitem.discarpet.script.parsable.parsables.FileParsable;
+import org.jetbrains.annotations.Nullable;
 
 @ParsableClass(name = "embed_footer")
-public class EmbedFooterParsable implements Applicable<EmbedBuilder> {
+public class EmbedFooterParsable {
 
     String text;
-    @Optional Value icon;
-    
-    @Override
+    @OptionalField @Nullable
+    FileParsable.AbstractFile icon;
+
+    @Nullable
+    private FileUpload fileUpload = null;
+
     public void apply(EmbedBuilder embedBuilder) {
-        if(Discarpet.isScarpetGraphicsInstalled() && ScarpetGraphicsDependency.isPixelAccessible(icon)) {
-            BufferedImage image = ScarpetGraphicsDependency.getImageFromValue(icon);
-            embedBuilder.setFooter(text,image);
-            return;
+        @Nullable String iconUrl = null;
+        if(icon != null) {
+            FileParsable.AttachableUrl attachableUrl = icon.asUrl();
+            attachableUrl.optAttachment().ifPresent(upload -> this.fileUpload = upload);
+            iconUrl = attachableUrl.url();
         }
-        String iconString = icon == null? null : icon.getString();
-        if(iconString != null) {
-            File file = new File(iconString);
-            if (file.exists()) {
-                embedBuilder.setFooter(text, file);
-                return;
-            }
-        }
-        embedBuilder.setFooter(text, iconString);
+        embedBuilder.setFooter(text, iconUrl);
+    }
+
+    @Nullable
+    public FileUpload getFileUpload() {
+        return fileUpload;
     }
 }
