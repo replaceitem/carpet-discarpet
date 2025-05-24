@@ -4,10 +4,6 @@ on:
     branches:
       - master
 
-defaults:
-  run:
-    working-directory: ./docs
-
 jobs:
   build:
     name: Deploy docs
@@ -15,11 +11,12 @@ jobs:
     steps:
       - name: Checkout main
         uses: actions/checkout@v2
+      - run: ls
       - run: cd docs
-
+      - run: ls
       - name: Deploy docs
         uses: mhausenblas/mkdocs-deploy-gh-pages@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG_FILE: docs/mkdocs.yml
-          REQUIREMENTS: docs/requirements.txt
+          CONFIG_FILE: mkdocs.yml
+          REQUIREMENTS: requirements.txt
