@@ -6,9 +6,9 @@ Deletes whatever value provided.
 
 ### {input:}
 
-| Parameter | Type                                                                                                                                                                                                                                                                                                                              | Description          |
-|----------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|
-|   `value` | [Message](/values/message.md), [Role](/values/role.md), [Emoji](/values/emoji.md), [Sticker](/values/sticker.md), [Webhook](/values/webhook.md), [Slash command](/values/commands/slash-command.md), [User context menu](/values/commands/user-context-menu.md), [Message context menu](/values/commands/message-context-menu.md) | The value to delete. |
+| Parameter | Type                                                                                                                                                                                         | Description          |
+|----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|
+|   `value` | [Message](/values/message.md), [Role](/values/role.md), [Emoji](/values/emoji.md), [Sticker](/values/sticker.md), [Webhook](/values/webhook.md), [Slash command](/values/command.md)         | The value to delete. |
 
 
 ### {output:}

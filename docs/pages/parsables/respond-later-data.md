@@ -1,6 +1,6 @@
 `respond_later_data`
 
-Used for the `data` parameter in [`dc_respond_interaction`](/functions/respond-interaction.md) with `type` being `respond_later`.
+Used for the `data` parameter in [`dc_respond_interaction`](/functions/interactions/respond-interaction.md) with `type` being `respond_later`.
 
 
 ### {map:}
