@@ -1,6 +1,6 @@
 `presence_updater`
 
-Used for updating the bot's activity and status with [`dc_update_presence`](/functions/update-presence.md).
+Used for updating the bot's activity and status with [`dc_update_presence`](/functions/bot/update-presence.md).
 
 
 ### {map:}

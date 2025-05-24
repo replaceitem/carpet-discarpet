@@ -8,7 +8,7 @@ Reacts to a message with an emoji.
 | Parameter | Type                          | Description                        |
 |----------:|:------------------------------|:-----------------------------------|
 | `message` | [Message](/values/message.md) | The message to react to.           |
-|   `emoji` | [Emoji](/parsabled/emoji.md)  | The emoji to use for the reaction. |
+|   `emoji` | [Emoji](/parsables/emoji.md)  | The emoji to use for the reaction. |
 
 
 ### {output:}

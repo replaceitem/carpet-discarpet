@@ -7,7 +7,7 @@ Represents a regular user, or a bot.
 
 |          Property | Type                          | Description                                                                                                        |
 |------------------:|:------------------------------|:-------------------------------------------------------------------------------------------------------------------|
-|            `name` | String                        | The name of the user.<br>To get the nickname, use [`dc_get_display_name`](/functions/users/get-display-name.md).   |
+|            `name` | String                        | The name of the user.                                                                                              |
 |     `mention_tag` | String                        | The mention tag to mention a user in a message.                                                                    |
 |              `id` | String                        | The ID of the user.                                                                                                |
 |          `avatar` | String                        | The image URL used in the user's avatar picture.                                                                   |
