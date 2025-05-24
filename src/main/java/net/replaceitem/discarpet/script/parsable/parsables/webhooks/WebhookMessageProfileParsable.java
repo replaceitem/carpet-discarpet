@@ -1,29 +1,21 @@
 package net.replaceitem.discarpet.script.parsable.parsables.webhooks;
 
-import net.replaceitem.discarpet.script.parsable.Applicable;
-import net.replaceitem.discarpet.script.parsable.Optional;
+import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
+import net.replaceitem.discarpet.script.parsable.OptionalField;
 import net.replaceitem.discarpet.script.parsable.ParsableClass;
-import carpet.script.exception.InternalExpressionException;
-import org.javacord.api.entity.message.WebhookMessageBuilder;
-
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.jetbrains.annotations.Nullable;
 
 @ParsableClass(name = "webhook_message_profile")
-public class WebhookMessageProfileParsable implements Applicable<WebhookMessageBuilder> {
+public class WebhookMessageProfileParsable {
     
-    @Optional String name;
-    @Optional String avatar;
+    @OptionalField @Nullable
+    String name;
+    @OptionalField @Nullable
+    String avatar;
 
-    @Override
-    public void apply(WebhookMessageBuilder webhookMessageBuilder) {
-        webhookMessageBuilder.setDisplayName(name);
-        if(avatar != null) {
-            try {
-                webhookMessageBuilder.setDisplayAvatar(new URL(avatar));
-            } catch (MalformedURLException e) {
-                throw new InternalExpressionException("Invalid avatar URL: " + e);
-            }
-        }
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public void apply(WebhookMessageCreateAction<?> webhookMessageCreateAction) {
+        if(name != null) webhookMessageCreateAction.setUsername(name);
+        if(avatar != null) webhookMessageCreateAction.setAvatarUrl(avatar);
     }
 }

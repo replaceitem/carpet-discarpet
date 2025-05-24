@@ -21,18 +21,6 @@ Sends a message to a target.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
-
-
-<!--
-This example shows how you can send a message and add reactions to it as soon as it was sent:
-
-```sc
-task(_() -> (
-    channel = dc_channel_from_id('YOUR CHANNEL ID');
-    message = dc_send_message(channel, 'Test message');
-    dc_react(message, '🟥');
-    dc_react(message, '🟩');
-));
-```
--->
+Throws an exception on failure.
+* `api_exception`
+* `missing_permission`

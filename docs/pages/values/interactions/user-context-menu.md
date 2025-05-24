@@ -6,6 +6,8 @@ Represents an interaction of an executed user context menu command from
 
 ### {query:}
 
+Also has all properties from the [base interaction](/values/interactions/interaction.md)
+
 |       Property | Type                    | Description                                        |
 |---------------:|:------------------------|:---------------------------------------------------|
 |   `command_id` | String                  | The ID of the application command.                 |

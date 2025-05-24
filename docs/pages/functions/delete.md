@@ -6,9 +6,9 @@ Deletes whatever value provided.
 
 ### {input:}
 
-| Parameter | Type                                                                                                                                                                                                                                                                                                                              | Description          |
-|----------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|
-|   `value` | [Message](/values/message.md), [Role](/values/role.md), [Emoji](/values/emoji.md), [Sticker](/values/sticker.md), [Webhook](/values/webhook.md), [Slash command](/values/commands/slash-command.md), [User context menu](/values/commands/user-context-menu.md), [Message context menu](/values/commands/message-context-menu.md) | The value to delete. |
+| Parameter | Type                                                                                                                                                                                         | Description          |
+|----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|
+|   `value` | [Message](/values/message.md), [Role](/values/role.md), [Emoji](/values/emoji.md), [Sticker](/values/sticker.md), [Webhook](/values/webhook.md), [Slash command](/values/command.md)         | The value to delete. |
 
 
 ### {output:}
@@ -19,8 +19,9 @@ Deletes whatever value provided.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
-* `missing_permissions`
+Throws an exception on failure.
+* `api_exception`
+* `missing_permission`
     * Message - You do not have "Manage Messages" permission.
     * Role - You do not have "Manage Roles" permission, or the role is of higher hierarchy.
     * Emoji, Sticker - You do not have "Manage Expressions" permission.

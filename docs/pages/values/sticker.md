@@ -22,13 +22,14 @@ Represents an official Discord sticker or a custom sticker from a server.
 
 |     String | Description                                 |
 |-----------:|:--------------------------------------------|
-| `STANDARD` | An official Discord sticker made by Discord |
-|   `SERVER` | A custom sticker made in a server           |
-|  `UNKNOWN` |                                             |
+| `standard` | An official Discord sticker made by Discord |
+|    `guild` | A custom sticker made in a server           |
+|  `unknown` |                                             |
 
 #### Format types
 
-* `PNG`
-* `APNG`
-* `LOTTIE`
-* `UNKNOWN`
+* `png`
+* `apng`
+* `lottie`
+* `gif`
+* `unknown`

@@ -15,6 +15,6 @@ Represents a webhook in a channel.
 
 #### Webhook types
 
-* `INCOMING`
-* `CHANNEL_FOLLOWER`
-* `UNKNOWN`
+* `incoming`
+* `follower`
+* `unknown`

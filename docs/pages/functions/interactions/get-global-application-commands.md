@@ -9,10 +9,7 @@ Gets all global application commands of the bot.
 
 #### {output values:}
 
-* List of all global application commands. This includes:
-    * [Slash commands](/values/commands/slash-command.md)
-    * [User context menus](/values/commands/user-context-menu.md)
-    * [Message context menus](/values/commands/message-context-menu.md)
+* List of all global application [commands](/values/command.md).
 
 #### {output exceptions:}
 

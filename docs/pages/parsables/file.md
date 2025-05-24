@@ -1,0 +1,20 @@
+`file`
+
+Used for parsing a file from various sources for use in discord attachments, embed images and more.
+
+Files can come from scarpet's resource system, urls, raw bytes or from an image value from [Scarpet Graphics](https://modrinth.com/mod/scarpet-graphics).
+You can only provide one of `file`, `url`, `string`, `base64` and `image`.
+
+Files can also be parsed directly from an image or string value. String values will be used as `url` if it matches the url schema. Otherwise, it is used as `file`.
+
+### {map:}
+
+|                Key | Type                                                                           | Description                                                                                                                                                                                                                                                                    |
+|-------------------:|:-------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|        `file` {:?} | String                                                                         | The file path of the scarpet resource. This works the same way as the first parameter of [`read_file`](https://github.com/gnembon/fabric-carpet/blob/master/docs/scarpet/Full.md#read_fileresource-type), except that the file extension must always be given.                 |
+| `file_shared` {:?} | Boolean                                                                        | Whether the shared resource folder should be use for `file`. If true, this resolves the file like [`read_file`](https://github.com/gnembon/fabric-carpet/blob/master/docs/scarpet/Full.md#read_fileresource-type) does with a type prefixed with `shared_`. Defaults to false. |
+|         `url` {:?} | String                                                                         | The URL of the file. Depending on where this file is used, it might be downloaded or just provided by the url.                                                                                                                                                                 |
+|      `string` {:?} | String                                                                         | The file contents as a string. If provided, the string content will be used for the file as UTF-8.                                                                                                                                                                             |
+|      `base64` {:?} | String                                                                         | Base64 String with the binary data to be used for the file.                                                                                                                                                                                                                    |
+|       `image` {:?} | Image value from [Scarpet-Graphics](https://modrinth.com/mod/scarpet-graphics) | Base64 String with the binary data to be used for the file.                                                                                                                                                                                                                    |
+|  `image_type` {:?} | String                                                                         | The image format to be used for `image` serialization. Can be `jpeg`, `png`, `webp`, `gif` and some other variants of jpeg.                                                                                                                                                    |

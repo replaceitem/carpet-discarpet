@@ -23,5 +23,6 @@ Timeouts the user in a server until the given timestamp.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
-* `bad_request`, if the given timestamp is invalid.
+Throws an exception on failure.
+* `api_exception`
+* `missing_permission`
