@@ -1,0 +1,7 @@
+# python / mkdocs
+venv
+.venv
+site
+
+include/generated/*
+!include/generated/README.md
