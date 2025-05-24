@@ -20,10 +20,15 @@ update_activity() -> (
     dc_update_presence(presence);
 );
 
-// display & update occasionally every 30 seconds
 task(_() -> (
+    // check whether player count changed every 10 seconds
+    previous_count = null
     while (true, (
-        update_activity();
+        player_count = length(player('all'));
+        if (previous_count != player_count,
+            previous_count = player_count;
+            update_activity();
+        );
         sleep(10000);
     ));
 ));
