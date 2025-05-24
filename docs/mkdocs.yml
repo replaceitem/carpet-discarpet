@@ -59,6 +59,8 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.tilde
   - footnotes
+hooks:
+  - generate_examples.py
 plugins:
   - search
   - macros:
