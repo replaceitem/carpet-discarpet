@@ -118,7 +118,7 @@ nav:
     - Attachments: 'examples/attachments.md'
     - Embed: 'examples/embed.md'
     - Reactions: 'examples/reactions.md'
-    - Status and activity: 'examples/status-and-activity.md'
+    - Presence: 'examples/presence.md'
     - Message components: 'examples/message-components.md'
     - Slash commands: 'examples/slash-commands.md'
     - Context menus: 'examples/context-menus.md'
