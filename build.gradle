@@ -122,6 +122,8 @@ modrinth {
 tasks.modrinth.dependsOn tasks.appendChangelog
 
 import java.text.SimpleDateFormat
+import java.util.regex.Pattern
+
 class AppendChangelogTask extends DefaultTask {
 	@Input
 	String changelog = ""
@@ -139,6 +141,7 @@ class AppendChangelogTask extends DefaultTask {
 	@TaskAction
 	void action() {
 		def headline = """## ${versionName} – <small>${dateFormat.format(new Date())}</small> { id="${versionName}" }"""
-		changelogHistoryFile.write(changelogHistoryFile.text.replaceFirst("<!-- INSERT_HERE -->", "\$0\n\n${headline}\n\n${changelog}\n"))
+		def finalChangelog = changelog.replaceAll(Pattern.compile("^(#+) ", Pattern.MULTILINE), "\$1# ") // increase heading depth
+		changelogHistoryFile.write(changelogHistoryFile.text.replaceFirst("<!-- INSERT_HERE -->", "\$0\n\n${headline}\n\n${finalChangelog}\n"))
 	}
 }
