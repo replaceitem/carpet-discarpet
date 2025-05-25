@@ -90,7 +90,7 @@ plugins:
             newvalue: ':material-format-list-bulleted-type: Queryable properties [:octicons-question-16:](/how-it-works.md/#discarpet-values){ .icon-help title="More info" }'
         - section_map:
             oldvalue: '{map:}'
-            newvalue: ':material-code-braces: Object fields [:octicons-question-16:](/how-it-works.md/#discarpet-object-schemas){ .icon-help title="More info" }'
+            newvalue: ':material-code-braces: Schema fields [:octicons-question-16:](/how-it-works.md/#discarpet-object-schemas){ .icon-help title="More info" }'
   - abs-to-rel
 extra:
   social:
@@ -198,7 +198,7 @@ nav:
       - User context menu interaction: 'values/interactions/user-context-menu.md'
       - Modal interaction: 'values/interactions/modal.md'
     
-  - Objects:
+  - Schemas:
     - Message content: 'schemas/message-content.md'
     - Attachment: 'schemas/attachment.md'
     - File: 'schemas/file.md'
