@@ -22,7 +22,7 @@ update_activity() -> (
 
 task(_() -> (
     // check whether player count changed every 10 seconds
-    previous_count = null
+    previous_count = null;
     while (true, (
         player_count = length(player('all'));
         if (previous_count != player_count,
