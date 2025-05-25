@@ -8,11 +8,11 @@ In contrast to `dc_send_message(webhook, content)`, it lets you change the webho
 
 ### {input:}
 
-| Parameter | Type                                                                      | Description                         |
-|----------:|:--------------------------------------------------------------------------|:------------------------------------|
-| `webhook` | [Webhook](/values/webhook.md)                                             | The webhook to send the message to. |
-| `content` | [Message content](/parsables/message-content.md), String                  | The content of the message.         |
-| `profile` | [Webhook message profile](/parsables/webhooks/webhook-message-profile.md) | The profile to use.                 |
+| Parameter | Type                                                                           | Description                         |
+|----------:|:-------------------------------------------------------------------------------|:------------------------------------|
+| `webhook` | [Webhook](/values/webhook.md)                                                  | The webhook to send the message to. |
+| `content` | [Message content object](/schemas/message-content.md), String                  | The content of the message.         |
+| `profile` | [Webhook message profile object](/schemas/webhooks/webhook-message-profile.md) | The profile to use.                 |
 
 
 ### {output:}

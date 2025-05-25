@@ -7,10 +7,10 @@ Updates a channel. Only works for server channels.
 
 ### {input:}
 
-|         Parameter | Type                                                      | Description            |
-|------------------:|:----------------------------------------------------------|:-----------------------|
-|         `channel` | [Channel](/values/channel.md)                             | The channel to update. |
-| `channel_updater` | [Channel updater parsable](/parsables/channel-updater.md) | The data to update.    |
+|         Parameter | Type                                                  | Description            |
+|------------------:|:------------------------------------------------------|:-----------------------|
+|         `channel` | [Channel](/values/channel.md)                         | The channel to update. |
+| `channel_updater` | [Channel updater object](/schemas/channel-updater.md) | The data to update.    |
 
 
 ### {output:}

@@ -3,7 +3,7 @@ icon: material/file-upload
 ---
 
 
-Sends a message with multiple [attachments](/parsables/attachment.md):
+Sends a message with multiple [attachments](/schemas/attachment.md):
 
 * Image attachment from an external URL
 * File attachment with specified `bytes`

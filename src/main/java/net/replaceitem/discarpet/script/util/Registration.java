@@ -19,11 +19,11 @@ import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInterac
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.replaceitem.discarpet.script.functions.*;
-import net.replaceitem.discarpet.script.parsable.Parser;
-import net.replaceitem.discarpet.script.parsable.parsables.*;
-import net.replaceitem.discarpet.script.parsable.parsables.commands.*;
-import net.replaceitem.discarpet.script.parsable.parsables.components.*;
-import net.replaceitem.discarpet.script.parsable.parsables.embeds.EmbedParsable;
+import net.replaceitem.discarpet.script.schema.Parser;
+import net.replaceitem.discarpet.script.schema.schemas.*;
+import net.replaceitem.discarpet.script.schema.schemas.commands.*;
+import net.replaceitem.discarpet.script.schema.schemas.components.*;
+import net.replaceitem.discarpet.script.schema.schemas.embeds.EmbedSchema;
 import net.replaceitem.discarpet.script.values.*;
 import net.replaceitem.discarpet.script.values.common.DiscordValue;
 import net.replaceitem.discarpet.script.values.common.MessageableValue;
@@ -70,25 +70,25 @@ public class  Registration {
         AnnotationParser.parseFunctionClass(ValueFromId.class);
     }
     
-    public static void registerParsables() {
-        Parser.registerParsable(ComponentParsable.class);
+    public static void registerSchemas() {
+        Parser.registerSchema(ComponentSchema.class);
         
-        Parser.registerParsable(AttachmentParsable.class);
-        Parser.registerParsable(ButtonParsable.class);
-        Parser.registerParsable(ColorParsable.class);
-        Parser.registerParsable(EmojiParsable.class);
-        Parser.registerParsable(FileParsable.class);
-        Parser.registerParsable(EmbedParsable.class);
-        Parser.registerParsable(MessageContextMenuBuilderParsable.class);
-        Parser.registerParsable(ModalParsable.class);
-        Parser.registerParsable(SelectMenuOptionParsable.class);
-        Parser.registerParsable(SelectMenuParsable.class);
-        Parser.registerParsable(SlashCommandOptionChoiceParsable.class);
-        Parser.registerParsable(SlashCommandOptionParsable.class);
-        Parser.registerParsable(SlashCommandBuilderParsable.class);
-        Parser.registerParsable(TextInputParsable.class);
-        Parser.registerParsable(TimestampParsable.class);
-        Parser.registerParsable(UserContextMenuBuilderParsable.class);
+        Parser.registerSchema(AttachmentSchema.class);
+        Parser.registerSchema(ButtonSchema.class);
+        Parser.registerSchema(ColorSchema.class);
+        Parser.registerSchema(EmojiSchema.class);
+        Parser.registerSchema(FileSchema.class);
+        Parser.registerSchema(EmbedSchema.class);
+        Parser.registerSchema(MessageContextMenuBuilderSchema.class);
+        Parser.registerSchema(ModalSchema.class);
+        Parser.registerSchema(SelectMenuOptionSchema.class);
+        Parser.registerSchema(SelectMenuSchema.class);
+        Parser.registerSchema(SlashCommandOptionChoiceSchema.class);
+        Parser.registerSchema(SlashCommandOptionSchema.class);
+        Parser.registerSchema(SlashCommandBuilderSchema.class);
+        Parser.registerSchema(TextInputSchema.class);
+        Parser.registerSchema(TimestampSchema.class);
+        Parser.registerSchema(UserContextMenuBuilderSchema.class);
     }
     
     public static void registerValueCasters() {

@@ -10,7 +10,7 @@ Creates a thread channel.
 | Parameter | Type                                                           | Description                                                                                    |
 |----------:|:---------------------------------------------------------------|:-----------------------------------------------------------------------------------------------|
 |  `target` | [Channel](/values/channel.md) or [Message](/values/message.md) | The channel where this thread should be created, or message with which the thread should start |
-|  `thread` | [Thread parsable](/parsables/thread.md)                        | The details to use to create the thread.                                                       |
+|  `thread` | [Thread object](/schemas/thread.md)                            | The details to use to create the thread.                                                       |
 
 
 ### {output:}

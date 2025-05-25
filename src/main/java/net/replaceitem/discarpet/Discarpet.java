@@ -70,7 +70,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		Registration.registerDiscordValues();
 		Registration.registerMisc();
 		Registration.registerFunctions();
-		Registration.registerParsables();
+		Registration.registerSchemas();
 	}
 
 	@Override

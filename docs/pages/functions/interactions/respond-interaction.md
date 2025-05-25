@@ -15,12 +15,12 @@ Sends a response to an interaction.
 
 #### Response types
 
-|                String | Description                                                                                                                                                                                                                                                   |
-|----------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|       `respond_later` | Tells that the interaction was received, and a response will come later.<br>You will then need to send a `RESPOND_FOLLOWUP` response within 15 minutes.<br>The `content` parameter optionally accepts [Respond Later Data](/parsables/respond-later-data.md). |
-| `respond_immediately` | Sends an immediate response which has to come within 3 seconds.<br>The `content` parameter requires a [Message content](/parsables/message-content.md) for this.                                                                                              |
-|    `respond_followup` | Sends a followup response for `RESPOND_LATER`.<br>The `content` parameter requires a [Message content](/parsables/message-content.md) for this.                                                                                                               |
-|       `respond_modal` | Opens a modal for the user.<br>The `content` parameter requires a [Modal parsable](/parsables/modal.md) for this.                                                                                                                                             |
+|                String | Description                                                                                                                                                                                                                                                        |
+|----------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|       `respond_later` | Tells that the interaction was received, and a response will come later.<br>You will then need to send a `RESPOND_FOLLOWUP` response within 15 minutes.<br>The `content` parameter optionally accepts [Respond Later Data object](/schemas/respond-later-data.md). |
+| `respond_immediately` | Sends an immediate response which has to come within 3 seconds.<br>The `content` parameter requires a [Message content object](/schemas/message-content.md) for this.                                                                                              |
+|    `respond_followup` | Sends a followup response for `RESPOND_LATER`.<br>The `content` parameter requires a [Message content object](/schemas/message-content.md) for this.                                                                                                               |
+|       `respond_modal` | Opens a modal for the user.<br>The `content` parameter requires a [Modal object](/schemas/modal.md) for this.                                                                                                                                                      |
 
 
 ### {output:}

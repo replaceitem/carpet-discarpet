@@ -19,11 +19,11 @@ import net.dv8tion.jda.api.requests.restaction.WebhookAction;
 import net.dv8tion.jda.internal.entities.channel.mixin.attribute.IThreadContainerMixin;
 import net.dv8tion.jda.internal.entities.channel.mixin.attribute.IWebhookContainerMixin;
 import net.replaceitem.discarpet.script.exception.DiscordThrowables;
-import net.replaceitem.discarpet.script.parsable.Parser;
-import net.replaceitem.discarpet.script.parsable.parsables.ChannelUpdaterParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.ThreadParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.webhooks.WebhookProfileParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.webhooks.WebhookProfileUpdaterParsable;
+import net.replaceitem.discarpet.script.schema.Parser;
+import net.replaceitem.discarpet.script.schema.schemas.ChannelUpdaterSchema;
+import net.replaceitem.discarpet.script.schema.schemas.ThreadSchema;
+import net.replaceitem.discarpet.script.schema.schemas.webhooks.WebhookProfileSchema;
+import net.replaceitem.discarpet.script.schema.schemas.webhooks.WebhookProfileUpdaterSchema;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.ChannelValue;
 import net.replaceitem.discarpet.script.values.MessageValue;
@@ -33,10 +33,10 @@ public class Channels {
 	@ScarpetFunction
 	public void dc_update_channel(Context context, Channel channel, Value channelUpdater) {
         try {
-            ChannelUpdaterParsable channelUpdaterParsable = Parser.parseType(context, channelUpdater, ChannelUpdaterParsable.class);
+            ChannelUpdaterSchema channelUpdaterSchema = Parser.parseType(context, channelUpdater, ChannelUpdaterSchema.class);
             if (!(channel instanceof GuildChannel guildChannel)) throw DiscordThrowables.genericMessage("Can only update server channels");
             ChannelManager<?, ?> manager = guildChannel.getManager();
-            channelUpdaterParsable.apply(manager);
+            channelUpdaterSchema.apply(manager);
             ValueUtil.awaitRest(manager, "Error updating channel");
         } catch (InsufficientPermissionException e) {
             throw DiscordThrowables.convert(e);
@@ -46,9 +46,9 @@ public class Channels {
 	@ScarpetFunction
 	public WebhookClient<?> dc_create_webhook(Context context, Channel channel, Value webhookBuilder) {
 		if(!(channel instanceof IWebhookContainerMixin<?> webhookContainer)) return null;
-		// name is dummy, will be set by the parsable anyway
+		// name is dummy, will be set by the schema anyway
 		WebhookAction webhookAction = webhookContainer.createWebhook("Webhook");
-		Parser.parseType(context, webhookBuilder, WebhookProfileParsable.class).apply(webhookAction);
+		Parser.parseType(context, webhookBuilder, WebhookProfileSchema.class).apply(webhookAction);
 		return ValueUtil.awaitRest(webhookAction,"Error creating webhook");
 	}
 
@@ -57,7 +57,7 @@ public class Channels {
         try {
             if(!(webhookClient instanceof Webhook webhook)) throw new ThrowStatement("Cannot update webhook not managed by this bot", DiscordThrowables.DISCORD_EXCEPTION);
             WebhookManager manager = webhook.getManager();
-            Parser.parseType(context, webhookBuilder, WebhookProfileUpdaterParsable.class).apply(manager);
+            Parser.parseType(context, webhookBuilder, WebhookProfileUpdaterSchema.class).apply(manager);
             ValueUtil.awaitRest(manager,"Error updating webhook");
         } catch (InsufficientPermissionException e) {
             throw DiscordThrowables.convert(e);
@@ -70,11 +70,11 @@ public class Channels {
             if (!(channelValue.getDelegate() instanceof IThreadContainerMixin<?> threadContainerMixin)) {
                 throw DiscordThrowables.genericCode(ErrorResponse.INVALID_CHANNEL_TYPE);
             }
-            // Temporary name, will be set in parsable
-			ThreadChannelAction action = Parser.parseType(context, threadValue, ThreadParsable.class).apply(threadContainerMixin);
+            // Temporary name, will be set in schema.apply
+			ThreadChannelAction action = Parser.parseType(context, threadValue, ThreadSchema.class).apply(threadContainerMixin);
 			return ValueUtil.awaitRest(action, "Error creating thread channel");
         } else if(channelOrMessage instanceof MessageValue messageValue) {
-			ThreadChannelAction action = Parser.parseType(context, threadValue, ThreadParsable.class).apply(messageValue.getDelegate());
+			ThreadChannelAction action = Parser.parseType(context, threadValue, ThreadSchema.class).apply(messageValue.getDelegate());
 			return ValueUtil.awaitRest(action, "Error creating thread channel");
 		} else throw new InternalExpressionException("Expected a message or channel as the first parameter");
 	}

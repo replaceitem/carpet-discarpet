@@ -5,10 +5,10 @@ Reacts to a message with an emoji.
 
 ### {input:}
 
-| Parameter | Type                          | Description                        |
-|----------:|:------------------------------|:-----------------------------------|
-| `message` | [Message](/values/message.md) | The message to react to.           |
-|   `emoji` | [Emoji](/parsables/emoji.md)  | The emoji to use for the reaction. |
+| Parameter | Type                              | Description                        |
+|----------:|:----------------------------------|:-----------------------------------|
+| `message` | [Message](/values/message.md)     | The message to react to.           |
+|   `emoji` | [Emoji object](/schemas/emoji.md) | The emoji to use for the reaction. |
 
 
 ### {output:}

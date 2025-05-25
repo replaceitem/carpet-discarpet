@@ -21,14 +21,14 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.config.Bot;
 import net.replaceitem.discarpet.script.exception.DiscordThrowables;
-import net.replaceitem.discarpet.script.parsable.ParsableConstructor;
-import net.replaceitem.discarpet.script.parsable.Parser;
-import net.replaceitem.discarpet.script.parsable.parsables.MessageContentParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.RespondLaterDataParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.commands.MessageContextMenuBuilderParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.commands.SlashCommandBuilderParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.commands.UserContextMenuBuilderParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.components.ModalParsable;
+import net.replaceitem.discarpet.script.schema.SchemaConstructor;
+import net.replaceitem.discarpet.script.schema.Parser;
+import net.replaceitem.discarpet.script.schema.schemas.MessageContentSchema;
+import net.replaceitem.discarpet.script.schema.schemas.RespondLaterDataSchema;
+import net.replaceitem.discarpet.script.schema.schemas.commands.MessageContextMenuBuilderSchema;
+import net.replaceitem.discarpet.script.schema.schemas.commands.SlashCommandBuilderSchema;
+import net.replaceitem.discarpet.script.schema.schemas.commands.UserContextMenuBuilderSchema;
+import net.replaceitem.discarpet.script.schema.schemas.components.ModalSchema;
 import net.replaceitem.discarpet.script.util.EnumUtil;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.CommandValue;
@@ -41,29 +41,29 @@ import java.util.Optional;
 @SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
 public class Interactions {
     private enum ApplicationCommandType {
-        SLASH_COMMAND(SlashCommandBuilderParsable.class),
-        USER_CONTEXT_MENU(UserContextMenuBuilderParsable.class),
-        MESSAGE_CONTEXT_MENU(MessageContextMenuBuilderParsable.class);
+        SLASH_COMMAND(SlashCommandBuilderSchema.class),
+        USER_CONTEXT_MENU(UserContextMenuBuilderSchema.class),
+        MESSAGE_CONTEXT_MENU(MessageContextMenuBuilderSchema.class);
 
-        private final Class<? extends ParsableConstructor<? extends CommandData>> parsableClass;
+        private final Class<? extends SchemaConstructor<? extends CommandData>> schemaClass;
 
-        ApplicationCommandType(Class<? extends ParsableConstructor<? extends CommandData>> parsableClass) {
-            this.parsableClass = parsableClass;
+        ApplicationCommandType(Class<? extends SchemaConstructor<? extends CommandData>> schemaClass) {
+            this.schemaClass = schemaClass;
         }
     }
     
     @ScarpetFunction(maxParams = 3)
     public Value dc_create_application_command(Context context, String typeString, Value command, Guild... optionalServer) {
         ApplicationCommandType type = EnumUtil.getEnumOrThrow(ApplicationCommandType.class, typeString, "Invalid application command type for the first parameter of 'dc_create_application_command'");
-        Class<? extends ParsableConstructor<? extends CommandData>> parsableClass = type.parsableClass;
-        ParsableConstructor<? extends CommandData> parsableConstructor = Parser.parseType(context, command, parsableClass);
+        Class<? extends SchemaConstructor<? extends CommandData>> schemaClass = type.schemaClass;
+        SchemaConstructor<? extends CommandData> schemaConstructor = Parser.parseType(context, command, schemaClass);
         Guild server = ValueUtil.optionalArg(optionalServer);
         RestAction<Command> action;
         if(server == null) {
             Bot bot = Discarpet.getBotInContext(context, "dc_create_application_command");
-            action = bot.getJda().upsertCommand(parsableConstructor.construct(context));
+            action = bot.getJda().upsertCommand(schemaConstructor.construct(context));
         } else {
-            action = server.upsertCommand(parsableConstructor.construct(context));
+            action = server.upsertCommand(schemaConstructor.construct(context));
         }
         return CommandValue.of(ValueUtil.awaitRest(action, "Error creating application command"));        
     }
@@ -91,9 +91,9 @@ public class Interactions {
             case RESPOND_LATER -> {
                 if (!(event instanceof IReplyCallback replyCallback))
                     throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
-                RespondLaterDataParsable respondLaterParsable = data.map(d -> Parser.parseType(context, d, RespondLaterDataParsable.class)).orElseGet(RespondLaterDataParsable::new);
+                RespondLaterDataSchema respondLaterData = data.map(d -> Parser.parseType(context, d, RespondLaterDataSchema.class)).orElseGet(RespondLaterDataSchema::new);
                 ReplyCallbackAction replyCallbackAction = replyCallback.deferReply();
-                respondLaterParsable.apply(replyCallbackAction);
+                respondLaterData.apply(replyCallbackAction);
                 ValueUtil.awaitRest(replyCallbackAction, "Error sending 'respond_later' response to interaction");
                 return null;
             }
@@ -102,23 +102,23 @@ public class Interactions {
                     throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
                 if (data.isEmpty())
                     throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + responseTypeString);
-                ModalParsable modalParsable = Parser.parseType(context, data.get(), ModalParsable.class);
-                Modal modal = modalParsable.construct(context);
+                ModalSchema modalObject = Parser.parseType(context, data.get(), ModalSchema.class);
+                Modal modal = modalObject.construct(context);
                 ValueUtil.awaitRest(modalCallback.replyModal(modal), "Could not reply with modal");
                 return null;
             }
             case RESPOND_IMMEDIATELY, RESPOND_FOLLOWUP -> {
                 if (data.isEmpty())
                     throw new InternalExpressionException("'dc_respond_interaction' expected a third argument for " + responseTypeString);
-                MessageContentParsable messageContentParsable = Parser.parseType(context, data.get(), MessageContentParsable.class);
+                MessageContentSchema messageContentSchema = Parser.parseType(context, data.get(), MessageContentSchema.class);
                 if (!(event instanceof IReplyCallback replyCallback))
                     throw DiscordThrowables.genericMessage("Interaction of type " + event.getType() + " cannot be replied to");
                 if (responseType == ResponseType.RESPOND_IMMEDIATELY) {
-                    ReplyCallbackAction action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, replyCallback::reply);
+                    ReplyCallbackAction action = messageContentSchema.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, replyCallback::reply);
                     return ValueUtil.awaitRest(action.map(interactionHook -> interactionHook.getCallbackResponse().getMessage()), "Error sending 'respond_immediately' response to interaction");
                 } else {
                     InteractionHook hook = replyCallback.getHook();
-                    WebhookMessageCreateAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, hook::sendMessage);
+                    WebhookMessageCreateAction<Message> action = messageContentSchema.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, hook::sendMessage);
                     return ValueUtil.awaitRest(action, "Error sending 'respond_followup' response to interaction");
                 }
             }
