@@ -5,8 +5,8 @@ icon: material/menu-open
 
 Adds multiple context menu commands:
 
-* One [message command](/parsables/commands/message-context-menu-builder.md), which waits 10 seconds and then deletes the message.
-* Two [user commands](/parsables/commands/user-context-menu-builder.md), one for adding a [prefix] to a user's nickname, and one for removing it.
+* One [message command](/schemas/commands/message-context-menu-builder.md), which waits 10 seconds and then deletes the message.
+* Two [user commands](/schemas/commands/user-context-menu-builder.md), one for adding a [prefix] to a user's nickname, and one for removing it.
 
 !!! note "Notes"
     1. Your bot will need "Manage Messages" and "Manage Nicknames" permissions.

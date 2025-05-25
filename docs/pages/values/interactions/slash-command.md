@@ -28,8 +28,8 @@ Represents a user-chosen option of an executed slash command.
 
 ### {query:}
 
-| Property | Type                                                                                                                                          | Description                                                                         |
-|---------:|:----------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|
-|   `name` | String                                                                                                                                        | The name of the command option.                                                     |
-|   `type` | String                                                                                                                                        | The [type](/parsables/commands/slash-command-builder.md#option-types) of the option |
-|  `value` | String, Number, Boolean, [User](/values/user.md), [Channel](/values/channel.md), [Role](/values/role.md), [Attachment](/values/attachment.md) | The value chosen by the user.                                                       |
+| Property | Type                                                                                                                                          | Description                                                                       |
+|---------:|:----------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|
+|   `name` | String                                                                                                                                        | The name of the command option.                                                   |
+|   `type` | String                                                                                                                                        | The [type](/schemas/commands/slash-command-builder.md#option-types) of the option |
+|  `value` | String, Number, Boolean, [User](/values/user.md), [Channel](/values/channel.md), [Role](/values/role.md), [Attachment](/values/attachment.md) | The value chosen by the user.                                                     |

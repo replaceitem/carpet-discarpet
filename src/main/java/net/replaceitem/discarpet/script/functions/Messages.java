@@ -11,9 +11,9 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import net.replaceitem.discarpet.script.parsable.Parser;
-import net.replaceitem.discarpet.script.parsable.parsables.MessageContentParsable;
-import net.replaceitem.discarpet.script.parsable.parsables.webhooks.WebhookMessageProfileParsable;
+import net.replaceitem.discarpet.script.schema.Parser;
+import net.replaceitem.discarpet.script.schema.schemas.MessageContentSchema;
+import net.replaceitem.discarpet.script.schema.schemas.webhooks.WebhookMessageProfileSchema;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import net.replaceitem.discarpet.script.values.common.MessageableValue;
 
@@ -27,16 +27,16 @@ public class Messages {
         MessageableValue.MessageConsumer messageConsumer = optionalMessageConsumer.orElseThrow(
                 () -> new InternalExpressionException("'dc_send_message' expected a messageable channel, user or incoming webhook as the first parameter. Got: " + target.getTypeString())
         );
-        MessageContentParsable messageContentParsable = Parser.parseType(context, messageContent, MessageContentParsable.class);
-        RestAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, messageConsumer::send);
+        MessageContentSchema messageContentSchema = Parser.parseType(context, messageContent, MessageContentSchema.class);
+        RestAction<Message> action = messageContentSchema.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, messageConsumer::send);
         return ValueUtil.awaitRest(action,"Error sending message");
     }
     
     @ScarpetFunction
     public Message dc_send_webhook(Context context, WebhookClient<Message> webhook, Value messageContent, Value webhookProfile) {
-        MessageContentParsable messageContentParsable = Parser.parseType(context, messageContent, MessageContentParsable.class);
-        WebhookMessageCreateAction<Message> action = messageContentParsable.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, webhook::sendMessage);
-        Parser.parseType(context, webhookProfile, WebhookMessageProfileParsable.class).apply(action);
+        MessageContentSchema messageContentSchema = Parser.parseType(context, messageContent, MessageContentSchema.class);
+        WebhookMessageCreateAction<Message> action = messageContentSchema.apply(new MessageCreateBuilder(), MessageCreateBuilder::build, webhook::sendMessage);
+        Parser.parseType(context, webhookProfile, WebhookMessageProfileSchema.class).apply(action);
         return ValueUtil.awaitRest(action,"Error sending message");
     }
 

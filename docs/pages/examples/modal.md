@@ -3,7 +3,7 @@ icon: material/form-textbox
 ---
 
 
-Sends a message with a button that opens up a [modal](/parsables/modal.md).
+Sends a message with a button that opens up a [modal](/schemas/modal.md).
 
 
 ![Demo modal](/assets/examples/modal.png)

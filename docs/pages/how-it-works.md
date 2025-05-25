@@ -4,7 +4,8 @@ icon: octicons/question-16
 
 
 Discarpet wraps around [Javacord](https://github.com/Javacord/Javacord) with new scarpet functions, values, and events.
-It also uses parsables as a way to define more complex things like embeds, slash commands, or message components.
+It also uses map values with predefined schemas as a way to define more complex things like
+embeds, slash commands, or message components.
 
 
 
@@ -43,14 +44,30 @@ Some values can also give you other values.
 
 
 
-## Discarpet parsables
+## Discarpet object schemas
 
-Many things in Discarpet can be parsed and built using maps.
+Many functions in Discarpet have parameters that use scarpet map values.
+This works like objects in JavaScripts.
+Discarpet defines schemas for these objects.
 
-These parsables have properties which are defined from the key-value pairs of the map.
-Those properties and their types are listed in the documentation of each parsable.
+As an example, here is how you would send a discord message with text and an embed.
 
-As an example, a parsable with these properties:
+```sc
+dc_send_message(channel, {
+    'content' -> 'Hello world!',
+    'embeds' -> [
+        {
+            'title' -> 'Example embed',
+            'description' -> 'This is an example embed',
+        }
+    ],
+});
+```
+
+The properties of those schemas and their types are listed in the documentation of each object schema.
+This example uses the [Message content schema](/schemas/message-content.md) and [Embed schema](/schemas/embed.md).
+
+As an example, a schema with these properties:
 
 |      Key | Type    | Description                                              |
 |---------:|:--------|:---------------------------------------------------------|
@@ -59,7 +76,7 @@ As an example, a parsable with these properties:
 |   `size` | Number  | The size of the player.                                  |
 | `hidden` | Boolean | Whether this player is hidden.<br>(`false` by default)   |
 
-would look like this:
+could look like this:
 
 ```sc
 example = {

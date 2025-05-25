@@ -90,7 +90,7 @@ plugins:
             newvalue: ':material-format-list-bulleted-type: Queryable properties [:octicons-question-16:](/how-it-works.md/#discarpet-values){ .icon-help title="More info" }'
         - section_map:
             oldvalue: '{map:}'
-            newvalue: ':material-code-braces: Map entries [:octicons-question-16:](/how-it-works.md/#discarpet-parsables){ .icon-help title="More info" }'
+            newvalue: ':material-code-braces: Object fields [:octicons-question-16:](/how-it-works.md/#discarpet-object-schemas){ .icon-help title="More info" }'
   - abs-to-rel
 extra:
   social:
@@ -198,29 +198,29 @@ nav:
       - User context menu interaction: 'values/interactions/user-context-menu.md'
       - Modal interaction: 'values/interactions/modal.md'
     
-  - Parsables:
-    - Message content: 'parsables/message-content.md'
-    - Attachment: 'parsables/attachment.md'
-    - File: 'parsables/file.md'
-    - Timestamp: 'parsables/timestamp.md'
-    - Color: 'parsables/color.md'
-    - Emoji: 'parsables/emoji.md'
-    - Embed: 'parsables/embed.md'
-    - Thread: 'parsables/thread.md'
-    - Channel updater: 'parsables/channel-updater.md'
-    - Presence updater: 'parsables/presence-updater.md'
-    - Modal: 'parsables/modal.md'
-    - Respond later data: 'parsables/respond-later-data.md'
+  - Objects:
+    - Message content: 'schemas/message-content.md'
+    - Attachment: 'schemas/attachment.md'
+    - File: 'schemas/file.md'
+    - Timestamp: 'schemas/timestamp.md'
+    - Color: 'schemas/color.md'
+    - Emoji: 'schemas/emoji.md'
+    - Embed: 'schemas/embed.md'
+    - Thread: 'schemas/thread.md'
+    - Channel updater: 'schemas/channel-updater.md'
+    - Presence updater: 'schemas/presence-updater.md'
+    - Modal: 'schemas/modal.md'
+    - Respond later data: 'schemas/respond-later-data.md'
     - Webhooks:
-      - Webhook profile: 'parsables/webhooks/webhook-profile.md'
-      - Webhook profile updater: 'parsables/webhooks/webhook-profile-updater.md'
-      - Webhook message profile: 'parsables/webhooks/webhook-message-profile.md'
+      - Webhook profile: 'schemas/webhooks/webhook-profile.md'
+      - Webhook profile updater: 'schemas/webhooks/webhook-profile-updater.md'
+      - Webhook message profile: 'schemas/webhooks/webhook-message-profile.md'
     - Application commands:
-      - Slash command builder: 'parsables/commands/slash-command-builder.md'
-      - User context menu builder: 'parsables/commands/user-context-menu-builder.md'
-      - Message context menu builder: 'parsables/commands/message-context-menu-builder.md'
+      - Slash command builder: 'schemas/commands/slash-command-builder.md'
+      - User context menu builder: 'schemas/commands/user-context-menu-builder.md'
+      - Message context menu builder: 'schemas/commands/message-context-menu-builder.md'
     - Components:
-      - Base component: 'parsables/components/component.md'
-      - Button component: 'parsables/components/button.md'
-      - Select menu component: 'parsables/components/select-menu.md'
-      - Text input component: 'parsables/components/text-input.md'
+      - Base component: 'schemas/components/component.md'
+      - Button component: 'schemas/components/button.md'
+      - Select menu component: 'schemas/components/select-menu.md'
+      - Text input component: 'schemas/components/text-input.md'

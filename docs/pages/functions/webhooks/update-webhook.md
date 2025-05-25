@@ -7,10 +7,10 @@ Updates a webhook's profile.
 
 ### {input:}
 
-| Parameter | Type                                                                      | Description            |
-|----------:|:--------------------------------------------------------------------------|:-----------------------|
-| `webhook` | [Webhook](/values/webhook.md)                                             | The webhook to update. |
-| `profile` | [Webhook profile updater](/parsables/webhooks/webhook-profile-updater.md) | The profile to use.    |
+| Parameter | Type                                                                           | Description            |
+|----------:|:-------------------------------------------------------------------------------|:-----------------------|
+| `webhook` | [Webhook](/values/webhook.md)                                                  | The webhook to update. |
+| `profile` | [Webhook profile updater object](/schemas/webhooks/webhook-profile-updater.md) | The profile to use.    |
 
 
 ### {output:}

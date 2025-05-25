@@ -8,11 +8,11 @@ Specifying a user only removes the reaction from that user with that emoji.
 
 ### {input:}
 
-| Parameter | Type                          | Description                               |
-|----------:|:------------------------------|:------------------------------------------|
-| `message` | [Message](/values/message.md) | The message on which to remove reactions. |
-|   `emoji` | [Emoji](/parsables/emoji.md)  | The emoji to remove reactions for.        |
-|    `user` | [User](/values/user.md)       | The user to remove reactions for.         |
+| Parameter | Type                              | Description                               |
+|----------:|:----------------------------------|:------------------------------------------|
+| `message` | [Message](/values/message.md)     | The message on which to remove reactions. |
+|   `emoji` | [Emoji object](/schemas/emoji.md) | The emoji to remove reactions for.        |
+|    `user` | [User](/values/user.md)           | The user to remove reactions for.         |
 
 
 ### {output:}

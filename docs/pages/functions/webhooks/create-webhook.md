@@ -7,10 +7,10 @@ Creates a new webhook in a channel.
 
 ### {input:}
 
-| Parameter | Type                                                      | Description                           |
-|----------:|:----------------------------------------------------------|:--------------------------------------|
-| `channel` | [Channel](/values/channel.md)                             | The channel to create the webhook in. |
-| `profile` | [Webhook profile](/parsables/webhooks/webhook-profile.md) | The webhook's profile.                |
+| Parameter | Type                                                           | Description                           |
+|----------:|:---------------------------------------------------------------|:--------------------------------------|
+| `channel` | [Channel](/values/channel.md)                                  | The channel to create the webhook in. |
+| `profile` | [Webhook profile object](/schemas/webhooks/webhook-profile.md) | The webhook's profile.                |
 
 
 ### {output:}
