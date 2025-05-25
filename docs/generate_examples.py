@@ -23,7 +23,7 @@ def on_pre_build(config: mkdocs.plugins.Config):
     include_dir = Path(config['plugins']['macros'].config['include_dir'])
     generated_dir = include_dir / 'generated'
     examples_dir = generated_dir / 'examples'
-    shutil.rmtree(examples_dir)
+    shutil.rmtree(examples_dir, ignore_errors=True)
     os.makedirs(examples_dir, exist_ok=True)
     scripts_dir = Path().absolute().parent / 'runTest' / 'world' / 'scripts'
     for script in scripts_dir.glob(r'e_*.sc'):
