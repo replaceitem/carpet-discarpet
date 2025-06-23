@@ -4,6 +4,11 @@ icon: octicons/history-16
 
 <!-- INSERT_HERE -->
 
+## 1.6.1 – <small>June 23, 2025</small> { id="1.6.1" }
+
+* Improved handling of error messages of api_exceptions based on JDA exceptions
+
+
 ## 1.6.0 – <small>May 25, 2025</small> { id="1.6.0" }
 
 Due to the [sunsetting of Javacord](https://github.com/user-attachments/assets/d5e8b4fe-60d1-4dcb-95e7-cf95933d1193),
