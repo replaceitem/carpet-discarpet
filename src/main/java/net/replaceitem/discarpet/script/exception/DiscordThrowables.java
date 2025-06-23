@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import static carpet.script.exception.Throwables.THROWN_EXCEPTION_TYPE;
@@ -93,7 +94,7 @@ public class DiscordThrowables {
     private static MapValue createErrorMap(Response response) {
         MapBuilder map = new MapBuilder()
                 .put("code", NumericValue.of(response.code))
-                .put("message", StringValue.of(response.message));
+                .put("message", StringValue.of(getMessage(response)));
         response.optObject().ifPresent(body -> {
             Value json;
             try {
@@ -104,5 +105,10 @@ public class DiscordThrowables {
             map.put("body", json);
         });
         return map.build();
+    }
+    private static String getMessage(Response response) {
+        return Objects.equals(response.message, Response.ERROR_MESSAGE) && response.getException() != null ?
+                response.getException().getMessage() :
+                response.message;
     }
 }
