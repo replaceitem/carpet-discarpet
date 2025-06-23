@@ -134,14 +134,14 @@ You can enable them in the [Developer Portal][portal] under your application's "
 
 ## Changing the member caching policy
 
-By default, all members of all guids are cached.
-This means you have access to the details of all server
+By default, all online members of all servers are cached.
+This means you usually have access to the details of all online server
 members in all servers the bot is in without having to request them.
 This may be changed with the `member_cache_policy` config option if you do not need the details of all members to save on resources.
 It can be set to the following values:
 
-* `all`: Cache all members (default)
-* `online`: Cache only online members
+* `all`: Cache all members
+* `online`: Cache only online members (default)
 * `voice`: Cache only online/idle/dnd members
 * `pending`: Caches members who haven't passed Membership Screening
 * `booster`: Caches only server boosters
