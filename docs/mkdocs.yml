@@ -23,6 +23,7 @@ theme:
     - toc.integrate
     - content.tooltips
     - content.code.copy
+    - content.action.edit
   palette:
     - media: "(prefers-color-scheme)"
       toggle:
