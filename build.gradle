@@ -119,7 +119,6 @@ modrinth {
 	}
 	syncBodyFrom = rootProject.file("README.md").text
 }
-tasks.modrinth.dependsOn tasks.appendChangelog
 
 import java.text.SimpleDateFormat
 import java.util.regex.Pattern
