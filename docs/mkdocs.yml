@@ -223,5 +223,7 @@ nav:
     - Components:
       - Base component: 'schemas/components/component.md'
       - Button component: 'schemas/components/button.md'
+      - Action row component: 'schemas/components/action-row.md'
       - Select menu component: 'schemas/components/select-menu.md'
       - Text input component: 'schemas/components/text-input.md'
+      - Label component: 'schemas/components/label.md'

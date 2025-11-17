@@ -1,8 +1,9 @@
 package net.replaceitem.discarpet.script.schema.schemas.components;
 
 import carpet.script.Context;
-import net.dv8tion.jda.api.interactions.components.text.TextInput;
-import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
+import net.dv8tion.jda.api.components.textinput.TextInput;
+import net.dv8tion.jda.api.components.textinput.TextInput.Builder;
+import net.dv8tion.jda.api.components.textinput.TextInputStyle;
 import net.replaceitem.discarpet.script.schema.OptionalField;
 import net.replaceitem.discarpet.script.schema.SchemaClass;
 import net.replaceitem.discarpet.script.schema.SchemaConstructor;
@@ -13,7 +14,6 @@ public class TextInputSchema implements SchemaConstructor<TextInput> {
     
     String id;
     TextInputStyle style;
-    String label;
     @OptionalField @Nullable
     Integer min_length;
     @OptionalField @Nullable
@@ -27,7 +27,7 @@ public class TextInputSchema implements SchemaConstructor<TextInput> {
     
     @Override
     public TextInput construct(Context context) {
-        TextInput.Builder builder = TextInput.create(id, label, style);
+        Builder builder = TextInput.create(id, style);
         if(min_length != null) builder.setMinLength(min_length);
         if(max_length != null) builder.setMaxLength(max_length);
         builder.setRequired(required);

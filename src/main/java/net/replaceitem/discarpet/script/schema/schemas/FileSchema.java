@@ -94,7 +94,7 @@ public class FileSchema implements SchemaConstructor<FileSchema.AbstractFile>, D
     }
 
     @Override
-    public boolean tryParseDirectly(Value value) {
+    public boolean tryParseDirectly(Value value, Context context) {
         if(value instanceof StringValue) {
             String stringValue = value.getString();
             try {

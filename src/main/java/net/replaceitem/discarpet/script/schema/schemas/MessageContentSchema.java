@@ -1,13 +1,15 @@
 package net.replaceitem.discarpet.script.schema.schemas;
 
+import carpet.script.Context;
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.MapValue;
 import carpet.script.value.Value;
+import net.dv8tion.jda.api.components.Component;
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
+import net.dv8tion.jda.api.components.label.LabelChildComponent;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageReference;
 import net.dv8tion.jda.api.entities.sticker.Sticker;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
@@ -25,6 +27,7 @@ import net.replaceitem.discarpet.script.values.StickerValue;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -39,7 +42,7 @@ public class MessageContentSchema implements DirectParsable {
     @OptionalField
     List<EmbedSchema.EmbedWithAttachments> embeds = List.of();
     @OptionalField
-    List<List<ItemComponent>> components = List.of();
+    List<Component> components = List.of();
     @OptionalField @Nullable
     AllowedMentionsSchema allowed_mentions;
     @OptionalField @Nullable
@@ -81,7 +84,15 @@ public class MessageContentSchema implements DirectParsable {
 
         builder.setEmbeds(embeds.stream().map(AttachmentSchema.WithAttachments::getData).toList());
 
-        builder.setComponents(components.stream().map(ActionRow::of).toList());
+
+        List<MessageTopLevelComponent> messageComponents = this.components.stream().mapMulti((Component component, Consumer<MessageTopLevelComponent> consumer) -> {
+            if (!(component instanceof MessageTopLevelComponent actionRowChildComponent)) {
+                var additionalInfo = component instanceof LabelChildComponent ? " Consider wrapping it inside a label." : "";
+                throw new InternalExpressionException("Components of type " + component.getType().toString().toLowerCase() + " cannot be used inside a message." + additionalInfo);
+            }
+            consumer.accept(actionRowChildComponent);
+        }).toList();
+        builder.setComponents(messageComponents);
 
         if(allowed_mentions != null) allowed_mentions.apply(builder);
 
@@ -140,7 +151,7 @@ public class MessageContentSchema implements DirectParsable {
     }
 
     @Override
-    public boolean tryParseDirectly(Value value) {
+    public boolean tryParseDirectly(Value value, Context context) {
         if(!(value instanceof MapValue)) {
             this.content = value.getString();
             return true;

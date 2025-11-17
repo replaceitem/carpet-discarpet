@@ -134,14 +134,13 @@ public class Parser {
     
     public static <T> T parseSchemaType(Context context, Value value, T object, Class<T> schemaClass, String name) {
         try {
-            if(object instanceof DirectParsable directParsable) {
-                if(directParsable.tryParseDirectly(value)) {
-                    return object;
-                }
+            T parsedObject;
+            if (object instanceof DirectParsable directParsable && directParsable.tryParseDirectly(value, context)) {
+                parsedObject = object;
+            } else {
+                parsedObject = schemaClass.cast(parseClass(context, value, schemaClass));
             }
 
-            T parsedObject = schemaClass.cast(parseClass(context, value, schemaClass));
-            
             if(Redirector.class.isAssignableFrom(schemaClass)) {
                 Class<? extends T> redirectedClass = ((Redirector<T>) parsedObject).redirect();
                 return parseType(context, value, redirectedClass);

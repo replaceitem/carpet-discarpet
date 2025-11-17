@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.schema.schemas.embeds;
 
+import carpet.script.Context;
 import carpet.script.value.MapValue;
 import carpet.script.value.Value;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -35,7 +36,7 @@ public class EmbedAuthorSchema implements DirectParsable {
     }
 
     @Override
-    public boolean tryParseDirectly(Value value) {
+    public boolean tryParseDirectly(Value value, Context context) {
         if(value instanceof UserValue userValue) {
             User user = userValue.getDelegate();
             this.name = user.getName();

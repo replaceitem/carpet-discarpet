@@ -73,12 +73,14 @@ public class  Registration {
     public static void registerSchemas() {
         Parser.registerSchema(ComponentSchema.class);
         
+        Parser.registerSchema(ActionRowSchema.class);
         Parser.registerSchema(AttachmentSchema.class);
         Parser.registerSchema(ButtonSchema.class);
         Parser.registerSchema(ColorSchema.class);
         Parser.registerSchema(EmojiSchema.class);
         Parser.registerSchema(FileSchema.class);
         Parser.registerSchema(EmbedSchema.class);
+        Parser.registerSchema(LabelSchema.class);
         Parser.registerSchema(MessageContextMenuBuilderSchema.class);
         Parser.registerSchema(ModalSchema.class);
         Parser.registerSchema(SelectMenuOptionSchema.class);

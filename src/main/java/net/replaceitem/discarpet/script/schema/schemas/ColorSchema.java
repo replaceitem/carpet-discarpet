@@ -21,7 +21,7 @@ public class ColorSchema implements SchemaConstructor<Color>, DirectParsable {
     Integer b;
     
     @Override
-    public boolean tryParseDirectly(Value value) {
+    public boolean tryParseDirectly(Value value, Context context) {
         if(value instanceof ListValue listValue) {
             List<Value> list = listValue.getItems();
             if(list.size() != 3) throw new InternalExpressionException("Color list needs to a list with length 3 [r,g,b]");

@@ -34,7 +34,7 @@ public class ModalInteractionValue extends InteractionValue<ModalInteractionEven
     private MapValue getInputValuesById() {
         return MapValue.wrap(
                 delegate.getValues().stream().collect(Collectors.toMap(
-                        m -> StringValue.of(m.getId()),
+                        m -> StringValue.of(m.getCustomId()),
                         m -> StringValue.of(m.getAsString())
                 ))
         );

@@ -12,34 +12,46 @@ send_modal(int) -> (
         'id' -> 'my_modal',
         'title' -> 'A Custom Modal',
         'components' -> [
-            [{
-                'component' -> 'text_input',
-                'id' -> 'name_input',
-                'style' -> 'short',
-                'label' -> 'What\'s your name?',
-                'min_length' -> 3,
-                'max_length' -> 32,
-                'required' -> true,
-                'placeholder' -> 'Put your name here'
-            }],
-            [{
-                'component' -> 'text_input',
-                'id' -> 'age_input',
-                'style' -> 'short',
-                'label' -> 'How old are you?',
-                'min_length' -> 1,
-                'max_length' -> 3,
-                'required' -> true,
-                'placeholder' -> 'Enter a number'
-            }],
-            [{
-                'component' -> 'text_input',
-                'id' -> 'introduction_input',
-                'style' -> 'paragraph',
+            {
+                'component'->'label',
+                'label' -> 'Your name',
+                'description' -> 'What\'s your name?',
+                'child'-> {
+                    'component' -> 'text_input',
+                    'id' -> 'name_input',
+                    'style' -> 'short',
+                    'min_length' -> 3,
+                    'max_length' -> 32,
+                    'required' -> true,
+                    'placeholder' -> 'Put your name here'
+                },
+            },
+            {
+                'component'->'label',
+                'label' -> 'Your age',
+                'description' -> 'How old are you?',
+                'child'-> {
+                    'component' -> 'text_input',
+                    'id' -> 'age_input',
+                    'style' -> 'short',
+                    'min_length' -> 1,
+                    'max_length' -> 3,
+                    'required' -> true,
+                    'placeholder' -> 'Enter a number'
+                },
+            },
+            {
+                'component'->'label',
                 'label' -> 'Introduce yourself',
-                'required' -> false,
-                'value' -> 'Hello, I am'
-            }]
+                'description' -> 'Write a short introduction about your hobbies, things you like or things you don\t like.',
+                'child'-> {
+                    'component' -> 'text_input',
+                    'id' -> 'introduction_input',
+                    'style' -> 'paragraph',
+                    'required' -> false,
+                    'value' -> 'Hello, I am'
+                }
+            },
         ]
     });
 );

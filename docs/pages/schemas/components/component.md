@@ -1,9 +1,8 @@
 `component`
 
-Used for creating a component, which contains additional values from the used component.
-
-Can be either a [Button](button.md), [Select menu](select-menu.md), or a [Text input](text-input.md).
-
+Used for creating a component, which contains additional values from the used component type.
+The value specified in `type` determines the component. Each component has additional properties you can specify.
+See the list of [types](#component-types) below for links to the pages for each component.
 
 ### {map:}
 
@@ -11,7 +10,7 @@ Can be either a [Button](button.md), [Select menu](select-menu.md), or a [Text i
 |------------:|:-------|:-----------------------------------------------|
 | `component` | String | The [type](#component-types) of the component. |
 
-Values from the used schema must be included, like so:
+Values from the used component type must be included, like so:
 
 ```sc
 component = {
@@ -25,12 +24,14 @@ component = {
 
 #### Component types
 
-|               String | Description        |
-|---------------------:|:-------------------|
-|             `button` | Button             |
-|      `string_select` | Select an item     |
-|        `user_select` | Select a user      |
-|        `role_select` | Select a role      |
-| `mentionable_select` | Select a user/role |
-|     `channel_select` | Select a channel   |
-|         `text_input` | Text input         |
+|               String | Description                                                                     |
+|---------------------:|:--------------------------------------------------------------------------------|
+|         `action_row` | [Action row](action-row.md) for multiple buttons in one row or one select menu. |
+|             `button` | [Button](button.md)                                                             |
+|      `string_select` | [String select menu](select-menu.md) for selecting an item.                     |
+|        `user_select` | [User select menu](select-menu.md) for selecting a user.                        |
+|        `role_select` | [Role select menu](select-menu.md) for selecting a role.                        |
+| `mentionable_select` | [Mentionable select menu](select-menu.md) for selecting a user/role.            |
+|     `channel_select` | [Channel select menu](select-menu.md) for selecting a channel.                  |
+|         `text_input` | [Text input](text-input.md)                                                     |
+|              `label` | [Label](label.md) for wrapping a component with a label and description.        |
