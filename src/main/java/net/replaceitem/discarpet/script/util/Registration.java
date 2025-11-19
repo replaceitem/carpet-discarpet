@@ -77,6 +77,7 @@ public class  Registration {
         Parser.registerSchema(AttachmentSchema.class);
         Parser.registerSchema(ButtonSchema.class);
         Parser.registerSchema(ColorSchema.class);
+        Parser.registerSchema(ContainerSchema.class);
         Parser.registerSchema(EmojiSchema.class);
         Parser.registerSchema(FileSchema.class);
         Parser.registerSchema(EmbedSchema.class);

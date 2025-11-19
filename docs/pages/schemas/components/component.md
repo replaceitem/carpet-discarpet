@@ -24,15 +24,16 @@ component = {
 
 #### Component types
 
-|               String | Description                                                                     |
-|---------------------:|:--------------------------------------------------------------------------------|
-|         `action_row` | [Action row](action-row.md) for multiple buttons in one row or one select menu. |
-|             `button` | [Button](button.md)                                                             |
-|      `string_select` | [String select menu](select-menu.md) for selecting an item.                     |
-|        `user_select` | [User select menu](select-menu.md) for selecting a user.                        |
-|        `role_select` | [Role select menu](select-menu.md) for selecting a role.                        |
-| `mentionable_select` | [Mentionable select menu](select-menu.md) for selecting a user/role.            |
-|     `channel_select` | [Channel select menu](select-menu.md) for selecting a channel.                  |
-|         `text_input` | [Text input](text-input.md)                                                     |
-|              `label` | [Label](label.md) for wrapping a component with a label and description.        |
-|          `separator` | [Separator](separator.md) that creates a divisor line between components.       |
+|               String | Description                                                                                                      |
+|---------------------:|:-----------------------------------------------------------------------------------------------------------------|
+|         `action_row` | [Action row](action-row.md) for multiple buttons in one row or one select menu.                                  |
+|             `button` | [Button](button.md)                                                                                              |
+|      `string_select` | [String select menu](select-menu.md) for selecting an item.                                                      |
+|        `user_select` | [User select menu](select-menu.md) for selecting a user.                                                         |
+|        `role_select` | [Role select menu](select-menu.md) for selecting a role.                                                         |
+| `mentionable_select` | [Mentionable select menu](select-menu.md) for selecting a user/role.                                             |
+|     `channel_select` | [Channel select menu](select-menu.md) for selecting a channel.                                                   |
+|         `text_input` | [Text input](text-input.md)                                                                                      |
+|              `label` | [Label](label.md) for wrapping a component with a label and description.                                         |
+|          `separator` | [Separator](separator.md) that creates a divisor line between components.                                        |
+|          `container` | [Container](container.md) that wrap other components in a box while also showing an accent bar on the left side. |
