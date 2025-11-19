@@ -5,71 +5,71 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.command.CommandSource;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.replaceitem.discarpet.config.Bot;
 
 import java.net.URI;
 import java.util.Set;
 
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.literal;
 
 public class DiscarpetCommand {
     public static final URI DOCS_URI = URI.create("https://replaceitem.github.io/carpet-discarpet/");
-    private static final SuggestionProvider<ServerCommandSource> BOTS = (commandContext, suggestionsBuilder) ->
-            CommandSource.suggestMatching(Discarpet.discordBots.keySet().stream(), suggestionsBuilder);
+    private static final SuggestionProvider<CommandSourceStack> BOTS = (commandContext, suggestionsBuilder) ->
+            SharedSuggestionProvider.suggest(Discarpet.discordBots.keySet().stream(), suggestionsBuilder);
 
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher)
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher)
     {
-        dispatcher.register(literal("discarpet").requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2)).executes(commandContext->{
-            commandContext.getSource().sendFeedback(() -> {
+        dispatcher.register(literal("discarpet").requires(serverCommandSource -> serverCommandSource.hasPermission(2)).executes(commandContext->{
+            commandContext.getSource().sendSuccess(() -> {
                 String version = FabricLoader.getInstance().getModContainer("discarpet").orElseThrow().getMetadata().getVersion().getFriendlyString();
-                MutableText text = Text.literal("Discarpet version " + version).formatted(Formatting.BLUE);
+                MutableComponent text = Component.literal("Discarpet version " + version).withStyle(ChatFormatting.BLUE);
                 text.append("\nFor help, see the ");
-                text.append(Text.literal("documentation").setStyle(Style.EMPTY
+                text.append(Component.literal("documentation").setStyle(Style.EMPTY
                         .withClickEvent(new ClickEvent.OpenUrl(DOCS_URI))
-                        .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to get to the Discarpet documentation")))
-                        .withFormatting(Formatting.UNDERLINE)
-                        .withColor(Formatting.DARK_BLUE)));
+                        .withHoverEvent(new HoverEvent.ShowText(Component.literal("Click to get to the Discarpet documentation")))
+                        .applyFormat(ChatFormatting.UNDERLINE)
+                        .withColor(ChatFormatting.DARK_BLUE)));
                 return text;
             },true);
             return 1;
         }).then(literal("list").
             executes(commandContext->{
-                commandContext.getSource().sendFeedback(() -> {
+                commandContext.getSource().sendSuccess(() -> {
                     Set<String> botIDs = Discarpet.discordBots.keySet();
-                    if(botIDs.isEmpty()) return Text.literal("There are no bots active").formatted(Formatting.RED);
-                    final MutableText t = Text.literal("There are " + botIDs.size() + " bots active").formatted(Formatting.GREEN);
-                    botIDs.forEach(id -> t.append(Text.literal("\n" + id).formatted(Formatting.BLUE)));
+                    if(botIDs.isEmpty()) return Component.literal("There are no bots active").withStyle(ChatFormatting.RED);
+                    final MutableComponent t = Component.literal("There are " + botIDs.size() + " bots active").withStyle(ChatFormatting.GREEN);
+                    botIDs.forEach(id -> t.append(Component.literal("\n" + id).withStyle(ChatFormatting.BLUE)));
                     return t;
                 },true);
                 return Discarpet.discordBots.size();
             })
-        ).then(literal("getInvite").then(CommandManager.argument("id", StringArgumentType.string()).suggests(BOTS).executes(commandContext->{
-            commandContext.getSource().sendFeedback(() -> {
+        ).then(literal("getInvite").then(Commands.argument("id", StringArgumentType.string()).suggests(BOTS).executes(commandContext->{
+            commandContext.getSource().sendSuccess(() -> {
                 String id = StringArgumentType.getString(commandContext,"id");
                 Bot bot = Discarpet.discordBots.get(id);
                 if(bot == null) {
-                    return Text.literal("Invalid bot: " + id);
+                    return Component.literal("Invalid bot: " + id);
                 }
                 String invite = bot.getInvite();
-                return Text.literal("Click here to get the invite link for the bot")
-                        .styled((style) -> style.withColor(Formatting.BLUE)
-                                .withFormatting(Formatting.UNDERLINE)
+                return Component.literal("Click here to get the invite link for the bot")
+                        .withStyle((style) -> style.withColor(ChatFormatting.BLUE)
+                                .applyFormat(ChatFormatting.UNDERLINE)
                                 .withClickEvent(new ClickEvent.OpenUrl(URI.create(invite)))
-                                .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to open the invite link")))
+                                .withHoverEvent(new HoverEvent.ShowText(Component.literal("Click to open the invite link")))
                                 .withInsertion(invite));
             },false);
             return 1;
         }))).then(literal("reload").executes(commandContext->{
-                commandContext.getSource().sendFeedback(() -> Text.literal("Reloading..."), false);
+                commandContext.getSource().sendSuccess(() -> Component.literal("Reloading..."), false);
                 Discarpet.loadConfig(commandContext.getSource());
                 return 1;
             }))

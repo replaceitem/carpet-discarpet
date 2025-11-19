@@ -3,8 +3,8 @@ package net.replaceitem.discarpet.script.events;
 import carpet.CarpetServer;
 import carpet.script.CarpetEventServer;
 import carpet.script.value.Value;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.world.World;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.world.level.Level;
 import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.config.Bot;
 import net.replaceitem.discarpet.mixins.CallbackListAccessor;
@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class BotEvents extends CarpetEventServer.Event {
@@ -34,9 +35,9 @@ public class BotEvents extends CarpetEventServer.Event {
         handler.call(argumentSupplier,DEFAULT_SOURCE_SUPPLIER);
     }
 
-    private static final Supplier<ServerCommandSource> DEFAULT_SOURCE_SUPPLIER = () -> {
+    private static final Supplier<CommandSourceStack> DEFAULT_SOURCE_SUPPLIER = () -> {
         try {
-            return CarpetServer.minecraft_server.getCommandSource().withWorld(CarpetServer.minecraft_server.getWorld(World.OVERWORLD));
+            return CarpetServer.minecraft_server.createCommandSourceStack().withLevel(Objects.requireNonNull(CarpetServer.minecraft_server.getLevel(Level.OVERWORLD)));
         } catch (NullPointerException npe) {
             return null;
         }

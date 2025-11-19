@@ -13,12 +13,12 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.replaceitem.discarpet.commands.DiscarpetCommand;
 import net.replaceitem.discarpet.config.Bot;
 import net.replaceitem.discarpet.config.BotConfig;
@@ -80,11 +80,11 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 	}
 
 	@Override
-	public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandBuildContext) {
+	public void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext commandBuildContext) {
 		DiscarpetCommand.register(dispatcher);
 	}
 
-	public static void loadConfig(ServerCommandSource source) {
+	public static void loadConfig(CommandSourceStack source) {
 		boolean newlyCreatedConfig = configManager.loadAndUpdate();
 		if(newlyCreatedConfig) {
 			Discarpet.LOGGER.info("No Discarpet configuration file found, creating one. Edit config/discarpet.json to add your bots");
@@ -93,7 +93,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		loadBots(source);
 	}
 
-	public static void loadBots(ServerCommandSource source) {
+	public static void loadBots(CommandSourceStack source) {
 		CompletableFuture.allOf(
 				discordBots.values().stream()
 						.map(bot -> bot == null ? null : bot.disconnect())
@@ -125,7 +125,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
                 botCompletableFuture.exceptionally(throwable -> {
                     String error = "Could not login bot " + botId;
                     LOGGER.warn(error, throwable);
-                    if(source != null) source.sendFeedback(() -> Text.literal(error + ": " + throwable.getMessage()).formatted(Formatting.RED),false);
+                    if(source != null) source.sendSuccess(() -> Component.literal(error + ": " + throwable.getMessage()).withStyle(ChatFormatting.RED),false);
                     return null;
                 });
                 botCompletableFuture.thenAccept(bot -> {
@@ -135,14 +135,14 @@ public class Discarpet implements CarpetExtension, ModInitializer {
                     if(!intents.isEmpty()) {
                         msg += " with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(","));
                     }
-                    MutableText text = Text.literal(msg).styled(style -> style.withColor(Formatting.GREEN));
-                    if(source != null) source.sendFeedback(() -> text,false);
+                    MutableComponent text = Component.literal(msg).withStyle(style -> style.withColor(ChatFormatting.GREEN));
+                    if(source != null) source.sendSuccess(() -> text,false);
                     LOGGER.info(msg);
                 });
             } catch (Exception e) {
 				String error = "Could not create bot " + botId;
 				LOGGER.warn(error, e);
-				if(source != null) source.sendFeedback(() -> Text.literal(error + ": " + e.getMessage()).formatted(Formatting.RED),false);
+				if(source != null) source.sendSuccess(() -> Component.literal(error + ": " + e.getMessage()).withStyle(ChatFormatting.RED),false);
             }
         }
 	}

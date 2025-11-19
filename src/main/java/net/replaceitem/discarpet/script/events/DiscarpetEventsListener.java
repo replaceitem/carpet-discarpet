@@ -18,7 +18,7 @@ import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.minecraft.server.ServerTask;
+import net.minecraft.server.TickTask;
 import net.replaceitem.discarpet.config.Bot;
 import org.jetbrains.annotations.NotNull;
 
@@ -110,7 +110,7 @@ public class DiscarpetEventsListener extends ListenerAdapter {
 
     private static void callEventOnGameThread(Runnable runnable) {
         if(CarpetServer.minecraft_server == null) return;
-        ServerTask serverTask = new ServerTask(Integer.MIN_VALUE, runnable);
-        CarpetServer.minecraft_server.send(serverTask);
+        TickTask serverTask = new TickTask(Integer.MIN_VALUE, runnable);
+        CarpetServer.minecraft_server.schedule(serverTask);
     }
 }

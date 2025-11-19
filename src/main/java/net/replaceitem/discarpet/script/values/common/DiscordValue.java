@@ -2,9 +2,9 @@ package net.replaceitem.discarpet.script.values.common;
 
 import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.Value;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtString;
-import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 
 import java.util.Objects;
 
@@ -47,7 +47,7 @@ public abstract class DiscordValue<T> extends Value {
     }
 
     @Override
-    public NbtElement toTag(boolean force, DynamicRegistryManager regs) {
-        return NbtString.of(getString());
+    public Tag toTag(boolean force, RegistryAccess regs) {
+        return StringTag.valueOf(getString());
     }
 }
