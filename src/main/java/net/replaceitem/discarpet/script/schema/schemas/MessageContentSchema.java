@@ -43,6 +43,8 @@ public class MessageContentSchema implements DirectParsable {
     List<EmbedSchema.EmbedWithAttachments> embeds = List.of();
     @OptionalField
     List<Component> components = List.of();
+    @OptionalField
+    Boolean use_components_v2 = false;
     @OptionalField @Nullable
     AllowedMentionsSchema allowed_mentions;
     @OptionalField @Nullable
@@ -73,8 +75,10 @@ public class MessageContentSchema implements DirectParsable {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public <B extends AbstractMessageBuilder<D,B>,D extends MessageData,A extends RestAction<?>> A apply(B builder, Function<B,D> build, Function<D,A> send) {
         // temporarily set this to something non-blank, since otherwise builder.build() would fail,later this is set
-        // in the restAction stage which might set it to null for non-content messages, like forwarding.
-        builder.setContent("-");
+        // in the restAction stage which might set it to null for non-content messages, like forwarding or components v2.
+        if(!use_components_v2) {
+            builder.setContent("-");
+        }
 
         builder.setFiles(Stream.of(
                 attachments.stream(),
@@ -93,6 +97,7 @@ public class MessageContentSchema implements DirectParsable {
             consumer.accept(actionRowChildComponent);
         }).toList();
         builder.setComponents(messageComponents);
+        builder.useComponentsV2(use_components_v2);
 
         if(allowed_mentions != null) allowed_mentions.apply(builder);
 
@@ -116,7 +121,7 @@ public class MessageContentSchema implements DirectParsable {
         if(referenced_message != null) {
             if(action instanceof MessageCreateAction messageCreateAction) {
                 messageCreateAction.setMessageReference(message_reference_type, referenced_message);
-            } else throw onlyCreate("reply_to");
+            } else throw onlyCreate("referenced_message");
         }
         if(nonce != null) {
             if(action instanceof MessageCreateAction messageCreateAction) {
