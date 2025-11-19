@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.label.Label;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.components.separator.Separator;
+import net.dv8tion.jda.api.components.textdisplay.TextDisplay;
 import net.dv8tion.jda.api.components.textinput.TextInput;
 import net.replaceitem.discarpet.script.schema.DirectParsable;
 import net.replaceitem.discarpet.script.schema.Redirector;
@@ -32,6 +33,7 @@ public class ComponentSchema implements Redirector<Component>, DirectParsable {
             case LABEL -> Label.class;
             case SEPARATOR -> Separator.class;
             case CONTAINER -> Container.class;
+            case TEXT_DISPLAY -> TextDisplay.class;
             default -> throw new InternalExpressionException("Unsupported value for 'component': " + component.name());
         };
     }

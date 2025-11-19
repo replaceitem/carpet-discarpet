@@ -90,6 +90,7 @@ public class  Registration {
         Parser.registerSchema(SlashCommandOptionChoiceSchema.class);
         Parser.registerSchema(SlashCommandOptionSchema.class);
         Parser.registerSchema(SlashCommandBuilderSchema.class);
+        Parser.registerSchema(TextDisplaySchema.class);
         Parser.registerSchema(TextInputSchema.class);
         Parser.registerSchema(TimestampSchema.class);
         Parser.registerSchema(UserContextMenuBuilderSchema.class);
