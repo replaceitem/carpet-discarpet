@@ -35,3 +35,4 @@ component = {
 |     `channel_select` | [Channel select menu](select-menu.md) for selecting a channel.                  |
 |         `text_input` | [Text input](text-input.md)                                                     |
 |              `label` | [Label](label.md) for wrapping a component with a label and description.        |
+|          `separator` | [Separator](separator.md) that creates a divisor line between components.       |

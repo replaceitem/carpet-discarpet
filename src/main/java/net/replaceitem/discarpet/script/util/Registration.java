@@ -85,6 +85,7 @@ public class  Registration {
         Parser.registerSchema(ModalSchema.class);
         Parser.registerSchema(SelectMenuOptionSchema.class);
         Parser.registerSchema(SelectMenuSchema.class);
+        Parser.registerSchema(SeparatorSchema.class);
         Parser.registerSchema(SlashCommandOptionChoiceSchema.class);
         Parser.registerSchema(SlashCommandOptionSchema.class);
         Parser.registerSchema(SlashCommandBuilderSchema.class);
