@@ -11,12 +11,13 @@ task(_() -> (
     dc_send_message(global_channel, {
         'use_components_v2' -> true,
         'components' -> [
-            [{
-                'component' -> 'button',
-                'style' -> 'link',
-                'url' -> 'https://example.org',
-                'label' -> 'Example button',
-            }],
+            {
+                'component' -> 'file_display',
+                'file' -> {
+                    'string' -> 'Hello i am a file',
+                },
+                'name'->'download_me.txt'
+            },
             {
                 'component' -> 'separator',
             },
