@@ -84,6 +84,7 @@ public class  Registration {
         Parser.registerSchema(LabelSchema.class);
         Parser.registerSchema(MessageContextMenuBuilderSchema.class);
         Parser.registerSchema(ModalSchema.class);
+        Parser.registerSchema(SectionSchema.class);
         Parser.registerSchema(SelectMenuOptionSchema.class);
         Parser.registerSchema(SelectMenuSchema.class);
         Parser.registerSchema(SeparatorSchema.class);

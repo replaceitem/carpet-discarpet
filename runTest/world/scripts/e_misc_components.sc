@@ -44,12 +44,22 @@ task(_() -> (
                 'component' -> 'separator',
                 'spacing' -> 'large',
             },
-            [{
-                'component' -> 'button',
-                'style' -> 'link',
-                'url' -> 'https://example.org',
-                'label' -> 'Example button',
-            }],
+            {
+                'component' -> 'section',
+                'components' -> [
+                    {
+                        'component' -> 'text_display',
+                        'content' -> 'This is some content.\nThere is a button to the right of this content.\nClick if if you wanna learn more.'
+                    }
+                ],
+                'accessory' -> {
+                    'component' -> 'button',
+                    'style' -> 'link',
+                    'url' -> 'https://example.org',
+                    'label' -> 'Visit',
+                    'emoji' -> '🌐',
+                },
+            },
         ]
     });
 ));
