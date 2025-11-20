@@ -23,5 +23,6 @@ Removes a role from a user.
 #### {output exceptions:}
 
 Throws an exception on failure.
+
 * `api_exception`
 * `missing_permission`

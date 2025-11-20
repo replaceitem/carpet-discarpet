@@ -22,5 +22,6 @@ Otherwise, it will be requested and this call will block.
 #### {output exceptions:}
 
 Throws an exception on failure.
+
 * `api_exception`
 * `missing_permission`

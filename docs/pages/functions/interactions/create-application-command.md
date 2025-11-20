@@ -33,4 +33,4 @@ Depending on the `type`, this function expects different schemas for `data`:
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
+Throws an exception on failure.

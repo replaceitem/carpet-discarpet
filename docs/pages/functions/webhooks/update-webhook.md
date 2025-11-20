@@ -21,4 +21,4 @@ Updates a webhook's profile.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
+Throws an exception on failure.

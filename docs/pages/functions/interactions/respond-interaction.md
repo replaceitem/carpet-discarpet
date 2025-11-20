@@ -32,4 +32,4 @@ Sends a response to an interaction.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
+Throws an exception on failure.

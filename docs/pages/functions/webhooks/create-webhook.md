@@ -21,4 +21,4 @@ Creates a new webhook in a channel.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
+Throws an exception on failure.

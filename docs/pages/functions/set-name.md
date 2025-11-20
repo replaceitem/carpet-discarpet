@@ -22,6 +22,7 @@ Renames the value provided.
 #### {output exceptions:}
 
 Throws an exception on failure.
+
 * `api_exception`
 * `missing_permission`
     * Message - You do not have "Manage Messages" permission.

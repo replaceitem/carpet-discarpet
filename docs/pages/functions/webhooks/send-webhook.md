@@ -23,4 +23,4 @@ In contrast to `dc_send_message(webhook, content)`, it lets you change the webho
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
+Throws an exception on failure.

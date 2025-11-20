@@ -13,4 +13,4 @@ Gets all global application commands of the bot.
 
 #### {output exceptions:}
 
-* Throws an exception on failure.
+Throws an exception on failure.

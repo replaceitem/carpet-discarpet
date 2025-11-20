@@ -22,5 +22,6 @@ Updates a channel. Only works for server channels.
 #### {output exceptions:}
 
 Throws an exception on failure.
+
 * `api_exception`
 * `missing_permission`
