@@ -1,5 +1,8 @@
 `container`
 
+!!! example-scripts inline end "Example scripts"
+    * [Miscellaneous components](/examples/misc-components.md)
+
 Containers wrap other components in a box while also showing an accent bar on the left side, just like embeds are shown.
 
 ### {map:}

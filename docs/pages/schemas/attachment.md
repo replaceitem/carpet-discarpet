@@ -1,5 +1,8 @@
 `attachment`
 
+!!! example-scripts inline end "Example scripts"
+    * [Attachments](/examples/attachments.md)
+
 Used to create an attachment.
 
 An attachment can be created in different ways,

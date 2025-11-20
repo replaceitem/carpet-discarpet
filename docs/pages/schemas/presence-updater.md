@@ -1,5 +1,8 @@
 `presence_updater`
 
+!!! example-scripts inline end "Example scripts"
+    * [Presence](/examples/presence.md)
+
 Used for updating the bot's activity and status with [`dc_update_presence`](/functions/bot/update-presence.md).
 
 

@@ -1,5 +1,8 @@
 `separator`
 
+!!! example-scripts inline end "Example scripts"
+    * [Miscellaneous components](/examples/misc-components.md)
+
 A separator line for separating components.
 This component requires `use_components_v2` enabled on message content.
 

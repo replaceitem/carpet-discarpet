@@ -1,5 +1,10 @@
 `file`
 
+!!! example-scripts inline end "Example scripts"
+    * [Attachments](/examples/attachments.md)
+    * [Embed](/examples/embed.md)
+    * [Miscellaneous components](/examples/misc-components.md)
+
 Used for resolving a file from various sources for use in discord attachments, embed images and more.
 
 Files can come from scarpet's resource system, urls, raw bytes or from an image value from [Scarpet Graphics](https://modrinth.com/mod/scarpet-graphics).

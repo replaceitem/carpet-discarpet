@@ -1,5 +1,8 @@
 `media_gallery`
 
+!!! example-scripts inline end "Example scripts"
+    * [Miscellaneous components](/examples/misc-components.md)
+
 A media gallery shows several images in a gallery.
 
 ### {map:}

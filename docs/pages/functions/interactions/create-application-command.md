@@ -1,5 +1,9 @@
 ### `dc_create_application_command(type, data, server?)`
 
+!!! example-scripts inline end "Example scripts"
+    * [Slash commands](/examples/slash-commands.md)
+    * [Context menus](/examples/context-menus.md)
+
 Creates a slash command or a context menu command for the bot.
 
 {% include 'blocking-function.md' %}

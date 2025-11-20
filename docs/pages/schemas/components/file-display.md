@@ -1,5 +1,8 @@
 `file_display`
 
+!!! example-scripts inline end "Example scripts"
+    * [Miscellaneous components](/examples/misc-components.md)
+
 A file display is a component that shows a file for downloading.
 
 ### {map:}

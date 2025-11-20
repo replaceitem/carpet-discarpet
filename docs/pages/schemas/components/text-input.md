@@ -1,5 +1,8 @@
 `text_input`
 
+!!! example-scripts inline end "Example scripts"
+    * [Modal](/examples/modal.md)
+
 Used for creating a text input component.
 
 Can only be used inside [modals](/schemas/modal.md).

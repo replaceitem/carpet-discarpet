@@ -1,5 +1,8 @@
 ### `dc_set_nickname(user, server, name, reason?)`
 
+!!! example-scripts inline end "Example scripts"
+    * [Context menus](/examples/context-menus.md)
+
 Sets the nickname of a user in a server.
 
 {% include 'blocking-function.md' %}

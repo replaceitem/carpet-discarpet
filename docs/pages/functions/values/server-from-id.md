@@ -1,5 +1,8 @@
 ### `dc_server_from_id(id)`
 
+!!! example-scripts inline end "Example scripts"
+    * [Slash commands](/examples/slash-commands.md)
+
 Gets the server from the specified ID.
 
 

@@ -1,5 +1,8 @@
 `select_menu`
 
+!!! example-scripts inline end "Example scripts"
+    * [Select menus](/examples/select-menus.md)
+
 Used for creating a select menu component.
 
 

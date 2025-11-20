@@ -1,5 +1,8 @@
 `timestamp`
 
+!!! example-scripts inline end "Example scripts"
+    * [Embed](/examples/embed.md)
+
 Can also be parsed directly from a number, or a string `'now'`, which will parse to the current time.
 
 

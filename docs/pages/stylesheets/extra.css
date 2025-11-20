@@ -192,3 +192,18 @@
 .icon-optional {
   opacity: 75%;
 }
+
+.md-typeset .admonition.example-scripts,
+.md-typeset details.example-scripts {
+    border-color: var(--md-typeset-table-color);
+}
+.md-typeset .example-scripts > .admonition-title,
+.md-typeset .example-scripts > summary {
+    background-color: var(--md-accent-fg-color--transparent);
+}
+.md-typeset .example-scripts > .admonition-title::before,
+.md-typeset .example-scripts > summary::before {
+    background-color: var(--md-accent-fg-color);
+    -webkit-mask-image: var(--md-admonition-icon--example-scripts);
+    mask-image: var(--md-admonition-icon--example-scripts);
+}

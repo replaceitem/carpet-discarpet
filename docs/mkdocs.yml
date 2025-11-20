@@ -13,6 +13,8 @@ theme:
   favicon: assets/logo.png
   icon:
     repo: fontawesome/brands/github
+    admonition:
+      example-scripts: material/note-text
   features:
     - navigation.instant
     - navigation.instant.progress

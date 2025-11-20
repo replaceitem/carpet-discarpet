@@ -1,5 +1,8 @@
 `label`
 
+!!! example-scripts inline end "Example scripts"
+    * [Miscellaneous components](/examples/misc-components.md)
+
 Labels are used in modals to wrap components and add a label and description.
 
 ### {map:}

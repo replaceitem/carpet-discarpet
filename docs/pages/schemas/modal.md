@@ -1,5 +1,8 @@
 `modal`
 
+!!! example-scripts inline end "Example scripts"
+    * [Modal](/examples/modal.md)
+
 Used for creating a modal.
 
 

@@ -1,5 +1,10 @@
 `message_content`
 
+!!! example-scripts inline end "Example scripts"
+    * [Reply](/examples/reply.md)
+    * [Embed](/examples/embed.md)
+    * [Attachments](/examples/attachments.md)
+
 Used to create a message's content.
 
 Can also be parsed directly from a String, which is equivalent to only setting `content`.

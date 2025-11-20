@@ -1,5 +1,10 @@
 ### `dc_send_message(target, content)`
 
+!!! example-scripts inline end "Example scripts"
+    * [Reply](/examples/reply.md)
+    * [Embed](/examples/embed.md)
+    * [Attachments](/examples/attachments.md)
+
 Sends a message to a target.
 
 {% include 'blocking-function.md' %}

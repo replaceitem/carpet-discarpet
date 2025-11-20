@@ -1,5 +1,8 @@
 `action_row`
 
+!!! example-scripts inline end "Example scripts"
+    * [Buttons](/examples/buttons.md)
+
 Action rows are used in messages for having multiple buttons in one row, or containing one select menu.
 
 For convenience and backward compatibility, this can also be directly parsed from simply a list of components.

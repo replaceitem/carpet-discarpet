@@ -1,5 +1,11 @@
 ### `dc_respond_interaction(interaction, type, content?)`
 
+!!! example-scripts inline end "Example scripts"
+    * [Slash commands](/examples/slash-commands.md)
+    * [Buttons](/examples/buttons.md)
+    * [Context menus](/examples/context-menus.md)
+    * [Modal](/examples/modal.md)
+
 Sends a response to an interaction.
 
 {% include 'blocking-function.md' %}

@@ -1,5 +1,8 @@
 `section`
 
+!!! example-scripts inline end "Example scripts"
+    * [Miscellaneous components](/examples/misc-components.md)
+
 Sections are containers that show an accessory component to the right of the other child components.
 
 ### {map:}

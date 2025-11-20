@@ -1,5 +1,8 @@
 `slash_command_builder`
 
+!!! example-scripts inline end "Example scripts"
+    * [Slash commands](/examples/slash-commands.md)
+
 Used to create a slash command.
 
 

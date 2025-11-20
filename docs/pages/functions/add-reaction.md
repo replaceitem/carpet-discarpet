@@ -1,5 +1,8 @@
 ### `dc_add_reaction(message, emoji)`
 
+!!! example-scripts inline end "Example scripts"
+    * [Reactions](/examples/reactions.md)
+
 Reacts to a message with an emoji.
 
 

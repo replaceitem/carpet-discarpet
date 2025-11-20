@@ -1,5 +1,8 @@
 `thumbnail`
 
+!!! example-scripts inline end "Example scripts"
+    * [Miscellaneous components](/examples/misc-components.md)
+
 A thumbnail is used in sections as the accessory for showing an image.
 
 ### {map:}

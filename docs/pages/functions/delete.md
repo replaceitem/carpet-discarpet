@@ -1,5 +1,8 @@
 ### `dc_delete(value)`
 
+!!! example-scripts inline end "Example scripts"
+    * [Context menus](/examples/context-menus.md)
+
 Deletes whatever value provided.
 
 {% include 'blocking-function.md' %}

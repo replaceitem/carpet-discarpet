@@ -1,5 +1,8 @@
 `embed`
 
+!!! example-scripts inline end "Example scripts"
+    * [Embed](/examples/embed.md)
+
 Used to create an embed.
 
 

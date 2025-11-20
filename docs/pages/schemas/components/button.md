@@ -1,5 +1,8 @@
 `button`
 
+!!! example-scripts inline end "Example scripts"
+    * [Buttons](/examples/buttons.md)
+
 Used for creating a button component.
 
 
