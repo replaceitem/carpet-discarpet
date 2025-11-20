@@ -23,11 +23,11 @@ import net.replaceitem.discarpet.script.schema.DirectParsable;
 import net.replaceitem.discarpet.script.schema.OptionalField;
 import net.replaceitem.discarpet.script.schema.SchemaClass;
 import net.replaceitem.discarpet.script.schema.schemas.embeds.EmbedSchema;
+import net.replaceitem.discarpet.script.util.ComponentUtil;
 import net.replaceitem.discarpet.script.values.StickerValue;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -88,14 +88,10 @@ public class MessageContentSchema implements DirectParsable {
 
         builder.setEmbeds(embeds.stream().map(AttachmentSchema.WithAttachments::getData).toList());
 
-
-        List<MessageTopLevelComponent> messageComponents = this.components.stream().mapMulti((Component component, Consumer<MessageTopLevelComponent> consumer) -> {
-            if (!(component instanceof MessageTopLevelComponent actionRowChildComponent)) {
-                var additionalInfo = component instanceof LabelChildComponent ? " Consider wrapping it inside a label." : "";
-                throw new InternalExpressionException("Components of type " + component.getType().toString().toLowerCase() + " cannot be used inside a message." + additionalInfo);
-            }
-            consumer.accept(actionRowChildComponent);
-        }).toList();
+        var messageComponents = ComponentUtil.ensureComponentType(this.components, MessageTopLevelComponent.class, component -> {
+            var additionalInfo = component instanceof LabelChildComponent ? " Consider wrapping it inside a label." : "";
+            return "Components of type %s cannot be used inside a message.%s".formatted(component.getType().toString().toLowerCase(), additionalInfo);
+        });
         builder.setComponents(messageComponents);
         builder.useComponentsV2(use_components_v2);
 

@@ -12,9 +12,9 @@ import net.replaceitem.discarpet.script.schema.DirectParsable;
 import net.replaceitem.discarpet.script.schema.Parser;
 import net.replaceitem.discarpet.script.schema.SchemaClass;
 import net.replaceitem.discarpet.script.schema.SchemaConstructor;
+import net.replaceitem.discarpet.script.util.ComponentUtil;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 @SchemaClass(name = "action_row")
 public class ActionRowSchema implements SchemaConstructor<ActionRow>, DirectParsable {
@@ -22,11 +22,10 @@ public class ActionRowSchema implements SchemaConstructor<ActionRow>, DirectPars
 
     @Override
     public ActionRow construct(Context context) {
-        List<ActionRowChildComponent> actionRowChildren = this.components.stream().mapMulti((Component component, Consumer<ActionRowChildComponent> consumer) -> {
-            if (!(component instanceof ActionRowChildComponent actionRowChildComponent))
-                throw new InternalExpressionException("Components of type " + component.getType().toString().toLowerCase() + " cannot be used inside an action_row.");
-            consumer.accept(actionRowChildComponent);
-        }).toList();
+        var actionRowChildren = ComponentUtil.ensureComponentType(
+                this.components, ActionRowChildComponent.class,
+                component -> "Components of type %s cannot be used inside an action row.".formatted(component.getType().toString().toLowerCase())
+        );
         return ActionRow.of(actionRowChildren);
     }
 
