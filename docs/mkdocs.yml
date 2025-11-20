@@ -234,3 +234,4 @@ nav:
       - Thumbnail component: 'schemas/components/thumbnail.md'
       - Separator component: 'schemas/components/separator.md'
       - Text display component: 'schemas/components/text-display.md'
+      - Media gallery component: 'schemas/components/media-gallery.md'

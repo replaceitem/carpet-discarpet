@@ -72,8 +72,33 @@ task(_() -> (
                     'component' -> 'thumbnail',
                     'media' -> {
                         'url'->'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png',
-                    }
+                    },
+                    'description' -> 'The Discarpet logo',
                 },
+            },
+            {
+                'component' -> 'media_gallery',
+                'items' -> [
+                    {
+                        'media'->{
+                            'url'->'https://cdn.modrinth.com/data/byUTGrfV/images/5ac7bbbf8da02e37436b52156f0021368dab4f49.png',
+                        },
+                        'description'->'A big bedrock maze in minecraft',
+                    },
+                    {
+                        'media'->{
+                            'url'->'https://cdn.modrinth.com/data/byUTGrfV/images/6cbe1619c045c4100f3c692e80245974715caf29.png',
+                        },
+                        'description'->'A top down view of a simplex noise bedrock maze in minecraft',
+                    },
+                    {
+                        'media'->{
+                            'url'->'https://cdn.modrinth.com/data/byUTGrfV/images/dceb8714596070fadee5885065e0aad1641cf9b2.png',
+                        },
+                        'description'->'A 3D simplex noise maze in minecraft',
+                        'spoiler'->true,
+                    }
+                ],
             },
         ]
     });

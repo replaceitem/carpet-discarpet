@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.label.Label;
+import net.dv8tion.jda.api.components.mediagallery.MediaGallery;
 import net.dv8tion.jda.api.components.section.Section;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.components.separator.Separator;
@@ -38,6 +39,7 @@ public class ComponentSchema implements Redirector<Component>, DirectParsable {
             case TEXT_DISPLAY -> TextDisplay.class;
             case SECTION -> Section.class;
             case THUMBNAIL -> Thumbnail.class;
+            case MEDIA_GALLERY -> MediaGallery.class;
             default -> throw new InternalExpressionException("Unsupported value for 'component': " + component.name());
         };
     }

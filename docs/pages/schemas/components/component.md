@@ -40,3 +40,4 @@ component = {
 |            `section` | [Section](section.md) that shows an accessory component to the right of the other child components.              |
 |       `text_display` | [Text display](text-display.md) for showing markdown text, just like the `content` in messages.                  |
 |          `thumbnail` | [Thumbnail](thumbnail.md) for a thumbnail to a section.                                                          |
+|      `media_gallery` | [Media gallery](media-gallery.md) for showing several images in a gallery.                                       |

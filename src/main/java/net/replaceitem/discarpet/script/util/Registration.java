@@ -82,6 +82,8 @@ public class  Registration {
         Parser.registerSchema(FileSchema.class);
         Parser.registerSchema(EmbedSchema.class);
         Parser.registerSchema(LabelSchema.class);
+        Parser.registerSchema(MediaGallerySchema.class);
+        Parser.registerSchema(MediaGallerySchema.MediaGalleryItemSchema.class);
         Parser.registerSchema(MessageContextMenuBuilderSchema.class);
         Parser.registerSchema(ModalSchema.class);
         Parser.registerSchema(SectionSchema.class);
