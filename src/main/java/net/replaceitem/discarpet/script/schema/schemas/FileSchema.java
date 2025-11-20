@@ -135,6 +135,10 @@ public class FileSchema implements SchemaConstructor<FileSchema.AbstractFile>, D
         AttachableUrl asUrl();
         Icon asIcon();
 
+        default boolean requiresUpload() {
+            return this.asUrl().optAttachment().isPresent();
+        }
+
         static AbstractFile ofFileArgument(Context context, FileArgument fileArgument, @Nullable Icon.IconType iconType) {
             if(iconType == null) {
                 String extension = FileUtil.getExtension(fileArgument.resource);

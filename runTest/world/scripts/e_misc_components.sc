@@ -33,16 +33,12 @@ task(_() -> (
                 ],
             ],
             {
+                'component' -> 'text_display',
+                'content' -> '# This is some text\nJust as an example.\nWith some **markdown**.\n-# Also, below this text display is a separator without divider',
+            },
+            {
                 'component' -> 'separator',
                 'is_divider' -> false,
-            },
-            {
-                'component' -> 'text_display',
-                'content' -> '# This is some text\nJust as an example.\nWith some **markdown**.',
-            },
-            {
-                'component' -> 'separator',
-                'spacing' -> 'large',
             },
             {
                 'component' -> 'section',
@@ -58,6 +54,25 @@ task(_() -> (
                     'url' -> 'https://example.org',
                     'label' -> 'Visit',
                     'emoji' -> '🌐',
+                },
+            },
+            {
+                'component' -> 'separator',
+                'spacing' -> 'large',
+            },
+            {
+                'component' -> 'section',
+                'components' -> [
+                    {
+                        'component' -> 'text_display',
+                        'content' -> 'This is yet another sections, featuring a thumbnail as the section accessory'
+                    }
+                ],
+                'accessory' -> {
+                    'component' -> 'thumbnail',
+                    'media' -> {
+                        'url'->'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png',
+                    }
                 },
             },
         ]

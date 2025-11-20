@@ -39,3 +39,4 @@ component = {
 |          `container` | [Container](container.md) that wrap other components in a box while also showing an accent bar on the left side. |
 |            `section` | [Section](section.md) that shows an accessory component to the right of the other child components.              |
 |       `text_display` | [Text display](text-display.md) for showing markdown text, just like the `content` in messages.                  |
+|          `thumbnail` | [Thumbnail](thumbnail.md) for a thumbnail to a section.                                                          |
