@@ -42,3 +42,4 @@ component = {
 |          `thumbnail` | [Thumbnail](thumbnail.md) for a thumbnail to a section.                                                          |
 |      `media_gallery` | [Media gallery](media-gallery.md) for showing several images in a gallery.                                       |
 |       `file_display` | [File display](file-display.md) for showing a file to download.                                                  |
+|        `file_upload` | [File upload](file-upload.md) letting the user upload one or more files.                                         |

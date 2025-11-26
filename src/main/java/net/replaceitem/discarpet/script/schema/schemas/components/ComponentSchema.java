@@ -7,6 +7,7 @@ import carpet.script.value.Value;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.Component.Type;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.attachmentupload.AttachmentUpload;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.filedisplay.FileDisplay;
@@ -42,6 +43,7 @@ public class ComponentSchema implements Redirector<Component>, DirectParsable {
             case THUMBNAIL -> Thumbnail.class;
             case MEDIA_GALLERY -> MediaGallery.class;
             case FILE_DISPLAY -> FileDisplay.class;
+            case FILE_UPLOAD -> AttachmentUpload.class;
             default -> throw new InternalExpressionException("Unsupported value for 'component': " + component.name());
         };
     }

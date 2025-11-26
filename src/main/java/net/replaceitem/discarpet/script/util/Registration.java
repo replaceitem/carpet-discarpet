@@ -18,6 +18,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.interactions.modals.ModalMapping;
 import net.replaceitem.discarpet.script.functions.*;
 import net.replaceitem.discarpet.script.schema.Parser;
 import net.replaceitem.discarpet.script.schema.schemas.*;
@@ -42,6 +43,7 @@ public class  Registration {
         registerDiscordValue(ButtonInteractionValue.class, ButtonInteractionEvent.class, ButtonInteractionValue::new);
         registerDiscordValue(MessageContextMenuInteractionValue.class, MessageContextInteractionEvent.class, MessageContextMenuInteractionValue::new);
         registerDiscordValue(ModalInteractionValue.class, ModalInteractionEvent.class, ModalInteractionValue::new);
+        registerDiscordValue(ModalInteractionOptionValue.class, ModalMapping.class, ModalInteractionOptionValue::new);
         registerDiscordValue(SelectMenuInteractionValue.class, GenericSelectMenuInteractionEvent.class, SelectMenuInteractionValue::new);
         registerDiscordValue(SlashCommandInteractionOptionValue.class, OptionMapping.class, SlashCommandInteractionOptionValue::new);
         registerDiscordValue(SlashCommandInteractionValue.class, SlashCommandInteractionEvent.class, SlashCommandInteractionValue::new);
@@ -75,6 +77,7 @@ public class  Registration {
         
         Parser.registerSchema(ActionRowSchema.class);
         Parser.registerSchema(AttachmentSchema.class);
+        Parser.registerSchema(FileUploadSchema.class);
         Parser.registerSchema(ButtonSchema.class);
         Parser.registerSchema(ColorSchema.class);
         Parser.registerSchema(ContainerSchema.class);

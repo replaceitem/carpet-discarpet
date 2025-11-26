@@ -20,24 +20,10 @@ send_modal(int) -> (
                     'component' -> 'text_input',
                     'id' -> 'name_input',
                     'style' -> 'short',
-                    'min_length' -> 3,
+                    'min_length' -> 2,
                     'max_length' -> 32,
                     'required' -> true,
                     'placeholder' -> 'Put your name here'
-                },
-            },
-            {
-                'component'->'label',
-                'label' -> 'Your age',
-                'description' -> 'How old are you?',
-                'child'-> {
-                    'component' -> 'text_input',
-                    'id' -> 'age_input',
-                    'style' -> 'short',
-                    'min_length' -> 1,
-                    'max_length' -> 3,
-                    'required' -> true,
-                    'placeholder' -> 'Enter a number'
                 },
             },
             {
@@ -50,6 +36,15 @@ send_modal(int) -> (
                     'style' -> 'paragraph',
                     'required' -> false,
                     'value' -> 'Hello, I am'
+                }
+            },
+            {
+                'component'->'label',
+                'label' -> 'Favorite meme',
+                'description' -> 'Upload your favorite meme here',
+                'child'-> {
+                    'component' -> 'file_upload',
+                    'id' -> 'meme_upload',
                 }
             },
         ]
@@ -78,13 +73,35 @@ __on_discord_button(int) -> (
 );
 
 __on_discord_modal(interaction) -> (
-    input = interaction~'input_values_by_id';
+    options = interaction~'values_by_id';
+    meme = options:'meme_upload'~'value':0;
+    print(meme);
+    print(meme~'is_image');
+    print(meme~'file_name');
+    if(!meme~'is_image',
+        dc_respond_interaction(interaction, 'respond_immediately', {
+            'content' -> 'Please upload an image',
+        });
+        return();
+    );
 
     dc_respond_interaction(interaction, 'respond_immediately', {
-        'content' -> {
-            'name' -> input:'name_input',
-            'age' -> input:'age_input',
-            'introduction' -> input:'introduction_input'
-        }
+        'use_components_v2' -> true,
+        'components' -> [
+            {
+                'component' -> 'text_display',
+                'content' -> str('# Hello %s.\n\nThis is your image:', options:'name_input'~'value'),
+            },
+            {
+                'component' -> 'media_gallery',
+                'items' -> [
+                    {
+                        'media' -> {
+                            'url' -> meme~'url',
+                        },
+                    },
+                ],
+            },
+        ],
     });
 );

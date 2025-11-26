@@ -3,6 +3,7 @@ package net.replaceitem.discarpet.script.values.interactions;
 import carpet.script.value.MapValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
+import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.replaceitem.discarpet.script.util.ValueUtil;
 import org.jetbrains.annotations.Nullable;
@@ -27,15 +28,25 @@ public class ModalInteractionValue extends InteractionValue<ModalInteractionEven
         return switch (property) {
             case "custom_id" -> StringValue.of(delegate.getModalId());
             case "input_values_by_id" -> getInputValuesById();
+            case "values_by_id" -> getValuesById();
             default -> super.getProperty(property);
         };
     }
     
     private MapValue getInputValuesById() {
         return MapValue.wrap(
-                delegate.getValues().stream().collect(Collectors.toMap(
+                delegate.getValues().stream().filter(m -> m.getType() == Component.Type.TEXT_INPUT).collect(Collectors.toMap(
                         m -> StringValue.of(m.getCustomId()),
                         m -> StringValue.of(m.getAsString())
+                ))
+        );
+    }
+
+    private MapValue getValuesById() {
+        return MapValue.wrap(
+                delegate.getValues().stream().collect(Collectors.toMap(
+                        m -> StringValue.of(m.getCustomId()),
+                        ModalInteractionOptionValue::of
                 ))
         );
     }
