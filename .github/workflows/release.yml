@@ -76,13 +76,13 @@ jobs:
       - name: Merge main into release
         run: |
           git fetch origin release
-          git checkout release
+          git checkout -b release origin/release
           git merge main
 
       - name: Merge release into docs
         run: |
           git fetch origin docs
-          git checkout --no-guess docs
+          git checkout -b docs origin/docs
           git merge release
 
       - name: Push branches and tags
