@@ -40,6 +40,43 @@ send_modal(int) -> (
             },
             {
                 'component'->'label',
+                'label' -> 'Favorite animal',
+                'description' -> 'What\'s your favorite animal',
+                'child'-> {
+                    'component' -> 'string_select',
+                    'id' -> 'favorite_animal',
+                    'placeholder' -> 'Select your favorite animal',
+                    'options' -> [
+                        {
+                            'value' -> 'dog',
+                            'label' -> 'Dog',
+                            'emoji' -> '🐶'
+                        },
+                        {
+                            'value' -> 'cat',
+                            'label' -> 'Cat',
+                            'emoji' -> '😺'
+                        },
+                        {
+                            'value' -> 'horse',
+                            'label' -> 'Horse',
+                            'emoji' -> '🐴'
+                        },
+                        {
+                            'value' -> 'parrot',
+                            'label' -> 'Parrot',
+                            'emoji' -> '🦜'
+                        },
+                        {
+                            'value' -> 'dolphin',
+                            'label' -> 'Dolphin',
+                            'emoji' -> '🐬'
+                        }
+                    ]
+                },
+            },
+            {
+                'component'->'label',
                 'label' -> 'Favorite meme',
                 'description' -> 'Upload your favorite meme here',
                 'child'-> {
@@ -75,9 +112,6 @@ __on_discord_button(int) -> (
 __on_discord_modal(interaction) -> (
     options = interaction~'values_by_id';
     meme = options:'meme_upload'~'value':0;
-    print(meme);
-    print(meme~'is_image');
-    print(meme~'file_name');
     if(!meme~'is_image',
         dc_respond_interaction(interaction, 'respond_immediately', {
             'content' -> 'Please upload an image',
@@ -90,7 +124,11 @@ __on_discord_modal(interaction) -> (
         'components' -> [
             {
                 'component' -> 'text_display',
-                'content' -> str('# Hello %s.\n\nThis is your image:', options:'name_input'~'value'),
+                'content' -> str(
+                    '# Hello %s.\nI also like %ss.\n\nThis is your image:',
+                    options:'name_input'~'value',
+                    options:'favorite_animal'~'value':0
+                ),
             },
             {
                 'component' -> 'media_gallery',

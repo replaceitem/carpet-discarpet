@@ -238,3 +238,4 @@ nav:
       - Text display component: 'schemas/components/text-display.md'
       - Media gallery component: 'schemas/components/media-gallery.md'
       - File display component: 'schemas/components/file-display.md'
+      - File upload component: 'schemas/components/file-upload.md'
