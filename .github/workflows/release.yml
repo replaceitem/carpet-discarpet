@@ -50,6 +50,7 @@ jobs:
         id: version
         with:
           scheme: 'semver'
+          tag_prefix: 'v'
           increment: ${{ github.event.inputs.digit }}
 
       - name: Update version in gradle.properties
@@ -81,7 +82,7 @@ jobs:
       - name: Merge release into docs
         run: |
           git fetch origin docs
-          git checkout docs
+          git checkout --no-guess docs
           git merge release
 
       - name: Push branches and tags
