@@ -85,11 +85,11 @@ jobs:
           git checkout -b docs origin/docs
           git merge release
 
-      - name: Push branches and tags
-        run: |
-          git push --tags origin main release docs
-
       - name: Publish to modrinth with Gradle
         run: ./gradlew modrinth
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+
+      - name: Push branches and tags
+        run: |
+          git push --tags origin main release docs
