@@ -1,6 +1,4 @@
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault()
+@NullMarked
 package net.replaceitem.discarpet.script.schema.schemas;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jspecify.annotations.NullMarked;

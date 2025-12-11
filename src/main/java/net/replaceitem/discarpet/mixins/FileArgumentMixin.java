@@ -7,13 +7,13 @@ import carpet.script.exception.ThrowStatement;
 import carpet.script.exception.Throwables;
 import net.replaceitem.discarpet.script.util.FileArgumentExtension;
 import net.replaceitem.discarpet.util.StreamableByteArrayOutputStream;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -29,7 +29,7 @@ public abstract class FileArgumentMixin implements FileArgumentExtension {
     @SuppressWarnings("SynchronizeOnNonFinalField")
     @Unique
     @Override
-    @NotNull
+    @NonNull
     public InputStream asInputStream(@Nullable Module module) {
         try {
             synchronized (writeIOSync) {

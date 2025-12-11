@@ -28,7 +28,7 @@ public class DiscarpetCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher)
     {
-        dispatcher.register(literal("discarpet").requires(serverCommandSource -> serverCommandSource.hasPermission(2)).executes(commandContext->{
+        dispatcher.register(literal("discarpet").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS)).executes(commandContext->{
             commandContext.getSource().sendSuccess(() -> {
                 String version = FabricLoader.getInstance().getModContainer("discarpet").orElseThrow().getMetadata().getVersion().getFriendlyString();
                 MutableComponent text = Component.literal("Discarpet version " + version).withStyle(ChatFormatting.BLUE);

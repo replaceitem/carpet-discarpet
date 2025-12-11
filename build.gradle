@@ -18,12 +18,12 @@ repositories {
 	}
 }
 
-sourceCompatibility = JavaVersion.VERSION_21
-targetCompatibility = JavaVersion.VERSION_21
-
-archivesBaseName = project.archives_base_name
 version = project.minecraft_version+'-'+project.mod_version
 group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
 
 loom {
 	runs {
@@ -47,8 +47,6 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "carpet:fabric-carpet:${project.carpet_minecraft_version}-${project.carpet_core_version}"
 
-	implementation 'com.google.code.findbugs:jsr305:3.0.2'
-
 	def includeImplementation = { String dependencyNotation ->
 		implementation(dependencyNotation) {
 			transitive = false
@@ -62,7 +60,11 @@ dependencies {
 	includeImplementation "com.squareup.okio:okio:1.17.2"
 	includeImplementation "net.sf.trove4j:core:3.1.0"
 	includeImplementation "org.apache.commons:commons-collections4:4.4"
-	
+	includeImplementation "com.fasterxml.jackson.core:jackson-core:2.20.0"
+	includeImplementation "com.fasterxml.jackson.core:jackson-databind:2.20.0"
+	includeImplementation "com.fasterxml.jackson.core:jackson-annotations:2.20"
+	includeImplementation "com.fasterxml.jackson:jackson-bom:2.20.0"
+
 	
 	// soft dependencies
 	
@@ -85,11 +87,16 @@ tasks.withType(JavaCompile).configureEach {
 
 java {
 	withSourcesJar()
+
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {
+    inputs.property "archivesName", project.base.archivesName
+
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
+        rename { "${it}_${inputs.properties.archivesBaseName}"}
 	}
 }
 
