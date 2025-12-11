@@ -4,6 +4,11 @@ icon: octicons/history-16
 
 <!-- INSERT_HERE -->
 
+## 1.7.1 – <small>December 11, 2025</small> { id="1.7.1" }
+
+* Updated to Minecraft 1.21.11
+
+
 ## 1.7.0 – <small>November 27, 2025</small> { id="1.7.0" }
 
 ### Changes
