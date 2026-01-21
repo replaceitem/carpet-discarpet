@@ -4,6 +4,12 @@ icon: octicons/history-16
 
 <!-- INSERT_HERE -->
 
+## 1.7.2 – <small>January 21, 2026</small> { id="1.7.2" }
+
+* Fixed compatibility of `__on_system_messsage` event with other mods like better-fabric-console
+* Updated JDA version
+
+
 ## 1.7.1 – <small>December 11, 2025</small> { id="1.7.1" }
 
 * Updated to Minecraft 1.21.11
