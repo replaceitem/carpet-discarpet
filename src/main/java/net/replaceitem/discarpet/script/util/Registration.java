@@ -79,6 +79,8 @@ public class  Registration {
         Parser.registerSchema(AttachmentSchema.class);
         Parser.registerSchema(FileUploadSchema.class);
         Parser.registerSchema(ButtonSchema.class);
+        Parser.registerSchema(CheckboxGroupSchema.class);
+        Parser.registerSchema(CheckboxGroupOptionSchema.class);
         Parser.registerSchema(CheckboxSchema.class);
         Parser.registerSchema(ColorSchema.class);
         Parser.registerSchema(ContainerSchema.class);

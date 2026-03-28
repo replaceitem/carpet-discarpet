@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.attachmentupload.AttachmentUpload;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.checkbox.Checkbox;
+import net.dv8tion.jda.api.components.checkboxgroup.CheckboxGroup;
 import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.filedisplay.FileDisplay;
 import net.dv8tion.jda.api.components.label.Label;
@@ -46,6 +47,7 @@ public class ComponentSchema implements Redirector<Component>, DirectParsable {
             case FILE_DISPLAY -> FileDisplay.class;
             case FILE_UPLOAD -> AttachmentUpload.class;
             case CHECKBOX -> Checkbox.class;
+            case CHECKBOX_GROUP -> CheckboxGroup.class;
             default -> throw new InternalExpressionException("Unsupported value for 'component': " + component.name());
         };
     }
