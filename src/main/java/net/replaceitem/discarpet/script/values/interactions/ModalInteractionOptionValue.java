@@ -1,5 +1,6 @@
 package net.replaceitem.discarpet.script.values.interactions;
 
+import carpet.script.value.BooleanValue;
 import carpet.script.value.ListValue;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
@@ -37,6 +38,7 @@ public class ModalInteractionOptionValue extends DiscordValue<ModalMapping> {
             case TEXT_INPUT -> StringValue.of(delegate.getAsString());
             case STRING_SELECT, USER_SELECT, ROLE_SELECT, CHANNEL_SELECT, MENTIONABLE_SELECT -> ListValue.wrap(delegate.getAsStringList().stream().map(StringValue::of));
             case FILE_UPLOAD -> ListValue.wrap(delegate.getAsAttachmentList().stream().map(AttachmentValue::of));
+            case CHECKBOX -> BooleanValue.of(delegate.getAsBoolean());
             default -> Value.NULL;
         };
     }
