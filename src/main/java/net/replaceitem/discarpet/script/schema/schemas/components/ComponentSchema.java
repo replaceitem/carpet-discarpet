@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.filedisplay.FileDisplay;
 import net.dv8tion.jda.api.components.label.Label;
 import net.dv8tion.jda.api.components.mediagallery.MediaGallery;
+import net.dv8tion.jda.api.components.radiogroup.RadioGroup;
 import net.dv8tion.jda.api.components.section.Section;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.components.separator.Separator;
@@ -48,6 +49,7 @@ public class ComponentSchema implements Redirector<Component>, DirectParsable {
             case FILE_UPLOAD -> AttachmentUpload.class;
             case CHECKBOX -> Checkbox.class;
             case CHECKBOX_GROUP -> CheckboxGroup.class;
+            case RADIO_GROUP -> RadioGroup.class;
             default -> throw new InternalExpressionException("Unsupported value for 'component': " + component.name());
         };
     }

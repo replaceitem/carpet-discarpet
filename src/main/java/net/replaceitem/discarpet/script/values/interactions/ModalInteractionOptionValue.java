@@ -39,6 +39,7 @@ public class ModalInteractionOptionValue extends DiscordValue<ModalMapping> {
             case STRING_SELECT, USER_SELECT, ROLE_SELECT, CHANNEL_SELECT, MENTIONABLE_SELECT, CHECKBOX_GROUP -> ListValue.wrap(delegate.getAsStringList().stream().map(StringValue::of));
             case FILE_UPLOAD -> ListValue.wrap(delegate.getAsAttachmentList().stream().map(AttachmentValue::of));
             case CHECKBOX -> BooleanValue.of(delegate.getAsBoolean());
+            case RADIO_GROUP -> StringValue.of(delegate.getAsOptionalString());
             default -> Value.NULL;
         };
     }

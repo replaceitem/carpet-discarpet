@@ -93,6 +93,8 @@ public class  Registration {
         Parser.registerSchema(MediaGallerySchema.MediaGalleryItemSchema.class);
         Parser.registerSchema(MessageContextMenuBuilderSchema.class);
         Parser.registerSchema(ModalSchema.class);
+        Parser.registerSchema(RadioGroupOptionSchema.class);
+        Parser.registerSchema(RadioGroupSchema.class);
         Parser.registerSchema(SectionSchema.class);
         Parser.registerSchema(SelectMenuOptionSchema.class);
         Parser.registerSchema(SelectMenuSchema.class);
