@@ -128,6 +128,7 @@ nav:
     - Slash commands: 'examples/slash-commands.md'
     - Context menus: 'examples/context-menus.md'
     - Modal: 'examples/modal.md'
+    - Modal select: 'examples/modal-select.md'
 
   - Functions:
     - dc_send_message: 'functions/send-message.md'
@@ -229,6 +230,9 @@ nav:
       - Button component: 'schemas/components/button.md'
       - Select menu component: 'schemas/components/select-menu.md'
       - Text input component: 'schemas/components/text-input.md'
+      - Checkbox component: 'schemas/components/checkbox.md'
+      - Checkbox group component: 'schemas/components/checkbox-group.md'
+      - Radio group component: 'schemas/components/radio-group.md'
       - Action row component: 'schemas/components/action-row.md'
       - Container component: 'schemas/components/container.md'
       - Section component: 'schemas/components/section.md'

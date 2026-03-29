@@ -2,6 +2,7 @@
 
 !!! example-scripts inline end "Example scripts"
     * [Select menus](/examples/select-menus.md)
+    * [Modal select](/examples/modal-select.md)
 
 Used for creating a select menu component.
 

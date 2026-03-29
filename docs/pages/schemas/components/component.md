@@ -43,3 +43,6 @@ component = {
 |      `media_gallery` | [Media gallery](media-gallery.md) for showing several images in a gallery.                                       |
 |       `file_display` | [File display](file-display.md) for showing a file to download.                                                  |
 |        `file_upload` | [File upload](file-upload.md) letting the user upload one or more files.                                         |
+|           `checkbox` | [Checkbox](checkbox.md) for selecting a boolean state.                                                           |
+|     `checkbox_group` | [Checkbox group](checkbox-group.md) for selecting multiple boolean options.                                      |
+|        `radio_group` | [Radio group](radio-group.md) for selecting an option out of multiple options.                                   |

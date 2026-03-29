@@ -1,7 +1,7 @@
 `checkbox`
 
 !!! example-scripts inline end "Example scripts"
-    * [Modal](/examples/modal-select.md)
+    * [Modal select](/examples/modal-select.md)
 
 Used for creating a checkbox component.
 
