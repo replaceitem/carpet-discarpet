@@ -1,44 +1,40 @@
 {
-  "schemaVersion": 1,
-  "id": "discarpet",
-  "version": "${version}",
-
-  "name": "Discarpet",
-  "description": "Adds discord bot functionality to scarpet",
-  "authors": [
-    "replaceitem"
-  ],
-  "contact": {
-    "homepage": "https://replaceitem.github.io/carpet-discarpet/",
-    "issues": "https://github.com/replaceitem/carpet-discarpet/issues",
-    "sources": "https://github.com/replaceitem/carpet-discarpet"
-  },
-
-  "license": "MIT",
-  "icon": "assets/discarpet/icon.png",
-
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "net.replaceitem.discarpet.Discarpet"
-    ]
-  },
-  "mixins": [
-    "discarpet.mixins.json"
-  ],
-
-  "depends": {
-    "minecraft": ">=1.21.5",
-    "fabricloader": ">=0.15.0",
-    "carpet": ">=1.4.140",
-    "java": ">=21"
-  },
-  "custom": {
-    "modmenu": {
-      "parent": "carpet",
-      "links": {
-        "modmenu.discord": "https://discord.gg/etTDQAVSgt"
-      }
+    "schemaVersion": 1,
+    "id": "discarpet",
+    "version": "${version}",
+    "name": "Discarpet",
+    "description": "Adds discord bot functionality to scarpet",
+    "authors": [
+        "replaceitem"
+    ],
+    "contact": {
+        "homepage": "https://replaceitem.github.io/carpet-discarpet/",
+        "issues": "https://github.com/replaceitem/carpet-discarpet/issues",
+        "sources": "https://github.com/replaceitem/carpet-discarpet"
+    },
+    "license": "MIT",
+    "icon": "assets/discarpet/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "net.replaceitem.discarpet.Discarpet"
+        ]
+    },
+    "mixins": [
+        "discarpet.mixins.json"
+    ],
+    "depends": {
+        "minecraft": ">=26.1",
+        "fabricloader": ">=0.18.4",
+        "carpet": "*",
+        "java": ">=25"
+    },
+    "custom": {
+        "modmenu": {
+            "parent": "carpet",
+            "links": {
+                "modmenu.discord": "https://discord.gg/etTDQAVSgt"
+            }
+        }
     }
-  }
 }

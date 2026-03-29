@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version "${loom_version}"
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 	id "com.modrinth.minotaur" version "2.+"
 }
@@ -43,9 +43,8 @@ loom {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "carpet:fabric-carpet:${project.carpet_minecraft_version}-${project.carpet_core_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "carpet:fabric-carpet:${project.carpet_minecraft_version}+${project.carpet_core_version}"
 
 	def includeImplementation = { String dependencyNotation ->
 		implementation(dependencyNotation) {
@@ -68,7 +67,7 @@ dependencies {
 	
 	// soft dependencies
 	
-	modCompileOnly 'maven.modrinth:scarpet-graphics:0.1.4'
+	compileOnly 'maven.modrinth:scarpet-graphics:0.1.4'
 	runtimeOnly 'maven.modrinth:scarpet-graphics:0.1.4'
 }
 
@@ -82,14 +81,14 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = "UTF-8"
-	it.options.release = 21
+	it.options.release = 25
 }
 
 java {
 	withSourcesJar()
 
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {
@@ -113,7 +112,7 @@ modrinth {
 	projectId = "m00L1GVJ"
 	versionNumber = project.mod_version
 	versionType = "release"
-	uploadFile = remapJar
+	uploadFile = jar
 	loaders = ["fabric"]
 	dependencies = [
 			// carpet

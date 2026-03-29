@@ -1,7 +1,7 @@
 {
     "required": true,
     "package": "net.replaceitem.discarpet.mixins",
-    "compatibilityLevel": "JAVA_21",
+    "compatibilityLevel": "JAVA_25",
     "mixins": [
         "CallbackListAccessor",
         "CommandImplMixin",
@@ -9,9 +9,8 @@
         "MinecraftServerMixin",
         "SimpleTypeConverterAccessor"
     ],
-    "client": [
-    ],
+    "client": [],
     "injectors": {
         "defaultRequire": 1
-  }
+    }
 }
