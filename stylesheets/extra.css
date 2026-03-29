@@ -1,0 +1,209 @@
+/* for both light & dark mode */
+
+[data-md-color-scheme] {
+  --md-primary-fg-color: #4B59D8;
+}
+
+
+
+/* make header wool */
+
+.md-header,
+.md-tabs,
+.md-nav__title {
+  background: url("../assets/wool-header.png");
+
+  background-position: bottom center;
+}
+
+/* make footer wool */
+
+.md-footer-meta {
+  background-image: url("../assets/wool.png");
+}
+
+/* shadow gradient for header tabs */
+
+.md-tabs::before {
+  content: "";
+
+  position: absolute;
+  bottom: 0;
+
+  width: 100%;
+  height: 2rem;
+  background: linear-gradient(#0000, #0005);
+}
+
+
+
+/* adjust tabs height */
+
+.md-tabs__item {
+  height: 2rem;
+}
+
+.md-tabs__link {
+  margin-top: 0.56rem;
+}
+
+/* border bottom for tabs */
+
+.md-tabs {
+  border-bottom: 1px solid var(--md-default-fg-color--light);
+}
+
+/* fill selected tabs */
+
+.md-tabs__item--active {
+  background: var(--md-default-bg-color);
+}
+
+[data-md-color-scheme="default"] .md-tabs__item--active {
+  color: var(--md-default-fg-color);
+}
+
+
+
+/* fancy buttons */
+
+.md-typeset .md-button {
+  color: var(--md-primary-bg-color);
+  border: 2px solid #000;
+  border-radius: unset;
+  box-shadow: inset -2px -4px rgba(0, 0, 0, 32%), inset 2px 2px rgba(255, 255, 255, 50%);
+
+  text-shadow: 1px 1px #0008;
+}
+
+.md-typeset .md-button span {
+  filter: drop-shadow(1px 1px #0008);
+}
+
+.md-typeset .md-button:hover {
+  border-color: #FFF;
+}
+
+.md-typeset .md-button:not(.md-button--primary) {
+  background: #67656D;
+}
+
+/*.md-typeset .md-button:not(.md-button--primary):hover {
+  color: #ff6;
+}*/
+
+
+
+/* tweaky images */
+
+.md-content img {
+  border-radius: .3rem;
+}
+
+
+
+/* tweaky tables */
+
+.md-typeset table:not([class]) {
+  border-radius: .3rem;
+
+  font-size: .675rem;
+}
+
+.md-typeset table:not([class]) td,
+.md-typeset table:not([class]) th {
+  padding: 0.65em 1.25em;
+}
+
+
+
+/* tweaky list items */
+
+.md-typeset ol li, .md-typeset ul li {
+  margin-bottom: .75em;
+}
+
+
+
+/* tweaky `code` */
+
+[data-md-color-scheme=slate] {
+  --md-code-bg-color: hsl(225deg 16.88% 8.8%);
+}
+
+.md-typeset :not(pre) > code {
+  border-radius: .2rem;
+  font-size: .95em;
+}
+
+/* add borders to `code` and ```codeblocks``` */
+
+.md-typeset :not(pre) > code {
+  border: 1px solid var(--md-default-fg-color--lighter);
+}
+
+.highlight span.filename,
+.highlight pre > code {
+  border: 1px solid var(--md-default-fg-color--lighter);
+}
+
+.highlight span.filename {
+  border-bottom: unset;
+}
+
+.highlight span.filename {
+  border-top-left-radius: .3rem;
+  border-top-right-radius: .3rem;
+}
+
+.highlight span.filename + pre > code {
+  border-bottom-left-radius: .3rem;
+  border-bottom-right-radius: .3rem;
+}
+
+
+
+/* make footnote references a tad more noticeable */
+
+.footnote-ref::before {
+  content: "["
+}
+
+.footnote-ref::after {
+  content: "]";
+}
+
+
+
+/* do not compress values/properties on larger screens */
+
+@media (min-width: 800px) {
+  td:first-child {
+    white-space: pre;
+  }
+}
+
+
+
+.icon-help svg {
+  scale: 80%;
+}
+
+.icon-optional {
+  opacity: 75%;
+}
+
+.md-typeset .admonition.example-scripts,
+.md-typeset details.example-scripts {
+    border-color: var(--md-typeset-table-color);
+}
+.md-typeset .example-scripts > .admonition-title,
+.md-typeset .example-scripts > summary {
+    background-color: var(--md-accent-fg-color--transparent);
+}
+.md-typeset .example-scripts > .admonition-title::before,
+.md-typeset .example-scripts > summary::before {
+    background-color: var(--md-accent-fg-color);
+    -webkit-mask-image: var(--md-admonition-icon--example-scripts);
+    mask-image: var(--md-admonition-icon--example-scripts);
+}
