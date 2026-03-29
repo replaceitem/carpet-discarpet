@@ -1,2 +1,2 @@
-* Fixed compatibility of `__on_system_messsage` event with other mods like better-fabric-console
-* Updated JDA version
+* Added support for checkbox, checkbox group and radio group components
+* Updated modal examples with new components
