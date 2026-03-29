@@ -4,6 +4,12 @@ icon: octicons/history-16
 
 <!-- INSERT_HERE -->
 
+## 1.7.3 – <small>March 29, 2026</small> { id="1.7.3" }
+
+* Added support for checkbox, checkbox group and radio group components
+* Updated modal examples with new components
+
+
 ## 1.7.2 – <small>January 21, 2026</small> { id="1.7.2" }
 
 * Fixed compatibility of `__on_system_messsage` event with other mods like better-fabric-console
