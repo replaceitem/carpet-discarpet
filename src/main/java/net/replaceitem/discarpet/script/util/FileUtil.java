@@ -87,7 +87,7 @@ public class FileUtil {
         return ((FileArgumentExtension) fileArgument).asInputStream(scriptHost.main);
     }
     
-    public static Supplier<InputStream> imageToInputStreamSupplier(BufferedImage image, String fileType) {
+    public static Supplier<@Nullable InputStream> imageToInputStreamSupplier(BufferedImage image, String fileType) {
         return () -> {
             try {
                 PipedOutputStream pos = new PipedOutputStream();

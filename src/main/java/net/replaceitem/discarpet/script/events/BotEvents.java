@@ -39,6 +39,7 @@ public class BotEvents extends CarpetEventServer.Event {
         try {
             return CarpetServer.minecraft_server.createCommandSourceStack().withLevel(Objects.requireNonNull(CarpetServer.minecraft_server.getLevel(Level.OVERWORLD)));
         } catch (NullPointerException npe) {
+            //noinspection DataFlowIssue
             return null;
         }
     };

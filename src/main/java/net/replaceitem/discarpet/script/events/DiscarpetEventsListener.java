@@ -70,7 +70,7 @@ public class DiscarpetEventsListener extends ListenerAdapter {
     }
 
     @Override
-    public void onGenericComponentInteractionCreate(@NotNull GenericComponentInteractionCreateEvent event) {
+    public void onGenericComponentInteractionCreate(GenericComponentInteractionCreateEvent event) {
         if(event instanceof ButtonInteractionEvent buttonInteraction) {
             callEventOnGameThread(() -> DiscordEvents.DISCORD_BUTTON.run(bot, buttonInteraction));
         } else if(event instanceof GenericSelectMenuInteractionEvent<?,?> selectMenuInteraction) {
@@ -79,29 +79,29 @@ public class DiscarpetEventsListener extends ListenerAdapter {
     }
 
     @Override
-    public void onModalInteraction(@NotNull ModalInteractionEvent event) {
+    public void onModalInteraction(ModalInteractionEvent event) {
         callEventOnGameThread(() -> DiscordEvents.DISCORD_MODAL.run(bot, event));
     }
 
     @Override
-    public void onMessageContextInteraction(@NotNull MessageContextInteractionEvent event) {
+    public void onMessageContextInteraction(MessageContextInteractionEvent event) {
         callEventOnGameThread(() -> DiscordEvents.DISCORD_MESSAGE_CONTEXT_MENU.run(bot, event));
     }
 
     @Override
-    public void onUserContextInteraction(@NotNull UserContextInteractionEvent event) {
+    public void onUserContextInteraction(UserContextInteractionEvent event) {
         callEventOnGameThread(() -> DiscordEvents.DISCORD_USER_CONTEXT_MENU.run(bot, event));
     }
 
     @Override
-    public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
+    public void onGuildMemberJoin(GuildMemberJoinEvent event) {
         Guild guild = event.getGuild();
         Member member = event.getMember();
         callEventOnGameThread(() -> DiscordEvents.DISCORD_SERVER_MEMBER_JOIN.run(bot, guild, member));
     }
 
     @Override
-    public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
+    public void onGuildMemberRemove(GuildMemberRemoveEvent event) {
         Guild guild = event.getGuild();
         User user = event.getUser();
         callEventOnGameThread(() -> DiscordEvents.DISCORD_SERVER_MEMBER_LEAVE.run(bot, guild, user));

@@ -134,6 +134,7 @@ public class  Registration {
     public static <T, U extends DiscordValue<? extends T>> void registerDiscordValue(Class<U> valueClass, Class<T> internalClass, Function<T, Value> constructor) {
         String typeName;
         try {
+            //noinspection DataFlowIssue
             typeName = constructor.apply(null).getTypeString();
         } catch (NullPointerException npe) {
             typeName = npe.getMessage();
