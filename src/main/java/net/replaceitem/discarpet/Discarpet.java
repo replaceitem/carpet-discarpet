@@ -9,40 +9,32 @@ import carpet.script.exception.InternalExpressionException;
 import carpet.script.value.StringValue;
 import carpet.script.value.Value;
 import com.mojang.brigadier.CommandDispatcher;
-import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.MinecraftServer;
+import net.replaceitem.discarpet.bot.Bot;
+import net.replaceitem.discarpet.bot.BotManager;
 import net.replaceitem.discarpet.commands.DiscarpetCommand;
-import net.replaceitem.discarpet.config.Bot;
-import net.replaceitem.discarpet.config.BotConfig;
 import net.replaceitem.discarpet.config.ConfigManager;
 import net.replaceitem.discarpet.script.events.DiscordEvents;
 import net.replaceitem.discarpet.script.events.MiscEvents;
-import net.replaceitem.discarpet.script.util.EnumUtil;
 import net.replaceitem.discarpet.script.util.Registration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jspecify.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class Discarpet implements CarpetExtension, ModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger("Discarpet");
-	protected static ConfigManager configManager;
-
-	public static Map<String, Bot> discordBots = Collections.synchronizedMap(new HashMap<>());
+    @Nullable
+	public static ConfigManager configManager;
+    public static BotManager botManager = new BotManager();
 
 	@Override
 	public void onInitialize() {
@@ -75,8 +67,7 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 
 	@Override
 	public void onServerClosed(MinecraftServer server) {
-		LOGGER.info("Disconnecting all Discord bots");
-		discordBots.forEach((s, bot) -> bot.disconnect());
+        botManager.disconnectAll();
 	}
 
 	@Override
@@ -84,67 +75,14 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		DiscarpetCommand.register(dispatcher);
 	}
 
-	public static void loadConfig(CommandSourceStack source) {
-		boolean newlyCreatedConfig = configManager.loadAndUpdate();
+	public static void loadConfig(@Nullable CommandSourceStack source) {
+        if(configManager == null) return;
+        boolean newlyCreatedConfig = configManager.loadAndUpdate();
 		if(newlyCreatedConfig) {
 			Discarpet.LOGGER.info("No Discarpet configuration file found, creating one. Edit config/discarpet.json to add your bots");
 			return;
 		}
-		loadBots(source);
-	}
-
-	public static void loadBots(CommandSourceStack source) {
-		CompletableFuture.allOf(
-				discordBots.values().stream()
-						.map(bot -> bot == null ? null : bot.disconnect())
-						.filter(Objects::nonNull)
-						.toArray(CompletableFuture[]::new)
-		);
-		discordBots.clear();
-
-		for (BotConfig botConfig : configManager.getConfig().BOTS) {
-			if(botConfig == null) continue;
-			String botId = botConfig.BOT_ID;
-            try {
-                Set<GatewayIntent> intents = botConfig.INTENTS.stream()
-                        .map(s -> EnumUtil.getEnumOrThrow(GatewayIntent.class, s, "Unknown intent"))
-                        .collect(Collectors.toSet());
-				
-				MemberCachePolicy memberCachePolicy = switch (botConfig.MEMBER_CACHE_POLICY.toLowerCase()) {
-					case "all" -> MemberCachePolicy.ALL;
-					case "online" -> MemberCachePolicy.ONLINE;
-					case "voice" -> MemberCachePolicy.VOICE;
-					case "pending" -> MemberCachePolicy.PENDING;
-					case "booster" -> MemberCachePolicy.BOOSTER;
-					case "owner" -> MemberCachePolicy.OWNER;
-					case "none" -> MemberCachePolicy.NONE;
-                    default -> throw new IllegalArgumentException("Unknown member cache policy: " + botConfig.MEMBER_CACHE_POLICY);
-                };
-
-                CompletableFuture<Bot> botCompletableFuture = Bot.create(botId, botConfig.BOT_TOKEN, intents, memberCachePolicy);
-                botCompletableFuture.exceptionally(throwable -> {
-                    String error = "Could not login bot " + botId;
-                    LOGGER.warn(error, throwable);
-                    if(source != null) source.sendSuccess(() -> Component.literal(error + ": " + throwable.getMessage()).withStyle(ChatFormatting.RED),false);
-                    return null;
-                });
-                botCompletableFuture.thenAccept(bot -> {
-                    if(bot == null) return;
-                    discordBots.put(bot.getId(), bot);
-                    String msg = "Bot " + botId + " sucessfully logged in";
-                    if(!intents.isEmpty()) {
-                        msg += " with intents " + intents.stream().map(Enum::toString).collect(Collectors.joining(","));
-                    }
-                    MutableComponent text = Component.literal(msg).withStyle(style -> style.withColor(ChatFormatting.GREEN));
-                    if(source != null) source.sendSuccess(() -> text,false);
-                    LOGGER.info(msg);
-                });
-            } catch (Exception e) {
-				String error = "Could not create bot " + botId;
-				LOGGER.warn(error, e);
-				if(source != null) source.sendSuccess(() -> Component.literal(error + ": " + e.getMessage()).withStyle(ChatFormatting.RED),false);
-            }
-        }
+		botManager.loadBots(source);
 	}
 
 	public static boolean isScarpetGraphicsInstalled() {
@@ -162,12 +100,13 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		return bot;
 	}
 
-	public static Bot getBotInHost(ScriptHost h) {
+    @Nullable
+	public static Bot getBotInHost(@Nullable ScriptHost h) {
 		if(h == null) return null;
 		Value botKeyValue = ((CarpetScriptHost) h).appConfig.get(StringValue.of("bot"));
 		if (botKeyValue == null) return null;
 		String key = botKeyValue.getString();
-		return discordBots.get(key);
+		return botManager.getBot(key);
 	}
 
 	public static InternalExpressionException scarpetNoBotException(String function) {

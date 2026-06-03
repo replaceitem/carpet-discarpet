@@ -19,8 +19,7 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.minecraft.server.TickTask;
-import net.replaceitem.discarpet.config.Bot;
-import org.jetbrains.annotations.NotNull;
+import net.replaceitem.discarpet.bot.Bot;
 
 public class DiscarpetEventsListener extends ListenerAdapter {
     

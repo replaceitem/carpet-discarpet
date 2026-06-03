@@ -19,7 +19,7 @@ import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.replaceitem.discarpet.Discarpet;
-import net.replaceitem.discarpet.config.Bot;
+import net.replaceitem.discarpet.bot.Bot;
 import net.replaceitem.discarpet.script.exception.DiscordThrowables;
 import net.replaceitem.discarpet.script.schema.SchemaConstructor;
 import net.replaceitem.discarpet.script.schema.Parser;
@@ -61,7 +61,7 @@ public class Interactions {
         RestAction<Command> action;
         if(server == null) {
             Bot bot = Discarpet.getBotInContext(context, "dc_create_application_command");
-            action = bot.getJda().upsertCommand(schemaConstructor.construct(context));
+            action = bot.jda().upsertCommand(schemaConstructor.construct(context));
         } else {
             action = server.upsertCommand(schemaConstructor.construct(context));
         }
@@ -71,7 +71,7 @@ public class Interactions {
     @ScarpetFunction
     public List<Command> dc_get_global_application_commands(Context context) {
         Bot bot = Discarpet.getBotInContext(context,"dc_get_global_application_commands");
-        JDA jda = bot.getJda();
+        JDA jda = bot.jda();
         return ValueUtil.awaitRest(jda.retrieveCommands(), "Could not get global application commands");
     }
     

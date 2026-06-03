@@ -14,7 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.replaceitem.discarpet.config.Bot;
+import net.replaceitem.discarpet.bot.Bot;
 
 import java.net.URI;
 import java.util.Set;
@@ -24,7 +24,7 @@ import static net.minecraft.commands.Commands.literal;
 public class DiscarpetCommand {
     public static final URI DOCS_URI = URI.create("https://replaceitem.github.io/carpet-discarpet/");
     private static final SuggestionProvider<CommandSourceStack> BOTS = (commandContext, suggestionsBuilder) ->
-            SharedSuggestionProvider.suggest(Discarpet.discordBots.keySet().stream(), suggestionsBuilder);
+            SharedSuggestionProvider.suggest(Discarpet.botManager.getBotIds().stream(), suggestionsBuilder);
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher)
     {
@@ -44,18 +44,18 @@ public class DiscarpetCommand {
         }).then(literal("list").
             executes(commandContext->{
                 commandContext.getSource().sendSuccess(() -> {
-                    Set<String> botIDs = Discarpet.discordBots.keySet();
+                    Set<String> botIDs = Discarpet.botManager.getBotIds();
                     if(botIDs.isEmpty()) return Component.literal("There are no bots active").withStyle(ChatFormatting.RED);
                     final MutableComponent t = Component.literal("There are " + botIDs.size() + " bots active").withStyle(ChatFormatting.GREEN);
                     botIDs.forEach(id -> t.append(Component.literal("\n" + id).withStyle(ChatFormatting.BLUE)));
                     return t;
                 },true);
-                return Discarpet.discordBots.size();
+                return Discarpet.botManager.getBotIds().size();
             })
         ).then(literal("getInvite").then(Commands.argument("id", StringArgumentType.string()).suggests(BOTS).executes(commandContext->{
             commandContext.getSource().sendSuccess(() -> {
                 String id = StringArgumentType.getString(commandContext,"id");
-                Bot bot = Discarpet.discordBots.get(id);
+                Bot bot = Discarpet.botManager.getBot(id);
                 if(bot == null) {
                     return Component.literal("Invalid bot: " + id);
                 }

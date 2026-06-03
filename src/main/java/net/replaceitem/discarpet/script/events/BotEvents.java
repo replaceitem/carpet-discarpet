@@ -6,7 +6,7 @@ import carpet.script.value.Value;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.level.Level;
 import net.replaceitem.discarpet.Discarpet;
-import net.replaceitem.discarpet.config.Bot;
+import net.replaceitem.discarpet.bot.Bot;
 import net.replaceitem.discarpet.mixins.CallbackListAccessor;
 import net.replaceitem.discarpet.script.util.ValueConversions;
 import org.jetbrains.annotations.Nullable;
