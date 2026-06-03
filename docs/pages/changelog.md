@@ -4,6 +4,12 @@ icon: octicons/history-16
 
 <!-- INSERT_HERE -->
 
+## 1.7.5 – <small>June 03, 2026</small> { id="1.7.5" }
+
+* Reworked bot connection. Behavior may vary.
+* Added `CONNECT_TIMEOUT` config option for adjusting the bot connection timeout. Defaults to 10 seconds.
+
+
 ## 1.7.4 – <small>March 29, 2026</small> { id="1.7.4" }
 
 * Updated to MC 26.1
