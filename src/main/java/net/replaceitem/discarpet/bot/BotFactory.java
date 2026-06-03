@@ -3,6 +3,7 @@ package net.replaceitem.discarpet.bot;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.replaceitem.discarpet.Discarpet;
 import net.replaceitem.discarpet.config.BotConfig;
 import net.replaceitem.discarpet.script.util.EnumUtil;
 import net.replaceitem.discarpet.util.InterruptibleFuture;
@@ -29,7 +30,7 @@ public class BotFactory {
         return InterruptibleFuture.supplyAsyncWithTimeout(() -> {
             var jda = builder.build().awaitReady();
             return new Bot(botId, jda);
-        }, 10, TimeUnit.SECONDS, CONNECTION_POOL, "Could not login bot within timeout");
+        }, Discarpet.getConfigManager().getConfig().CONNECT_TIMEOUT, TimeUnit.SECONDS, CONNECTION_POOL, "Could not login bot within timeout");
     }
 
 

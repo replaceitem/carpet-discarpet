@@ -193,17 +193,21 @@ they will have the context of the bot from that script.
 (e.g. if you pass a message to another script and make it add a reaction,
 it will be added by the bot from the original script.)
 
+## Other config options
+
+These config option exist at the top level (not inside each bot item):
+
+* `CONNECT_TIMEOUT` (number): Timeout in seconds for bot connection and login. Defaults to 10.
 
 ## Enabling developer mode
 
 Most [value functions][1] require you to input an ID to get the respective value.
 
-To get IDs, you'll need to open your Discord settings and navigate to "Advanced". Then, enable "Developer Mode".
+If you want to obtain these IDs manually, you can enable developer mode in the Discord client.
+To get IDs, you'll need to open your Discord Client settings and navigate to "Advanced". Then, enable "Developer Mode".
 
-Now, when you right click certain things (like users, channels, and messages),
+Now, when you right-click certain things (like users, channels, and messages),
 the context menu will have an option to copy the ID.
-
-
 
 [1]: /functions/values/channel-from-id.md
 

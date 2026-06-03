@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 public class Discarpet implements CarpetExtension, ModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger("Discarpet");
@@ -75,9 +76,12 @@ public class Discarpet implements CarpetExtension, ModInitializer {
 		DiscarpetCommand.register(dispatcher);
 	}
 
+    public static ConfigManager getConfigManager() {
+        return Objects.requireNonNull(configManager, "Config is accessed before it is initialized");
+    }
+
 	public static void loadConfig(@Nullable CommandSourceStack source) {
-        if(configManager == null) return;
-        boolean newlyCreatedConfig = configManager.loadAndUpdate();
+        boolean newlyCreatedConfig = getConfigManager().loadAndUpdate();
 		if(newlyCreatedConfig) {
 			Discarpet.LOGGER.info("No Discarpet configuration file found, creating one. Edit config/discarpet.json to add your bots");
 			return;

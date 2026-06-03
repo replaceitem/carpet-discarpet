@@ -24,10 +24,8 @@ public class BotManager {
                             .toArray(CompletableFuture[]::new)
             ).join();
             bots.clear();
-            var config = Discarpet.configManager;
-            if(config == null) return;
             CompletableFuture.allOf(
-                    config.getConfig().BOTS.stream()
+                    Discarpet.getConfigManager().getConfig().BOTS.stream()
                             .filter(Objects::nonNull)
                             .map(botConfig ->
                                     loadBot(botConfig, source).thenAccept(bot -> bots.put(bot.id(), bot))
