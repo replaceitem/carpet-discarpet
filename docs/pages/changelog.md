@@ -4,6 +4,11 @@ icon: octicons/history-16
 
 <!-- INSERT_HERE -->
 
+## 1.7.6 – <small>June 17, 2026</small> { id="1.7.6" }
+
+* Updated to MC 26.2
+
+
 ## 1.7.5 – <small>June 03, 2026</small> { id="1.7.5" }
 
 * Reworked bot connection. Behavior may vary.
