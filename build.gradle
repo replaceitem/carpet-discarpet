@@ -44,7 +44,7 @@ loom {
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	implementation "carpet:fabric-carpet:${project.carpet_minecraft_version}+${project.carpet_core_version}"
+	implementation "carpet:fabric-carpet:${project.carpet_version}"
 
 	def includeImplementation = { String dependencyNotation ->
 		implementation(dependencyNotation) {
