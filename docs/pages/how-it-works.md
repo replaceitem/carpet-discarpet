@@ -3,7 +3,7 @@ icon: octicons/question-16
 ---
 
 
-Discarpet wraps around [Javacord](https://github.com/Javacord/Javacord) with new scarpet functions, values, and events.
+Discarpet wraps around [JDA](https://jda.wiki/) with new scarpet functions, values, and events.
 It also uses map values with predefined schemas as a way to define more complex things like
 embeds, slash commands, or message components.
 
@@ -176,5 +176,5 @@ to avoid freezing your game.
 
 
 
-[^1]: This exception is pretty rare, since Javacord will queue requests to avoid rate limits.
+[^1]: This exception is pretty rare, since JDA will queue requests to avoid rate limits.
       <br>If far too many requests are sent, you might hit the limit anyway.
