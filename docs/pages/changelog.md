@@ -4,6 +4,12 @@ icon: octicons/history-16
 
 <!-- INSERT_HERE -->
 
+## 1.7.7 – <small>September 17, 2026</small> { id="1.7.7" }
+
+* Added `image_description` and `thumbnail_description` to the embed schema
+* Added `file_types` option for attachment slash command option and file upload component
+
+
 ## 1.7.6 – <small>June 17, 2026</small> { id="1.7.6" }
 
 * Updated to MC 26.2
