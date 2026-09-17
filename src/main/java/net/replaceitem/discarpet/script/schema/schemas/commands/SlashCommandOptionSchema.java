@@ -2,6 +2,7 @@ package net.replaceitem.discarpet.script.schema.schemas.commands;
 
 import carpet.script.Context;
 import carpet.script.exception.InternalExpressionException;
+import net.dv8tion.jda.api.interactions.FileType;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -28,6 +29,8 @@ public class SlashCommandOptionSchema implements SchemaConstructor<SlashCommandO
     List<SlashCommandOptionSchema.SlashCommandOptionUnion> options = List.of();
     @OptionalField
     List<Command.Choice> choices = List.of();
+    @OptionalField
+    List<FileType> file_types = List.of();
     
     
     @Override
@@ -52,6 +55,11 @@ public class SlashCommandOptionSchema implements SchemaConstructor<SlashCommandO
                                     )
                                     .toList()
                             )
+            );
+            case ATTACHMENT ->
+                    SlashCommandOptionUnion.ofOption(new OptionData(type, name, description, required, autocomplete)
+                    .addChoices(choices)
+                    .setFileTypes(file_types)
             );
             default -> SlashCommandOptionUnion.ofOption(new OptionData(type, name, description, required, autocomplete).addChoices(choices));
         };

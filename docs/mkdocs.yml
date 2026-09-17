@@ -208,6 +208,7 @@ nav:
     - Message content: 'schemas/message-content.md'
     - Attachment: 'schemas/attachment.md'
     - File: 'schemas/file.md'
+    - File type: 'schemas/file-type.md'
     - Timestamp: 'schemas/timestamp.md'
     - Color: 'schemas/color.md'
     - Emoji: 'schemas/emoji.md'

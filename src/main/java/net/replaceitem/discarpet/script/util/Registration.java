@@ -87,6 +87,7 @@ public class  Registration {
         Parser.registerSchema(EmojiSchema.class);
         Parser.registerSchema(FileDisplaySchema.class);
         Parser.registerSchema(FileSchema.class);
+        Parser.registerSchema(FileTypeSchema.class);
         Parser.registerSchema(EmbedSchema.class);
         Parser.registerSchema(LabelSchema.class);
         Parser.registerSchema(MediaGallerySchema.class);

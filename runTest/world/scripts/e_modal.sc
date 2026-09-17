@@ -45,6 +45,7 @@ send_modal(int) -> (
                 'child'-> {
                     'component' -> 'file_upload',
                     'id' -> 'meme_upload',
+                    'file_types' -> ['image'],
                 }
             },
         ]
