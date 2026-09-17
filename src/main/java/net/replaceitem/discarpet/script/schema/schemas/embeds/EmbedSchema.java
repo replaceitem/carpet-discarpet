@@ -35,7 +35,11 @@ public class EmbedSchema implements SchemaConstructor<EmbedSchema.EmbedWithAttac
     @OptionalField @Nullable
     FileSchema.AbstractFile image;
     @OptionalField @Nullable
+    String image_description;
+    @OptionalField @Nullable
     FileSchema.AbstractFile thumbnail;
+    @OptionalField @Nullable
+    String thumbnail_description;
     @OptionalField @Nullable
     Instant timestamp;
     
@@ -64,12 +68,20 @@ public class EmbedSchema implements SchemaConstructor<EmbedSchema.EmbedWithAttac
         if(image != null) {
             FileSchema.AttachableUrl attachableUrl = image.asUrl();
             attachableUrl.optAttachment().ifPresent(fileUploads::add);
-            embedBuilder.setImage(attachableUrl.url());
+            if(image_description != null) {
+                embedBuilder.setImage(attachableUrl.url(), image_description);
+            } else {
+                embedBuilder.setImage(attachableUrl.url());
+            }
         }
         if(thumbnail != null) {
             FileSchema.AttachableUrl attachableUrl = thumbnail.asUrl();
             attachableUrl.optAttachment().ifPresent(fileUploads::add);
-            embedBuilder.setThumbnail(attachableUrl.url());
+            if(thumbnail_description != null) {
+                embedBuilder.setThumbnail(attachableUrl.url(), thumbnail_description);
+            } else {
+                embedBuilder.setThumbnail(attachableUrl.url());
+            }
         }
         
         return new EmbedWithAttachments(embedBuilder.build(), fileUploads);

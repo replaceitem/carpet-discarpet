@@ -1,1 +1,1 @@
-* Updated to MC 26.2
+* Added `image_description` and `thumbnail_description` to the embed schema

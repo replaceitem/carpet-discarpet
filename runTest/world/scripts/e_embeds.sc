@@ -42,7 +42,9 @@ embed = {
         'icon' -> 'https://github.com/gnembon.png'
     },
     'image' -> 'https://raw.githubusercontent.com/replaceitem/carpet-discarpet/master/src/main/resources/assets/discarpet/icon.png',
+    'image_description' -> 'Discarpet Icon',
     'thumbnail' -> 'https://repository-images.githubusercontent.com/185908133/04119080-f738-11e9-9e23-03d4e371d438',
+    'thumbnail_description' -> 'Carpet mod icon',
     'timestamp' -> 'now'
 };
 

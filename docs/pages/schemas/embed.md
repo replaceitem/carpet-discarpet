@@ -8,18 +8,20 @@ Used to create an embed.
 
 ### {map:}
 
-|                Key | Type                                      | Description                                          |
-|-------------------:|:------------------------------------------|:-----------------------------------------------------|
-|            `title` | String                                    | The title of the embed.                              |
-|         `url` {:?} | String                                    | The URL redirect when clicking on the embed title.   |
-| `description` {:?} | String                                    | The description below the title.                     |
-|      `author` {:?} | [Embed author object](#author)            | The author shown on top of the embed.                |
-|      `fields` {:?} | List of [Embed field objects](#field)     | The fields inside the embed.                         |
-|       `color` {:?} | [Color object](/schemas/color.md)         | The color of the embed.                              |
-|      `footer` {:?} | [Embed footer object](#footer)            | The footer shown at the bottom of the embed.         |
-|       `image` {:?} | [File object](/schemas/file.md)           | The image file to be used for the embed's image.     |
-|   `thumbnail` {:?} | [File object](/schemas/file.md)           | The image file to be used for the embed's thumbnail. |
-|   `timestamp` {:?} | [Timestamp object](/schemas/timestamp.md) | The timestamp of the embed.                          |
+|                          Key | Type                                      | Description                                          |
+|-----------------------------:|:------------------------------------------|:-----------------------------------------------------|
+|                      `title` | String                                    | The title of the embed.                              |
+|                   `url` {:?} | String                                    | The URL redirect when clicking on the embed title.   |
+|           `description` {:?} | String                                    | The description below the title.                     |
+|                `author` {:?} | [Embed author object](#author)            | The author shown on top of the embed.                |
+|                `fields` {:?} | List of [Embed field objects](#field)     | The fields inside the embed.                         |
+|                 `color` {:?} | [Color object](/schemas/color.md)         | The color of the embed.                              |
+|                `footer` {:?} | [Embed footer object](#footer)            | The footer shown at the bottom of the embed.         |
+|                 `image` {:?} | [File object](/schemas/file.md)           | The image file to be used for the embed's image.     |
+|     `image_description` {:?} | String                                    | Description for the embed image.                     |
+|             `thumbnail` {:?} | [File object](/schemas/file.md)           | The image file to be used for the embed's thumbnail. |
+| `thumbnail_description` {:?} | String                                    | Description for the thumnail image.                  |
+|             `timestamp` {:?} | [Timestamp object](/schemas/timestamp.md) | The timestamp of the embed.                          |
 
 
 
