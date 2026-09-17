@@ -16,6 +16,7 @@ repositories {
 			includeGroup "maven.modrinth"
 		}
 	}
+    maven { url 'https://jitpack.io' }
 }
 
 version = project.minecraft_version+'-'+project.mod_version
@@ -44,7 +45,9 @@ loom {
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	implementation "carpet:fabric-carpet:${project.carpet_version}"
+// missing in maven, using jitpack temporarily
+//	implementation "carpet:fabric-carpet:${project.carpet_version}"
+    implementation "com.github.gnembon:fabric-carpet:${project.carpet_version}"
 
 	def includeImplementation = { String dependencyNotation ->
 		implementation(dependencyNotation) {
